@@ -62,7 +62,7 @@ jobs:
         run: |
           set -euo pipefail
           git diff --name-only "$BASE_SHA"...HEAD > /tmp/project-leader-changed.txt
-          mapfile -t task_files < <(grep -E '^\.project-leader/tasks/[^/]+\.json /tmp/project-leader-changed.txt || true)
+          mapfile -t task_files < <(grep -E '^\.project-leader/tasks/[^/]+\.json$' /tmp/project-leader-changed.txt || true)
           mapfile -t changed_files < /tmp/project-leader-changed.txt
           case "${#task_files[@]}" in
             0)
