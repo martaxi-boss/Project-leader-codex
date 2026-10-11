@@ -1,0 +1,103 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-CODEX-CLOUD-AUTO-001",
+  "project": "PROJECT LEADER + CODEX (SPECIALIZED)",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "created_at": "2026-10-11T16:06:17.592Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Owner authorized one-instruction automatic balanced selection of 1/2 cloud AI agents, parallel/serial mode, verified provider/model and task reasoning/tokens in the specialized Project Leader + Codex fork. Update only exact specialized instructions and audit records. Universal Project Leader remains unmodified."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "2bb8a1a323c4ed3b6b19e2fba19cad0c27889c28",
+    "task_branch": "governance/cloud-agent-auto-dispatch",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "AGENTS.md",
+    "CODEX_COORDINATION.md",
+    ".project-leader/tasks/PROJECT-LEADER-CODEX-CLOUD-AUTO-001.json",
+    ".project-leader/results/PROJECT-LEADER-CODEX-CLOUD-AUTO-001.json",
+    ".project-leader/transitions/PROJECT-LEADER-CODEX-CLOUD-AUTO-001-TRUST-ROOT.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-CODEX-CLOUD-AUTO-001-TRUST-ROOT.result.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "merge_development_branch",
+    "harden_trust_root"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "license_selection",
+    "cross_project_mutation",
+    "weaken_ci_or_security_controls",
+    "force_push"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins",
+    "Codex specialization tests"
+  ],
+  "policy": {
+    "profile": "project-leader-codex-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "2bb8a1a323c4ed3b6b19e2fba19cad0c27889c28",
+    "sha256": "c612748e735c01b2774c326c5b4e16a5e83fadd9a142320d504f9ac2258c0c2d",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Only the specialized root AGENTS.md and CODEX_COORDINATION.md gain automatic proportional cloud-agent orchestration. No credentials, no unverified providers, no unsafe parallel edits, and no relaxation of Project Leader controls. All mandatory CI and evidence pass.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}
