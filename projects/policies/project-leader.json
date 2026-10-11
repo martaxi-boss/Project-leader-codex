@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
-  "policy_id": "project-leader-v1",
-  "project": "PROJECT LEADER",
-  "repository": "martaxi-boss/Project-leader",
+  "policy_id": "project-leader-codex-v1",
+  "project": "PROJECT LEADER + CODEX (SPECIALIZED)",
+  "repository": "martaxi-boss/Project-leader-codex",
   "default_branch": "main",
   "effect_policies": {
     "E1_RECOVERABLE_PROJECT_LOCAL": {
@@ -27,7 +27,9 @@
         "README.md",
         "PLUGIN_SETUP.md",
         "CHANGELOG.md",
-        "SOURCES.md"
+        "SOURCES.md",
+        "codex/**",
+        "README_CODEX.md"
       ],
       "allowed_actions": [
         "create_branch",
@@ -50,7 +52,8 @@
       "required_ci": [
         "Control contract tests",
         "Validate control plane",
-        "Package ChatGPT plugins"
+        "Package ChatGPT plugins",
+        "Codex specialization tests"
       ],
       "required_validation": [
         "Mutation scope audit",
@@ -88,7 +91,13 @@
         "CHANGELOG.md",
         "SECURITY.md",
         "SOURCES.md",
-        "LICENSE"
+        "LICENSE",
+        "codex/**",
+        "README_CODEX.md",
+        "AGENTS.md",
+        "CODEX_COORDINATION.md",
+        ".codex/**",
+        "UPSTREAM_PROJECT_LEADER.json"
       ],
       "allowed_actions": [
         "create_branch",
@@ -117,7 +126,8 @@
       "required_ci": [
         "Control contract tests",
         "Validate control plane",
-        "Package ChatGPT plugins"
+        "Package ChatGPT plugins",
+        "Codex specialization tests"
       ],
       "required_validation": [
         "Mutation scope audit",
@@ -149,7 +159,11 @@
     ".project-leader/**",
     "projects/standing-authority.json",
     "SECURITY.md",
-    "LICENSE"
+    "LICENSE",
+    "AGENTS.md",
+    "CODEX_COORDINATION.md",
+    ".codex/**",
+    "UPSTREAM_PROJECT_LEADER.json"
   ],
   "protected_paths": [
     ".github/workflows/**",
@@ -165,6 +179,10 @@
     "plugins/**",
     "projects/standing-authority.json",
     "SECURITY.md",
-    "LICENSE"
+    "LICENSE",
+    "AGENTS.md",
+    "CODEX_COORDINATION.md",
+    ".codex/**",
+    "UPSTREAM_PROJECT_LEADER.json"
   ]
 }

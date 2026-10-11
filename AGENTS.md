@@ -26,8 +26,11 @@ When this repository is the selected Codex environment:
    authenticated CLI process, report the limitation without pretending success.
 7. Do not change the source repository `martaxi-boss/Project-leader` as part of
    this specialization. Keep universal original files byte-for-byte in their
-   original paths; specialized files belong in `codex/`, `.codex/`, this
-   `AGENTS.md`, and `CODEX_COORDINATION.md`.
+   original paths, except for the fork-specific policy
+   `projects/policies/project-leader.json`, whose repository binding and
+   exact Codex scope are specialized only in this new repository.
+   Specialized files belong in `codex/`, `.codex/`, this `AGENTS.md`,
+   and `CODEX_COORDINATION.md`.
 
 A non-Codex chat or agent using the original `martaxi-boss/Project-leader` is
 not subject to these Codex-specific instructions.
