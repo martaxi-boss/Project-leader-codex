@@ -2,50 +2,74 @@
 
 ## Contract
 
-Project Leader remains the superior, universal operating policy. This document
-adds execution mechanics for *two Codex workers* when the Owner selects this
-specialized environment. It never modifies or overrides universal safety.
+Project Leader remains the superior universal operating policy. This file
+adds executor-specific mechanics for **one or two** Codex workers when the
+specialized environment is selected. It does not modify universal rules.
 
-- **Owner chooses mode** for each order: `serial` or `parallel`. Do not infer
-  parallel work from the mere presence of this configuration.
-- **Exactly two workers** when the Owner requests dual mode. An unsupported
-  host must fail honestly; one worker is not evidence of two workers.
-- **Parallel**: split into genuinely independent, bounded, non-overlapping
-  ownership surfaces; each worker uses its own context and isolated worktree
-  or branch. Start only after verifying that the surfaces are disjoint.
-- **Serial**: worker 2 starts only after worker 1 has a successful, inspected
-  result. Worker 2 must see worker 1's accepted changes.
-- **Effort**: use `auto` per new bounded task (simple=`low`, normal=`medium`,
-  validated complex regression/concurrency/security=`high`), or explicitly
-  requested `low|medium|high`. Reevaluate after new material diagnostics or
-  failure evidence at the *next* task/turn boundary, never silently mid-turn.
-- **Token prudence**: avoid duplicate context, redundant tests and blind
-  retries. Account and provider quotas are not exposed by this repository;
-  never invent quota percentages or assert account-wide token savings.
-- **Safety**: stop on conflicting edits, unsafe permissions, ambiguous writes,
-  missing Codex CLI/authentication, CI failure, unsupported provider or any
-  material boundary not covered by authority. Apply Project Leader recovery.
-- **No silent integration**: collect workspace and diff evidence, run focused
-  validation, then required full regression/security/CI and exact SHA review.
-  Changes must be integrated only via authorized repository PR flow.
+- **One Owner order**: accept natural language or speech-transcribed text;
+  do not ask the Owner to choose providers, agent count, file paths, mode
+  or reasoning effort just to begin planning.
+- **Inspect before routing**: the host coordinator reads enough of the actual
+  target project to identify work areas, dependencies, acceptance criteria,
+  regression coverage and material boundaries. Never invent ownership paths.
+  In a local checkout, `codex.scope_discovery` is a conservative heuristic;
+  anything ambiguous remains `needs_scoping` for further real inspection.
+- **Automatic mode by default**: pass bounded work items to
+  `codex.agent_policy.plan` (via `codex.smart`) with `preference: auto`
+  or omitted. It selects `single`, `serial` or `parallel` according to
+  scoped independence, dependencies and task cost. A *safe explicit* Owner
+  choice of mode takes precedence; never start two merely because configured.
+- **One or two workers**: use one when sufficient. Parallel is justified only
+  for substantial non-overlapping work; otherwise combine related work into
+  one. Serial two-worker execution is for justified sequential phases.
+  The existing `codex.dual` legacy CLI deliberately requires exactly two
+  explicit jobs; it is not the automatic one-order router.
+- **Parallel**: at most two workers on disjoint, verified ownership surfaces;
+  each gets an isolated context/worktree/branch. Conflicting paths prohibit
+  parallel writes.
+- **Serial**: worker 2 starts only if worker 1 has a successful, inspected
+  result and sees worker 1's accepted changes. A failed first phase does not
+  silently start its dependent successor.
+- **Provider and intelligence**: choose only an available, authenticated,
+  attested provider/model with sufficient declared capability. At present the
+  Codex CLI is the implemented executor; entries for other providers are not
+  connections. Choose `low`, `medium` or `high` once per bounded worker task,
+  based on actual difficulty/evidence; re-evaluate at the next task boundary.
+  Block if no verified profile meets the quality floor rather than silently
+  downgrading. A reasoning choice cannot change mid-turn invisibly.
+- **Token prudence**: reserve a private, joint *soft* budget before covered
+  executions and account for observed usage or conservative reservations
+  afterwards. This is not real account quota or a mid-generation hard cap.
+  Avoid duplicate reads, unnecessary workers and blind retries.
+- **Safety and recovery**: preserve separate scopes, trust boundaries,
+  Project Leader authorization, focused and mandatory full tests, CI and
+  independent PR review. Never bypass controls or silently merge/deploy.
+  Use Project Leader recovery when evidence justifies a correction.
+- **Transport truth**: instructions typed or dictated in an ordinary ChatGPT
+  chat do not automatically launch Codex merely because this GitHub repository
+  is connected. An authenticated host coordinator/runner must explicitly
+  deliver a validated task and prove the resulting worker run IDs.
 
 ## Supported execution routes
 
-1. **Codex Cloud**: `AGENTS.md` and `.codex/config.toml` express the intended
-   subagent policy. Actual availability and launch of two subagents must be
-   verified inside the selected Codex Cloud environment. Selecting the
-   environment alone does not prove two jobs started.
-2. **Signed-in Codex CLI**: `python -m codex.dual plan ...` generates an offline
-   bounded dispatch. `python -m codex.dual run ... --execute` launches two
-   independent `codex exec` calls using one authenticated CLI installation.
-   It never pushes or merges code, and requires a clean target checkout.
-3. **VPS**: the separately deployed `martaxi-boss/VPS` dual-Codex mechanism
-   remains distinct; this repository does not inherit VPS credentials,
-   schedules, token ledger or running services automatically.
+1. **Codex Cloud**: `AGENTS.md` and `.codex/config.toml` express this
+   one-order preference and upper bound of two subagent threads. The actual
+   host must support delegation and provide proof of the launched workers.
+2. **Signed-in Codex CLI**: `python -m codex.smart plan --order ORDER.json
+   --repo-dir /real/target` may derive real scopes and chooses one/two workers.
+   `python -m codex.smart run --order ORDER.json --repo-dir /real/target
+   --execute` launches covered jobs only when authenticated, validated and
+   authorized. The legacy `python -m codex.dual` route is an explicit
+   exactly-two-worker route, not the default auto selector. Neither runner
+   automatically pushes, merges or deploys.
+3. **VPS**: `martaxi-boss/VPS` has a separate dual-Codex bridge. Selecting
+   this specialized repository does not automatically inherit its credentials,
+   triggers, token ledger, live processes, or connect this chat to the VPS.
 
 ## Audit requirements
 
-When reporting completion provide: selected repository and SHA; selected mode;
-exactly two worker IDs and their reasoning effort; isolation/workspace proof;
-change scope and test results; explicit state of integration. If jobs were
-simulated, say simulated. If a provider was unavailable, say not started.
+For every actual run report the target repository and base SHA, mode selected
+and reason, **one or two** actual worker IDs, provider/model and reasoning
+effort, changed-path/worktree evidence, tests/CI, token observations versus
+reservations, integration status and remaining blockers. Mark simulations as
+simulations; mark unavailable executors as not started.
