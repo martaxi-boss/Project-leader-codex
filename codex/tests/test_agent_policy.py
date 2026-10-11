@@ -2,7 +2,7 @@
 import copy
 import unittest
 
-from codex.agent_policy import RoutingError, load_registry, plan
+from codex.agent_policy import RoutingError, load_registry, plan, _classify_effort
 
 
 def item(name, path, prompt="Implement the navigation and validate it with focused integration tests.", **kwargs):
@@ -42,8 +42,9 @@ class RoutingTests(unittest.TestCase):
             p = plan({"request": request_text,
                       "target_repository": "martaxi-boss/pink-iptv",
                       "work_items": [item("one", "src/core", request_text)]})
-            self.assertEqual(p["tasks"][0]["selection"]["reasoning_effort"], "high")
+            self.assertEqual(_classify_effort({"task": request_text, "reasoning_effort": "auto"}), "high")
             self.assertEqual(p["status"], "blocked_no_provider")
+            self.assertEqual(p["tasks"][0]["selection"]["status"], "no_adequate_provider")
 
     def test_short_simple_tasks_use_single_agent_to_avoid_duplicate_cost(self):
         p = plan(request([item("first", "docs/a", "Corrige um typo no README da secção A"),
