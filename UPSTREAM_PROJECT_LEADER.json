@@ -5,5 +5,10 @@
   "upstream_tree": "c9ed269409cad4e70645c6d07c2f64118e0bfc7b",
   "universal_plugin_version": "0.7.0",
   "copied_files": 503,
-  "policy": "The initial Git mirror imported 503 canonical files exactly. The new repository adapts its own project-specific policy to protect Codex paths. Never modify the universal upstream repository."
+  "policy": "The initial Git mirror imported all 503 canonical files exactly. The specialized fork contains only three narrow compatibility overrides of that snapshot, listed explicitly, plus the separate Codex execution overlay. Never modify the universal upstream repository.",
+  "fork_specific_overrides": [
+    "projects/policies/project-leader.json",
+    ".github/workflows/contract-tests.yml",
+    "tests/test_trusted_gate.py"
+  ]
 }

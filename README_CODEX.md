@@ -3,8 +3,9 @@
 This specialized repository is independent from
 [the universal Project Leader](https://github.com/martaxi-boss/Project-leader).
 Its Git history contains an exact 503-file Project Leader snapshot described
-in `UPSTREAM_PROJECT_LEADER.json`; the active fork has one narrow,
-repository-specific policy adaptation in `projects/policies/project-leader.json`, plus `AGENTS.md`, `CODEX_COORDINATION.md`,
+in `UPSTREAM_PROJECT_LEADER.json`. The active fork carries three
+narrow, documented compatibility adaptations in its policy, CI workflow
+and trusted-gate test fixtures, plus `AGENTS.md`, `CODEX_COORDINATION.md`,
 `.codex/config.toml` and `codex/` for dual-agent behavior.
 
 **Original Project Leader remains universal, unmodified, and usable by any
@@ -35,7 +36,7 @@ python -m codex.dual run --manifest codex/example-order.json --repo-dir /path/to
 The example manifest is **illustrative**; replace ownership paths with real
 paths after inspecting the target project. `plan` consumes no Codex tokens.
 `run` launches two actual `codex exec` subprocesses (parallel or serial).
-It creates distinct Git worktrees and private logs, preserves workspaces,
+It creates isolated Git worktrees and private logs, preserves workspaces,
 and never pushes, merges or deploys automatically. Inspect `result.json`,
 review changes and validate before opening a PR. Serial mode runs two jobs
 in sequence against a shared worktree so the second sees the first's edits.
@@ -50,5 +51,6 @@ rather than fabricating successful execution.
 
 Treat `UPSTREAM_PROJECT_LEADER.json` as provenance, not a live update feed.
 When universal Project Leader changes, compare the canonical pinned source,
-update its copied files exactly, run all tests, and keep the Codex extension
-separate. Never edit `martaxi-boss/Project-leader` for Codex requirements.
+update unaffected universal files exactly, preserve the three documented
+fork-specific compatibility adaptations, run all tests, and keep the Codex
+extension separate. Never edit `martaxi-boss/Project-leader` for Codex requirements.

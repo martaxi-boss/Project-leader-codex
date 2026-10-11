@@ -26,11 +26,13 @@ When this repository is the selected Codex environment:
    authenticated CLI process, report the limitation without pretending success.
 7. Do not change the source repository `martaxi-boss/Project-leader` as part of
    this specialization. Keep universal original files byte-for-byte in their
-   original paths, except for the fork-specific policy
-   `projects/policies/project-leader.json`, whose repository binding and
-   exact Codex scope are specialized only in this new repository.
+   original paths, except the explicitly audited fork adaptations:
+   `projects/policies/project-leader.json` (repository binding and scoped
+   authorizations), `.github/workflows/contract-tests.yml` (FAST_E1 CI),
+   and `tests/test_trusted_gate.py` (fork-specific trusted test fixtures).
    Specialized files belong in `codex/`, `.codex/`, this `AGENTS.md`,
-   and `CODEX_COORDINATION.md`.
+   and `CODEX_COORDINATION.md`. Never propagate specialized changes to
+   the universal upstream.
 
 A non-Codex chat or agent using the original `martaxi-boss/Project-leader` is
 not subject to these Codex-specific instructions.
