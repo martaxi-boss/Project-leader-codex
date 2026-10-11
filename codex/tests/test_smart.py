@@ -1,5 +1,7 @@
 """Guarded executor tests using fake local Codex, never live model calls."""
 import json
+import io
+from contextlib import redirect_stdout
 from pathlib import Path
 import tempfile
 import unittest
@@ -56,6 +58,34 @@ class SmartRunTests(unittest.TestCase):
         self.assertEqual([w["status"] for w in verified["workers"]], ["completed", "completed"])
         self.assertTrue(verified["workers"][0]["validation"]["passed"])
         self.assertEqual(verified["accounting"]["observed_jobs"], 2)
+
+    def test_smart_cli_executes_serial_with_trusted_host_validator(self):
+        order_file = self.root / "smart-order.json"
+        order_file.write_text(json.dumps({
+            "request": "Implement dependent channel and film components with tests",
+            "target_repository": "martaxi-boss/pink-iptv",
+            "work_items": [
+                {"id": "build", "paths": ["docs/channels"],
+                 "task": "Implement channels, integrate player and run interface tests"},
+                {"id": "finish", "paths": ["docs/movies"], "depends_on": ["build"],
+                 "task": "Implement films, integrate channels and run interface tests"},
+            ],
+        }))
+        printed = io.StringIO()
+        with redirect_stdout(printed):
+            exit_code = smart.main([
+                "run", "--order", str(order_file),
+                "--repo-dir", str(self.repo), "--runs-dir", str(self.runs),
+                "--execute", "--timeout", "30",
+                "--phase-one-validator", str(self.validator),
+            ])
+        self.assertEqual(exit_code, 0)
+        result = json.loads(printed.getvalue())
+        self.assertEqual(result["mode"], "serial")
+        self.assertEqual([w["status"] for w in result["workers"]],
+                         ["completed", "completed"])
+        self.assertTrue(result["workers"][0]["validation"]["passed"])
+        self.assertEqual(result["accounting"]["observed_jobs"], 2)
 
     def test_missing_other_cloud_adapter_never_runs_codex_by_substitution(self):
         p = plan({"request": "Build new detailed cloud feature with tests",

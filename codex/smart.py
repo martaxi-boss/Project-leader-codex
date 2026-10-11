@@ -116,6 +116,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--timeout", type=int, default=1200)
     parser.add_argument("--soft-limit", type=int, default=budget.SOFT_LIMIT_DEFAULT)
     parser.add_argument("--execute", action="store_true")
+    parser.add_argument("--phase-one-validator", type=Path,
+                        help="Trusted host acceptance verifier needed for serial CLI mode")
     args = parser.parse_args(argv)
     try:
         if not args.order.is_file() or args.order.stat().st_size > 16_000:
@@ -129,7 +131,11 @@ def main(argv: list[str] | None = None) -> int:
             return 0 if planned["status"] == "planned" else 2
         if not args.execute or args.repo_dir is None:
             raise RoutingError("run requires --execute and --repo-dir; no agent started")
-        result = execute(planned, args.repo_dir, args.runs_dir, timeout=args.timeout, soft_limit=args.soft_limit)
+        validator = (dual.trusted_phase_one_validator(
+            args.phase_one_validator, args.repo_dir, args.timeout,
+        ) if args.phase_one_validator is not None else None)
+        result = execute(planned, args.repo_dir, args.runs_dir, timeout=args.timeout,
+                         soft_limit=args.soft_limit, phase_one_validator=validator)
         print(json.dumps(result, indent=2, ensure_ascii=False))
         return 0 if all(x["status"] == "completed" for x in result["workers"]) else 2
     except (RoutingError, dual.PlanError, budget.BudgetError, ValueError, OSError) as exc:

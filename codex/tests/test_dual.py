@@ -1,6 +1,8 @@
 """Offline, deterministic dual-agent safety and actual two-process tests (fake Codex)."""
 import json
+import io
 import os
+from contextlib import redirect_stdout
 from pathlib import Path
 import shutil
 import subprocess
@@ -158,6 +160,19 @@ if 'COMMIT-OUTSIDE' in prompt or 'COMMIT-OWNED' in prompt:
 print('{"type":"something_else"}' if 'INVALID-EVENT' in prompt else '{"type":"turn.completed","usage":{"input_tokens":15,"output_tokens":6,"cached_input_tokens":2}}')
 """)
         executable.chmod(0o755)
+        self.validator = self.bin / "phase-one-validator"
+        self.validator.write_text("""#!/usr/bin/env python3
+import json
+from pathlib import Path
+import sys
+payload = json.load(sys.stdin)
+workspace = Path(payload['workspace'])
+good = (workspace / 'docs/channels/created.txt').exists()
+print(json.dumps({'passed': good,
+                  'evidence': 'Independent offline validator checked the first worker output'}))
+sys.exit(0 if good else 1)
+""")
+        self.validator.chmod(0o700)
         self.env_path = str(self.bin) + os.pathsep + os.environ["PATH"]
         self.env_patch = mock.patch.dict(os.environ, {"PATH": self.env_path})
         self.env_patch.start()
@@ -224,6 +239,37 @@ print('{"type":"something_else"}' if 'INVALID-EVENT' in prompt else '{"type":"tu
         with self.assertRaisesRegex(dual.PlanError, "verdict and evidence"):
             dual.run(p, self.repo, self.runs, timeout=30,
                      phase_one_validator=lambda w, t, r: {"passed": True})
+
+    def test_serial_cli_uses_trusted_external_validation_script(self):
+        m = self.root / "order.json"
+        m.write_text(json.dumps(order("serial")))
+        printed = io.StringIO()
+        with redirect_stdout(printed):
+            status = dual.main([
+                "run", "--manifest", str(m), "--repo-dir", str(self.repo),
+                "--runs-dir", str(self.runs), "--timeout", "30", "--execute",
+                "--phase-one-validator", str(self.validator),
+            ])
+        self.assertEqual(status, 0)
+        result = json.loads(printed.getvalue())
+        self.assertEqual([w["status"] for w in result["workers"]],
+                         ["completed", "completed"])
+        self.assertTrue(result["workers"][0]["validation"]["passed"])
+        self.assertIn("Independent offline validator", result["workers"][0]["validation"]["evidence"])
+
+    def test_untrusted_validator_paths_are_rejected_before_execution(self):
+        with self.assertRaisesRegex(dual.PlanError, "absolute"):
+            dual.trusted_phase_one_validator(Path("relative-validator"), self.repo, 30)
+        inside = self.repo / "untrusted-validator"
+        inside.write_text("#!/bin/sh\nexit 0\n")
+        inside.chmod(0o700)
+        with self.assertRaisesRegex(dual.PlanError, "outside"):
+            dual.trusted_phase_one_validator(inside, self.repo, 30)
+        inside.unlink()
+        link = self.root / "link-validator"
+        link.symlink_to(self.validator)
+        with self.assertRaisesRegex(dual.PlanError, "non-symlinked"):
+            dual.trusted_phase_one_validator(link, self.repo, 30)
 
     def test_failed_first_does_not_start_second(self):
         p = order("serial")

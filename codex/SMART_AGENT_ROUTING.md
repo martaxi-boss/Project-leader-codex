@@ -57,6 +57,27 @@ providers, an authenticated host must call \`codex.cloud_bridge.execute_cloud\`
 with a verified adapter; the repository contains neither credentials nor
 provider-specific magic login code.
 
+### Validação obrigatória entre fases em série
+
+O modo `serial` exige uma validação **independente**, escolhida pelo coordenador
+do projeto. A conclusão da chamada Codex não demonstra, por si só, que o código
+da primeira fase cumpre os testes e os critérios de aceitação.
+
+O host autenticado fornece um executável de validação próprio, fora do
+checkout do projeto, com caminho absoluto e sem permissões de escrita para
+grupo/outros. Nos comandos `codex.smart run` e `codex.dual run` é aceite
+`--phase-one-validator /caminho/absoluto/do/validador`. Não é um parâmetro
+que o Owner deva definir por voz: o gestor identifica e fornece um validador
+fiável para o projeto antes de arrancar. O validador recebe por `stdin` JSON
+com `workspace`, `task_id`, `owned_paths`, `changed_paths` e
+`base_head`; devolve JSON `{"passed": true, "evidence": "testes ..."}`
+e `exit code 0` apenas quando verificou os critérios aplicáveis.
+Qualquer falta de validador, resultado inválido, falha ou timeout impede
+a segunda fase. Sem um verificador configurado, **não arranca o primeiro
+agente nem se reserva orçamento**. Os testes de CI para este protocolo
+usam um validador de fixture e um Codex simulado; a execução autenticada
+ainda carece de prova.
+
 ### Fail-closed behavior
 
 - If no scoped files can be established internally, return \`needs_scoping\`

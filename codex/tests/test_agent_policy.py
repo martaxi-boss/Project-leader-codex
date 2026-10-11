@@ -58,6 +58,8 @@ class RoutingTests(unittest.TestCase):
         for prompt in (
             "Diagnose deadlock in worker synchronization and fix with tests",
             "Corrige falha de segurança grave com testes independentes",
+            "Fix the security vulnerability and verify the failing tests",
+            "Fix the concurrency defect and verify thread safety",
         ):
             for effort in ("low", "medium"):
                 with self.subTest(prompt=prompt, effort=effort), self.assertRaisesRegex(

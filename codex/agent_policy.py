@@ -22,7 +22,8 @@ BLOCKED_SECRETS = re.compile(
 )
 HIGH_SIGNALS = ("deadlock", "race condition", "regressao complexa", "regressão complexa",
                 "root cause", "segurança crítica", "segurança", "seguranca", "concorrência",
-                "concorrencia", "critical security", "migração irreversível", "irreversible")
+                "concorrencia", "security", "concurrency", "critical security",
+                "migração irreversível", "irreversible")
 LOW_SIGNALS = ("corrige um typo", "typo", "ortografia", "formatar", "ajusta o readme", "fix spelling")
 MULTISTEP_SIGNALS = ("implementar", "implement", "integrar", "integration", "testar", "test",
                      "desenvolver", "develop", "criar", "build", "refactor", "refator")

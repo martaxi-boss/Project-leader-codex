@@ -9,6 +9,7 @@ import argparse
 import hashlib
 from concurrent.futures import ThreadPoolExecutor
 import signal
+import stat
 import threading
 import json
 import os
@@ -245,12 +246,14 @@ def _stop_process_group(process: subprocess.Popen) -> tuple[str, str]:
 
 
 def _invoke_codex(cmd: list[str], prompt: str, timeout: int,
-                  cancel_event: threading.Event | None = None) -> tuple[int, str, str, str]:
+                  cancel_event: threading.Event | None = None,
+                  *, cwd: Path | None = None) -> tuple[int, str, str, str]:
     if cancel_event is not None and cancel_event.is_set():
         return 125, "", "Cancelled before model launch", "cancelled"
     process = subprocess.Popen(
         cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
         text=True, start_new_session=(os.name == "posix"),
+        cwd=str(cwd) if cwd is not None else None,
     )
     started = time.monotonic()
     first_input = True
@@ -271,6 +274,60 @@ def _invoke_codex(cmd: list[str], prompt: str, timeout: int,
         except subprocess.TimeoutExpired:
             # Python preserves buffered input/output across communicate retries.
             first_input = False
+
+
+def trusted_phase_one_validator(script: Path, repo: Path, timeout: int):
+    """Build an independent project-specific acceptance verifier from a trusted host script.
+
+    The script receives JSON on stdin and returns JSON with boolean passed plus
+    independent evidence on stdout. No shell expansion or worker-authored script.
+    """
+    path = Path(script)
+    if not path.is_absolute() or path.is_symlink():
+        raise PlanError("Phase-one validator must be an absolute, non-symlinked host path")
+    try:
+        resolved = path.resolve(strict=True)
+    except OSError as exc:
+        raise PlanError("Configured phase-one validator does not exist") from exc
+    if resolved.is_relative_to(Path(repo).resolve(strict=True)):
+        raise PlanError("Phase-one validator must be outside the worker's repository")
+    st = resolved.stat()
+    if (not stat.S_ISREG(st.st_mode) or st.st_mode & 0o022
+            or not os.access(resolved, os.X_OK)):
+        raise PlanError("Phase-one validator must be an executable, non-group-writable host file")
+
+    def check(workspace: Path, task: dict, report: dict) -> dict:
+        payload = {
+            "workspace": str(workspace),
+            "task_id": task["id"],
+            "owned_paths": task["paths"],
+            "changed_paths": report["new_paths"],
+            "base_head": _git(workspace, "rev-parse", "HEAD"),
+        }
+        code, out, err, state = _invoke_codex(
+            [str(resolved)], json.dumps(payload, ensure_ascii=False),
+            min(timeout, 900), cwd=workspace,
+        )
+        if state != "finished" or code != 0:
+            return {
+                "passed": False,
+                "evidence": "Independent host validator did not pass "
+                            f"(state={state}, exit={code}); second worker blocked",
+            }
+        if len(out) > 16000 or len(err) > 16000:
+            raise PlanError("Independent validator returned unbounded output")
+        try:
+            verdict = json.loads(out)
+        except (ValueError, TypeError) as exc:
+            raise PlanError("Independent validator returned invalid JSON") from exc
+        if (not isinstance(verdict, dict)
+                or type(verdict.get("passed")) is not bool
+                or type(verdict.get("evidence")) is not str
+                or not 1 <= len(verdict["evidence"].strip()) <= 4000):
+            raise PlanError("Independent validator returned invalid acceptance evidence")
+        return {"passed": verdict["passed"], "evidence": verdict["evidence"]}
+
+    return check
 
 
 def _worker(task: dict, workspace: Path, logdir: Path, timeout: int,
@@ -409,6 +466,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--runs-dir", type=Path)
     parser.add_argument("--timeout", type=int, default=1200)
     parser.add_argument("--execute", action="store_true")
+    parser.add_argument("--phase-one-validator", type=Path,
+                        help="Trusted host test/acceptance script; required for serial execution")
     args = parser.parse_args(argv)
     try:
         if args.manifest.stat().st_size > 16000:
@@ -419,7 +478,11 @@ def main(argv: list[str] | None = None) -> int:
             return 0
         if not args.execute or args.repo_dir is None:
             raise PlanError("run requires both --execute and --repo-dir; no model started")
-        result = run(order, args.repo_dir, args.runs_dir, args.timeout)
+        validator = (trusted_phase_one_validator(args.phase_one_validator, args.repo_dir,
+                                                 args.timeout)
+                     if args.phase_one_validator is not None else None)
+        result = run(order, args.repo_dir, args.runs_dir, args.timeout,
+                     phase_one_validator=validator)
         print(json.dumps(result, indent=2))
         return 0 if all(r["status"] == "completed" for r in result["workers"]) else 2
     except (PlanError, OSError, ValueError, json.JSONDecodeError) as exc:
