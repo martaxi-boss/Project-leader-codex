@@ -59,6 +59,13 @@ class TrustedGateTests(unittest.TestCase):
         self.raw = POLICY_PATH.read_bytes()
         self.policy = json.loads(self.raw)
         self.task = make_task(self.raw)
+        # Run the same trust-gate assertions against this fork's exact policy.
+        self.task["project"] = self.policy["project"]
+        self.task["repository"] = self.policy["repository"]
+        self.task["policy"]["profile"] = self.policy["policy_id"]
+        self.task["required_ci"] = list(
+            self.policy["effect_policies"]["E1_RECOVERABLE_PROJECT_LOCAL"]["required_ci"]
+        )
         self.changed = ["tests/fixture.txt", ".project-leader/tasks/TEST-TRUSTED-001.json"]
 
     def verify(self, task=None):
@@ -70,6 +77,14 @@ class TrustedGateTests(unittest.TestCase):
             self.changed,
             "projects/policies/project-leader.json",
         )
+
+    def test_specialized_repo_policy_adds_only_codex_execution_scope(self):
+        self.assertEqual(self.policy["repository"], "martaxi-boss/Project-leader-codex")
+        e1 = self.policy["effect_policies"]["E1_RECOVERABLE_PROJECT_LOCAL"]
+        self.assertIn("codex/**", e1["allowed_scope_patterns"])
+        self.assertIn("Codex specialization tests", e1["required_ci"])
+        self.assertIn("AGENTS.md", self.policy["protected_paths"])
+        self.assertIn("CODEX_COORDINATION.md", self.policy["protected_paths"])
 
     def test_valid_task_passes_base_policy(self):
         self.assertTrue(self.verify())

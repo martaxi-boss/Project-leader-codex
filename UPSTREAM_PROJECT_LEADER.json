@@ -5,5 +5,5 @@
   "upstream_tree": "c9ed269409cad4e70645c6d07c2f64118e0bfc7b",
   "universal_plugin_version": "0.7.0",
   "copied_files": 503,
-  "policy": "Keep upstream files byte-for-byte; put Codex extensions in separate files. Future upstream updates require validated exact-tree comparison."
+  "policy": "The initial Git mirror imported 503 canonical files exactly. The new repository adapts its own project-specific policy to protect Codex paths. Never modify the universal upstream repository."
 }

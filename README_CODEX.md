@@ -2,8 +2,9 @@
 
 This specialized repository is independent from
 [the universal Project Leader](https://github.com/martaxi-boss/Project-leader).
-It contains the exact 503-file Project Leader snapshot described in
-`UPSTREAM_PROJECT_LEADER.json`, plus `AGENTS.md`, `CODEX_COORDINATION.md`,
+Its Git history contains an exact 503-file Project Leader snapshot described
+in `UPSTREAM_PROJECT_LEADER.json`; the active fork has one narrow,
+repository-specific policy adaptation in `projects/policies/project-leader.json`, plus `AGENTS.md`, `CODEX_COORDINATION.md`,
 `.codex/config.toml` and `codex/` for dual-agent behavior.
 
 **Original Project Leader remains universal, unmodified, and usable by any
