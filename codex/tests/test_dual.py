@@ -173,6 +173,45 @@ print(json.dumps({'passed': good,
 sys.exit(0 if good else 1)
 """)
         self.validator.chmod(0o700)
+        # The fake bwrap checks isolation arguments, then emulates /work
+        # solely for deterministic tests. It is NOT a real security sandbox.
+        sandbox = self.bin / "bwrap"
+        sandbox.write_text("""#!/usr/bin/env python3
+import json
+import os
+import subprocess
+import sys
+args = sys.argv[1:]
+required = ('--die-with-parent', '--unshare-all', '--new-session',
+            '--clearenv', '--ro-bind', '--chdir')
+if not all(arg in args for arg in required) or '--bind' in args:
+    sys.stderr.write('missing sandbox controls or writable bind')
+    sys.exit(20)
+if '--ro-bind' not in args or '/validator/check' not in args or '/work' not in args:
+    sys.exit(21)
+if 'OWNER_PRIVATE_TOKEN' in os.environ:
+    sys.exit(22)
+if args[-1] == '/usr/bin/true':
+    sys.exit(0)
+validator = args[args.index('/validator/check')-1]
+workspace = args[args.index('/work')-1]
+data = json.loads(sys.stdin.read())
+if data['workspace'] != '/work':
+    sys.exit(23)
+data['workspace'] = workspace
+child = subprocess.run(
+    [validator], input=json.dumps(data), capture_output=True, text=True,
+    cwd=workspace, env={'PATH': '/usr/bin:/bin', 'HOME': '/tmp',
+                        'LANG': 'C.UTF-8'}
+)
+sys.stdout.write(child.stdout)
+sys.stderr.write(child.stderr)
+sys.exit(child.returncode)
+""")
+        sandbox.chmod(0o700)
+        self.sandbox_patch = mock.patch.object(dual, "BWRAP_CANDIDATES", (sandbox,))
+        self.sandbox_patch.start()
+        self.addCleanup(self.sandbox_patch.stop)
         self.env_path = str(self.bin) + os.pathsep + os.environ["PATH"]
         self.env_patch = mock.patch.dict(os.environ, {"PATH": self.env_path})
         self.env_patch.start()
@@ -256,6 +295,50 @@ sys.exit(0 if good else 1)
                          ["completed", "completed"])
         self.assertTrue(result["workers"][0]["validation"]["passed"])
         self.assertIn("Independent offline validator", result["workers"][0]["validation"]["evidence"])
+
+    def test_validator_sandbox_hides_host_credentials_and_mounts_readonly(self):
+        with mock.patch.dict(os.environ, {"OWNER_PRIVATE_TOKEN": "secret-sentinel"}):
+            result = self._run(order("serial"),
+                               validator=dual.trusted_phase_one_validator(
+                                   self.validator, self.repo, 30,
+                               ))
+        self.assertEqual([w["status"] for w in result["workers"]],
+                         ["completed", "completed"])
+        self.assertTrue(result["workers"][0]["validation"]["passed"])
+        cmd = dual._validator_sandbox_cmd(self.bin / "bwrap", self.validator, self.repo)
+        self.assertIn("--unshare-all", cmd)
+        self.assertIn("--clearenv", cmd)
+        self.assertNotIn("--bind", cmd)
+        self.assertIn("--ro-bind", cmd)
+        self.assertFalse(any(
+            cmd[i] in {"--ro-bind", "--bind"} and cmd[i + 1] == "/"
+            for i in range(len(cmd) - 1)
+        ))
+        self.assertIn("/work", cmd)
+        self.assertIn("/validator/check", cmd)
+
+    def test_missing_validator_sandbox_fails_closed_without_agent_launch(self):
+        m = self.root / "safe-order.json"
+        m.write_text(json.dumps(order("serial")))
+        with mock.patch.object(dual, "BWRAP_CANDIDATES", (self.root / "missing-bwrap",)):
+            with self.assertRaisesRegex(dual.PlanError, "requires trusted /usr/bin/bwrap"):
+                dual.trusted_phase_one_validator(self.validator, self.repo, 30)
+            exit_code = dual.main([
+                "run", "--manifest", str(m), "--repo-dir", str(self.repo),
+                "--runs-dir", str(self.runs), "--execute",
+                "--phase-one-validator", str(self.validator),
+            ])
+        self.assertEqual(exit_code, 3)
+        self.assertEqual(list(self.runs.iterdir()), [])
+
+    def test_validator_sandbox_preflight_failure_blocks_before_model(self):
+        blocker = self.bin / "broken-bwrap"
+        blocker.write_text("#!/bin/sh\nexit 72\n")
+        blocker.chmod(0o700)
+        with mock.patch.object(dual, "BWRAP_CANDIDATES", (blocker,)):
+            with self.assertRaisesRegex(dual.PlanError, "sandbox preflight failed"):
+                dual.trusted_phase_one_validator(self.validator, self.repo, 30)
+        self.assertEqual(list(self.runs.iterdir()), [])
 
     def test_untrusted_validator_paths_are_rejected_before_execution(self):
         with self.assertRaisesRegex(dual.PlanError, "absolute"):

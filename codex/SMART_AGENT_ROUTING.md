@@ -68,10 +68,26 @@ checkout do projeto, com caminho absoluto e sem permissões de escrita para
 grupo/outros. Nos comandos `codex.smart run` e `codex.dual run` é aceite
 `--phase-one-validator /caminho/absoluto/do/validador`. Não é um parâmetro
 que o Owner deva definir por voz: o gestor identifica e fornece um validador
-fiável para o projeto antes de arrancar. O validador recebe por `stdin` JSON
-com `workspace`, `task_id`, `owned_paths`, `changed_paths` e
-`base_head`; devolve JSON `{"passed": true, "evidence": "testes ..."}`
-e `exit code 0` apenas quando verificou os critérios aplicáveis.
+fiável para o projeto antes de arrancar.
+
+**Isolamento obrigatório:** o executável é lançado com Linux `bubblewrap`
+(`/usr/bin/bwrap`, fornecido e validado pelo host), dentro de namespaces
+isolados, sem rede, variáveis ou credenciais do gestor, com os binários de
+sistema apenas de leitura e o código produzido pelo primeiro agente
+montado **apenas de leitura** em `/work`. O verificador está disponível
+em `/validator/check` e só dispõe de `/tmp` para ficheiros temporários.
+O gestor verifica com um processo de ensaio que os namespaces e
+a montagem isolada funcionam antes de iniciar o primeiro trabalhador.
+Se o host não tiver esta sandbox funcional, a execução em série falha
+**antes de iniciar qualquer trabalhador**. Não existe fallback para executar
+código dos agentes diretamente no host. A fixture de CI verifica o contrato,
+mas **não comprova isolamento real do kernel**: esse ensaio deve ser
+confirmado no host final antes da primeira execução autenticada.
+
+O validador recebe por `stdin` JSON com `workspace: "/work"`,
+`task_id`, `owned_paths`, `changed_paths` e `base_head`; devolve JSON
+`{"passed": true, "evidence": "testes ..."}` e `exit code 0` apenas
+quando verificou os critérios aplicáveis.
 Qualquer falta de validador, resultado inválido, falha ou timeout impede
 a segunda fase. Sem um verificador configurado, **não arranca o primeiro
 agente nem se reserva orçamento**. Os testes de CI para este protocolo

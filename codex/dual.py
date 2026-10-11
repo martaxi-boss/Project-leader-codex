@@ -32,6 +32,8 @@ HARD = ("race condition", "deadlock", "security", "seguranca", "segurança",
         "concurrency", "concorrencia", "concorrência", "credential")
 EASY = ("typo", "ortografia", "readme", "formatting", "formatar", "renomear")
 ROOT = Path(__file__).resolve().parents[1]
+# Never resolve the validator sandbox executable from a worker-controlled PATH.
+BWRAP_CANDIDATES = (Path("/usr/bin/bwrap"), Path("/bin/bwrap"))
 
 
 class PlanError(ValueError):
@@ -247,13 +249,14 @@ def _stop_process_group(process: subprocess.Popen) -> tuple[str, str]:
 
 def _invoke_codex(cmd: list[str], prompt: str, timeout: int,
                   cancel_event: threading.Event | None = None,
-                  *, cwd: Path | None = None) -> tuple[int, str, str, str]:
+                  *, cwd: Path | None = None,
+                  env: dict[str, str] | None = None) -> tuple[int, str, str, str]:
     if cancel_event is not None and cancel_event.is_set():
         return 125, "", "Cancelled before model launch", "cancelled"
     process = subprocess.Popen(
         cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
         text=True, start_new_session=(os.name == "posix"),
-        cwd=str(cwd) if cwd is not None else None,
+        cwd=str(cwd) if cwd is not None else None, env=env,
     )
     started = time.monotonic()
     first_input = True
@@ -276,11 +279,57 @@ def _invoke_codex(cmd: list[str], prompt: str, timeout: int,
             first_input = False
 
 
-def trusted_phase_one_validator(script: Path, repo: Path, timeout: int):
-    """Build an independent project-specific acceptance verifier from a trusted host script.
+def _trusted_bwrap() -> Path:
+    """Select a preinstalled, non-writable Linux namespace isolation binary."""
+    if sys.platform != "linux":
+        raise PlanError("Isolated serial validation requires Linux bubblewrap")
+    for candidate in BWRAP_CANDIDATES:
+        path = Path(candidate)
+        if path.is_symlink() or not path.is_file():
+            continue
+        details = path.stat()
+        if (details.st_uid in {0, os.getuid()}
+                and not details.st_mode & 0o022
+                and os.access(path, os.X_OK)):
+            return path.resolve(strict=True)
+    raise PlanError(
+        "Isolated serial validation requires trusted /usr/bin/bwrap "
+        "(bubblewrap); no validator or dependent worker started"
+    )
 
-    The script receives JSON on stdin and returns JSON with boolean passed plus
-    independent evidence on stdout. No shell expansion or worker-authored script.
+
+def _validator_sandbox_cmd(bwrap: Path, script: Path, workspace: Path) -> list[str]:
+    """Only expose the read-only worker tree, validator and runtime libraries.
+
+    Unshare namespaces (including network); no host HOME, secrets, Git
+    credentials or other host paths are mounted. /work is read-only.
+    """
+    cmd = [str(bwrap), "--die-with-parent", "--unshare-all", "--new-session",
+           "--clearenv", "--ro-bind", "/usr", "/usr"]
+    for location in (Path("/bin"), Path("/lib"), Path("/lib64")):
+        if location.is_symlink():
+            cmd.extend(["--symlink", os.readlink(location), str(location)])
+        elif location.is_dir():
+            cmd.extend(["--ro-bind", str(location), str(location)])
+    cmd.extend([
+        "--tmpfs", "/tmp", "--dev", "/dev", "--proc", "/proc",
+        "--dir", "/validator", "--ro-bind", str(script), "/validator/check",
+        "--ro-bind", str(workspace), "/work", "--chdir", "/work",
+        "--setenv", "HOME", "/tmp",
+        "--setenv", "PATH", "/usr/bin:/bin",
+        "--setenv", "PYTHONNOUSERSITE", "1",
+        "--setenv", "PYTHONDONTWRITEBYTECODE", "1",
+        "--", "/validator/check",
+    ])
+    return cmd
+
+
+def trusted_phase_one_validator(script: Path, repo: Path, timeout: int):
+    """Run a host-controlled acceptance verifier in a credential-free namespace.
+
+    A verifier may execute worker-authored tests, so checking its own pathname
+    is insufficient. If kernel namespace isolation cannot be set up, fail
+    closed; never execute test code with the orchestration host's credentials.
     """
     path = Path(script)
     if not path.is_absolute() or path.is_symlink():
@@ -292,39 +341,53 @@ def trusted_phase_one_validator(script: Path, repo: Path, timeout: int):
     if resolved.is_relative_to(Path(repo).resolve(strict=True)):
         raise PlanError("Phase-one validator must be outside the worker's repository")
     st = resolved.stat()
-    if (not stat.S_ISREG(st.st_mode) or st.st_mode & 0o022
-            or not os.access(resolved, os.X_OK)):
-        raise PlanError("Phase-one validator must be an executable, non-group-writable host file")
+    if (not stat.S_ISREG(st.st_mode) or st.st_uid not in {0, os.getuid()}
+            or st.st_mode & 0o022 or not os.access(resolved, os.X_OK)):
+        raise PlanError("Phase-one validator must be an executable, trusted host file")
+    sandbox = _trusted_bwrap()
+    # Probe real kernel namespace/mount support before the first worker starts.
+    # Merely locating the bwrap executable is insufficient on restricted hosts.
+    probe = _validator_sandbox_cmd(sandbox, resolved, Path(repo).resolve(strict=True))
+    probe[-1] = "/usr/bin/true"
+    status, _, _, termination = _invoke_codex(
+        probe, "{}", 8,
+        env={"PATH": "/usr/bin:/bin", "HOME": "/tmp", "LANG": "C.UTF-8"},
+    )
+    if status != 0 or termination != "finished":
+        raise PlanError(
+            "Validator sandbox preflight failed; no model or worker started"
+        )
 
     def check(workspace: Path, task: dict, report: dict) -> dict:
         payload = {
-            "workspace": str(workspace),
+            "workspace": "/work",
             "task_id": task["id"],
             "owned_paths": task["paths"],
             "changed_paths": report["new_paths"],
             "base_head": _git(workspace, "rev-parse", "HEAD"),
         }
+        cmd = _validator_sandbox_cmd(sandbox, resolved, workspace.resolve(strict=True))
         code, out, err, state = _invoke_codex(
-            [str(resolved)], json.dumps(payload, ensure_ascii=False),
-            min(timeout, 900), cwd=workspace,
+            cmd, json.dumps(payload, ensure_ascii=False), min(timeout, 900),
+            env={"PATH": "/usr/bin:/bin", "HOME": "/tmp", "LANG": "C.UTF-8"},
         )
         if state != "finished" or code != 0:
             return {
                 "passed": False,
-                "evidence": "Independent host validator did not pass "
+                "evidence": "Isolated validator did not pass "
                             f"(state={state}, exit={code}); second worker blocked",
             }
         if len(out) > 16000 or len(err) > 16000:
-            raise PlanError("Independent validator returned unbounded output")
+            raise PlanError("Isolated validator returned unbounded output")
         try:
             verdict = json.loads(out)
         except (ValueError, TypeError) as exc:
-            raise PlanError("Independent validator returned invalid JSON") from exc
+            raise PlanError("Isolated validator returned invalid JSON") from exc
         if (not isinstance(verdict, dict)
                 or type(verdict.get("passed")) is not bool
                 or type(verdict.get("evidence")) is not str
                 or not 1 <= len(verdict["evidence"].strip()) <= 4000):
-            raise PlanError("Independent validator returned invalid acceptance evidence")
+            raise PlanError("Isolated validator returned invalid acceptance evidence")
         return {"passed": verdict["passed"], "evidence": verdict["evidence"]}
 
     return check
