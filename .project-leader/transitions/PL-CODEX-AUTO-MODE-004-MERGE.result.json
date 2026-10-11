@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PL-CODEX-AUTO-MODE-004-MERGE",
+  "task_id": "PL-CODEX-AUTO-MODE-004",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PL-CODEX-AUTO-MODE-004-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "https://github.com/martaxi-boss/Project-leader-codex/pull/4",
+    "revision": "6b204d3f41c197219bb212cb7420abea297dce6e",
+    "base_revision": "4a57a07cc86e0fe75559e7345b60d6b99023a51c",
+    "environment": null
+  },
+  "observed_at": "2026-10-11T18:19:10.560Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "fea459cca89a40918fe59c0487c0c0312247e7ab"
+  },
+  "evidence": [
+    "Prior exact-bound authorization was persisted at commit 88de65868a466dd54bb305f0138e46b2215f17ba on control/pl-codex-auto-mode-004-merge-auth before PR #4 merged; source STANDING_OWNER_GRANT.",
+    "GitHub PR #4 merged by an ordinary merge commit fea459cca89a40918fe59c0487c0c0312247e7ab, preserving protected E3 task and Worker Result history; expected head 6b204d3f41c197219bb212cb7420abea297dce6e and base 4a57a07cc86e0fe75559e7345b60d6b99023a51c.",
+    "Required PR #4 checks succeeded on exact head (Control 38156072165, Validate 38156072108, Package 38156072131, Codex 38156072128, trusted authorization 38156069079).",
+    "After merge, main commit fea459cca89a40918fe59c0487c0c0312247e7ab passed control 38163190166, Codex specialization 38163190162, validation 38163190253, packaging 38163190244, hygiene 38163190330 and stale-auth invalidation 38163190215.",
+    "Universal martaxi-boss/Project-leader unchanged. Companion PR #5 remains a separate controlled E1 merge; no deployment or runtime model invocation occurred."
+  ],
+  "residual_blockers": []
+}
