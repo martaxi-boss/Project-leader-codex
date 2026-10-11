@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PL-CODEX-EXECUTOR-HARDENING-005-MERGE",
+  "task_id": "PL-CODEX-EXECUTOR-HARDENING-005",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "terminal_status": "NOT_EXECUTED",
+  "authorization_record": ".project-leader/transitions/PL-CODEX-EXECUTOR-HARDENING-005-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "https://github.com/martaxi-boss/Project-leader-codex/pull/5",
+    "revision": "d4053fdbd278fd17351d2633ac1afeebf13f8f99",
+    "base_revision": "fea459cca89a40918fe59c0487c0c0312247e7ab",
+    "environment": null
+  },
+  "observed_at": "2026-10-11T18:45:39.183Z",
+  "final_state": {
+    "status": "NOT_EXECUTED_SUPERSEDED",
+    "revision": "fea459cca89a40918fe59c0487c0c0312247e7ab"
+  },
+  "evidence": [
+    "Prior authorization 002b110200a0491532bc9fb9a3fe3b7d81c97a0a targeted PR #5 head d4053fdbd278fd17351d2633ac1afeebf13f8f99, which was not merged.",
+    "Independent Codex review raised new medium security issue on d4053fdbd278fd17351d2633ac1afeebf13f8f99 (hidden side refs); revision a85042964ca016e675b15d13ea3986dbbf09f4fe superseded it and passed a new focused regression and all mandatory CI."
+  ],
+  "residual_blockers": [
+    "Exact previous authorized SHA superseded; old merge never executed and must not be retried. New authorization PL-CODEX-EXECUTOR-HARDENING-005-MERGE-R2 is conditional on latest security review."
+  ]
+}
