@@ -1,0 +1,75 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PL-CODEX-AUTO-MODE-004",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PL-CODEX-AUTO-MODE-004.json",
+  "authorization_commit_sha": "c5104f3bf38ade8627894db89225c72a85676816",
+  "authorization_sha256": "57695bfaa5adfc0263e5f29b98c847feaa2433d9fe1fa788855b7eba44df2def",
+  "implementation_head_sha": "6c9494418f8bcc4003984acbe82294bc50492c29",
+  "branch": "builder/smart-auto-mode-consistency-004",
+  "pr_number": 4,
+  "recorded_at": "2026-10-11T16:34:36Z",
+  "state_observed_at": "2026-10-11T16:34:36Z",
+  "superseded_by": null,
+  "post_transition_record": null,
+  "changes": [
+    "Reconciled AGENTS.md and CODEX_COORDINATION.md to use automatic single/serial/parallel one-order routing via existing codex.smart policy and only safe explicit Owner overrides.",
+    "Clarified that ChatGPT input is not itself an authenticated Codex execution trigger, and added a focused regression enforcing both documentation and mode-routing behavior.",
+    "Retained Project Leader canonical rules, attested provider selection, task-bound reasoning, shared soft budget, independent worktrees, tests and no automatic merge or deployment."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub PR #4 compares exact main 4a57a07cc86e0fe75559e7345b60d6b99023a51c to implementation 6c9494418f8bcc4003984acbe82294bc50492c29: exactly five paths (immutable task JSON, AGENTS.md, CODEX_COORDINATION.md, README_CODEX.md, codex/tests/test_coordination_contract.py); all are explicitly listed in this Task Authorization. Worker Result is the only subsequent evidence-only descendant."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Four required real GitHub pull_request workflows passed against exact implementation 6c9494418f8bcc4003984acbe82294bc50492c29: Control contract tests 38155984531; Validate control plane 38155984564; Package ChatGPT plugins 38155984563; Codex specialization tests 38155984679. Initial trusted-gate check 38155984613 failed ONLY because the required Worker Result did not yet exist; this terminal evidence commit now supplies it for independent verification."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Authorization-only commit c5104f3bf38ade8627894db89225c72a85676816 preceded implementation. Its SHA256 is 57695bfaa5adfc0263e5f29b98c847feaa2433d9fe1fa788855b7eba44df2def. Canonical base policy projects/policies/project-leader.json digest c612748e735c01b2774c326c5b4e16a5e83fadd9a142320d504f9ac2258c0c2d is pinned to immutable main 4a57a07cc86e0fe75559e7345b60d6b99023a51c. Protected instruction changes are limited to the exact Owner-requested E3 correction; policy, Skill, credentials, workflows and production are unchanged. Final trusted-gate status is independently checked after this record, not preclaimed."
+    },
+    {
+      "name": "Specialized auto-routing contract regression",
+      "status": "PASS",
+      "evidence": "Codex specialization tests passed on implementation SHA, run 38155984679: docs match default automatic routing, 1/2 execution modes, owner override, and truthful chat transport; all existing dual-worker tests preserved."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 38155984531
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 38155984564
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 38155984563
+    },
+    {
+      "name": "Codex specialization tests",
+      "status": "SUCCESS",
+      "run_id": 38155984679
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader-codex/pull/4"
+  ],
+  "material_non_effects": [
+    "Universal martaxi-boss/Project-leader repository and canonical Skill not modified.",
+    "No credentials, permissions, policy files, provider authentication, account limits, GitHub Actions workflows or trust controls altered.",
+    "No live Codex agent execution, ChatGPT-to-Codex transport claim, production change, deployment, provider billing activation or automatic merge."
+  ],
+  "residual_blockers": []
+}
