@@ -77,9 +77,11 @@ def _with_ledger(root: Path, fn):
 def reserve_batch(root: Path, run_id: str, tasks: list[dict], limit: int = SOFT_LIMIT_DEFAULT) -> dict:
     if type(limit) is not int or not 100_000 <= limit <= 2_000_000:
         raise BudgetError("Soft budget must be between 100000 and 2000000")
-    if not SAFE_RUN.fullmatch(run_id) or not 1 <= len(tasks) <= 2:
+    if type(run_id) is not str or not SAFE_RUN.fullmatch(run_id) or not isinstance(tasks, list) or not 1 <= len(tasks) <= 2:
         raise BudgetError("Invalid run identity or task count")
-    if any(not SAFE_JOB.fullmatch(t.get("id", "")) or t.get("effort") not in RESERVATIONS for t in tasks):
+    if any(not isinstance(t, dict) or type(t.get("id")) is not str
+           or not SAFE_JOB.fullmatch(t["id"]) or type(t.get("effort")) is not str
+           or t["effort"] not in RESERVATIONS for t in tasks):
         raise BudgetError("Invalid task identity or effort")
     if len({t["id"] for t in tasks}) != len(tasks):
         raise BudgetError("Duplicate task identity")

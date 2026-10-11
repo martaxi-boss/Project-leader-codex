@@ -68,6 +68,10 @@ class PlanTests(unittest.TestCase):
             p = order(); p["tasks"][0]["reasoning_effort"] = bad
             with self.subTest(value=bad), self.assertRaises(dual.PlanError):
                 dual.parse_order(p)
+        for bad_mode in ([], {}, 5):
+            p = order(); p["mode"] = bad_mode
+            with self.subTest(mode=bad_mode), self.assertRaises(dual.PlanError):
+                dual.parse_order(p)
         for name in ("./..", "martaxi-boss/..", "../repo"):
             p = order(); p["target_repository"] = name
             with self.subTest(repo=name), self.assertRaises(dual.PlanError):

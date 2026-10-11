@@ -109,7 +109,9 @@ def _load_profiles(registry: Any) -> list[dict]:
             cost = model["relative_cost"]
             if cost is not None and (type(cost) is not int or not 1 <= cost <= 100):
                 raise RoutingError("Invalid relative cost (unknown must be null)")
-            if not isinstance(model["capabilities"], list) or not all(x in {"code_edit", "code_review", "research", "planning"} for x in model["capabilities"]):
+            if (not isinstance(model["capabilities"], list) or not all(
+                    type(x) is str and x in {"code_edit", "code_review", "research", "planning"}
+                    for x in model["capabilities"])):
                 raise RoutingError("Invalid model capabilities")
             if (not isinstance(model["efforts"], list) or not model["efforts"]
                     or not all(type(e) is str for e in model["efforts"])
@@ -178,10 +180,10 @@ def plan(order: dict, registry: dict | None = None) -> dict:
     if type(repo) is not str or not dual.REPO_NAME.fullmatch(repo) or repo.casefold() == "martaxi-boss/project-leader":
         raise RoutingError("Invalid target or protected universal Project Leader repository")
     preference = order.get("preference", "auto")
-    if preference not in {"auto", "single", "parallel", "serial"}:
+    if type(preference) is not str or preference not in {"auto", "single", "parallel", "serial"}:
         raise RoutingError("Invalid execution preference")
     capability = order.get("capability", "code_edit")
-    if capability not in {"code_edit", "code_review", "research", "planning"}:
+    if type(capability) is not str or capability not in {"code_edit", "code_review", "research", "planning"}:
         raise RoutingError("Unsupported requested capability")
     allowed_raw = order.get("providers")
     if allowed_raw is not None and (not isinstance(allowed_raw, list) or not allowed_raw or

@@ -73,7 +73,7 @@ def parse_order(data: object) -> dict:
     if repo.casefold() == "martaxi-boss/project-leader":
         raise PlanError("The universal Project Leader upstream is read-only for this executor")
     mode = data["mode"]
-    if mode not in {"serial", "parallel"}:
+    if type(mode) is not str or mode not in {"serial", "parallel"}:
         raise PlanError("mode must be serial or parallel")
     raw = data["tasks"]
     if not isinstance(raw, list) or len(raw) != 2:

@@ -31,8 +31,16 @@ class RoutingTests(unittest.TestCase):
         bad_dep = {**base, "work_items": [{**base["work_items"][0], "depends_on": [{}]}]}
         with self.assertRaises(RoutingError):
             plan(bad_dep)
+        for key in ("preference", "capability"):
+            for bad in ([], {}, 4):
+                with self.subTest(key=key, value=bad), self.assertRaises(RoutingError):
+                    plan({**base, key: bad})
         reg = load_registry()
         reg["providers"][0]["models"][0]["efforts"] = [{}]
+        with self.assertRaises(RoutingError):
+            plan(base, reg)
+        reg = load_registry()
+        reg["providers"][0]["models"][0]["capabilities"] = [{}]
         with self.assertRaises(RoutingError):
             plan(base, reg)
 

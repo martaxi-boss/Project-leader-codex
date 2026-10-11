@@ -52,6 +52,18 @@ class BudgetTests(unittest.TestCase):
         with self.assertRaises(ledger.BudgetError):
             ledger.settle_batch(self.root, "d" * 32, {"one": {"input_tokens": 3, "output_tokens": 2, "cached_input_tokens": 4}})
 
+    def test_malformed_json_task_identity_and_effort_are_guarded(self):
+        for bad in ([], {}, 5, None):
+            with self.subTest(run=bad), self.assertRaises(ledger.BudgetError):
+                ledger.reserve_batch(self.root, bad, [{"id": "one", "effort": "low"}])
+            with self.subTest(tasks=bad), self.assertRaises(ledger.BudgetError):
+                ledger.reserve_batch(self.root, "f" * 32, bad)
+            for field in ("id", "effort"):
+                task = {"id": "one", "effort": "medium"}
+                task[field] = bad
+                with self.subTest(field=field, value=bad), self.assertRaises(ledger.BudgetError):
+                    ledger.reserve_batch(self.root, "f" * 32, [task])
+
     def test_cli_jsonl_usage_missing_is_unknown_not_zero(self):
         log = Path(self.tmp.name) / "codex.jsonl"
         log.write_text('\n'.join([
