@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PL-CODEX-EXECUTOR-HARDENING-005-MERGE-R3",
+  "task_id": "PL-CODEX-EXECUTOR-HARDENING-005",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "created_at": "2026-10-11T19:01:57.893Z",
+  "action": "merge_to_main",
+  "effect_class": "E2_CONSEQUENTIAL_TRANSITION",
+  "authority": {
+    "source": "STANDING_OWNER_GRANT",
+    "binding_mode": "EXACT_REVISION_BOUND",
+    "summary": "Standing Owner authority for final specialized Project Leader + Codex executor. Exact PR #5 head 54e2702e3d8ec8912f0053a14a954c78d2383d5c and main base fea459cca89a40918fe59c0487c0c0312247e7ab. Previous R2 head a85042964ca016e675b15d13ea3986dbbf09f4fe was superseded following Codex P2 finding that worker-controlled core.fsmonitor could run under unsandboxed post-worker Git inspection. Current code blocks changed Git trust config before host Git, audits Git with minimal env/no hooks/fsmonitor/externals, and routes single/serial/parallel through private clones. 106 offline Codex tests plus five mandatory workflows passed (38166040913,38166040960,38166040896,38166041009,38166039151). Merge only after independent security review completes cleanly for this exact head, with stable refs and post-merge checks. No provider authentication, production or canonical Project Leader mutation."
+  },
+  "target": {
+    "kind": "pull_request",
+    "identifier": "https://github.com/martaxi-boss/Project-leader-codex/pull/5",
+    "revision": "54e2702e3d8ec8912f0053a14a954c78d2383d5c",
+    "base_revision": "fea459cca89a40918fe59c0487c0c0312247e7ab",
+    "environment": null
+  }
+}

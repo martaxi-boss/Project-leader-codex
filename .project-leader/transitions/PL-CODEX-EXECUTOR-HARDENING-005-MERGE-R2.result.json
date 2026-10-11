@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PL-CODEX-EXECUTOR-HARDENING-005-MERGE-R2",
+  "task_id": "PL-CODEX-EXECUTOR-HARDENING-005",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "terminal_status": "NOT_EXECUTED",
+  "authorization_record": ".project-leader/transitions/PL-CODEX-EXECUTOR-HARDENING-005-MERGE-R2.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "https://github.com/martaxi-boss/Project-leader-codex/pull/5",
+    "revision": "a85042964ca016e675b15d13ea3986dbbf09f4fe",
+    "base_revision": "fea459cca89a40918fe59c0487c0c0312247e7ab",
+    "environment": null
+  },
+  "observed_at": "2026-10-11T19:01:57.893Z",
+  "final_state": {
+    "status": "NOT_EXECUTED_SUPERSEDED",
+    "revision": "fea459cca89a40918fe59c0487c0c0312247e7ab"
+  },
+  "evidence": [
+    "Previous R2 authorization targeted a85042964ca016e675b15d13ea3986dbbf09f4fe; PR #5 was never integrated at that SHA.",
+    "Independent Codex security review found coordinator-host fsmonitor execution path; new corrective implementation 54e2702e3d8ec8912f0053a14a954c78d2383d5c supersedes R2."
+  ],
+  "residual_blockers": [
+    "Old exact SHA no longer valid for consequential integration; new R3 authorization conditional on independent security review."
+  ]
+}
