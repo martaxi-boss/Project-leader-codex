@@ -35,22 +35,26 @@ def _private_runs(path: Path, repo: Path) -> Path:
 def _execute_solo(planned: dict, repo: Path, root: Path, timeout: int, run_id: str) -> dict:
     task = planned["tasks"][0]
     head = dual._preflight(repo, planned["target_repository"])
+    original_refs = dual._refs_snapshot(repo)
     work_root = root / ("run-" + run_id)
     work_root.mkdir(mode=0o700)
     workspace = work_root / "worker-1"
     try:
-        subprocess.run(["git", "-C", str(repo), "worktree", "add", "--detach", str(workspace), head],
-                       capture_output=True, check=True)
+        dual._private_clone(repo, workspace, head)
         item = {"id": task["id"], "task": task["task"], "paths": task["paths"],
                 "selected_effort": task["selection"]["reasoning_effort"]}
         result = dual._worker(item, workspace, work_root, timeout)
+        if (dual._git(repo, "rev-parse", "HEAD") != head
+                or dual._refs_snapshot(repo) != original_refs
+                or dual._changes(repo)):
+            raise RoutingError("Original source Git repository changed during solo worker")
         outcome = {"target_repository": planned["target_repository"], "mode": "single",
                    "base_head": head, "run_directory": str(work_root), "workers": [result],
                    "integration": "NOT_AUTOMATED: review changes, validate and open PR"}
         dual._private_file(work_root / "result.json", json.dumps(outcome, indent=2) + "\n")
         return outcome
     except (OSError, subprocess.CalledProcessError, dual.PlanError) as exc:
-        raise RoutingError("Solo executor stopped; worktree preserved in " + str(work_root)) from exc
+        raise RoutingError("Solo executor stopped; independent clone preserved in " + str(work_root)) from exc
 
 
 def execute(planned: dict, repo_dir: Path, runs_dir: Path | None = None, *, timeout: int = 1200,

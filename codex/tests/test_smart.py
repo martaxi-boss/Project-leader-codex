@@ -1,6 +1,7 @@
 """Guarded executor tests using fake local Codex, never live model calls."""
 import json
 import io
+import os
 from contextlib import redirect_stdout
 from pathlib import Path
 import tempfile
@@ -24,6 +25,26 @@ class SmartRunTests(unittest.TestCase):
         self.assertEqual(result["accounting"]["observed_jobs"], 1)
         self.assertEqual(result["accounting"]["accounted_tokens"], 21)
         self.assertEqual((self.repo / "base.txt").read_text(), "initial\n")
+        clone = Path(result["workers"][0]["workspace"])
+        self.assertTrue((clone / ".git").is_dir())
+        self.assertEqual(smart.dual._git(clone, "remote"), "")
+        self.assertNotEqual(clone / ".git", self.repo / ".git")
+        self.assertFalse((clone / ".git/objects/info/alternates").exists())
+
+    def test_solo_git_config_injection_fails_closed_without_host_exec(self):
+        p = plan({"request": "Implement a channel module and validate tests",
+                  "target_repository": "martaxi-boss/pink-iptv",
+                  "work_items": [task("one", "docs/channels",
+                                      "FS-MONITOR-INJECT: implement channels and run tests")]})
+        original_refs = smart.dual._refs_snapshot(self.repo)
+        with mock.patch.dict(os.environ,
+                             {"HOST_SECRET_SENTINEL": "not-for-the-worker"}):
+            result = smart.execute(p, self.repo, self.runs, timeout=30)
+        first = result["workers"][0]
+        self.assertEqual(first["status"], "git_metadata_violation")
+        self.assertFalse((Path(first["workspace"]).parent / "host-secret-leak").exists())
+        self.assertEqual(smart.dual._git(self.repo, "status", "--porcelain"), "")
+        self.assertEqual(smart.dual._refs_snapshot(self.repo), original_refs)
 
     def test_parallel_codex_two_workers_observed_usage_and_private_ledger(self):
         p = plan({"request": "Implement channels and movies independently with integration and regression tests",
