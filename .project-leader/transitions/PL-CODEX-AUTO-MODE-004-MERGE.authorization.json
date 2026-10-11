@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PL-CODEX-AUTO-MODE-004-MERGE",
+  "task_id": "PL-CODEX-AUTO-MODE-004",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "created_at": "2026-10-11T18:16:55.763Z",
+  "action": "merge_to_main",
+  "effect_class": "E2_CONSEQUENTIAL_TRANSITION",
+  "authority": {
+    "source": "STANDING_OWNER_GRANT",
+    "summary": "Owner's standing objective for Project Leader + Codex covers integrating the completed specialized auto-routing instructions through PR #4. Exact main base 4a57a07cc86e0fe75559e7345b60d6b99023a51c, exact PR head 6b204d3f41c197219bb212cb7420abea297dce6e. All required CI and trusted authorization checks passed on that head (38156072165, 38156072108, 38156072131, 38156072128, 38156069079). Protected-instruction E3 task authorization and result exist. Codex review P1 issues were fixed in companion PR #5; both PRs are independent in changed paths and planned for controlled integration and combined validation. Authorize only regular merge of PR #4 exact head/base; no production deploy or change to universal Project Leader.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "pull_request",
+    "identifier": "https://github.com/martaxi-boss/Project-leader-codex/pull/4",
+    "revision": "6b204d3f41c197219bb212cb7420abea297dce6e",
+    "base_revision": "4a57a07cc86e0fe75559e7345b60d6b99023a51c",
+    "environment": null
+  }
+}
