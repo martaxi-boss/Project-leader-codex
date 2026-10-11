@@ -25,14 +25,14 @@ planner and cloud bridge are **provider-neutral**.
    not be downgraded solely because one keyword looks easy.
 6. Execute only through an authenticated and **verified host adapter**. The
    included signed-in Codex CLI supports one or two code-edit jobs with private
-   worktrees. For other cloud agents the trusted host must implement
+   Git clones with no shared Git object store, refs or source remote. For other cloud agents the trusted host must implement
    \`CloudHost.supports/execute\` and substantiate worker IDs, results and usage.
    Provider names in \`providers.json\` DO NOT provision vendor accounts.
 7. Before starting, reserve the shared local soft budget; after running, settle
    with observed usage where provided, or conservatively keep the reservation
    when telemetry is unknown. This is **not** the provider's account-wide quota
    and cannot stop tokens mid-generation.
-8. Keep independent diffs isolated. On failure, use Project Leader recovery,
+8. Keep independent diffs and Git metadata isolated. Side-ref mutations are audited even if HEAD is reset; the original checkout is checked again at the end. On failure, use Project Leader recovery,
    not blind retries. Integrate only through authorized, tested PRs, never
    automatic merges or production deploys.
 9. Report decisions and **real proof**: exact target SHA, provider/models,

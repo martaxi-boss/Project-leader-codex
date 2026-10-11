@@ -1,4 +1,4 @@
-"""Two Codex CLI jobs, independent worktrees, explicit serial/parallel modes.
+"""Two Codex CLI jobs, independent Git clones, explicit serial/parallel modes.
 
 No agent is started by plan. Run requires --execute and a local
 signed-in Codex CLI; no credentials, merges or pushes are managed here.
@@ -111,7 +111,7 @@ def parse_order(data: object) -> dict:
                 if a == b or a.startswith(b + "/") or b.startswith(a + "/"):
                     raise PlanError("Parallel workers have overlapping owned paths")
     return {"target_repository": repo, "mode": mode, "tasks": tasks,
-            "execution": "two isolated worktrees" if mode == "parallel" else "one ordered worktree",
+            "execution": "two independent Git clones" if mode == "parallel" else "one ordered private Git clone",
             "integration": "manual review + tested PR; no automatic merge"}
 
 
@@ -138,7 +138,7 @@ def _preflight(repo: Path, expected: str) -> str:
     if _remote_repo(_git(repo, "remote", "get-url", "origin")).casefold() != expected.casefold():
         raise PlanError("Git origin does not match target_repository")
     if _git(repo, "status", "--porcelain", "--untracked-files=normal"):
-        raise PlanError("Source checkout is dirty; preserve changes before starting worktrees")
+        raise PlanError("Source checkout is dirty; preserve changes before starting worker clones")
     return _git(repo, "rev-parse", "HEAD")
 
 
@@ -220,6 +220,73 @@ def _committed_paths(workspace: Path, before: str, after: str) -> set[str]:
     if result.returncode:
         raise PlanError("Cannot audit Codex worker commits; fail closed")
     return {os.fsdecode(p) for p in result.stdout.split(b"\x00") if p}
+
+
+def _refs_snapshot(repo: Path) -> dict[str, str]:
+    """Audit all Git ref names and object IDs, not only detached HEAD."""
+    proc = subprocess.run(
+        ["git", "-C", str(repo), "for-each-ref",
+         "--format=%(refname)%00%(objectname)"],
+        capture_output=True, text=True, check=False,
+    )
+    if proc.returncode:
+        raise PlanError("Cannot audit Git references; fail closed")
+    output = {}
+    for entry in proc.stdout.splitlines():
+        name, separator, value = entry.partition("\x00")
+        if not separator or not name.startswith("refs/") or not re.fullmatch(r"[0-9a-f]{40,64}", value):
+            raise PlanError("Malformed Git reference listing; fail closed")
+        output[name] = value
+    return output
+
+
+def _ref_committed_paths(workspace: Path, baseline: str,
+                         changed_refs: list[str],
+                         refs: dict[str, str]) -> set[str]:
+    """Include edits preserved on side refs even if detached HEAD was reset."""
+    result = set()
+    for name in changed_refs:
+        object_id = refs.get(name)
+        if object_id is None:
+            continue
+        commit = subprocess.run(
+            ["git", "-C", str(workspace), "rev-parse", "--verify",
+             object_id + "^{commit}"],
+            capture_output=True, text=True, check=False,
+        )
+        if commit.returncode:
+            # Still an unauthorized ref mutation; cannot treat it as success.
+            continue
+        result.update(_committed_paths(workspace, baseline, commit.stdout.strip()))
+    return result
+
+
+def _private_clone(repo: Path, destination: Path, head: str) -> None:
+    """Never give a model a linked worktree pointing at source Git metadata.
+
+    --no-local prevents both Git object hardlinks and shared alternates.
+    Remove the temporary local-path origin before the model can execute.
+    """
+    subprocess.run(
+        ["git", "clone", "--no-local", "--no-checkout", "--no-tags",
+         "--quiet", str(repo), str(destination)],
+        capture_output=True, check=True,
+    )
+    subprocess.run(
+        ["git", "-C", str(destination), "remote", "remove", "origin"],
+        capture_output=True, check=True,
+    )
+    subprocess.run(
+        ["git", "-C", str(destination), "checkout", "--quiet", "--detach", head],
+        capture_output=True, check=True,
+    )
+    git_dir = Path(_git(destination, "rev-parse", "--absolute-git-dir")).resolve()
+    if (git_dir != (destination / ".git").resolve()
+            or not (destination / ".git").is_dir()
+            or (destination / ".git/objects/info/alternates").exists()
+            or _git(destination, "remote")
+            or _git(destination, "rev-parse", "HEAD") != head):
+        raise PlanError("Worker Git directory is not private and self-contained")
 
 
 def _stop_process_group(process: subprocess.Popen) -> tuple[str, str]:
@@ -403,6 +470,7 @@ def _worker(task: dict, workspace: Path, logdir: Path, timeout: int,
            "-C", str(workspace), "--json", "-"]
     started = time.monotonic()
     previous_head = _git(workspace, "rev-parse", "HEAD")
+    previous_refs = _refs_snapshot(workspace)
     previous_state = _snapshot(workspace)
     code, stdout, stderr, termination = _invoke_codex(
         cmd, _prompt(task), timeout, cancel_event,
@@ -410,8 +478,16 @@ def _worker(task: dict, workspace: Path, logdir: Path, timeout: int,
     _private_file(logdir / (task["id"] + ".jsonl"), stdout)
     _private_file(logdir / (task["id"] + ".stderr"), stderr)
     current_head = _git(workspace, "rev-parse", "HEAD")
+    current_refs = _refs_snapshot(workspace)
+    ref_changes = sorted(
+        name for name in set(previous_refs) | set(current_refs)
+        if previous_refs.get(name) != current_refs.get(name)
+    )
     current_state = _snapshot(workspace)
     committed = _committed_paths(workspace, previous_head, current_head)
+    side_ref_paths = _ref_committed_paths(workspace, previous_head,
+                                          ref_changes, current_refs)
+    committed.update(side_ref_paths)
     changed = sorted(set(current_state) | committed)
     newly_changed = sorted(
         {p for p in (set(previous_state) | set(current_state))
@@ -425,6 +501,7 @@ def _worker(task: dict, workspace: Path, logdir: Path, timeout: int,
     )
     committed_by_worker = previous_head != current_head
     status = ("scope_violation" if out_of_scope else
+              "unauthorized_ref_change" if ref_changes else
               "timeout" if termination == "timeout" else
               "cancelled" if termination == "cancelled" else
               "failed" if code else
@@ -432,14 +509,15 @@ def _worker(task: dict, workspace: Path, logdir: Path, timeout: int,
               "unverified_result" if not completed_event else
               "no_change" if not mutated else "completed")
     if cancel_event is not None and status in {
-        "scope_violation", "timeout", "failed", "unauthorized_commit",
-        "unverified_result", "no_change",
+        "scope_violation", "unauthorized_ref_change", "timeout", "failed",
+        "unauthorized_commit", "unverified_result", "no_change",
     }:
         cancel_event.set()
     return {"id": task["id"], "status": status, "exit_code": code,
             "reasoning_effort": task["selected_effort"], "workspace": str(workspace),
             "changed_paths": changed, "new_paths": newly_changed,
             "committed_paths": sorted(committed), "commit_detected": committed_by_worker,
+            "ref_changes": ref_changes,
             "out_of_scope": out_of_scope, "duration_seconds": round(time.monotonic() - started, 2)}
 
 def run(order: dict, repo: Path, runs_dir: Path | None = None, timeout: int = 1200,
@@ -454,6 +532,7 @@ def run(order: dict, repo: Path, runs_dir: Path | None = None, timeout: int = 12
         )
     repo = repo.resolve(strict=True)
     head = _preflight(repo, order["target_repository"])
+    original_refs = _refs_snapshot(repo)
     root = (runs_dir or Path.home() / ".local/share/project-leader-codex/runs").expanduser().resolve()
     if root == repo or root.is_relative_to(repo):
         raise PlanError("Runs directory must be outside target repository")
@@ -466,11 +545,10 @@ def run(order: dict, repo: Path, runs_dir: Path | None = None, timeout: int = 12
     try:
         for idx in range(2 if order["mode"] == "parallel" else 1):
             workspace = work_root / ("worker-" + str(idx + 1))
-            subprocess.run(["git", "-C", str(repo), "worktree", "add", "--detach", str(workspace), head],
-                           capture_output=True, check=True)
+            _private_clone(repo, workspace, head)
             workspaces.append(workspace)
-    except (OSError, subprocess.CalledProcessError) as exc:
-        raise PlanError("Could not create isolated Git worktree; inspect " + str(work_root)) from exc
+    except (OSError, subprocess.CalledProcessError, PlanError) as exc:
+        raise PlanError("Could not create independent Git clone; inspect " + str(work_root)) from exc
     tasks = order["tasks"]
     try:
         if order["mode"] == "parallel":
@@ -514,6 +592,11 @@ def run(order: dict, repo: Path, runs_dir: Path | None = None, timeout: int = 12
                                 "reason": "First task did not complete"})
     except (OSError, PlanError) as exc:
         raise PlanError("Worker error: " + str(exc) + "; preserved workspaces in " + str(work_root)) from exc
+    if (_git(repo, "rev-parse", "HEAD") != head
+            or _refs_snapshot(repo) != original_refs
+            or _changes(repo)):
+        raise PlanError("Original Git repository changed during workers; fail closed, "
+                        "preserve evidence in " + str(work_root))
     result = {"target_repository": order["target_repository"], "mode": order["mode"],
               "base_head": head, "run_directory": str(work_root), "workers": results,
               "integration": "NOT_AUTOMATED: inspect changes, validate, open and review PR"}

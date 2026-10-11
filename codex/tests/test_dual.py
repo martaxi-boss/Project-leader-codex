@@ -35,7 +35,7 @@ class PlanTests(unittest.TestCase):
 
     def test_two_jobs_and_ordering(self):
         self.assertEqual(len(dual.parse_order(order())["tasks"]), 2)
-        self.assertEqual(dual.parse_order(order("serial"))["execution"], "one ordered worktree")
+        self.assertEqual(dual.parse_order(order("serial"))["execution"], "one ordered private Git clone")
         with self.assertRaisesRegex(dual.PlanError, "Exactly two"):
             dual.parse_order({**order(), "tasks": order()["tasks"][:1]})
         with self.assertRaisesRegex(dual.PlanError, "Invalid task fields"):
@@ -156,7 +156,26 @@ if 'COMMIT-OUTSIDE' in prompt or 'COMMIT-OWNED' in prompt:
         rogue.parent.mkdir(parents=True, exist_ok=True)
         rogue.write_text('unauthorized committed file')
     subprocess.run(['git', '-C', str(workspace), 'add', '-A'], check=True)
-    subprocess.run(['git', '-C', str(workspace), 'commit', '-qm', 'bad worker commit'], check=True)
+    subprocess.run(['git', '-C', str(workspace),
+                    '-c', 'user.name=Offline Worker',
+                    '-c', 'user.email=offline-worker@example.test',
+                    'commit', '-qm', 'bad worker commit'], check=True)
+if 'SIDE-REF-ESCAPE' in prompt or 'SIDE-REF-OWNED' in prompt:
+    import subprocess
+    if 'SIDE-REF-ESCAPE' in prompt:
+        rogue = workspace / 'unowned/hidden-commit.txt'
+        rogue.parent.mkdir(parents=True, exist_ok=True)
+        rogue.write_text('hidden outside approved scope')
+    subprocess.run(['git', '-C', str(workspace), 'add', '-A'], check=True)
+    subprocess.run(['git', '-C', str(workspace),
+                    '-c', 'user.name=Offline Worker',
+                    '-c', 'user.email=offline-worker@example.test',
+                    'commit', '-qm', 'hidden side reference commit'], check=True)
+    subprocess.run(['git', '-C', str(workspace), 'update-ref',
+                    'refs/heads/worker-hidden', 'HEAD'], check=True)
+    subprocess.run(['git', '-C', str(workspace), 'reset', '--hard', 'HEAD^'], check=True)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text('legitimate uncommitted in-scope edit')
 print('{"type":"something_else"}' if 'INVALID-EVENT' in prompt else '{"type":"turn.completed","usage":{"input_tokens":15,"output_tokens":6,"cached_input_tokens":2}}')
 """)
         executable.chmod(0o755)
@@ -245,6 +264,15 @@ sys.exit(child.returncode)
         result = self._run(order())
         self.assertEqual([w["status"] for w in result["workers"]], ["completed", "completed"])
         self.assertNotEqual(result["workers"][0]["workspace"], result["workers"][1]["workspace"])
+        original_git = Path(dual._git(self.repo, "rev-parse", "--absolute-git-dir"))
+        for worker in result["workers"]:
+            clone = Path(worker["workspace"])
+            self.assertTrue((clone / ".git").is_dir())
+            self.assertFalse((clone / ".git/objects/info/alternates").exists())
+            self.assertEqual(dual._git(clone, "remote"), "")
+            self.assertEqual(Path(dual._git(clone, "rev-parse", "--absolute-git-dir")),
+                             clone / ".git")
+            self.assertNotEqual(clone / ".git", original_git)
         self.assertEqual(dual._git(self.repo, "status", "--porcelain"), "")
         self.assertEqual((self.repo / "base.txt").read_text(), "initial\n")
         self.assertTrue((Path(result["workers"][0]["workspace"]) / "docs/channels/created.txt").exists())
@@ -409,6 +437,37 @@ sys.exit(child.returncode)
         self.assertEqual(r["workers"][0]["status"], "unauthorized_commit")
         self.assertTrue(r["workers"][0]["commit_detected"])
         self.assertEqual(r["workers"][0]["out_of_scope"], [])
+        self.assertEqual(r["workers"][1]["status"], "not_started")
+
+    def test_hidden_side_ref_and_out_of_scope_commit_cannot_escape(self):
+        original_refs = dual._refs_snapshot(self.repo)
+        original_head = dual._git(self.repo, "rev-parse", "HEAD")
+        p = order("serial")
+        p["tasks"][0]["task"] = "SIDE-REF-ESCAPE: conceal a committed out-of-scope file behind an in-scope edit"
+        r = self._run(p)
+        first = r["workers"][0]
+        self.assertEqual(first["status"], "scope_violation")
+        self.assertFalse(first["commit_detected"])
+        self.assertIn("refs/heads/worker-hidden", first["ref_changes"])
+        self.assertIn("unowned/hidden-commit.txt", first["out_of_scope"])
+        self.assertIn("unowned/hidden-commit.txt", first["committed_paths"])
+        self.assertEqual(dual._git(Path(first["workspace"]), "rev-parse", "HEAD"),
+                         original_head)
+        self.assertIn("docs/channels/created.txt", first["new_paths"])
+        self.assertEqual(r["workers"][1]["status"], "not_started")
+        self.assertEqual(dual._git(self.repo, "rev-parse", "HEAD"), original_head)
+        self.assertEqual(dual._refs_snapshot(self.repo), original_refs)
+        self.assertEqual(dual._git(self.repo, "status", "--porcelain"), "")
+
+    def test_in_scope_side_ref_is_also_unauthorized(self):
+        p = order("serial")
+        p["tasks"][0]["task"] = "SIDE-REF-OWNED: write an unauthorized Git side ref"
+        r = self._run(p)
+        first = r["workers"][0]
+        self.assertEqual(first["status"], "unauthorized_ref_change")
+        self.assertIn("refs/heads/worker-hidden", first["ref_changes"])
+        self.assertEqual(first["out_of_scope"], [])
+        self.assertFalse(first["commit_detected"])
         self.assertEqual(r["workers"][1]["status"], "not_started")
 
     def test_parallel_failure_cancels_running_sibling(self):
