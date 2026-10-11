@@ -35,6 +35,28 @@ class SmartRunTests(unittest.TestCase):
         self.assertEqual(r["accounting"]["accounted_tokens"], 42)
         self.assertEqual(len(list((self.runs / ".shared-budget").iterdir())), 2)
 
+    def test_serial_requires_independent_verifier_before_budget_or_launch(self):
+        p = plan({"request": "Implement dependent UI features and validate them",
+                  "target_repository": "martaxi-boss/pink-iptv",
+                  "work_items": [
+                      {"id": "build", "paths": ["docs/channels"],
+                       "task": "Implement channel navigation, integrate the player and run tests"},
+                      {"id": "finish", "paths": ["docs/movies"], "depends_on": ["build"],
+                       "task": "Implement movie navigation, integrate channel links and run tests"},
+                  ]})
+        self.assertEqual(p["mode"], "serial")
+        with self.assertRaisesRegex(RoutingError, "independent project validator"):
+            smart.execute(p, self.repo, self.runs, timeout=30)
+        self.assertEqual(list(self.runs.iterdir()), [])
+
+        verified = smart.execute(
+            p, self.repo, self.runs, timeout=30,
+            phase_one_validator=RunnerTests._validated_fake_phase,
+        )
+        self.assertEqual([w["status"] for w in verified["workers"]], ["completed", "completed"])
+        self.assertTrue(verified["workers"][0]["validation"]["passed"])
+        self.assertEqual(verified["accounting"]["observed_jobs"], 2)
+
     def test_missing_other_cloud_adapter_never_runs_codex_by_substitution(self):
         p = plan({"request": "Build new detailed cloud feature with tests",
                   "target_repository": "martaxi-boss/pink-iptv",

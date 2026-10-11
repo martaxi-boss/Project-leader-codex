@@ -26,7 +26,10 @@ class PlanTests(unittest.TestCase):
         self.assertEqual(dual.effort(task("one", "docs", "Implement the viewing module")), "medium")
         self.assertEqual(dual.effort(task("one", "docs", "Diagnose security regression and validate")), "high")
         self.assertEqual(dual.effort(task("one", "docs", "Update docs and tests", verified_hard_failure=True)), "high")
-        self.assertEqual(dual.effort(task("one", "docs", "Diagnose race condition", reasoning_effort="low")), "low")
+        with self.assertRaisesRegex(dual.PlanError, "Unsafe reasoning-effort override"):
+            dual.effort(task("one", "docs", "Diagnose race condition", reasoning_effort="low"))
+        self.assertEqual(dual.effort(task("one", "docs", "Run normal regression tests")), "medium")
+        self.assertEqual(dual.effort(task("one", "docs", "Diagnose deadlock", reasoning_effort="high")), "high")
 
     def test_two_jobs_and_ordering(self):
         self.assertEqual(len(dual.parse_order(order())["tasks"]), 2)
@@ -130,6 +133,7 @@ if 'SLOW-GROUP' in prompt:
     subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(12)'])
     time.sleep(12)
 if 'NO-CHANGE' in prompt:
+    time.sleep(0.3)
     print('{"type":"turn.completed"}')
     sys.exit(0)
 if 'BREAK-SCOPE' in prompt:
@@ -162,8 +166,26 @@ print('{"type":"something_else"}' if 'INVALID-EVENT' in prompt else '{"type":"tu
         self.root_patch.start()
         self.addCleanup(self.root_patch.stop)
 
-    def _run(self, plan):
-        return dual.run(dual.parse_order(plan), self.repo, self.runs, timeout=30)
+    @staticmethod
+    def _validated_fake_phase(workspace, task, report):
+        # An independent offline fixture validates the first phase's output,
+        # rather than trusting a Codex turn.completed event as code acceptance.
+        paths = report["new_paths"]
+        allowed = task["paths"]
+        good = bool(paths) and all(dual._scope(p, allowed) for p in paths)
+        git_check = subprocess.run(
+            ["git", "-C", str(workspace), "diff", "--check"],
+            capture_output=True, check=False,
+        )
+        good = good and git_check.returncode == 0
+        return {"passed": good,
+                "evidence": "Offline independent fixture inspected changed paths and diff"}
+
+    def _run(self, plan, validator=None):
+        if plan["mode"] == "serial" and validator is None:
+            validator = self._validated_fake_phase
+        return dual.run(dual.parse_order(plan), self.repo, self.runs,
+                        timeout=30, phase_one_validator=validator)
 
     def test_parallel_real_processes_isolated_no_integration(self):
         result = self._run(order())
@@ -181,6 +203,27 @@ print('{"type":"something_else"}' if 'INVALID-EVENT' in prompt else '{"type":"tu
         result = self._run(p)
         self.assertEqual([w["status"] for w in result["workers"]], ["completed", "completed"])
         self.assertEqual(result["workers"][0]["workspace"], result["workers"][1]["workspace"])
+
+    def test_serial_requires_independent_validation_before_any_model_launch(self):
+        p = dual.parse_order(order("serial"))
+        with self.assertRaisesRegex(dual.PlanError, "independent acceptance validator"):
+            dual.run(p, self.repo, self.runs, timeout=30)
+        self.assertEqual(list(self.runs.iterdir()), [])
+
+    def test_failed_independent_validation_stops_phase_two(self):
+        result = self._run(order("serial"),
+                           validator=lambda workspace, task, report: {
+                               "passed": False, "evidence": "Simulated regression failed"
+                           })
+        self.assertEqual(result["workers"][0]["status"], "completed")
+        self.assertEqual(result["workers"][0]["validation"]["passed"], False)
+        self.assertEqual(result["workers"][1]["status"], "not_started")
+
+    def test_malformed_independent_validation_never_starts_phase_two(self):
+        p = dual.parse_order(order("serial"))
+        with self.assertRaisesRegex(dual.PlanError, "verdict and evidence"):
+            dual.run(p, self.repo, self.runs, timeout=30,
+                     phase_one_validator=lambda w, t, r: {"passed": True})
 
     def test_failed_first_does_not_start_second(self):
         p = order("serial")
@@ -246,6 +289,16 @@ print('{"type":"something_else"}' if 'INVALID-EVENT' in prompt else '{"type":"tu
         started = __import__("time").monotonic()
         r = self._run(p)
         self.assertEqual(r["workers"][0]["status"], "failed")
+        self.assertEqual(r["workers"][1]["status"], "cancelled")
+        self.assertLess(__import__("time").monotonic() - started, 5)
+
+    def test_parallel_no_change_cancels_sibling(self):
+        p = order()
+        p["tasks"][0]["task"] = "NO-CHANGE: return completion with no material edit"
+        p["tasks"][1]["task"] = "SLOW-LONG: continue until sibling stops"
+        started = __import__("time").monotonic()
+        r = self._run(p)
+        self.assertEqual(r["workers"][0]["status"], "no_change")
         self.assertEqual(r["workers"][1]["status"], "cancelled")
         self.assertLess(__import__("time").monotonic() - started, 5)
 

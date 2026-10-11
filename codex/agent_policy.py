@@ -73,18 +73,23 @@ def _has_overlap(left: dict, right: dict) -> bool:
 
 
 def _classify_effort(task: dict) -> str:
-    if task["reasoning_effort"] != "auto":
-        return task["reasoning_effort"]
+    """Apply a safety floor before accepting any manually requested effort."""
     prompt = task["task"].casefold()
     if any(signal in prompt for signal in HIGH_SIGNALS):
-        return "high"
-    # Low is appropriate only for very narrow edits with no substantive risk.
-    if len(prompt) <= 160 and any(signal in prompt for signal in LOW_SIGNALS) and not any(
+        minimum = "high"
+    elif len(prompt) <= 160 and any(signal in prompt for signal in LOW_SIGNALS) and not any(
         signal in prompt for signal in ("security", "segurança", "production", "produção", "migration", "migração")
     ):
-        return "low"
-    return "medium"
-
+        minimum = "low"
+    else:
+        minimum = "medium"
+    requested = task["reasoning_effort"]
+    if requested == "auto":
+        return minimum
+    rank = {"low": 0, "medium": 1, "high": 2}
+    if rank[requested] < rank[minimum]:
+        raise RoutingError("Unsafe reasoning-effort override: task requires at least " + minimum)
+    return requested
 
 def _load_profiles(registry: Any) -> list[dict]:
     if not isinstance(registry, dict) or registry.get("version") != 1 or not isinstance(registry.get("providers"), list):

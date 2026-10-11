@@ -19,14 +19,16 @@ import subprocess
 import sys
 import time
 from uuid import uuid4
+from typing import Callable
 
 REPO_NAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]*/[A-Za-z0-9][A-Za-z0-9_.-]*\Z")
 JOB_NAME = re.compile(r"[a-z][a-z0-9-]{0,39}\Z")
 LEVELS = {"auto", "low", "medium", "high"}
 HARD = ("race condition", "deadlock", "security", "seguranca", "segurança",
-        "seguranca critica", "segurança crítica", "migration", "migracao", "migração",
-        "regression", "regressao", "regressão", "root cause", "causa raiz",
-        "complex", "complexo", "concurrency", "concorrencia", "concorrência", "credential")
+        "seguranca critica", "segurança crítica", "irreversible migration",
+        "migração irreversível", "migracao irreversivel", "complex regression",
+        "regressão complexa", "regressao complexa", "root cause", "causa raiz",
+        "concurrency", "concorrencia", "concorrência", "credential")
 EASY = ("typo", "ortografia", "readme", "formatting", "formatar", "renomear")
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -49,20 +51,23 @@ def _is_safe_path(value: object) -> bool:
             and not any(ord(c) < 32 or ord(c) == 127 for c in value))
 
 def effort(task: dict) -> str:
+    """Apply the task difficulty floor before any explicit effort override."""
     requested = task.get("reasoning_effort", "auto")
     if type(requested) is not str or requested not in LEVELS:
         raise PlanError("reasoning_effort must be auto, low, medium or high")
-    if requested != "auto":
-        return requested
-    if task.get("verified_hard_failure") is True:
-        return "high"
     prompt = task["task"].casefold()
-    if any(s in prompt for s in HARD):
-        return "high"
-    if len(prompt) < 240 and any(s in prompt for s in EASY):
-        return "low"
-    return "medium"
-
+    if task.get("verified_hard_failure") is True or any(signal in prompt for signal in HARD):
+        minimum = "high"
+    elif len(prompt) < 240 and any(signal in prompt for signal in EASY):
+        minimum = "low"
+    else:
+        minimum = "medium"
+    if requested == "auto":
+        return minimum
+    rank = {"low": 0, "medium": 1, "high": 2}
+    if rank[requested] < rank[minimum]:
+        raise PlanError("Unsafe reasoning-effort override: task requires at least " + minimum)
+    return requested
 
 def parse_order(data: object) -> dict:
     if not isinstance(data, dict) or set(data) != {"target_repository", "mode", "tasks"}:
@@ -307,7 +312,8 @@ def _worker(task: dict, workspace: Path, logdir: Path, timeout: int,
               "unverified_result" if not completed_event else
               "no_change" if not mutated else "completed")
     if cancel_event is not None and status in {
-        "scope_violation", "timeout", "failed", "unauthorized_commit", "unverified_result",
+        "scope_violation", "timeout", "failed", "unauthorized_commit",
+        "unverified_result", "no_change",
     }:
         cancel_event.set()
     return {"id": task["id"], "status": status, "exit_code": code,
@@ -316,11 +322,16 @@ def _worker(task: dict, workspace: Path, logdir: Path, timeout: int,
             "committed_paths": sorted(committed), "commit_detected": committed_by_worker,
             "out_of_scope": out_of_scope, "duration_seconds": round(time.monotonic() - started, 2)}
 
-def run(order: dict, repo: Path, runs_dir: Path | None = None, timeout: int = 1200) -> dict:
+def run(order: dict, repo: Path, runs_dir: Path | None = None, timeout: int = 1200,
+        phase_one_validator: Callable[[Path, dict, dict], dict] | None = None) -> dict:
     if shutil.which("codex") is None:
         raise PlanError("Codex CLI is not installed or accessible; no model started")
     if not 30 <= timeout <= 7200:
         raise PlanError("timeout must be between 30 and 7200 seconds")
+    if order["mode"] == "serial" and not callable(phase_one_validator):
+        raise PlanError(
+            "Serial phase one requires an independent acceptance validator; no model started"
+        )
     repo = repo.resolve(strict=True)
     head = _preflight(repo, order["target_repository"])
     root = (runs_dir or Path.home() / ".local/share/project-leader-codex/runs").expanduser().resolve()
@@ -361,14 +372,28 @@ def run(order: dict, repo: Path, runs_dir: Path | None = None, timeout: int = 12
             first = _worker(tasks[0], workspaces[0], work_root, timeout)
             results = [first]
             if first["status"] == "completed":
-                # The second agent sees the first agent's changes, in the same worktree.
-                # Per-file before/after hashes distinguish inherited diffs from new edits.
-                second = _worker(tasks[1], workspaces[0], work_root, timeout)
-                results.append(second)
+                # A completed Codex turn is not independent project validation.
+                # The host's trusted validator inspects real changes and tests;
+                # never launch the dependent agent on self-attested success.
+                review = phase_one_validator(workspaces[0], tasks[0], first)
+                if (not isinstance(review, dict)
+                        or type(review.get("passed")) is not bool
+                        or type(review.get("evidence")) is not str
+                        or not review["evidence"].strip()):
+                    raise PlanError("Independent phase-one validator must return a verdict and evidence")
+                first["validation"] = {"passed": review["passed"],
+                                       "evidence": review["evidence"]}
+                if review["passed"]:
+                    second = _worker(tasks[1], workspaces[0], work_root, timeout)
+                    results.append(second)
+                else:
+                    results.append({"id": tasks[1]["id"], "status": "not_started",
+                                    "reason": "Independent phase-one validation failed"})
             else:
-                results.append({"id": tasks[1]["id"], "status": "not_started", "reason": "First task did not complete"})
+                results.append({"id": tasks[1]["id"], "status": "not_started",
+                                "reason": "First task did not complete"})
     except (OSError, PlanError) as exc:
-        raise PlanError("Worker error; preserved workspaces in " + str(work_root)) from exc
+        raise PlanError("Worker error: " + str(exc) + "; preserved workspaces in " + str(work_root)) from exc
     result = {"target_repository": order["target_repository"], "mode": order["mode"],
               "base_head": head, "run_directory": str(work_root), "workers": results,
               "integration": "NOT_AUTOMATED: inspect changes, validate, open and review PR"}

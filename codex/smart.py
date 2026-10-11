@@ -54,7 +54,7 @@ def _execute_solo(planned: dict, repo: Path, root: Path, timeout: int, run_id: s
 
 
 def execute(planned: dict, repo_dir: Path, runs_dir: Path | None = None, *, timeout: int = 1200,
-            soft_limit: int = budget.SOFT_LIMIT_DEFAULT) -> dict:
+            soft_limit: int = budget.SOFT_LIMIT_DEFAULT, phase_one_validator=None) -> dict:
     if planned.get("status") != "planned" or planned.get("capability") != "code_edit":
         raise RoutingError("Plan is not executable for code edits; no agent started")
     if not 30 <= timeout <= 7200:
@@ -67,6 +67,11 @@ def execute(planned: dict, repo_dir: Path, runs_dir: Path | None = None, *, time
         if (profile["status"] != "selected" or profile["provider"] != "codex"
                 or profile["adapter"] != "codex-cli" or profile["model"] != "runtime-default"):
             raise RoutingError("Provider/model lacks a verified executor adapter; no agent started")
+    if planned["mode"] == "serial" and not callable(phase_one_validator):
+        raise RoutingError(
+            "Serial execution requires an independent project validator; "
+            "no worker or budget reserved"
+        )
     if shutil.which("codex") is None:
         raise RoutingError("Codex CLI absent; no agent started")
     repo = repo_dir.expanduser().resolve(strict=True)
@@ -86,7 +91,8 @@ def execute(planned: dict, repo_dir: Path, runs_dir: Path | None = None, *, time
                                 "reasoning_effort": x["selection"]["reasoning_effort"]}
                                for x in planned["tasks"]]}
             parsed = dual.parse_order(order)
-            result = dual.run(parsed, repo, root, timeout)
+            result = dual.run(parsed, repo, root, timeout,
+                              phase_one_validator=phase_one_validator)
     finally:
         usage = {}
         for entry in selected:

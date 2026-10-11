@@ -54,6 +54,24 @@ class RoutingTests(unittest.TestCase):
             self.assertEqual(p["status"], "blocked_no_provider")
             self.assertEqual(p["tasks"][0]["selection"]["status"], "no_adequate_provider")
 
+    def test_hard_tasks_reject_unsafe_low_and_medium_effort_override(self):
+        for prompt in (
+            "Diagnose deadlock in worker synchronization and fix with tests",
+            "Corrige falha de segurança grave com testes independentes",
+        ):
+            for effort in ("low", "medium"):
+                with self.subTest(prompt=prompt, effort=effort), self.assertRaisesRegex(
+                    RoutingError, "Unsafe reasoning-effort override"
+                ):
+                    plan(request([item("hard", "src/core", prompt, reasoning_effort=effort)]))
+        with self.assertRaisesRegex(RoutingError, "Unsafe reasoning-effort override"):
+            plan(request([item("normal", "src/view",
+                               "Implement module navigation and run the integration tests",
+                               reasoning_effort="low")]))
+        valid = plan(request([item("simple", "docs/readme", "Corrige um typo no README",
+                                   reasoning_effort="low")]))
+        self.assertEqual(valid["tasks"][0]["selection"]["reasoning_effort"], "low")
+
     def test_short_simple_tasks_use_single_agent_to_avoid_duplicate_cost(self):
         p = plan(request([item("first", "docs/a", "Corrige um typo no README da secção A"),
                           item("second", "docs/b", "Corrige um typo no README da secção B")]))
