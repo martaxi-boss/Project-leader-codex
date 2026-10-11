@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-PROPRIETARY-LICENSE-086-LICENSE",
+  "task_id": "PROJECT-LEADER-PROPRIETARY-LICENSE-086",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-07T11:13:00Z",
+  "action": "license_selection",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "The Owner explicitly selected a proprietary / All Rights Reserved license for Project Leader. Authorize only that exact repository-local license selection under immutable Task Authorization b40090c6395016c53d2929a76ed8e8433090fa06. No open-source grant, external-project mutation, release/publish action, trust-root policy mutation or third-party relicensing is authorized.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_file",
+    "identifier": "LICENSE",
+    "revision": "b40090c6395016c53d2929a76ed8e8433090fa06",
+    "base_revision": "faec539991007889f7f0a6252ebf45bd084b6141",
+    "environment": null
+  }
+}

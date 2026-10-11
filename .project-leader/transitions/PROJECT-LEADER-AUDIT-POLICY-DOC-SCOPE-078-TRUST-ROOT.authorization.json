@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-AUDIT-POLICY-DOC-SCOPE-078-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-AUDIT-POLICY-DOC-SCOPE-078",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-07T10:19:00Z",
+  "action": "trust_root_mutation",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "STANDING_OWNER_GRANT",
+    "summary": "Exact trust-root authorization for the bounded policy-ceiling recovery under immutable Task Authorization 20031db962a49560b225e9ddbe73a9db10ff848e. Admit only exact maintenance-document paths needed by the Owner-requested audit; SECURITY.md remains E3-only and protected/sensitive.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/audit-policy-doc-scope-078",
+    "revision": "20031db962a49560b225e9ddbe73a9db10ff848e",
+    "base_revision": "32a7663a9a78e02b2b8e9a50678787a10a1675a3",
+    "environment": null
+  }
+}

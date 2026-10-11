@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-EVIDENCE-HYGIENE-050-DELETE-01",
+  "task_id": "PROJECT-LEADER-EVIDENCE-HYGIENE-050",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-EVIDENCE-HYGIENE-050-DELETE-01.authorization.json",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/internal-operation-liveness-048",
+    "revision": "15dcebffdf84805ddcf0cca223261eef59013e19",
+    "base_revision": "f4c7b207646cf084f1c9acda7fd6b71f8a949b49",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T11:40:30Z",
+  "final_state": {
+    "status": "DELETED",
+    "revision": null
+  },
+  "evidence": [
+    "Exact CURRENT_OWNER_INSTRUCTION purge authorization for builder/internal-operation-liveness-048 at 15dcebffdf84805ddcf0cca223261eef59013e19 is canonical in main merge 6ad03b6712096e994c07e6b7f324dd3a132b68d4.",
+    "Repository hygiene push run 37199441624 completed successfully after PR #51 integration.",
+    "Fresh branch inventory after hygiene no longer contains builder/internal-operation-liveness-048; no force-push or main-history rewrite was used."
+  ],
+  "residual_blockers": []
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062-DELETE-03",
+  "task_id": "PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062-DELETE-03.authorization.json",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "control/merge-authorization-061",
+    "revision": "15fde28cc92dc691788ded367b079170691a2761",
+    "base_revision": "5d9f449208e0a043fa1cc2d81174e7a56ecf7762",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T19:32:09.561Z",
+  "final_state": {
+    "status": "ABSENT",
+    "revision": null
+  },
+  "evidence": [
+    "Before integration, native full branch inventory showed control/merge-authorization-061 at exact authorized SHA 15fde28cc92dc691788ded367b079170691a2761, with no open PR for that ref. Authorization was durably committed at 1652af8a73f000e9e2c73b20e29403f99349a14d before any effect.",
+    "Canonical main c42ed27cc6c520bfd63015097c8c60ee42392ba5 contains the exact CURRENT_OWNER_INSTRUCTION authorization and all valuable source merge evidence. Existing Repository hygiene run 37228430087 / sweep job 111512827363 completed SUCCESS.",
+    "Independent post-sweep complete branch inventory proves control/merge-authorization-061 absent; only main and newest unique control/merge-authorization-062 remain. This records the observed authorized effect; no deletion retry, force push, commit rewrite or unique valuable evidence removal occurred."
+  ],
+  "residual_blockers": []
+}

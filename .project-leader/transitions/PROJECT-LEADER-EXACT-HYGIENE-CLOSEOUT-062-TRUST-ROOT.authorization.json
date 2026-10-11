@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T19:23:13.717Z",
+  "action": "trust_root_mutation",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner continuous audit/correction/hygiene instruction authorizes only the immutable task-062 scope. Before protected RUNBOOK.md edits, exact-bind this task authorization revision; reconcile stale hygiene guidance with already-existing task-058R conservative ancestry/exact-purge behavior and add its documentation regression. No workflow, runtime, policy, architecture, role, standing-authority, plugin-version or external-project mutation.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/exact-hygiene-closeout-062",
+    "revision": "17d781a818fafd51596f3f7268a7e47d31ba80f2",
+    "base_revision": "5d9f449208e0a043fa1cc2d81174e7a56ecf7762",
+    "environment": null
+  }
+}

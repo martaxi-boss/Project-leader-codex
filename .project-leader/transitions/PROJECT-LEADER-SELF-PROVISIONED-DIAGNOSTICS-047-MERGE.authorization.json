@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047-MERGE",
+  "task_id": "PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T03:07:00Z",
+  "action": "merge_to_main",
+  "effect_class": "E2_CONSEQUENTIAL_TRANSITION",
+  "authority": {
+    "source": "STANDING_OWNER_GRANT",
+    "summary": "Owner explicitly authorized stepwise Project Leader correction and continuous hygiene without changing working behavior. Supervisor revalidated PR #47 at exact head 9176faf1dd3d35ace48d2743fb58c15c30f3bce6 on exact main base 166d8a2d867e0d8e3b67082069679b0cd3b9242d. Final-head Trusted authorization gate, Control contract tests, Validate control plane and Package ChatGPT plugins all succeeded. The change is limited to the newly observed autonomy obstacle: a universal self-provisioned least-privilege diagnostic bridge check before platform-consent escalation. No managed-project/VPS/deploy/release/secret/paid-service/branch-protection/force-push effect is introduced.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#47",
+    "revision": "9176faf1dd3d35ace48d2743fb58c15c30f3bce6",
+    "base_revision": "166d8a2d867e0d8e3b67082069679b0cd3b9242d",
+    "environment": null
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-FINAL-EVIDENCE-HYGIENE-052-DELETE-03",
+  "task_id": "PROJECT-LEADER-FINAL-EVIDENCE-HYGIENE-052",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-FINAL-EVIDENCE-HYGIENE-052-DELETE-03.authorization.json",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "control/merge-authorization-051",
+    "revision": "4facfc1910752b33a33c2d7d21915eb4bd1e4e58",
+    "base_revision": "6ad03b6712096e994c07e6b7f324dd3a132b68d4",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T11:46:30Z",
+  "final_state": {
+    "status": "DELETED",
+    "revision": null
+  },
+  "evidence": [
+    "Exact CURRENT_OWNER_INSTRUCTION purge authorization for control/merge-authorization-051 at 4facfc1910752b33a33c2d7d21915eb4bd1e4e58 is canonical in main merge 7a303af73acd11de4d58c9dd93a0405b857c050d.",
+    "Repository hygiene push run 37199760393 completed successfully after PR #54 integration.",
+    "Fresh branch inventory after hygiene no longer contains control/merge-authorization-051; no force-push or main-history rewrite was used."
+  ],
+  "residual_blockers": []
+}

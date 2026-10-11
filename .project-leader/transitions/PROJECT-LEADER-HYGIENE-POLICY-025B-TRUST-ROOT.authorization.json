@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-HYGIENE-POLICY-025B-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-HYGIENE-POLICY-025B",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T12:36:58.797Z",
+  "action": "trust_root_mutation",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner authorized the narrowly-scoped policy extension required for Project Leader repository hygiene.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/hygiene-policy-025b",
+    "revision": "e858861f89c12ae85f7e6b8e9ef990403a7ce078",
+    "base_revision": "aa39702a3d2fb7d5c211cc088c1badc06663b9f3",
+    "environment": null
+  }
+}

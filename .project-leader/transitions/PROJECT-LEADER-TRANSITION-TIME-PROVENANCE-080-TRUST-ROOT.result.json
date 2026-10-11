@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-TRANSITION-TIME-PROVENANCE-080-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-TRANSITION-TIME-PROVENANCE-080",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-TRANSITION-TIME-PROVENANCE-080-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/transition-time-provenance-080",
+    "revision": "c6bd335ca028f3add34c083b5939165809710bfd",
+    "base_revision": "4e3a6094a77000ec3089bcd86fa3a59484acdd23",
+    "environment": null
+  },
+  "observed_at": "2026-10-07T10:44:00Z",
+  "final_state": {
+    "status": "AUDITED",
+    "revision": "b005130d53c10483e2a6c795bc6a928c434d3f9c"
+  },
+  "evidence": [
+    "Immutable Task Authorization c6bd335ca028f3add34c083b5939165809710bfd precedes protected implementation.",
+    "Trust-root authorization 68f1ee1491b7c1b7f8fdf341349b6f3e224542f7 was persisted before validator/workflow changes.",
+    "Implementation head b005130d53c10483e2a6c795bc6a928c434d3f9c passed required runs 37609186258, 37609186070 and 37609186167.",
+    "Control contract run 37609186258 completed 267 tests successfully."
+  ],
+  "residual_blockers": []
+}

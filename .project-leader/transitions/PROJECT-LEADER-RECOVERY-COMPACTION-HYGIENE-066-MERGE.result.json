@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-RECOVERY-COMPACTION-HYGIENE-066-MERGE",
+  "task_id": "PROJECT-LEADER-RECOVERY-COMPACTION-HYGIENE-066",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-RECOVERY-COMPACTION-HYGIENE-066-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "https://github.com/martaxi-boss/Project-leader/pull/69",
+    "revision": "24e7cf5333677ae0820c65733d58424d18a5a820",
+    "base_revision": "d64b4a8d0f5d11621b691b79da18123bbbc3a9d3",
+    "environment": null
+  },
+  "observed_at": "2026-10-05T18:06:00Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "60651ad4ba105803780e5891178a05713656821f"
+  },
+  "evidence": [
+    "Exact merge authorization existed before the merge at control/merge-authorization-066 commit 3cd583d168aba0626d9954781d3d1552f462fb22.",
+    "Immediately before merge, PR #69 was open, non-draft and mergeable at exact head 24e7cf5333677ae0820c65733d58424d18a5a820 on exact main base d64b4a8d0f5d11621b691b79da18123bbbc3a9d3.",
+    "Final PR head passed Trusted authorization gate 37353108416, Control contract tests 37353110886, Validate control plane 37353110715 and Package ChatGPT plugins 37353110676.",
+    "GitHub merge returned merged=true with merge commit 60651ad4ba105803780e5891178a05713656821f, and fresh GitHub verification shows canonical main at that SHA.",
+    "Post-merge Control contract tests 37353257516, Validate control plane 37353257484, Package ChatGPT plugins 37353257382 and Repository hygiene 37353257496 all completed successfully."
+  ],
+  "residual_blockers": []
+}

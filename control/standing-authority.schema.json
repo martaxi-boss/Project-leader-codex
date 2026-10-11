@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/martaxi-boss/Project-leader/control/standing-authority.schema.json",
+  "title": "Project Leader Standing Owner Authority",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "authority_id",
+    "source",
+    "binding_mode",
+    "runtime_scope",
+    "autonomy_rule",
+    "human_gate_conditions",
+    "required_controls",
+    "project_isolation"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "authority_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "const": "STANDING_OWNER_GRANT"
+    },
+    "binding_mode": {
+      "const": "OBJECTIVE_SCOPE_BOUND"
+    },
+    "runtime_scope": {
+      "const": "PROJECT_LEADER_SKILL_RUNTIME"
+    },
+    "autonomy_rule": {
+      "const": "ALL_CANONICALLY_COVERED_EXECUTABLE_ACTIONS"
+    },
+    "human_gate_conditions": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "EXCLUSIVE_HUMAN_INTERVENTION",
+          "NEW_UNCOVERED_MATERIAL_DECISION"
+        ]
+      }
+    },
+    "required_controls": {
+      "type": "array",
+      "minItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "canonical_project_scope_must_cover_effect",
+          "exact_target_and_revision_revalidated_before_consequential_transition",
+          "required_ci_validation_and_evidence_must_pass",
+          "supervisor_audits_before_and_after_consequential_transition",
+          "recovery_guardian_verifies_ambiguous_writes_before_retry",
+          "recovery_guardian_changes_strategy_after_repeated_failure",
+          "transition_authorization_and_result_are_durable",
+          "no_silent_scope_architecture_strategy_or_trust_boundary_expansion"
+        ]
+      }
+    },
+    "project_isolation": {
+      "const": "ONE_MUTABLE_TARGET_REPOSITORY_PER_TASK"
+    }
+  }
+}

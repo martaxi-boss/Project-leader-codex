@@ -1,0 +1,68 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-SAME-SHA-PAGINATION-040",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-SAME-SHA-PAGINATION-040.json",
+  "authorization_commit_sha": "2fd6b81f2bfbf6a54fe251c6dbe950256a0ccee9",
+  "authorization_sha256": "d4468eec7ccf7b78b336e53fbc7a96dd8ccd3a177a0e9fa32ff58e51013900b8",
+  "implementation_head_sha": "861f1786aa332231a6185bfba26e9a175e66633d",
+  "branch": "builder/same-sha-pagination-040",
+  "pr_number": 40,
+  "recorded_at": "2026-10-03T19:39:00Z",
+  "state_observed_at": "2026-10-03T19:39:00Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-SAME-SHA-PAGINATION-040-TRUST-ROOT.result.json",
+  "changes": [
+    "Replaced the single-page same-SHA Actions run listing with bounded multi-page retrieval using 100-run pages.",
+    "Added consistency checks for total_count, unique run IDs, premature pagination termination and the GitHub 1,000-result search ceiling.",
+    "Added regression tests proving page 2 retrieval and fail-closed handling of search-limit and unstable-pagination cases."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub compare from base 71ebe51c7cba90b7caf5b4279d40ff0a7e3375d3 to implementation head 861f1786aa332231a6185bfba26e9a175e66633d shows only task authorization, trust-root authorization, control/verify_github_evidence.py and tests/test_evidence_verifier.py."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Supervisor re-read exact run IDs 37148404223, 37148404128 and 37148404087 on implementation head 861f1786aa332231a6185bfba26e9a175e66633d; all required workflows completed SUCCESS."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Authorization-only commit 2fd6b81f2bfbf6a54fe251c6dbe950256a0ccee9 and exact trust-root transition authorization precede verifier/test changes; transition result binds final material head 861f1786aa332231a6185bfba26e9a175e66633d."
+    },
+    {
+      "name": "Same-SHA workflow pagination",
+      "status": "PASS",
+      "evidence": "Verifier follows page=1..N using per_page=100, requires stable total_count and unique run IDs, fails closed at >=1000 results, and regression tests cover multi-page retrieval and unsafe boundaries."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37148404223
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37148404128
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37148404087
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No Project Leader architecture, philosophy, standing authority, generic policy, plugin contract or recovery model changed.",
+    "No pull_request_target policy remediation was included.",
+    "No external repository, production, release, deployment, credential, secret, infrastructure or paid-service effect occurred."
+  ],
+  "residual_blockers": []
+}

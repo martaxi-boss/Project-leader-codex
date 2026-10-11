@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "task_id": "PROJECT-LEADER-FINAL-HYGIENE-036",
+  "repository": "martaxi-boss/Project-leader",
+  "sequence": 3,
+  "recorded_at": "2026-10-03T18:23:45Z",
+  "event": "RECOVERED",
+  "strategy_generation": 1,
+  "action_fingerprint": "hygiene-036-registry-free-contract",
+  "attempt_count": 2,
+  "identical_failure_count": 1,
+  "no_progress_iterations": 1,
+  "previous_event_sha256": "bcbedc53052999b06c473062de75bac5ddaf4ee8a5b5da4d73c80ba3b2177103",
+  "detail": "Fresh descendant a944b44b50384eccf2020b19affbcf118377157c contains pre-retry journal and role/test remediation. Required CI runs 37143599150, 37143599140, 37143599131 are all completed-success. 155 local tests, canonical-base scope audit, historical records and validation workflow passed."
+}

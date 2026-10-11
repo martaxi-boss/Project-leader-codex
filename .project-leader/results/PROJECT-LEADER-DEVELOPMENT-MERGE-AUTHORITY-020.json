@@ -1,0 +1,71 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-DEVELOPMENT-MERGE-AUTHORITY-020",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-DEVELOPMENT-MERGE-AUTHORITY-020.json",
+  "authorization_commit_sha": "2dbb080970165e4b91f8a213cbb304e80aedfffb",
+  "authorization_sha256": "ece21a8fe679d95cdb6975c4c18412fa9615ae22b77b9f55e1ea4704eec99a1b",
+  "implementation_head_sha": "f57963ad6589b9d7c32a2b39ec6270750fec4282",
+  "branch": "builder/development-merge-authority-020",
+  "pr_number": 20,
+  "recorded_at": "2026-10-03T11:40:07.553Z",
+  "state_observed_at": "2026-10-03T11:40:07.553Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-DEVELOPMENT-MERGE-AUTHORITY-020-TRUST-ROOT.result.json",
+  "changes": [
+    "Registered managed-project policies now explicitly allow merge_development_branch as an E1 recoverable project-local action.",
+    "Project Leader E1/E3 policy ceilings also represent merge_development_branch explicitly.",
+    "merge_to_main remains absent from allowed actions and remains a required prohibition/Human Gate.",
+    "Project Leader contracts now require merge_development_branch to appear in the active Task Authorization before a non-main PR integration can proceed automatically.",
+    "Tests cover real registered policies, policy-bounded development merges, and rejection of merge_to_main self-widening."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #20 is stacked only on prior certified points and its own diff is limited to task/transition/result evidence, central policy files, Project Leader contracts, and tests."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required implementation-head workflows completed successfully on exact SHA f57963ad6589b9d7c32a2b39ec6270750fec4282 with concrete run IDs; final metadata-head trusted verification follows this Worker Result."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact Owner-authorized trust-root transition was persisted before protected policy changes and its result was persisted after validation."
+    },
+    {
+      "name": "Development-merge authority separation",
+      "status": "PASS",
+      "evidence": "Control contract tests run 37120348554 passed explicit development-merge policy tests while preserving merge_to_main outside allowed actions and inside required prohibitions/Human Gates."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37120348554
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37120348547
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37120348535
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No merge to main or development branch was executed by this task.",
+    "No managed-project repository mutation.",
+    "No release, deploy, branch protection, secret, infrastructure, data, history, or paid-service mutation.",
+    "No weakening of merge-to-main Human Gate or other gated effects."
+  ],
+  "residual_blockers": []
+}

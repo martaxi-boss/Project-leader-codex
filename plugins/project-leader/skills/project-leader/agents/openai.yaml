@@ -1,0 +1,3 @@
+interface:
+  display_name: "Project Leader"
+  short_description: "Coordinates projects through Consultant, Supervisor, Builder, and automatic recovery phases."

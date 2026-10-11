@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T23:36:00Z",
+  "action": "trust_root_mutation",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner explicitly authorized immediate Project Leader implementation of mandatory Access Discovery Preflight and same-execution hygiene. This exact transition authorizes bounded trust-root changes on builder/access-discovery-hygiene-042, preserving one-mutable-repository isolation, standing authority, security, CI and evidence controls.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/access-discovery-hygiene-042",
+    "revision": "7faa1eebde1c684f3963e5b41fb88eb3688346af",
+    "base_revision": "a061a17cb9a70e015672188eef10a5e0a73fba8b",
+    "environment": null
+  }
+}

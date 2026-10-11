@@ -1,0 +1,67 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-COMPARE-FILES-LIMIT-039",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-COMPARE-FILES-LIMIT-039.json",
+  "authorization_commit_sha": "fe2e6056a7d4bc87a24fd368104dbcae9e426714",
+  "authorization_sha256": "e1996ac66b63efc4de9e2caf0ae130421b599209d2583fd955612fa4b01c603f",
+  "implementation_head_sha": "f276838024b30ea939f050c2fef01e6b65a8f3c9",
+  "branch": "builder/compare-files-limit-039",
+  "pr_number": 39,
+  "recorded_at": "2026-10-03T19:33:00Z",
+  "state_observed_at": "2026-10-03T19:33:00Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-COMPARE-FILES-LIMIT-039-TRUST-ROOT.result.json",
+  "changes": [
+    "Added a 300-file GitHub Compare evidence ceiling guard to fail closed before truncated post-CI file evidence can be certified.",
+    "Added explicit boundary regressions proving 299 allowed task-local evidence files pass and 300 are rejected."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub compare from base d430f5f7eea3ce9b7ea16931841de21a876e5011 to implementation head f276838024b30ea939f050c2fef01e6b65a8f3c9 shows only the task authorization, trust-root authorization, control/verify_github_evidence.py and tests/test_evidence_verifier.py."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Supervisor re-read exact run IDs 37148119036, 37148118977 and 37148119003 on implementation head f276838024b30ea939f050c2fef01e6b65a8f3c9; all required workflows completed SUCCESS."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Authorization-only commit fe2e6056a7d4bc87a24fd368104dbcae9e426714 and exact trust-root transition authorization both precede verifier/test changes; transition result binds final material head f276838024b30ea939f050c2fef01e6b65a8f3c9."
+    },
+    {
+      "name": "Compare truncation fail-closed",
+      "status": "PASS",
+      "evidence": "The verifier uses GITHUB_COMPARE_FILES_LIMIT=300 and rejects len(files) >= 300; contract tests include explicit 299 accepted and 300 rejected boundary cases."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37148119036
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37148118977
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37148119003
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No Project Leader architecture, philosophy, standing authority, generic policy, plugin contract or recovery model changed.",
+    "No workflow-run pagination or pull_request_target policy remediation was included.",
+    "No external repository, production, release, deployment, credential, secret, infrastructure or paid-service effect occurred."
+  ],
+  "residual_blockers": []
+}

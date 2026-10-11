@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-PR-CI-CONTEXT-STABILITY-077-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-PR-CI-CONTEXT-STABILITY-077",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-PR-CI-CONTEXT-STABILITY-077-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/pr-ci-context-stability-077",
+    "revision": "db0dde61203513a73dd6ba6b1446df129eeb604e",
+    "base_revision": "7a4684ca7a2ff83529a75f040ce3bc2be3040b8a",
+    "environment": null
+  },
+  "observed_at": "2026-10-07T10:11:40Z",
+  "final_state": {
+    "status": "AUDITED",
+    "revision": "936a512840d9555f1c0e7e4e90c56ef9ecb3ebd2"
+  },
+  "evidence": [
+    "Task Authorization db0dde61203513a73dd6ba6b1446df129eeb604e is immutable and precedes implementation.",
+    "Trust-root authorization eb23786df9054cb9eaf4f26a2004300c0eda3dfe precedes control/verify_github_evidence.py changes.",
+    "Implementation head 936a512840d9555f1c0e7e4e90c56ef9ecb3ebd2 passed Control contract tests 37605689329, Validate control plane 37605689173 and Package ChatGPT plugins 37605689197.",
+    "Control contract run 37605689329 completed 244 tests successfully."
+  ],
+  "residual_blockers": []
+}

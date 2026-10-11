@@ -1,0 +1,116 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-029",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T13:31:32.328Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "summary": "Owner explicitly authorized final Project Leader hygiene and deletion of audited obsolete branches that are closed, abandoned, stale, or superseded. This task binds deletion to exact branch names and exact current SHAs, preserves main/open-PR/unlisted/mismatched refs, and records the purge durably.",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND"
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "0552f77947bc50943f313540bda58a25d22fe8eb",
+    "task_branch": "builder/superseded-branch-purge-029",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".project-leader/tasks/**",
+    ".project-leader/results/**",
+    ".project-leader/transitions/**",
+    ".github/workflows/repository-hygiene.yml",
+    "tests/**",
+    "RUNBOOK.md"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root",
+    "reconcile_control_contract_docs",
+    "delete_fully_merged_non_main_branch_refs",
+    "install_automatic_merged_pr_branch_hygiene",
+    "delete_owner_authorized_superseded_non_main_branch_refs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "delete_main",
+    "delete_unlisted_branch_ref",
+    "delete_revision_mismatched_branch_ref",
+    "delete_open_pr_branch_ref",
+    "force_push",
+    "rewrite_git_history",
+    "unrelated_refactor"
+  ],
+  "human_gates": [
+    {
+      "action": "merge_to_main",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "license_selection",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "delete_unlisted_branch_ref",
+      "requires_owner_approval": true
+    }
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Exact superseded branch authorization verification",
+    "Open-PR and revision-mismatch preservation",
+    "Post-cleanup survivor audit"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "binding_mode": "LOCAL_BASE_V1",
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "0552f77947bc50943f313540bda58a25d22fe8eb",
+    "sha256": "9d185a662234060031ef6919238a480c2a419adf4cbf60f71f31ca376500ea1d"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Final hygiene completes when the six exact audited obsolete Builder refs are deleted only under durable exact-revision Owner authorizations, automatic main-push hygiene removes superseded technical control refs once canonically persisted, main and open/unlisted/mismatched refs are preserved, required CI/trusted gate pass, and the final survivor audit finds no obsolete branch residue.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1"
+}

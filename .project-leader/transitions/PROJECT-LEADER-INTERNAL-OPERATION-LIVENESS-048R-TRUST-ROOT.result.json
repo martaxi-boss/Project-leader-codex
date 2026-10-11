@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-INTERNAL-OPERATION-LIVENESS-048R-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-INTERNAL-OPERATION-LIVENESS-048R",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-INTERNAL-OPERATION-LIVENESS-048R-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/internal-operation-liveness-048r",
+    "revision": "7865a0122e47ac2c6ed7ed84e2ae0c45469297cd",
+    "base_revision": "05225695684b54ce5becbb89cf0e5b6dc88dcafa",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T11:18:00Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "92e2c1ae5c168586f09e208efef9066d0ad7ea8f"
+  },
+  "evidence": [
+    "Immutable Task Authorization commit 7865a0122e47ac2c6ed7ed84e2ae0c45469297cd and exact trust-root authorization commit dfcb29455e90c4e41664abc8d02927da4f0706df preceded all trust-root/runtime edits on the clean 048R execution.",
+    "The correction is universal: it distinguishes externally-backed waits from Project Leader-controlled internal operations for every current or future managed project.",
+    "Internal operations that remain current across two live liveness observations without new result/evidence/control transition classify INTERNAL_OPERATION_STALLED and route through LIVENESS_RECONCILE_REQUIRED; Recovery reconstructs first, uses already-sufficient evidence or changes to a bounded read strategy.",
+    "The rule preserves the platform limitation that a host or connector call which itself does not yield execution control cannot be interrupted by repository policy; reconciliation is mandatory as soon as control returns.",
+    "Implementation head 92e2c1ae5c168586f09e208efef9066d0ad7ea8f passed Control contract tests run 37198180187, Validate control plane run 37198179973 and Package ChatGPT plugins run 37198180040."
+  ],
+  "residual_blockers": []
+}

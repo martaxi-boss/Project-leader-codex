@@ -1,0 +1,119 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-FINAL-HYGIENE-036",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T18:04:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "summary": "Owner explicitly authorized final Project Leader hygiene: remove obsolete runtime/config/test residue that can conflict with the autonomous architecture, eliminate central target-project registry/profile/bootstrap coupling, keep historical audit evidence only where it still serves validation, update the Project Leader policy/workflow/runtime coherently, and delete obsolete superseded non-main branch refs after evidence is durable. Do not mutate any external project repository.",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND"
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "ca2916d3c4ff46fef7783a4c081c49697a25dfbf",
+    "task_branch": "builder/final-hygiene-036",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".project-leader/tasks/**",
+    ".project-leader/results/**",
+    ".project-leader/recovery-events/**",
+    ".project-leader/transitions/**",
+    "control/**",
+    "tests/**",
+    ".github/workflows/**",
+    "projects/**",
+    "scripts/**",
+    ".agents/plugins/**",
+    "PROJECT_LEADER.md",
+    "RUNBOOK.md",
+    "RECOVERY_PROTOCOL.md",
+    "AGENT_BUILDER_PROMPT.md",
+    "SMOKE_TESTS.md",
+    "roles/**",
+    "plugins/**"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root",
+    "reconcile_control_contract_docs",
+    "reconcile_transition_records",
+    "delete_owner_authorized_superseded_non_main_branch_refs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation"
+  ],
+  "human_gates": [
+    {
+      "action": "merge_to_main",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "license_selection",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_owner_approval": true
+    }
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Legacy runtime residue removal",
+    "Generic project bootstrap contract",
+    "Workflow hygiene",
+    "Project policy convergence",
+    "Historical compatibility isolation",
+    "Plugin package/version consistency",
+    "Superseded branch audit"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "ca2916d3c4ff46fef7783a4c081c49697a25dfbf",
+    "sha256": "9d185a662234060031ef6919238a480c2a419adf4cbf60f71f31ca376500ea1d",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Project Leader runtime, control code, tests, workflows, project policy and packaged skills form one coherent autonomous model: no central target-project registry/profile/bootstrap residue remains active; obsolete external-project snapshots/policies are removed from the Project Leader repository; active contracts use transition_controls while historical v1/v2 records remain audit-readable through isolated archived schemas; generic target-project bootstrap is validated; validation workflow no longer depends on deleted legacy files; Project Leader policy uses required_transition_controls and authorizes the final bounded root-document cleanup task; all required CI passes; no external repository is mutated. Superseded branch refs are removed only after their PR/task evidence is durably preserved.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1"
+}

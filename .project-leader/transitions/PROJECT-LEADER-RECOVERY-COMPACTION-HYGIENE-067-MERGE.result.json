@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-RECOVERY-COMPACTION-HYGIENE-067-MERGE",
+  "task_id": "PROJECT-LEADER-RECOVERY-COMPACTION-HYGIENE-067",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-RECOVERY-COMPACTION-HYGIENE-067-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "https://github.com/martaxi-boss/Project-leader/pull/70",
+    "revision": "e61d2fc3e4d16688e0d24e010e80766fe582f653",
+    "base_revision": "60651ad4ba105803780e5891178a05713656821f",
+    "environment": null
+  },
+  "observed_at": "2026-10-06T18:45:00Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "8efecaccfb5708d3689f9fcd0ad3bb77ec8e40db"
+  },
+  "evidence": [
+    "Exact merge authorization was durably committed on control/merge-authorization-067 at a60a48f1f509b2094754567f0489e4aa6bf770e6 before PR 70 merged.",
+    "GitHub records PR 70 merged and canonical main advanced to 8efecaccfb5708d3689f9fcd0ad3bb77ec8e40db.",
+    "Post-main runs 37353846308 Control contract tests, 37353846322 Validate control plane, 37353846346 Package ChatGPT plugins, and 37353846289 Repository hygiene all completed SUCCESS."
+  ],
+  "residual_blockers": []
+}

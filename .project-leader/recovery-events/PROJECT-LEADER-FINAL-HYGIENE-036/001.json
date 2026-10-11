@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "task_id": "PROJECT-LEADER-FINAL-HYGIENE-036",
+  "repository": "martaxi-boss/Project-leader",
+  "sequence": 1,
+  "recorded_at": "2026-10-03T18:15:33Z",
+  "event": "FAILURE_OBSERVED",
+  "strategy_generation": 1,
+  "action_fingerprint": "hygiene-036-registry-free-contract",
+  "attempt_count": 1,
+  "identical_failure_count": 1,
+  "no_progress_iterations": 1,
+  "previous_event_sha256": null,
+  "detail": "Observed failed Control contract tests run 37143090385 on 9ec6c228559af06438f6556f94b7570c22eaa4c3. The registry-free regression rejects the legitimate negative absence guard; independent audit also found active role contracts still requiring deleted registry enrollment."
+}

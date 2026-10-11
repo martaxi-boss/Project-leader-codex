@@ -1,0 +1,71 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-CI-CONFLICT-EVIDENCE-017",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-CI-CONFLICT-EVIDENCE-017.json",
+  "authorization_commit_sha": "c033515b8093ecad11d035225228c424879f0785",
+  "authorization_sha256": "b644483612018563aaa69638fe94c7545aefef4f9a0d80ad1e2116a156d9324a",
+  "implementation_head_sha": "8b6d911194d3fa193fe5c4932293d93aca860951",
+  "branch": "builder/ci-conflict-evidence-017",
+  "pr_number": 17,
+  "recorded_at": "2026-10-03T11:25:37.841Z",
+  "state_observed_at": "2026-10-03T11:25:37.841Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-CI-CONFLICT-EVIDENCE-017-TRUST-ROOT.result.json",
+  "changes": [
+    "Required CI evidence can no longer cherry-pick one green run while a latest relevant same-SHA context for that workflow is active or failing.",
+    "For each required workflow, the verifier inspects the latest same-SHA push, pull_request, and selected evidence event.",
+    "A later successful run in the same context may supersede an older failure; unrelated workflow failures do not block the required workflow.",
+    "Regression tests cover green-push/red-PR conflict, active conflict, later-success supersession, unrelated workflow isolation, and selected-run presence."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #17 is stacked only on points 1-2 and its own diff is limited to task/transition/result evidence, verify_github_evidence.py, Project Leader docs/skill, and tests."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required workflows completed successfully on exact implementation SHA 8b6d911194d3fa193fe5c4932293d93aca860951 with concrete run IDs; final metadata-head verification follows after this result is persisted."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact Owner-authorized trust-root transition was persisted before protected verifier changes and its transition result was persisted after validation."
+    },
+    {
+      "name": "Contradictory same-SHA CI rejection",
+      "status": "PASS",
+      "evidence": "Control contract tests run 37119548063 passed same-SHA conflict regressions and preserves legitimate later-success supersession."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37119548063
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37119548029
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37119548036
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No merge to main.",
+    "No managed-project mutation.",
+    "No project-specific hard-coding.",
+    "No workflow, branch protection, release, deploy, secret, infrastructure, data, history, or paid-service mutation.",
+    "No weakening of Human Gates or CI evidence requirements."
+  ],
+  "residual_blockers": []
+}

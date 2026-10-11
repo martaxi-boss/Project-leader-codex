@@ -1,0 +1,75 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-CI-DISPATCH-DEDUP-021B",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-CI-DISPATCH-DEDUP-021B.json",
+  "authorization_commit_sha": "5c7c10147d0c0136c443a5a9e0c3fd7900582f3d",
+  "authorization_sha256": "b241463cb842b7d8a6b16e654585fcaa51a00a8ccfe1f39361ab1eac6c8b477c",
+  "implementation_head_sha": "2ae8ce41fff837cac1e254f0684ee62104db49d4",
+  "branch": "builder/ci-dispatch-dedup-021b",
+  "pr_number": 21,
+  "recorded_at": "2026-10-03T11:57:10.141Z",
+  "state_observed_at": "2026-10-03T11:57:10.141Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-CI-DISPATCH-DEDUP-021B-TRUST-ROOT.result.json",
+  "changes": [
+    "Explicit CI dispatch/rerun decisions now deduplicate by exact workflow name, target SHA, and event context.",
+    "Existing exact active runs are reused and waited instead of duplicated.",
+    "Existing exact successful runs are reused as evidence.",
+    "Existing exact terminal non-success runs route to Recovery instead of triggering blind duplicate dispatch.",
+    "A new dispatch is permitted only when no exact workflow/SHA/context run exists.",
+    "Automatic GitHub runs from different event contexts may coexist as evidence without causing Project Leader to create additional duplicates.",
+    "A stale authorization-only packet 021 was abandoned before implementation when preflight detected a policy digest mismatch; 021B superseded it with the correct immutable binding."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #21 is stacked only on prior certified points; point-7 changes are limited to task/transition/result evidence, managed-project CI orchestration logic, Project Leader/Recovery contracts, and tests."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required implementation-head workflows completed successfully on exact SHA 2ae8ce41fff837cac1e254f0684ee62104db49d4 with concrete run IDs; final metadata-head trusted verification follows this Worker Result."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact Owner-authorized transition for 021B was persisted before protected orchestration changes; its transition result is already durable."
+    },
+    {
+      "name": "CI dispatch deduplication",
+      "status": "PASS",
+      "evidence": "Control contract tests run 37120669332 passed exact-context cases for dispatch-required, active reuse, successful reuse, failure-to-Recovery routing, latest-run selection, and event-context isolation."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37120669332
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37120669338
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37120669331
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No merge to main.",
+    "No managed-project repository mutation.",
+    "No project-specific hard-coding.",
+    "No workflow was disabled and no required CI was removed.",
+    "No branch protection, release, deployment, secret, infrastructure, data, history, or paid-service mutation.",
+    "No blind rerun or duplicate workflow dispatch was executed by this remediation."
+  ],
+  "residual_blockers": []
+}

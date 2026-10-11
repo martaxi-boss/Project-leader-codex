@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/martaxi-boss/Project-leader/control/recovery-checkpoint.schema.json",
+  "title": "Project Leader Recovery Checkpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version","task_id","repository","updated_at","last_durable_step",
+    "action_fingerprint","attempt_count","identical_failure_count","no_progress_iterations",
+    "strategy","strategy_generation","last_error","next_step","status"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "task_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9._-]{2,127}$"},
+    "repository": {"type": "string", "pattern": "^[^/]+/[^/]+$"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "last_durable_step": {"type": "string", "minLength": 1},
+    "action_fingerprint": {"type": ["string", "null"], "minLength": 1},
+    "attempt_count": {"type": "integer", "minimum": 0},
+    "identical_failure_count": {"type": "integer", "minimum": 0},
+    "no_progress_iterations": {"type": "integer", "minimum": 0},
+    "strategy": {"type": "string", "minLength": 1},
+    "strategy_generation": {"type": "integer", "minimum": 1},
+    "last_error": {"type": ["string", "null"], "minLength": 1},
+    "next_step": {"type": "string", "minLength": 1},
+    "status": {"enum": ["ACTIVE", "RECOVERED", "BLOCKED", "HUMAN_GATE", "COMPLETE"]}
+  }
+}

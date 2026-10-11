@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-OPERATIONAL-EFFICIENCY-HYGIENE-095-PURGE",
+  "task_id": "PROJECT-LEADER-OPERATIONAL-EFFICIENCY-HYGIENE-095",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-OPERATIONAL-EFFICIENCY-HYGIENE-095-PURGE.authorization.json",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/operational-efficiency-094",
+    "revision": "a7fce780f0bde8ba097016c0ce61ece454b7ad80",
+    "base_revision": "a53a6bbd66ac0edb9c419c483ad3462818122c04",
+    "environment": null
+  },
+  "observed_at": "2026-10-07T22:55:00Z",
+  "final_state": {
+    "status": "DELETED",
+    "revision": null
+  },
+  "evidence": [
+    "Exact-revision authorization existed canonically before deletion at .project-leader/transitions/PROJECT-LEADER-OPERATIONAL-EFFICIENCY-HYGIENE-095-PURGE.authorization.json.",
+    "PR #98 merged to main as 6fc73496e516c77e5fb744eca3642ea90e3f8d92.",
+    "Repository hygiene run 37698432292 completed SUCCESS on exact main SHA 6fc73496e516c77e5fb744eca3642ea90e3f8d92.",
+    "Live GitHub branch listing after the hygiene run contained no builder/operational-efficiency-094 branch and no operational-efficiency hygiene branch.",
+    "No open pull request remained for the deleted branch."
+  ],
+  "residual_blockers": []
+}

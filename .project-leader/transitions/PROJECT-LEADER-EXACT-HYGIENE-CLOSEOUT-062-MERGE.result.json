@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062-MERGE",
+  "task_id": "PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "https://github.com/martaxi-boss/Project-leader/pull/63",
+    "revision": "823ac15824adf6c4f05b18bd1e33e1a55e610e59",
+    "base_revision": "5d9f449208e0a043fa1cc2d81174e7a56ecf7762",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T19:32:09.561Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "c42ed27cc6c520bfd63015097c8c60ee42392ba5"
+  },
+  "evidence": [
+    "Exact pre-effect standing-grant authorization was durably committed as 5488f59c57108d29b77841a68448a0cebb6ca27f before native expected-head regular merge of PR 63. Independent PR and main reads confirmed merged/closed at c42ed27cc6c520bfd63015097c8c60ee42392ba5.",
+    "Post-main Control contract tests 37228430125, Validate control plane 37228430159, Package ChatGPT plugins 37228430128 and Repository hygiene 37228430087 are completed SUCCESS. Fresh completed contract job 111512827854 invalidated the earlier queued snapshot; no CI retry was dispatched. Contract log confirms 195 tests.",
+    "Canonical main preserves six valuable historical evidence blobs exactly. Project Leader 0.6.6 / Recovery Guardian 0.5.4 and corrected conservative-hygiene guidance verified by native exact-main reads.",
+    "After existing successful hygiene sweep job 111512827363, all three exactly authorized obsolete control refs and merged Builder branch are absent. Native complete branch inventory contains only main and newest control/merge-authorization-062; zero open PRs. Newest control evidence remains preserved for next legitimate canonicalization."
+  ],
+  "residual_blockers": []
+}

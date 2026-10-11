@@ -1,0 +1,72 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-LEGACY-CHECKPOINT-LIVENESS-019",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-LEGACY-CHECKPOINT-LIVENESS-019.json",
+  "authorization_commit_sha": "2bfad12b25d945d22327d4b2ca36d90d31d5c5e9",
+  "authorization_sha256": "15a43418c01e1c794663263b498da2616cfdf4a79692661a2858c27604892556",
+  "implementation_head_sha": "a071e2754944bcef8dfca4fd75059a5c523b2964",
+  "branch": "builder/legacy-checkpoint-liveness-019",
+  "pr_number": 19,
+  "recorded_at": "2026-10-03T11:36:22.974Z",
+  "state_observed_at": "2026-10-03T11:36:22.974Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-LEGACY-CHECKPOINT-LIVENESS-019-TRUST-ROOT.result.json",
+  "changes": [
+    "Legacy v1 checkpoint ACTIVE is no longer treated as proof of a live task by itself.",
+    "A checkpoint is actionable only when current branch, open PR, or active-CI evidence corroborates the workstream.",
+    "A terminal result or absence of current workstream evidence classifies the snapshot as STALE_LEGACY_CHECKPOINT.",
+    "Stale legacy files remain immutable historical evidence; their old next_step and counters do not revive completed work.",
+    "Project Leader and Recovery Guardian contracts now apply the same liveness reconstruction rule."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #19 is stacked only on prior certified points and its own diff is limited to task/transition/result evidence, managed-project contract logic, Recovery/Project Leader contracts, and tests."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required implementation-head workflows completed successfully on exact SHA a071e2754944bcef8dfca4fd75059a5c523b2964 with concrete run IDs; final metadata-head trusted verification follows this Worker Result."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact Owner-authorized trust-root transition was persisted before protected checkpoint-liveness changes and its result was persisted after validation."
+    },
+    {
+      "name": "Legacy checkpoint liveness reconciliation",
+      "status": "PASS",
+      "evidence": "Control contract tests run 37120150622 passed cases for uncorroborated ACTIVE -> STALE, branch/PR/active-CI corroboration, terminal-result supersession, and historical terminal checkpoints."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37120150622
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37120150686
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37120150633
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No merge to main.",
+    "No managed-project mutation or checkpoint rewrite.",
+    "No project-specific hard-coding.",
+    "No workflow, branch protection, release, deploy, secret, infrastructure, data, history, or paid-service mutation.",
+    "No weakening of Human Gates or Recovery controls."
+  ],
+  "residual_blockers": []
+}

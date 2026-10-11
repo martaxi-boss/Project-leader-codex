@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-AUDIT-REMEDIATION-P1-074-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-AUDIT-REMEDIATION-P1-074",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-AUDIT-REMEDIATION-P1-074-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/audit-remediation-p1-074",
+    "revision": "61a962bd074c7d2fef4a54eeeda432947ed07454",
+    "base_revision": "aaf9b2c4b6c7a3a698264d6cb78d2edc274cb2df",
+    "environment": null
+  },
+  "observed_at": "2026-10-07T09:21:46Z",
+  "final_state": {
+    "status": "AUDITED",
+    "revision": "35532aeecf3c942d8dd354d897f19920448bd89b"
+  },
+  "evidence": [
+    "Immutable Task Authorization commit 61a962bd074c7d2fef4a54eeeda432947ed07454 is exactly one commit after base aaf9b2c4b6c7a3a698264d6cb78d2edc274cb2df and changes only .project-leader/tasks/PROJECT-LEADER-AUDIT-REMEDIATION-P1-074.json.",
+    "Current task bytes at implementation head 35532aeecf3c942d8dd354d897f19920448bd89b equal the authorization-only bytes; SHA-256 is 22ecb8893f2fe6b941f4be48301e3cb944dd94e9f3c4ad56d5ff3b3289bd25ee.",
+    "Exact implementation head 35532aeecf3c942d8dd354d897f19920448bd89b passed Control contract tests run 37599996636, Validate control plane run 37599996677, and Package ChatGPT plugins run 37599996698.",
+    "Control contract run 37599996636 completed 237 tests successfully and the mutation-scope enforcement step returned VALID.",
+    "Required CI run metadata binds PR 76 to base aaf9b2c4b6c7a3a698264d6cb78d2edc274cb2df and exact implementation head 35532aeecf3c942d8dd354d897f19920448bd89b."
+  ],
+  "residual_blockers": []
+}

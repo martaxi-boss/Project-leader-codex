@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-LIVENESS-HYGIENE-041-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-LIVENESS-HYGIENE-041",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-LIVENESS-HYGIENE-041-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/liveness-hygiene-041",
+    "revision": "887e9e6e85858697a356a09cf8684474a64e1403",
+    "base_revision": "66db27d8118cfa527a21466b8a5034acd5b4395e",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T22:51:46.223Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "854a616337b33f6b99bad4c7f88a694688c523b9"
+  },
+  "evidence": [
+    "Task Authorization commit 887e9e6e85858697a356a09cf8684474a64e1403 and exact trust-root authorization commit ad2d165581287a23fb3c1984db644c73d692dadc preceded trust-root edits.",
+    "Active external-CI liveness guard now treats WAITING_EXTERNAL_CI as data rather than a passive Work/UI blocking primitive and forces LIVENESS_RECONCILE_REQUIRED after two bounded polling intervals without control-plane progress.",
+    "Regression tests cover the observed in-progress-to-success stale-spinner sequence, liveness reconstruction, and terminal-state precedence.",
+    "Historical transition evidence from control branches 037-040 was copied unchanged into the task line before cleanup eligibility.",
+    "Fresh descendant implementation head 854a616337b33f6b99bad4c7f88a694688c523b9 passed Control contract tests 37159753459, Validate control plane 37159753443, and Package ChatGPT plugins 37159753467; 163 tests passed."
+  ],
+  "residual_blockers": []
+}

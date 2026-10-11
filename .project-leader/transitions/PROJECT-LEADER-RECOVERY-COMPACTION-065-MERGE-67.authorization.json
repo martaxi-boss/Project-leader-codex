@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-RECOVERY-COMPACTION-065-MERGE-67",
+  "task_id": "PROJECT-LEADER-RECOVERY-COMPACTION-065",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-05T17:40:00Z",
+  "action": "merge_to_main",
+  "effect_class": "E2_CONSEQUENTIAL_TRANSITION",
+  "authority": {
+    "source": "STANDING_OWNER_GRANT",
+    "summary": "Canonical Owner objective covers exact integration of Recovery Compaction task 065. PR 67 is the non-draft successor for the same branch/workstream. Its head 6a3edee8b580ab81363a388261cc6ac19ec0b31d differs from the already-certified evidence head only by the task-local Worker Result rebind to PR 67. Final-head runs 37350002272 Control contract tests, 37350002480 Validate control plane, 37350002354 Package ChatGPT plugins, and 37349997720 Trusted authorization gate all succeeded. Authorize only regular merge of this exact head to main after immediate head/base revalidation.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "pull_request",
+    "identifier": "https://github.com/martaxi-boss/Project-leader/pull/67",
+    "revision": "6a3edee8b580ab81363a388261cc6ac19ec0b31d",
+    "base_revision": "c42ed27cc6c520bfd63015097c8c60ee42392ba5",
+    "environment": null
+  }
+}

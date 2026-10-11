@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-PR-CI-CONTEXT-STABILITY-077-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-PR-CI-CONTEXT-STABILITY-077",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-07T10:08:15Z",
+  "action": "trust_root_mutation",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Recovery of the audit flow requires a narrow trusted-verifier correction: keep immutable CI run head identity and validate the current live PR head/base separately instead of trusting GitHub's mutable embedded pull-request head projection.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/pr-ci-context-stability-077",
+    "revision": "db0dde61203513a73dd6ba6b1446df129eeb604e",
+    "base_revision": "7a4684ca7a2ff83529a75f040ce3bc2be3040b8a",
+    "environment": null
+  }
+}

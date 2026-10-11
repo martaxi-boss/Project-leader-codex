@@ -1,0 +1,100 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-POSTSYNC-ALIGNMENT-HYGIENE-103",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-POSTSYNC-ALIGNMENT-HYGIENE-103.json",
+  "authorization_commit_sha": "73b19e6343fa6276df811c4a0f924ee355ef4022",
+  "authorization_sha256": "82ad1d713b4455b61988e5a59af3119d9a9e4ee5cfac28f4805697227b943ea8",
+  "implementation_head_sha": "95a440f69f9f5ff2f929aa25948636001af84bc0",
+  "branch": "builder/postsync-alignment-hygiene-103",
+  "pr_number": 103,
+  "recorded_at": "2026-10-09T18:20:55.077Z",
+  "state_observed_at": "2026-10-09T18:20:55.077Z",
+  "superseded_by": null,
+  "post_transition_record": null,
+  "changes": [
+    "Audited current Project Leader fast E1 / Recovery Guardian / Supervisor / Marketplace and mandatory 0.7.0/0.6.0 contracts after PRs 100 and 102.",
+    "Updated only existing setup/changelog texts to reflect exact Oct 9 compatible changes and successful workspace Marketplace sync.",
+    "Prepared seven independent exact-revision purge grants for explicitly confirmed superseded non-main builder branches, leaving GitHub branch-hygiene workflow unchanged."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Verified PR 103 includes exactly immutable Task 103, Worker Result, CHANGELOG.md and PLUGIN_SETUP.md, and seven exact one-branch purge authorization records. No plugin code/manifest, schema, CI workflows, rulesets, permission or other project files changed."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Exact implementation 95a440f69f9f5ff2f929aa25948636001af84bc0 completed Control contract tests 37972492725, Validate control plane 37972492732 and Package ChatGPT plugins 37972492749 successfully, all in PR 103 context. Trusted gate will re-evaluate after this evidence-only Worker Result."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "E3 Task Authorization at 73b19e6343fa6276df811c4a0f924ee355ef4022 predates all implementation; its SHA256 was verified as 82ad1d713b4455b61988e5a59af3119d9a9e4ee5cfac28f4805697227b943ea8. Exact base ce0b0510897dce25787ccbe058977b60737f8ae2 retains policy sha256 d8ca49eaaf130b8924ef56ac0912136fe9c2000650db77a1124dada9fabb03cb and active GitHub PR/status checks."
+    },
+    {
+      "name": "Review fast-preflight/recovery/supervisor/Marketplace consistency",
+      "status": "PASS",
+      "evidence": "Pinned canonical main at ce0b051 has resolve_e1_validation_preflight, current-candidate focused validation and fallback tests, direct Recovery Guardian guidance, independent Supervisor material review, and the same-workspace Marketplace pluginId binding. Current exact-base five CI workflows succeeded."
+    },
+    {
+      "name": "Preserve existing protected main and required CI",
+      "status": "PASS",
+      "evidence": "Main at audit preflight was protected and unchanged; no direct main edits, bypass or CI weakening. Draft PR uses the required exact-head workflows with independent trusted admission; E2/E3 boundaries and final SHA certification remain."
+    },
+    {
+      "name": "Superseded branch identity and exact live SHA audit",
+      "status": "PASS",
+      "evidence": "Seven individual builder branches were read live at exact listed SHAs; each has a verified merged successor PR (#81, #82, #89, #102) and no active PR. Every purge grant is bound to branch ID plus exact SHA with no-open-PR and lease checks. Actual deletion is deferred until successful protected merge and post-main sweep."
+    },
+    {
+      "name": "No active PR or exclusive still-required evidence on purge candidates",
+      "status": "PASS",
+      "evidence": "At audit initial preflight there were zero open PRs and no active runs; candidates are either closed superseded PR heads or an abandoned authorization-only license stub, with successor accepted functionality in main. Closed PR metadata and durable transition authorization preserve provenance."
+    },
+    {
+      "name": "Preserve special unique post-closure branch and all historical control references",
+      "status": "PASS",
+      "evidence": "builder/audit-remediation-p2-075 has a unique post-closure Worker Result addition and is intentionally not a purge target. All control/merge-authorization-* refs, 68 historical task/results, transition records, recovery events, legacy checkpoint and v1/v2 schema support are unchanged and preserved."
+    },
+    {
+      "name": "Docs match post-2026-10-09 behavior and version labels",
+      "status": "PASS",
+      "evidence": "CHANGELOG.md now records compatible 2026-10-09 maintenance. PLUGIN_SETUP.md now correctly describes proven GitHub Marketplace sync and one existing same-workspace pluginId, historical dated host copy, edited Recovery Guardian Skill, and retained manifest compatibility versions 0.7.0/0.6.0."
+    },
+    {
+      "name": "Same-cycle hygiene complete",
+      "status": "PASS",
+      "evidence": "No temporary probes or ZIP files created; no obsolete plugin directories or current-release duplicates exist in GitHub. All seven superseded candidate purges are represented by exact immutable authorizations, with actual GitHub background sweep intentionally triggered only by merge; no premature branch deletion or audit evidence loss."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37972492725
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37972492732
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37972492749
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/103"
+  ],
+  "material_non_effects": [
+    "No main merge or branch deletion has occurred in Task 103 implementation; separate exact-SHA transition authorization is required to promote it.",
+    "No plugin uninstall, workspace change, version bump, behavior regression, security weakening or historical evidence deletion is claimed.",
+    "Two loaded Project Leader Skill instances visible in ChatGPT are workspace installations outside this GitHub repository; removal was not authorized and is report-only."
+  ],
+  "residual_blockers": []
+}

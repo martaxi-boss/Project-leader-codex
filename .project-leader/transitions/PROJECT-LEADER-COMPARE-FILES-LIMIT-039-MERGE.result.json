@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-COMPARE-FILES-LIMIT-039-MERGE",
+  "task_id": "PROJECT-LEADER-COMPARE-FILES-LIMIT-039",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-COMPARE-FILES-LIMIT-039-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#39",
+    "revision": "cd6a13b7f9703194b39276197f32431c87b48c9d",
+    "base_revision": "d430f5f7eea3ce9b7ea16931841de21a876e5011",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T19:35:00Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "71ebe51c7cba90b7caf5b4279d40ff0a7e3375d3"
+  },
+  "evidence": [
+    "Exact merge authorization was persisted before the effect on control/merge-authorization-039 at commit dac419d134601be299951d345258567b4ad1763c.",
+    "Immediately before merge, PR #39 was open and mergeable at exact head cd6a13b7f9703194b39276197f32431c87b48c9d on base d430f5f7eea3ce9b7ea16931841de21a876e5011.",
+    "Final-head checks completed SUCCESS before merge: Control contract tests 37148226687, Validate control plane 37148226697, Package ChatGPT plugins 37148226711, Trusted authorization gate 37148225401.",
+    "GitHub merged PR #39 with expected_head_sha enforcement and returned merge commit 71ebe51c7cba90b7caf5b4279d40ff0a7e3375d3.",
+    "Post-merge main equals 71ebe51c7cba90b7caf5b4279d40ff0a7e3375d3 and its second parent is exact certified PR head cd6a13b7f9703194b39276197f32431c87b48c9d.",
+    "Post-merge main checks completed SUCCESS: Control contract tests 37148269411, Validate control plane 37148269449, Package ChatGPT plugins 37148269433, Repository hygiene 37148269444.",
+    "Repository hygiene removed builder/compare-files-limit-039; unique merge authorization/result evidence remains on control/merge-authorization-039."
+  ],
+  "residual_blockers": []
+}

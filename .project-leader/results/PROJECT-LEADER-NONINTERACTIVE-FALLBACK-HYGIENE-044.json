@@ -1,0 +1,105 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-NONINTERACTIVE-FALLBACK-HYGIENE-044",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-NONINTERACTIVE-FALLBACK-HYGIENE-044.json",
+  "authorization_commit_sha": "cc8302ce3d12092cb087cd82db0dd6440ee93da4",
+  "authorization_sha256": "212c91abdb613e17078c979c069b78d2c5238a798b7669b12540171054082f0e",
+  "implementation_head_sha": "ac0dca779a31e791ebe31c10437eefbf0a1aa559",
+  "branch": "builder/noninteractive-fallback-hygiene-044",
+  "pr_number": 44,
+  "recorded_at": "2026-10-04T02:14:00Z",
+  "state_observed_at": "2026-10-04T02:14:00Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-NONINTERACTIVE-FALLBACK-HYGIENE-044-TRUST-ROOT.result.json",
+  "changes": [
+    "Added a native tool-capability inventory to the mandatory operational-access discovery contract so one missing connector method cannot be treated as connector-wide exhaustion.",
+    "Added executable non-interactive diagnostic fallback states and routing: NONINTERACTIVE_FALLBACK_INCOMPLETE, NONINTERACTIVE_PATH_FOUND, NONINTERACTIVE_FALLBACK_EXHAUSTED and PLATFORM_CONSENT_REQUIRED.",
+    "Required GitHub Actions diagnostics to exhaust available run metadata, jobs, step summaries, job logs, artifacts, checks/check-runs/annotations or statuses, workflow definitions, repository-return evidence and relevant historical runs before browser/tool-consent escalation.",
+    "Made repository-return diagnostics through sanitized GitHub logs, artifacts, checks or durable evidence preferable to Owner terminal copy/paste or interactive browser routing.",
+    "Aligned Project Leader, Runbook, Recovery Protocol, Supervisor, Recovery Guardian, packaged skills and automated/smoke tests while preserving canonical plugin version compatibility.",
+    "Canonicalized unique task 042 merge/hygiene transition evidence and added exact-revision Owner-authorized cleanup records for obsolete control/merge-authorization-042 and abandoned builder/noninteractive-fallback-hygiene-043 after integration.",
+    "Preserved PR #43 closed and unmerged as durable failure evidence rather than weakening or rewriting append-only recovery validation."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub compare from canonical base 80288f44a236c0ca4095bf4399492632e0152dbe to implementation head ac0dca779a31e791ebe31c10437eefbf0a1aa559 is ahead-only and limited to the immutable task record, authorized control-plane/runtime/docs/tests/skills, task 042 canonical evidence, and exact task 044 transition authorizations."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Exact implementation head ac0dca779a31e791ebe31c10437eefbf0a1aa559 passed Control contract tests run 37170321802, Validate control plane run 37170321831, and Package ChatGPT plugins run 37170321849."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Immutable Task Authorization commit cc8302ce3d12092cb087cd82db0dd6440ee93da4 and exact trust-root authorization commit 9e2523c0e2e27b03a5929f7f8e951d90ffcc7cfe preceded every substantive trust-root/runtime edit; the resulting trust-root transition is recorded separately."
+    },
+    {
+      "name": "Non-interactive fallback closure",
+      "status": "PASS",
+      "evidence": "Executable reconcile_noninteractive_tool_fallback selects usable non-interactive channels first, continues discovery while required surfaces remain, re-enters access discovery when native diagnostics are exhausted, and only returns PLATFORM_CONSENT_REQUIRED after required non-interactive surfaces are exhausted."
+    },
+    {
+      "name": "Native tool capability exhaustion",
+      "status": "PASS",
+      "evidence": "Project Leader and Runbook now require native capability inventory plus applicable GitHub run/job/step/log/artifact/check/workflow/repository-return/history surfaces before concluding a connector is insufficient."
+    },
+    {
+      "name": "Interactive-tool consent gate proof",
+      "status": "PASS",
+      "evidence": "Smoke Test 18 and automated contract tests reject asking the Owner to approve a browser merely because one GitHub connector method lacks an annotation/log endpoint while another non-interactive native surface or covered path remains."
+    },
+    {
+      "name": "Packaged skill/runtime alignment",
+      "status": "PASS",
+      "evidence": "Project Leader and Recovery Guardian packaged skills contain the same fallback discipline, canonical Recovery Protocol is synchronized into both packaged references, plugin manifests remain at the existing compatible 0.6.0/0.5.0 versions, and package workflow 37170321849 succeeded."
+    },
+    {
+      "name": "Historical transition preservation",
+      "status": "PASS",
+      "evidence": "Unique PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042 MERGE authorization/result and DELETE-041-CONTROL result were copied verbatim from control/merge-authorization-042 into the task 044 branch before certification."
+    },
+    {
+      "name": "Abandoned PR43 evidence preservation",
+      "status": "PASS",
+      "evidence": "PR #43 is verified closed and unmerged with abandoned head 6333006ca91c152ff99e0349ddfe9ccc6a5b09be; its PR/commit history records the invalid recovery-journal attempt and no history was rewritten or validation weakened."
+    },
+    {
+      "name": "Obsolete branch audit",
+      "status": "PASS",
+      "evidence": "Exact Owner-authorized cleanup records bind obsolete control/merge-authorization-042 at 108941b2f83d4893ca2bd303ff399f3966f2890f and abandoned builder/noninteractive-fallback-hygiene-043 at 6333006ca91c152ff99e0349ddfe9ccc6a5b09be; deletion is eligible only after these authorizations and preserved evidence become canonical."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37170321802
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37170321831
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37170321849
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No PINK IPTV or other managed-project repository mutation.",
+    "No VPS/OVH runtime mutation and no terminal commands delegated to the Owner.",
+    "No deploy, release, production secret, paid-service, branch-protection or force-push effect.",
+    "No append-only recovery event was rewritten or deleted.",
+    "Plugin manifest versions were not changed.",
+    "No credential values were read, searched, copied or exposed."
+  ],
+  "residual_blockers": []
+}

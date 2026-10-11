@@ -1,0 +1,123 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-PLUGIN-VERSION-CLARITY-HYGIENE-046",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T02:29:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Replacement task after PR #45 was intentionally abandoned when Validate control plane exposed a hard-coded 0.6.0/0.5.0 assertion in a workflow outside task 045 immutable scope. The Owner already authorized correction and hygiene. This task starts from canonical main and explicitly includes only the package/version metadata, compatibility assertions, and validation-workflow version pins needed to make the corrected Project Leader generation unambiguous as 0.6.1 / Recovery Guardian 0.5.1, while preserving the already-merged skill/runtime behavior byte-for-byte. It also canonicalizes task 044 post-merge evidence and exact-binds cleanup of obsolete task 044 and abandoned task 045 refs."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "7dc5aa8cb86ed0a473c5e95fab4cd40f6eab7875",
+    "task_branch": "builder/plugin-version-clarity-046",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".github/workflows/validate-control-plane.yml",
+    "plugins/project-leader/plugin.json",
+    "plugins/recovery-guardian/plugin.json",
+    "README.md",
+    "PLUGIN_SETUP.md",
+    "tests/test_control_contract.py",
+    ".project-leader/tasks/PROJECT-LEADER-PLUGIN-VERSION-CLARITY-HYGIENE-046.json",
+    ".project-leader/results/PROJECT-LEADER-PLUGIN-VERSION-CLARITY-HYGIENE-046.json",
+    ".project-leader/recovery-events/PROJECT-LEADER-PLUGIN-VERSION-CLARITY-HYGIENE-046/**",
+    ".project-leader/transitions/PROJECT-LEADER-PLUGIN-VERSION-CLARITY-HYGIENE-046-*",
+    ".project-leader/transitions/PROJECT-LEADER-NONINTERACTIVE-FALLBACK-HYGIENE-044-MERGE.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-NONINTERACTIVE-FALLBACK-HYGIENE-044-MERGE.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-NONINTERACTIVE-FALLBACK-HYGIENE-044-DELETE-042-CONTROL.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-NONINTERACTIVE-FALLBACK-HYGIENE-044-DELETE-043-BUILDER.result.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root",
+    "reconcile_control_contract_docs",
+    "reconcile_transition_records",
+    "delete_owner_authorized_superseded_non_main_branch_refs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "cross_project_mutation",
+    "force_push",
+    "weaken_ci_or_security_controls",
+    "skill_runtime_behavior_change"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Version identity clarity",
+    "Validation workflow version alignment",
+    "Packaged skill/runtime alignment",
+    "Historical transition preservation",
+    "Abandoned PR45 evidence preservation",
+    "Obsolete branch audit"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "7dc5aa8cb86ed0a473c5e95fab4cd40f6eab7875",
+    "sha256": "8496c175e9295450ac0d1228c9d08dcee3149d4f7384838fd2f2573250634e22",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Project Leader plugin.json is 0.6.1 and Recovery Guardian plugin.json is 0.5.1; README, PLUGIN_SETUP, tests and validate-control-plane workflow assert those exact versions; no skill/runtime content changes relative to canonical base; task 044 post-merge evidence is canonical; PR #45 remains closed/unmerged; obsolete control/merge-authorization-044 and builder/plugin-version-clarity-045 are deleted only after exact authorizations become canonical; all required CI passes before exact integration.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+      "requires_authority_resolution": true
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "task_id": "PROJECT-LEADER-CONTROL-CONTRACT-HARDENING-004",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E1_RECOVERABLE_PROJECT_LOCAL",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-CONTROL-CONTRACT-HARDENING-004.json",
+  "implementation_head_sha": "10bf315183f928455bfc9c8281cb8d5d4084f68a",
+  "branch": "builder/control-contract-hardening-004",
+  "pr_number": 4,
+  "recorded_at": "2026-10-02T21:55:00Z",
+  "state_observed_at": "2026-10-02T21:54:00Z",
+  "superseded_by": null,
+  "post_transition_record": null,
+  "changes": [
+    "Validator now enforces every JSON Schema keyword currently used by the canonical schemas and fails closed on unsupported schema keywords",
+    "Added task/result pair validation for task ID, repository, effect class, branch, authorization-record path and bound PR number",
+    "Added negative contract tests for unknown fields, invalid enums, invalid dates, duplicates, malformed repository names, invalid SHA, incompatible result state and task/result mismatches",
+    "Preserved validation of historical 003 authorization/result records without rewriting them",
+    "Added optional Worker Result history metadata fields for future post-transition/supersession records",
+    "Pinned external GitHub Actions to exact commit SHAs",
+    "Set explicit least-privilege contents: read permissions on all repository workflows"
+  ],
+  "validation": [
+    {
+      "name": "Validate control plane",
+      "status": "PASS",
+      "evidence": "GitHub Actions run 37069341981"
+    },
+    {
+      "name": "Control contract tests",
+      "status": "PASS",
+      "evidence": "GitHub Actions run 37069342190"
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "PASS",
+      "evidence": "GitHub Actions run 37069342034"
+    }
+  ],
+  "ci": [
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37069341981
+    },
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37069342190
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37069342034
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No merge to main",
+    "No branch protection or ruleset change",
+    "No release or publication",
+    "No license selection",
+    "No managed-project mutation",
+    "No production deploy",
+    "No production secret change",
+    "No paid-service activation"
+  ],
+  "residual_blockers": [
+    "Merging PR #4 requires Owner approval",
+    "Protecting main with a ruleset requires Owner approval",
+    "Selecting a repository license requires Owner decision",
+    "A full E2E proof in PINK IPTV, FADEGO, or VCAM-PRO requires separate authorization to mutate that managed repository",
+    "Publishing a versioned GitHub Release remains a release Human Gate"
+  ]
+}

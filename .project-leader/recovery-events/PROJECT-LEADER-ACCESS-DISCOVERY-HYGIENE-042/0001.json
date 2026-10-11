@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "task_id": "PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042",
+  "repository": "martaxi-boss/Project-leader",
+  "sequence": 1,
+  "recorded_at": "2026-10-03T23:37:00Z",
+  "event": "FAILURE_OBSERVED",
+  "strategy_generation": 1,
+  "action_fingerprint": "PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042|PR42|Control contract tests|historical failed transition pair entered certifying transition namespace",
+  "attempt_count": 1,
+  "identical_failure_count": 1,
+  "no_progress_iterations": 1,
+  "previous_event_sha256": null,
+  "detail": "PR42 Control contract tests run 37162299305 failed because hygiene copied the historical failed 041 merge authorization/result pair into the certifying transitions namespace. validate_transition_pair correctly rejects non-SUCCESS transition results. Preserve the failed attempt as non-certifying archive evidence, preserve the successful MERGE-002 pair canonically, and use exact Owner-authorized branch deletion after integration. Do not weaken transition validation."
+}

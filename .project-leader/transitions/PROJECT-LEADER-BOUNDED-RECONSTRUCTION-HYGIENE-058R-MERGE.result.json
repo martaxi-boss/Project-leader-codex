@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-BOUNDED-RECONSTRUCTION-HYGIENE-058R-MERGE",
+  "task_id": "PROJECT-LEADER-BOUNDED-RECONSTRUCTION-HYGIENE-058R",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-BOUNDED-RECONSTRUCTION-HYGIENE-058R-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#58",
+    "revision": "5d30b7eb6711411f71d3721593a619a0b0ac76fe",
+    "base_revision": "a546481c6612a161dee6fab050a3196988a279a4",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T14:30:00Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "d68459c3bda12b83ecb8e94e3da4c5aba6af6a92"
+  },
+  "evidence": [
+    "Exact merge authorization commit 1a020c84b2ba4686a179adac4aeb7b97ac66501e existed before the merge effect.",
+    "PR #58 was revalidated open/mergeable at exact head 5d30b7eb6711411f71d3721593a619a0b0ac76fe on exact main base a546481c6612a161dee6fab050a3196988a279a4.",
+    "Final PR head passed Trusted authorization gate 37209379665, Control contract tests 37209381934, Validate control plane 37209381930 and Package ChatGPT plugins 37209381952.",
+    "GitHub merge API executed with expected_head_sha 5d30b7eb6711411f71d3721593a619a0b0ac76fe and returned merge commit d68459c3bda12b83ecb8e94e3da4c5aba6af6a92; fresh verification showed main at that exact SHA.",
+    "Post-merge Control contract tests 37209444776, Validate control plane 37209444781, Package ChatGPT plugins 37209444819 and Repository hygiene 37209444813 completed SUCCESS.",
+    "Repository hygiene removed the superseded builder branches authorized by task 058R and the merged PR head, leaving only durable control/evidence refs plus main."
+  ],
+  "residual_blockers": []
+}

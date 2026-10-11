@@ -1,0 +1,98 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-ACTIONS-PIN-038",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T19:12:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "summary": "Owner explicitly authorizes a one-at-a-time technical hardening pass after the external audit. This first task is limited to replacing both actions/github-script@v8 references in repository-hygiene.yml with the immutable commit SHA currently referenced by upstream tag v8. Preserve the existing architecture, philosophy, workflow behavior, permissions and hygiene logic; do not start any of the other audit remediations in this task.",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND"
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "b30df58fc3c8f91028b6f7cd402e4694bb55a915",
+    "task_branch": "builder/actions-github-script-pin-038",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".github/workflows/repository-hygiene.yml",
+    ".project-leader/tasks/PROJECT-LEADER-ACTIONS-PIN-038.json",
+    ".project-leader/results/PROJECT-LEADER-ACTIONS-PIN-038.json",
+    ".project-leader/recovery-events/PROJECT-LEADER-ACTIONS-PIN-038/**",
+    ".project-leader/transitions/PROJECT-LEADER-ACTIONS-PIN-038-*"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Action pin verification"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "b30df58fc3c8f91028b6f7cd402e4694bb55a915",
+    "sha256": "8496c175e9295450ac0d1228c9d08dcee3149d4f7384838fd2f2573250634e22",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Both actions/github-script uses in .github/workflows/repository-hygiene.yml are pinned to immutable upstream commit ed597411d8f924073f98dfc5c65a23a2325f34cd with no other workflow-behavior change; task authorization remains immutable; scope, trust-root, GitHub evidence and required CI pass; the exact audited change is integrated through the normal consequential-transition path before moving to the second external-audit correction.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

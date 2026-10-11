@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-TRANSITION-EVIDENCE-HYGIENE-061-MERGE",
+  "task_id": "PROJECT-LEADER-TRANSITION-EVIDENCE-HYGIENE-061",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T19:13:39.338Z",
+  "action": "merge_to_main",
+  "effect_class": "E2_CONSEQUENTIAL_TRANSITION",
+  "authority": {
+    "source": "STANDING_OWNER_GRANT",
+    "summary": "Existing Owner continuous audit/correction/hygiene authority covers this exact evidence-only integration. PR 62 head 91f50fd35af1911b03446bdf2e90a13086a92a34 and base 25da015507ea877ca3fd8f13298ab49eef2c3328 are scope-valid and conflict-free; exact implementation CI and final-head required governance Package ChatGPT plugins 37227312314; Control contract tests 37227312439; Validate control plane 37227312369; Trusted authorization gate 37227310991 are successful. Authorize only a regular history-preserving merge after immediate exact-head/base revalidation.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "pull_request",
+    "identifier": "https://github.com/martaxi-boss/Project-leader/pull/62",
+    "revision": "91f50fd35af1911b03446bdf2e90a13086a92a34",
+    "base_revision": "25da015507ea877ca3fd8f13298ab49eef2c3328",
+    "environment": null
+  }
+}

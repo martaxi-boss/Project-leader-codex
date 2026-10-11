@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-LEGACY-CHECKPOINT-LIVENESS-019-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-LEGACY-CHECKPOINT-LIVENESS-019",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-LEGACY-CHECKPOINT-LIVENESS-019-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/legacy-checkpoint-liveness-019",
+    "revision": "2bfad12b25d945d22327d4b2ca36d90d31d5c5e9",
+    "base_revision": "6cfe5dab4b3daa022d1fa307ecb5a649a35e3338",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T11:36:08.500Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "a071e2754944bcef8dfca4fd75059a5c523b2964"
+  },
+  "evidence": [
+    "Owner authorization was persisted before protected checkpoint-liveness changes.",
+    "Control contract tests run 37120150622 completed SUCCESS on implementation head a071e2754944bcef8dfca4fd75059a5c523b2964.",
+    "Validate control plane run 37120150686 completed SUCCESS on the same implementation head.",
+    "Package ChatGPT plugins run 37120150633 completed SUCCESS on the same implementation head."
+  ],
+  "residual_blockers": []
+}

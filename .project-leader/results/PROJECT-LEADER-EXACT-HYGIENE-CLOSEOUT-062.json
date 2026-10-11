@@ -1,0 +1,81 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062.json",
+  "authorization_commit_sha": "17d781a818fafd51596f3f7268a7e47d31ba80f2",
+  "authorization_sha256": "f414ad9de8159728bb61deca51d8df12dd175137107c773ab9edb650959d8b7c",
+  "implementation_head_sha": "4bb2395871b93c34cf95a86f6424cfa90e635e2f",
+  "branch": "builder/exact-hygiene-closeout-062",
+  "pr_number": 63,
+  "changes": [
+    "Reconciled RUNBOOK.md with existing task-058R conservative merged-PR/ancestry/exact-purge hygiene and extended its contract regression.",
+    "Preserved both task-061 merge authorization/result source blobs exactly.",
+    "Added three exact CURRENT_OWNER_INSTRUCTION purge authorizations for audited obsolete control refs; actual deletion is executed only by existing hygiene after canonical integration.",
+    "Superseded task 061's obsolete equivalence-based cleanup inference through append-only follow-up evidence; historical result remains preserved."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Native exact-base compare lists nine authorized files only: one immutable task, four task-local transition authorizations, two exact task-061 archive blobs, RUNBOOK.md and its existing regression. Local trusted base-policy ceiling and scope validation pass."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Exact implementation 4bb2395871b93c34cf95a86f6424cfa90e635e2f required CI Control contract tests 37228192990; Validate control plane 37228192979; Package ChatGPT plugins 37228192952 completed SUCCESS, attempt 1. Independent run/job reads and contract log confirm 195 tests. Authorization-only commit 17d781a818fafd51596f3f7268a7e47d31ba80f2 has only the unchanged task file and precedes implementation. Initial trusted gate failure is confirmed missing-final-result bootstrap; this evidence descendant supplies that result without replacing certifying CI or rerunning it."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "RUNBOOK.md is protected; E3 CURRENT_OWNER_INSTRUCTION immutable scope includes this narrow correction. Exact trust-root transition binds task authorization 17d781a818fafd51596f3f7268a7e47d31ba80f2 and was durably committed before implementation at 1652af8a73f000e9e2c73b20e29403f99349a14d. No verifier, workflow, policy, architecture or authority relaxation occurs."
+    },
+    {
+      "name": "Exact historical evidence preservation",
+      "status": "PASS",
+      "evidence": "Task-061 merge authorization/result reuse original blobs 5eaba00d252e3939a83e5477f7a2b825d22b8b8c / c81176e39d0657b050894fdc70b52fe0609b234c. Native source delta contains only that pair. Four source-060/059R evidence blobs are already exact in canonical base; no historical approval, timestamp or result is rewritten."
+    },
+    {
+      "name": "Exact obsolete-ref cleanup authority",
+      "status": "PASS",
+      "evidence": "Authorizations target only control/merge-authorization-060@996c016b204d8d53e50b56dfb3dcb3231485791e, control/human-gate-closure-060@9556a9bd50559b8041ad04e18311ceee14ef0206 and control/merge-authorization-061@15fde28cc92dc691788ded367b079170691a2761. Native source deltas and PR inventory show no unique unpreserved final files or open PRs. Existing sweep checks exact revision and open-PR exclusion after records become canonical; actual deletion is not yet certified."
+    },
+    {
+      "name": "Runtime and authority invariants",
+      "status": "PASS",
+      "evidence": "Scope compare changes only RUNBOOK.md, one existing document regression and durable records. Executable runtime, workflows, retry ceilings, policies, roles, standing grant, managed projects and plugin versions 0.6.6/0.5.4 remain unchanged."
+    },
+    {
+      "name": "Cleanup audit correction",
+      "status": "PASS",
+      "evidence": "Explicitly supersedes task 061 Worker Result's Obsolete-reference cleanup safety explanation: broad equivalence traversal was intentionally removed by task 058R; byte-identical files alone do not authorize removal of durable control refs. Corrected runbook/test now require actual live-ref verification and exact purge authority; historical task/result bytes stay audit-readable."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37228192990
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37228192979
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37228192952
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/63"
+  ],
+  "material_non_effects": [
+    "No runtime, workflow, project-policy, standing-authority, architecture, role hierarchy, plugin-version, managed-project or production change.",
+    "No broad equivalence sweep, force push, history rewrite, credential, paid-service, release or manual/physical operation."
+  ],
+  "residual_blockers": []
+}

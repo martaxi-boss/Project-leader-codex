@@ -1,0 +1,74 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-CI-WAIT-LIVENESS-015",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-CI-WAIT-LIVENESS-015.json",
+  "authorization_commit_sha": "a0c5075d61a1c93f46870a30a111ee60cf3ad039",
+  "authorization_sha256": "1c0b482b1b9d5fc14659c0171d5f4161a4624f20e7205580660ca3d318fb2c38",
+  "implementation_head_sha": "0b3c869deea4c336b85f2a335b8da1b41f18ad00",
+  "branch": "builder/ci-wait-liveness-015",
+  "pr_number": 15,
+  "recorded_at": "2026-10-03T11:12:29.739Z",
+  "state_observed_at": "2026-10-03T11:12:29.739Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-CI-WAIT-LIVENESS-015-TRUST-ROOT.result.json",
+  "changes": [
+    "WAITING_EXTERNAL_CI is now explicitly transient and bound to exact GitHub Actions run IDs.",
+    "A fresh terminal read invalidates an obsolete wait as STALE_WAIT_STATE instead of leaving orchestration parked on a stale UI/chat state.",
+    "All-success terminal runs route to Supervisor audit/validate/continue; failure/cancellation/timeout routes to Recovery without duplicate dispatch.",
+    "Session-resume guidance now requires reconstruction of exact bound run IDs before any new dispatch.",
+    "Managed-project contract code adds deterministic external-CI wait reconciliation and regression coverage.",
+    "Project Leader and Recovery Guardian contracts were aligned to the same universal liveness semantics."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #15 changes are confined to the isolated CI-wait liveness task records, Project Leader control/runtime contracts, managed_project_contract.py, tests, and packaged Project Leader/Recovery Guardian skill contracts."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required implementation-head GitHub Actions completed successfully with concrete run IDs on 0b3c869deea4c336b85f2a335b8da1b41f18ad00; final metadata-head trusted-gate validation is triggered separately after this Worker Result is persisted."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact Owner-authorized trust-root transition was persisted at commit a952883190f36f32e8192112bb4735469d43397e before protected control-plane files were changed; transition result is persisted after validation."
+    },
+    {
+      "name": "External CI wait liveness reconciliation",
+      "status": "PASS",
+      "evidence": "Control contract run 37118834972 passed regression tests for active bound waits, stale terminal success -> AUDIT_CONTINUE, terminal failure -> RECOVERY, mixed active/terminal sets, missing bound runs, and duplicate run-id rejection."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37118834972
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37118834984
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37118834967
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No merge to main.",
+    "No registered managed-project mutation.",
+    "No project-specific orchestration rule or hard-coded managed-project identity.",
+    "No branch protection/ruleset change.",
+    "No release, deployment, secret, infrastructure, data, repository-history, or paid-service mutation.",
+    "No weakening of any Human Gate."
+  ],
+  "residual_blockers": []
+}

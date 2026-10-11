@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-029-DELETE-002",
+  "task_id": "PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-029",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-029-DELETE-002.authorization.json",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/human-gate-base-target-fix-010",
+    "revision": "d1019c9b2b83588a3b2f05520619b8b3290bab5c",
+    "base_revision": "0552f77947bc50943f313540bda58a25d22fe8eb",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T13:37:29.625Z",
+  "final_state": {
+    "status": "DELETED",
+    "revision": null
+  },
+  "evidence": [
+    "Durable exact-revision Owner authorization existed for builder/human-gate-base-target-fix-010 @ d1019c9b2b83588a3b2f05520619b8b3290bab5c before deletion.",
+    "Repository hygiene run 37126726675 completed SUCCESS after PR #30 merged.",
+    "Repository hygiene push run 37126726810 completed SUCCESS on the merged main state.",
+    "Live GitHub branch listing after the purge no longer contained builder/human-gate-base-target-fix-010; only main remained."
+  ],
+  "residual_blockers": []
+}

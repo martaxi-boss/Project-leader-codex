@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-CANONICAL-RUNTIME-BOOTSTRAP-056R-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-CANONICAL-RUNTIME-BOOTSTRAP-056R",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T12:24:00Z",
+  "action": "trust_root_mutation",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Clean replacement task 056R preserves the Owner's requested Project Leader runtime/bootstrap correction. This exact transition authorizes only the trust-root/runtime-contract changes bounded by 056R and explicitly excludes legacy plugin identity preservation or marketplace pluginId migration.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/canonical-runtime-bootstrap-056r",
+    "revision": "9883068d02ed5c0ef8cdf69cf1e6b4380f87dcc8",
+    "base_revision": "a2f7d8e207b979095f1866d9c526002cf5b98b6a",
+    "environment": null
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-FINAL-HEAD-MATERIAL-DRIFT-016-MERGE",
+  "task_id": "PROJECT-LEADER-FINAL-HEAD-MATERIAL-DRIFT-016",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-FINAL-HEAD-MATERIAL-DRIFT-016-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#16",
+    "revision": "3a013759be60b72fe430cd4e38e6f0e9fb39bd3a",
+    "base_revision": "302b38895f6d9f7b906dba284f7c7fb8c9d29628",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T12:06:24.890Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "34fdd27eb15533f7a18f3a6ccf71377fb4471874"
+  },
+  "evidence": [
+    "Pre-merge authorization was durably persisted on control/merge-authorization-016 at commit d511e54856f25ae1c92095c28a0dddb1dcf9ad7c.",
+    "GitHub PR #16 reports merged=true.",
+    "GitHub merge commit is 34fdd27eb15533f7a18f3a6ccf71377fb4471874.",
+    "Certified PR head 3a013759be60b72fe430cd4e38e6f0e9fb39bd3a was merged with expected_head_sha enforcement."
+  ],
+  "residual_blockers": []
+}

@@ -1,0 +1,92 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-INTERNAL-OPERATION-LIVENESS-048R",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-INTERNAL-OPERATION-LIVENESS-048R.json",
+  "authorization_commit_sha": "7865a0122e47ac2c6ed7ed84e2ae0c45469297cd",
+  "authorization_sha256": "870ff922b59b59b69e602c28bda40b1fd07549262f0ed7a53b49e61a3bdfd535",
+  "implementation_head_sha": "92e2c1ae5c168586f09e208efef9066d0ad7ea8f",
+  "branch": "builder/internal-operation-liveness-048r",
+  "pr_number": 48,
+  "recorded_at": "2026-10-04T11:18:00Z",
+  "state_observed_at": "2026-10-04T11:18:00Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-INTERNAL-OPERATION-LIVENESS-048R-TRUST-ROOT.result.json",
+  "changes": [
+    "Added a universal distinction between legitimate externally-backed waits and Project Leader-controlled internal operations such as compare/diff, audit, reconciliation, local validation, evidence reading and planning.",
+    "Added INTERNAL_OPERATION_STALLED after two canonical live liveness observations without a new tool result, durable evidence or control-plane transition, routing immediately through existing LIVENESS_RECONCILE_REQUIRED to Recovery Guardian.",
+    "Recovery now reconstructs durable state first, skips a stalled operation when existing evidence already determines the next step, otherwise switches to a smaller/bounded read strategy, never repeats an ambiguous write as a liveness probe, and counts repeated stalls toward the existing no-progress ceiling.",
+    "Documented the irreducible platform limitation: a host/tool call that itself is frozen and does not yield execution control cannot run Recovery concurrently; the first action after control returns is durable reconstruction/liveness reconciliation.",
+    "Added universal smoke/contract coverage and aligned canonical docs, roles, packaged skills and recovery references.",
+    "Bumped package identity to Project Leader 0.6.3 and Recovery Guardian 0.5.3."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub compare from canonical base 05225695684b54ce5becbb89cf0e5b6dc88dcafa to implementation head 92e2c1ae5c168586f09e208efef9066d0ad7ea8f is ahead-only and limited to the 048R-authorized control-plane/runtime/test/package files plus its Task Authorization and exact trust-root authorization."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Exact implementation head 92e2c1ae5c168586f09e208efef9066d0ad7ea8f passed Control contract tests 37198180187, Validate control plane 37198179973 and Package ChatGPT plugins 37198180040."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Immutable Task Authorization 7865a0122e47ac2c6ed7ed84e2ae0c45469297cd and exact trust-root authorization dfcb29455e90c4e41664abc8d02927da4f0706df are ancestors of every implementation edit."
+    },
+    {
+      "name": "External-wait versus internal-operation distinction",
+      "status": "PASS",
+      "evidence": "Canonical runtime and packaged Skill require external waits to have an independently pending dependency plus observable state/handle when available and bounded re-check; compare/diff/audit/reconciliation/validation/read/planning are explicitly internal."
+    },
+    {
+      "name": "Internal no-progress Recovery routing",
+      "status": "PASS",
+      "evidence": "INTERNAL_OPERATION_STALLED routes through LIVENESS_RECONCILE_REQUIRED after two live liveness observations without new tool result, durable evidence or control-state transition; Recovery reconstructs first and switches strategy when needed."
+    },
+    {
+      "name": "Frozen-host limitation honesty",
+      "status": "PASS",
+      "evidence": "Contracts explicitly state that repository policy cannot execute while a host/connector call itself withholds execution control and require reconciliation first when control returns."
+    },
+    {
+      "name": "Packaged skill/runtime alignment",
+      "status": "PASS",
+      "evidence": "Canonical Project Leader/Recovery contracts and both packaged Skill/recovery references carry the same internal-operation liveness semantics; Package ChatGPT plugins run 37198180040 succeeded for versions 0.6.3/0.5.3."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37198180187
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37198179973
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37198180040
+    }
+  ],
+  "artifacts": [
+    "project-leader-plugin artifact 11302385339 from run 37198180040, sha256:6b2143f31ec01709ce336bb2a3f86867acdab17779ededfa8f12241ee066d1df",
+    "recovery-guardian-plugin artifact 11301529414 from run 37198180040, sha256:25e194ff55c4ec97779c27aba601c84d6a3040274c16bcb1d595d1c07163f9aa",
+    "plugin-supply-chain-manifest artifact 11301856172 from run 37198180040, sha256:14493e222988012c1a8cfc3b91b6096aaa5aa611103116b365ed4982942d7d58"
+  ],
+  "material_non_effects": [
+    "No PINK IPTV, FADEGO, VCAM-PRO or other managed-project repository mutation.",
+    "No VPS/OVH runtime mutation.",
+    "No deploy, release, production secret, paid-service, branch-protection, force-push or product-architecture effect.",
+    "No external-wait, standing-authority, evidence, access-discovery, security or one-mutable-repository-per-task control was weakened.",
+    "The superseded pre-PR 048 attempt is not certified retroactively."
+  ],
+  "residual_blockers": []
+}

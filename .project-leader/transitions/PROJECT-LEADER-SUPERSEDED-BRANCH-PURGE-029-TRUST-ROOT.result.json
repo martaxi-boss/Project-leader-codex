@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-029-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-029",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-029-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/superseded-branch-purge-029",
+    "revision": "21a90f47079842d8bf1f9ba25716c328d7b053f7",
+    "base_revision": "0552f77947bc50943f313540bda58a25d22fe8eb",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T13:34:29.435Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "5b286ea021e8f3bd3892ca945f0b257bd38548b1"
+  },
+  "evidence": [
+    "Owner authorization was persisted before protected hygiene workflow/runbook/test changes.",
+    "Control contract tests run 37126605664 completed SUCCESS on implementation head 5b286ea021e8f3bd3892ca945f0b257bd38548b1.",
+    "Validate control plane run 37126605671 completed SUCCESS on the same implementation head.",
+    "Package ChatGPT plugins run 37126605665 completed SUCCESS on the same implementation head."
+  ],
+  "residual_blockers": []
+}

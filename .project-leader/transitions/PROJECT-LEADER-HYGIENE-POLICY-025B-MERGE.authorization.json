@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-HYGIENE-POLICY-025B-MERGE",
+  "task_id": "PROJECT-LEADER-HYGIENE-POLICY-025B",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T12:38:51.454Z",
+  "action": "merge_to_main",
+  "effect_class": "E2_CONSEQUENTIAL_TRANSITION",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner explicitly authorized completing Project Leader repository hygiene, including the prerequisite policy merge required to perform the cleanup safely.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#25",
+    "revision": "ee1490543c4aa162e4dc96161efdf0120d54633b",
+    "base_revision": "aa39702a3d2fb7d5c211cc088c1badc06663b9f3",
+    "environment": null
+  }
+}

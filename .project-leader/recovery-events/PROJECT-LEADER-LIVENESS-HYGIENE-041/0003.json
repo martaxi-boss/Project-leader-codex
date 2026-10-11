@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "task_id": "PROJECT-LEADER-LIVENESS-HYGIENE-041",
+  "repository": "martaxi-boss/Project-leader",
+  "sequence": 3,
+  "recorded_at": "2026-10-03T22:50:42.041Z",
+  "event": "RECOVERED",
+  "strategy_generation": 1,
+  "action_fingerprint": "PROJECT-LEADER-LIVENESS-HYGIENE-041|PR41|Control contract tests|contract assertions missing canonical recovery guarantees",
+  "attempt_count": 2,
+  "identical_failure_count": 1,
+  "no_progress_iterations": 1,
+  "previous_event_sha256": "0fd78e531ff4d572b7a764f237d89a82086e6e72a42fa7c7fc485ee1be254da3",
+  "detail": "Fresh descendant head 854a616337b33f6b99bad4c7f88a694688c523b9 passed Control contract tests 37159753459, Validate control plane 37159753443, and Package ChatGPT plugins 37159753467. The two missing canonical recovery guarantees are restored in root and packaged references without weakening tests."
+}

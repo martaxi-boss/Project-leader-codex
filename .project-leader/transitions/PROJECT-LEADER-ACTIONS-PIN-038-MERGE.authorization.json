@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-ACTIONS-PIN-038-MERGE",
+  "task_id": "PROJECT-LEADER-ACTIONS-PIN-038",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T19:28:00Z",
+  "action": "merge_to_main",
+  "effect_class": "E2_CONSEQUENTIAL_TRANSITION",
+  "authority": {
+    "source": "STANDING_OWNER_GRANT",
+    "summary": "Owner explicitly authorized the external-audit hardening corrections one at a time. PR #38 is the exact isolated first correction, all required final-head checks including the trusted authorization gate are successful, and integration introduces no new architecture, philosophy, scope or external effect.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#38",
+    "revision": "4a40d169b70a526ba71c3eb36a49fc78104d4da6",
+    "base_revision": "b30df58fc3c8f91028b6f7cd402e4694bb55a915",
+    "environment": null
+  }
+}

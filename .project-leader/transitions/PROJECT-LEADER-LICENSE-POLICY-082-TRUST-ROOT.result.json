@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-LICENSE-POLICY-082-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-LICENSE-POLICY-082",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-LICENSE-POLICY-082-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/license-policy-082",
+    "revision": "6f80388b84c4d0375bc9bd80244d25cc63549536",
+    "base_revision": "519f132f74955f7d7f148b1564ae0a95d158c795",
+    "environment": null
+  },
+  "observed_at": "2026-10-07T11:01:00Z",
+  "final_state": {
+    "status": "AUDITED",
+    "revision": "46e8ae815e33a7cb352df8701a47ab855cdab7ba"
+  },
+  "evidence": [
+    "Immutable Task Authorization 6f80388b84c4d0375bc9bd80244d25cc63549536 precedes protected policy changes.",
+    "Trust-root authorization 6fd1bb8c67fc65ae82882926dbae63931ecab788 was persisted before implementation.",
+    "Implementation head 46e8ae815e33a7cb352df8701a47ab855cdab7ba passed required runs 37611062574, 37611062403 and 37611062438.",
+    "No LICENSE file was created by this precursor."
+  ],
+  "residual_blockers": []
+}

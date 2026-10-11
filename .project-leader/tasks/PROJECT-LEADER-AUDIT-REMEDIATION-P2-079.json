@@ -1,0 +1,135 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-AUDIT-REMEDIATION-P2-079",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-07T10:23:00Z",
+  "authority": {
+    "kind": "DERIVED_COMPLETION_AUTHORITY",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Continue the Owner-requested 2026-10-06 Project Leader audit after the P0/P1 remediations, PR-CI verifier recovery and exact documentation policy recovery have landed on canonical main. This bounded P2 task implements owner-independent audit groups R10-R12 conservatively: strict semantic/type validation, observable Recovery/effect acceptance, maintenance/provenance/documentation cleanup and hygiene efficiency. Preserve existing architecture, roles, Human Gates, evidence-first controls and project isolation. No external project may be mutated. License selection and repository Actions/admin policy changes remain prohibited."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "1fa8ace2627bedf5d9aa77f8525de9bc76d25204",
+    "task_branch": "builder/audit-remediation-p2-079",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".github/workflows/repository-hygiene.yml",
+    "CHANGELOG.md",
+    "PLUGIN_SETUP.md",
+    "README.md",
+    "RECOVERY_PROTOCOL.md",
+    "RUNBOOK.md",
+    "SECURITY.md",
+    "SMOKE_TESTS.md",
+    "SOURCES.md",
+    "control/generic-project-policy.json",
+    "control/managed_project_contract.py",
+    "control/runtime_execution.py",
+    "control/standing-authority.schema.json",
+    "control/task-authorization.v1.schema.json",
+    "control/task-authorization.v2.schema.json",
+    "control/validate_records.py",
+    "control/worker-result.v1.schema.json",
+    "plugins/project-leader/skills/project-leader/SKILL.md",
+    "plugins/project-leader/skills/project-leader/references/recovery-protocol.md",
+    "plugins/recovery-guardian/skills/recovery-guardian/SKILL.md",
+    "plugins/recovery-guardian/skills/recovery-guardian/references/recovery-protocol.md",
+    "tests/test_audit_p2_regressions.py",
+    "tests/test_control_contract.py",
+    "tests/test_managed_project_contract.py",
+    ".project-leader/tasks/PROJECT-LEADER-AUDIT-REMEDIATION-P2-079.json",
+    ".project-leader/results/PROJECT-LEADER-AUDIT-REMEDIATION-P2-079.json",
+    ".project-leader/recovery-events/PROJECT-LEADER-AUDIT-REMEDIATION-P2-079/**",
+    ".project-leader/transitions/PROJECT-LEADER-AUDIT-REMEDIATION-P2-079-*"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "merge_development_branch",
+    "harden_trust_root",
+    "reconcile_control_contract_docs",
+    "reconcile_transition_records"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "architecture_redesign",
+    "modify_role_hierarchy",
+    "scope_expansion",
+    "force_push",
+    "unrelated_refactor",
+    "weaken_ci_or_security_controls",
+    "cross_project_mutation",
+    "change_github_actions_event_policy"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Audit P2 R10 semantic and typing regression matrix",
+    "Observable Recovery and effect acceptance harness",
+    "Maintenance provenance and event-policy readiness",
+    "Continuous hygiene consistency"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "1fa8ace2627bedf5d9aa77f8525de9bc76d25204",
+    "sha256": "42db94c0426d43e91f33147e99d830cb81b7b62b0fe84e6f8561ab494d345206",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Owner-independent P2 audit remediation is complete: mixed policy modes, protected root/nested secret names, malformed booleans/identifiers/datetimes and incomplete CI/helper payloads fail closed; legacy schema IDs are version-distinct; behavioral tests exercise observable preflight/liveness/restart/ambiguous-write/deduplication paths without duplicate effects; obsolete phrase-only assertions are removed or reduced to contract lint; sources/security/setup/changelog and hygiene efficiency are improved; GitHub pull_request_target enforcement readiness is documented without changing repository event policy. Required CI passes. License selection is not performed.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

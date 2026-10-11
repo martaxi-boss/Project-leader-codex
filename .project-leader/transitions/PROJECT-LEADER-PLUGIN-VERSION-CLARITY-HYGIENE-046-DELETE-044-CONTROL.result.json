@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-PLUGIN-VERSION-CLARITY-HYGIENE-046-DELETE-044-CONTROL",
+  "task_id": "PROJECT-LEADER-PLUGIN-VERSION-CLARITY-HYGIENE-046",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-PLUGIN-VERSION-CLARITY-HYGIENE-046-DELETE-044-CONTROL.authorization.json",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "control/merge-authorization-044",
+    "revision": "4a907f5cc77a1f84db2fd1099070831907bbc14c",
+    "base_revision": "7dc5aa8cb86ed0a473c5e95fab4cd40f6eab7875",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T02:34:30Z",
+  "final_state": {
+    "status": "DELETED",
+    "revision": null
+  },
+  "evidence": [
+    "Task 046 merged the unique task-044 post-merge transition evidence into canonical main before cleanup.",
+    "Repository hygiene run 37171422314 completed successfully on main merge SHA 166d8a2d867e0d8e3b67082069679b0cd3b9242d.",
+    "Fresh branch inventory after the hygiene run no longer contains control/merge-authorization-044."
+  ],
+  "residual_blockers": []
+}

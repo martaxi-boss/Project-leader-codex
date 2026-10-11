@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T02:41:00Z",
+  "action": "trust_root_mutation",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner authorized correction and hygiene. This transition authorizes the bounded trust-root changes in task 047 only.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/self-provisioned-diagnostics-047",
+    "revision": "4d2c8c9fac59db41ef475ade83c08e9e5ca8f3f1",
+    "base_revision": "166d8a2d867e0d8e3b67082069679b0cd3b9242d",
+    "environment": null
+  }
+}

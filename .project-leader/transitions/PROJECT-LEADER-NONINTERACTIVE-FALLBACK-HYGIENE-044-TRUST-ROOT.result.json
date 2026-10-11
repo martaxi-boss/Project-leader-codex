@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-NONINTERACTIVE-FALLBACK-HYGIENE-044-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-NONINTERACTIVE-FALLBACK-HYGIENE-044",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-NONINTERACTIVE-FALLBACK-HYGIENE-044-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/noninteractive-fallback-hygiene-044",
+    "revision": "cc8302ce3d12092cb087cd82db0dd6440ee93da4",
+    "base_revision": "80288f44a236c0ca4095bf4399492632e0152dbe",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T02:13:00Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "ac0dca779a31e791ebe31c10437eefbf0a1aa559"
+  },
+  "evidence": [
+    "Immutable Task Authorization commit cc8302ce3d12092cb087cd82db0dd6440ee93da4 and exact trust-root authorization commit 9e2523c0e2e27b03a5929f7f8e951d90ffcc7cfe preceded all trust-root/runtime edits.",
+    "Project Leader now inventories native connector/tool capabilities and requires non-interactive diagnostic fallback before browser/tool-consent prompts; GitHub Actions diagnostics explicitly cover run metadata, jobs, step summaries, job logs, artifacts, checks/check-runs/annotations or statuses, workflow definitions, repository-return evidence and historical runs.",
+    "Executable control logic routes NONINTERACTIVE_FALLBACK_INCOMPLETE, NONINTERACTIVE_PATH_FOUND, NONINTERACTIVE_FALLBACK_EXHAUSTED and PLATFORM_CONSENT_REQUIRED without weakening FORCED_OPERATIONAL_ACCESS_DISCOVERY or project isolation.",
+    "Smoke Test 18 explicitly fails the observed behavior of asking the Owner to authorize a browser merely because one GitHub connector method lacks an annotation/log endpoint while another native evidence surface remains.",
+    "Plugin manifest versions remain unchanged at the canonical compatibility values Project Leader 0.6.0 and Recovery Guardian 0.5.0; packaged recovery references remain synchronized to the canonical recovery protocol.",
+    "CI-certified implementation head ac0dca779a31e791ebe31c10437eefbf0a1aa559 passed Control contract tests run 37170321802, Validate control plane run 37170321831, and Package ChatGPT plugins run 37170321849."
+  ],
+  "residual_blockers": []
+}

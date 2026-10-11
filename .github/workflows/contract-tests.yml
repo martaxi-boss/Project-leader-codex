@@ -1,0 +1,72 @@
+name: Control contract tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - name: Run executable control-contract tests
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Validate durable control records
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          for task in .project-leader/tasks/*.json; do
+            python control/validate_records.py task "$task"
+          done
+          for result in .project-leader/results/*.json; do
+            task=".project-leader/tasks/$(basename "$result")"
+            test -f "$task"
+            python control/validate_records.py pair "$task" "$result"
+          done
+          for checkpoint in .project-leader/checkpoints/*.json; do
+            python control/validate_records.py checkpoint "$checkpoint"
+          done
+          for policy in projects/policies/*.json; do
+            python control/validate_records.py policy "$policy"
+          done
+          for journal_dir in .project-leader/recovery-events/*; do
+            if [ -d "$journal_dir" ]; then
+              mapfile -t journal_events < <(find "$journal_dir" -maxdepth 1 -type f -name '*.json' | sort)
+              if [ "${#journal_events[@]}" -gt 0 ]; then
+                python control/validate_records.py recovery-journal "${journal_events[@]}"
+              fi
+            fi
+          done
+          for auth in .project-leader/transitions/*.authorization.json; do
+            python control/validate_records.py transition-auth "$auth"
+          done
+          for result in .project-leader/transitions/*.result.json; do
+            python control/validate_records.py transition-result "$result"
+            auth="${result%.result.json}.authorization.json"
+            if test -f "$auth"; then
+              python control/validate_records.py transition-pair "$auth" "$result"
+            fi
+          done
+      - name: Enforce Task Authorization mutation scope
+        if: github.event_name == 'pull_request'
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          git diff --name-only "$BASE_SHA"...HEAD > /tmp/project-leader-changed.txt
+          mapfile -t task_files < <(grep -E '^\.project-leader/tasks/[^/]+\.json$' /tmp/project-leader-changed.txt || true)
+          if [ "${#task_files[@]}" -ne 1 ]; then
+            echo "Expected exactly one changed Task Authorization Record, found ${#task_files[@]}" >&2
+            cat /tmp/project-leader-changed.txt >&2
+            exit 1
+          fi
+          mapfile -t changed_files < /tmp/project-leader-changed.txt
+          python control/validate_records.py scope "${task_files[0]}" "${changed_files[@]}"

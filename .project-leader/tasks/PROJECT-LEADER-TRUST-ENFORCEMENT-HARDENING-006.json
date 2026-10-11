@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "task_id": "PROJECT-LEADER-TRUST-ENFORCEMENT-HARDENING-006",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-02T22:24:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "summary": "Continue Project Leader remediation toward a >9/10 control-plane candidate by closing project-local trust, evidence, CI-policy, recovery-monotonicity, registry-policy and packaging gaps, without merge, repository-governance mutation, release, license choice, cross-project mutation or production effects.",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND"
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "5e4650d05508a5c521e8e5ae2b366f2a4d2d6404",
+    "task_branch": "builder/trust-enforcement-hardening-006",
+    "pr_number": null
+  },
+  "effect_class": "E1_RECOVERABLE_PROJECT_LOCAL",
+  "mutation_scope": [
+    "control/**",
+    "tests/**",
+    ".github/workflows/**",
+    ".project-leader/tasks/**",
+    ".project-leader/results/**",
+    ".project-leader/recovery-events/**",
+    "projects/**",
+    "scripts/**",
+    "PROJECT_LEADER.md",
+    "RUNBOOK.md",
+    "RECOVERY_PROTOCOL.md",
+    "AGENT_BUILDER_PROMPT.md",
+    "roles/**",
+    "plugins/**"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "add_trusted_gate_design",
+    "add_base_anchored_policy_profiles",
+    "add_github_evidence_verifier",
+    "add_v2_task_contract",
+    "add_append_only_recovery_journal",
+    "harden_reproducible_packaging"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "merge_pr_5",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "destructive_data_change",
+    "repository_or_history_deletion",
+    "production_secret_change",
+    "irreversible_infrastructure_change",
+    "paid_service_activation"
+  ],
+  "human_gates": [
+    {
+      "action": "merge_to_main",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "license_selection",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_owner_approval": true
+    }
+  ],
+  "required_validation": [
+    "Control contract tests",
+    "Trusted gate unit tests",
+    "Evidence verifier unit tests",
+    "Recovery journal tests",
+    "Reproducible packaging tests"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "terminal_condition": "Open a green stacked PR against builder/enforcement-remediation-005 that adds a base-anchored trust ceiling and trusted pull_request_target gate design, verifies Worker Result CI run IDs against GitHub SHA/name/conclusion, introduces a v2 Task Authorization contract with mandatory validation/CI policy binding while preserving v1 history, replaces mutable retry-state dependence with an append-only recovery journal for new tasks, adds central project policy profiles, and makes plugin packaging deterministic with checksum manifest; no Human Gate crossed.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  }
+}

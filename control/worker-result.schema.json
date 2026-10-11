@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/martaxi-boss/Project-leader/control/worker-result.schema.json",
+  "title": "Project Leader Worker Result v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_id",
+    "terminal_status",
+    "repository",
+    "effect_class",
+    "authorization_record",
+    "implementation_head_sha",
+    "branch",
+    "changes",
+    "validation",
+    "ci",
+    "material_non_effects",
+    "residual_blockers"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "2.0"
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9._-]{2,127}$"
+    },
+    "terminal_status": {
+      "enum": [
+        "TERMINAL_SUCCESS",
+        "BLOCKED",
+        "HUMAN_GATE",
+        "STALE_EXECUTION_PACKET"
+      ]
+    },
+    "repository": {
+      "type": "string",
+      "pattern": "^[^/]+/[^/]+$"
+    },
+    "effect_class": {
+      "enum": [
+        "E1_RECOVERABLE_PROJECT_LOCAL",
+        "E2_CONSEQUENTIAL_TRANSITION",
+        "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED"
+      ]
+    },
+    "authorization_record": {
+      "type": "string",
+      "minLength": 1
+    },
+    "implementation_head_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "branch": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pr_number": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "state_observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "superseded_by": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "post_transition_record": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "changes": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "validation": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "status",
+          "evidence"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "PASS",
+              "FAIL",
+              "SKIPPED"
+            ]
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "ci": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "status",
+          "run_id"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "SUCCESS",
+              "FAILURE",
+              "PENDING",
+              "NOT_APPLICABLE"
+            ]
+          },
+          "run_id": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "material_non_effects": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "residual_blockers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "authorization_commit_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "authorization_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

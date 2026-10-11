@@ -1,0 +1,106 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-LICENSE-POLICY-082",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-07T10:55:00Z",
+  "authority": {
+    "kind": "DERIVED_COMPLETION_AUTHORITY",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "The Owner has now selected a proprietary / All Rights Reserved license for Project Leader. This governance precursor does not select or write the license itself; it only updates the canonical Project Leader policy so one subsequent exact E3 license-selection task may create LICENSE under explicit transition control. E1 must remain unable to mutate LICENSE or perform license_selection."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "519f132f74955f7d7f148b1564ae0a95d158c795",
+    "task_branch": "builder/license-policy-082",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "projects/policies/project-leader.json",
+    "tests/test_license_policy_regression.py",
+    ".project-leader/tasks/PROJECT-LEADER-LICENSE-POLICY-082.json",
+    ".project-leader/results/PROJECT-LEADER-LICENSE-POLICY-082.json",
+    ".project-leader/transitions/PROJECT-LEADER-LICENSE-POLICY-082-*"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "merge_development_branch",
+    "harden_trust_root"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "architecture_redesign",
+    "modify_role_hierarchy",
+    "scope_expansion",
+    "force_push",
+    "unrelated_refactor",
+    "weaken_ci_or_security_controls",
+    "cross_project_mutation"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "License policy ceiling regression"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "519f132f74955f7d7f148b1564ae0a95d158c795",
+    "sha256": "42db94c0426d43e91f33147e99d830cb81b7b62b0fe84e6f8561ab494d345206",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Canonical E3 policy admits only the exact LICENSE path for license work, marks LICENSE sensitive/protected, permits license_selection only in E3 while retaining it as a required transition control, and leaves E1 unable to mutate LICENSE or perform license_selection. No license text is created by this task.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

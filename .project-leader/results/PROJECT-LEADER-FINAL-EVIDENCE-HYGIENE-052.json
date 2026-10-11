@@ -1,0 +1,64 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-FINAL-EVIDENCE-HYGIENE-052",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-FINAL-EVIDENCE-HYGIENE-052.json",
+  "authorization_commit_sha": "88cc5169427db7003b18ad6c2e8d1ae07f90c231",
+  "authorization_sha256": "ed5eb4eda6dfa98f358097ceeb04406fc650147e09c6f6219c0e385a93da8de0",
+  "implementation_head_sha": "72185fd4ba61788a2f2903e48c1cebb2d8c27224",
+  "branch": "builder/final-evidence-hygiene-052",
+  "pr_number": 54,
+  "recorded_at": "2026-10-04T11:44:00Z",
+  "state_observed_at": "2026-10-04T11:44:00Z",
+  "superseded_by": null,
+  "post_transition_record": null,
+  "changes": [
+    "Canonicalized task-050 exact merge authorization and SUCCESS merge result from control/merge-authorization-051.",
+    "Canonicalized task-050 exact purge results for builder/internal-operation-liveness-048 and control/merge-authorization-047, -048r and -049.",
+    "Persisted exact CURRENT_OWNER_INSTRUCTION purge authorizations for the two closed-unmerged convergence branches and control/merge-authorization-051 at the SHAs bound by Task Authorization 052.",
+    "Kept functional runtime, trust-root, managed-project and production files unchanged."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub compare main...72185fd4ba61788a2f2903e48c1cebb2d8c27224 is ahead-only and changes exactly one Task Authorization, six task-050 transition evidence files, and three exact task-052 purge authorization records."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Implementation head 72185fd4ba61788a2f2903e48c1cebb2d8c27224 passed Control contract tests run 37199645723, Validate control plane run 37199645728 and Package ChatGPT plugins run 37199645747. The initial Trusted authorization gate failure is expected because the final Worker Result did not yet exist on that head."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "No trust-root file is modified. E3 is used only for exact-revision destructive branch-hygiene authorization under CURRENT_OWNER_INSTRUCTION and canonical policy; no force-push or history rewrite is used."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37199645723
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37199645728
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37199645747
+    }
+  ],
+  "material_non_effects": [
+    "No PINK IPTV, FADEGO, VCAM-PRO or other managed-project mutation.",
+    "No Project Leader runtime, plugin source, role contract, workflow, policy or standing-authority mutation.",
+    "No VPS/OVH change, deploy, release, production secret, paid service, branch protection or force-push.",
+    "Closed failed PRs #50, #52 and superseded PR #53 remain preserved in GitHub history; only their exact obsolete branch refs are eligible for cleanup."
+  ],
+  "residual_blockers": []
+}

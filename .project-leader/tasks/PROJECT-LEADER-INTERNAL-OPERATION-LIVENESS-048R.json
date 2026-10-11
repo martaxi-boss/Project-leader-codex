@@ -1,0 +1,122 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-INTERNAL-OPERATION-LIVENESS-048R",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T11:15:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Owner requests a point audit and minimal universal correction for a real PINK-IPTV Work execution that remained on an internal repository-compare step after required CI had already succeeded and the next physical-device Human Gate was known. This clean re-execution supersedes the pre-PR 048 attempt because exact trust-root transition authorization was not durably persisted before its trust-root edits. Scope remains limited to universal external-wait versus internal-operation liveness, Recovery routing, and the honest frozen-host limitation; no managed project is mutated."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "05225695684b54ce5becbb89cf0e5b6dc88dcafa",
+    "task_branch": "builder/internal-operation-liveness-048r",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "PROJECT_LEADER.md",
+    "RUNBOOK.md",
+    "RECOVERY_PROTOCOL.md",
+    "AGENT_BUILDER_PROMPT.md",
+    "SMOKE_TESTS.md",
+    "roles/SUPERVISOR.md",
+    "roles/RECOVERY_GUARDIAN.md",
+    "tests/test_control_contract.py",
+    ".github/workflows/validate-control-plane.yml",
+    "plugins/project-leader/plugin.json",
+    "plugins/project-leader/skills/project-leader/SKILL.md",
+    "plugins/project-leader/skills/project-leader/references/recovery-protocol.md",
+    "plugins/recovery-guardian/plugin.json",
+    "plugins/recovery-guardian/skills/recovery-guardian/SKILL.md",
+    "plugins/recovery-guardian/skills/recovery-guardian/references/recovery-protocol.md",
+    "README.md",
+    "PLUGIN_SETUP.md",
+    ".project-leader/tasks/PROJECT-LEADER-INTERNAL-OPERATION-LIVENESS-048R.json",
+    ".project-leader/results/PROJECT-LEADER-INTERNAL-OPERATION-LIVENESS-048R.json",
+    ".project-leader/recovery-events/PROJECT-LEADER-INTERNAL-OPERATION-LIVENESS-048R/**",
+    ".project-leader/transitions/PROJECT-LEADER-INTERNAL-OPERATION-LIVENESS-048R-*"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root",
+    "reconcile_control_contract_docs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "cross_project_mutation",
+    "force_push",
+    "unrelated_refactor",
+    "weaken_ci_or_security_controls"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "External-wait versus internal-operation distinction",
+    "Internal no-progress Recovery routing",
+    "Frozen-host limitation honesty",
+    "Packaged skill/runtime alignment"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "05225695684b54ce5becbb89cf0e5b6dc88dcafa",
+    "sha256": "8496c175e9295450ac0d1228c9d08dcee3149d4f7384838fd2f2573250634e22",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Project Leader universally distinguishes legitimate externally-backed waits from internal control-plane operations. Internal compare/diff/audit/reconciliation/read/planning steps may not be left as passive spinners: while Work remains tool-capable, two canonical liveness observations with no new tool result, durable evidence or control-state transition classify INTERNAL_OPERATION_STALLED and route through LIVENESS_RECONCILE_REQUIRED to Recovery Guardian. Recovery reconstructs durable state, immediately uses already-sufficient evidence or changes to a bounded alternate read strategy, never repeats an ambiguous write as a liveness probe, and counts repeated stalls toward the existing no-progress ceiling. Legitimate external waits remain bound to observable external state and bounded re-checks. If the host/tool call itself is frozen and cannot yield execution control, the limitation is stated honestly and the first action after control returns is reconstruction/reconciliation. Required CI and packaging alignment pass.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

@@ -1,0 +1,440 @@
+name: Repository hygiene
+
+on:
+  workflow_dispatch:
+  pull_request_target:
+    types: [closed]
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: read
+
+concurrency:
+  group: repository-hygiene-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  delete-merged-pr-head:
+    if: >-
+      github.event_name == 'pull_request_target' &&
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref != 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout canonical repository for lease-safe ref update
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Delete merged same-repository PR branch with exact lease
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+
+          if [ "$(gh pr list --repo "$GITHUB_REPOSITORY" --head "$HEAD_REF" --state open --json number --limit 1 --jq 'length')" -gt 0 ]; then
+            echo "Preserving $HEAD_REF: branch is now used by an open pull request."
+            exit 0
+          fi
+
+          set +e
+          output="$(
+            git push               "--force-with-lease=refs/heads/$HEAD_REF:$EXPECTED_SHA"               origin               ":refs/heads/$HEAD_REF" 2>&1
+          )"
+          status=$?
+          set -e
+
+          if [ "$status" -eq 0 ]; then
+            echo "Deleted merged PR branch $HEAD_REF at exact SHA $EXPECTED_SHA."
+            exit 0
+          fi
+
+          actual_sha="$(
+            gh api "/repos/$GITHUB_REPOSITORY/git/ref/heads/$HEAD_REF"               --jq '.object.sha' 2>/dev/null || true
+          )"
+          if [ -z "$actual_sha" ]; then
+            echo "Branch $HEAD_REF is confirmed absent."
+            exit 0
+          fi
+          if [ "$actual_sha" != "$EXPECTED_SHA" ]; then
+            echo "Preserving $HEAD_REF: live SHA advanced to $actual_sha; expected $EXPECTED_SHA."
+            exit 0
+          fi
+
+          echo "$output" >&2
+          echo "Lease-safe deletion was refused while $HEAD_REF still points at $EXPECTED_SHA." >&2
+          exit "$status"
+
+  sweep-safe-obsolete-branches:
+    needs: delete-merged-pr-head
+    if: >-
+      always() &&
+      (
+        github.event_name == 'workflow_dispatch' ||
+        github.event_name == 'push' ||
+        (
+          github.event_name == 'pull_request_target' &&
+          github.event.pull_request.merged == true &&
+          github.event.pull_request.head.repo.full_name == github.repository
+        )
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout canonical repository for lease-safe ref updates
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Delete only branches proven obsolete against main
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const repositoryFullName = `${owner}/${repo}`;
+            const currentMergedHead =
+              context.eventName === 'pull_request_target' &&
+              context.payload.pull_request?.merged === true
+                ? context.payload.pull_request.head.ref
+                : null;
+
+            const main = await github.rest.repos.getBranch({
+              owner,
+              repo,
+              branch: 'main',
+            });
+            const mainSha = main.data.commit.sha;
+
+            const branches = await github.paginate(
+              github.rest.repos.listBranches,
+              { owner, repo, per_page: 100 },
+            );
+            const openPulls = await github.paginate(
+              github.rest.pulls.list,
+              { owner, repo, state: 'open', per_page: 100 },
+            );
+            const openPrHeads = new Set(
+              openPulls
+                .filter(
+                  (pr) =>
+                    pr.head?.repo?.full_name === repositoryFullName &&
+                    typeof pr.head?.ref === 'string',
+                )
+                .map((pr) => pr.head.ref),
+            );
+
+            const purgeAction =
+              'delete_owner_authorized_superseded_non_main_branch_refs';
+            const authorizedPurges = new Map();
+            const mainTree = await github.rest.git.getTree({
+              owner,
+              repo,
+              tree_sha: mainSha,
+              recursive: 'true',
+            });
+            if (mainTree.data.truncated) {
+              throw new Error('canonical main tree is truncated; refusing branch hygiene');
+            }
+
+            const treeByPath = new Map(
+              mainTree.data.tree
+                .filter((entry) => entry.type === 'blob' && entry.path)
+                .map((entry) => [entry.path, entry]),
+            );
+
+            async function readJsonEntry(entry) {
+              const blob = await github.rest.git.getBlob({
+                owner,
+                repo,
+                file_sha: entry.sha,
+              });
+              const raw = Buffer.from(
+                blob.data.content.replace(/\n/g, ''),
+                'base64',
+              ).toString('utf8');
+              return JSON.parse(raw);
+            }
+
+            const authPaths = mainTree.data.tree.filter(
+              (entry) =>
+                entry.type === 'blob' &&
+                entry.path?.startsWith('.project-leader/transitions/') &&
+                entry.path?.endsWith('.authorization.json'),
+            );
+            const taskCache = new Map();
+
+            async function readTaskOnce(taskPath) {
+              if (!taskPath) return null;
+              if (taskCache.has(taskPath)) return taskCache.get(taskPath);
+              const taskEntry = treeByPath.get(taskPath);
+              if (!taskEntry) {
+                taskCache.set(taskPath, null);
+                return null;
+              }
+              try {
+                const task = await readJsonEntry(taskEntry);
+                taskCache.set(taskPath, task);
+                return task;
+              } catch {
+                taskCache.set(taskPath, null);
+                return null;
+              }
+            }
+
+            for (const entry of authPaths) {
+              let record;
+              try {
+                record = await readJsonEntry(entry);
+              } catch {
+                continue;
+              }
+
+              const canonicalPath =
+                `.project-leader/transitions/${record?.transition_id}.authorization.json`;
+              const taskPath =
+                typeof record?.task_id === 'string'
+                  ? `.project-leader/tasks/${record.task_id}.json`
+                  : null;
+              const task = await readTaskOnce(taskPath);
+
+              if (
+                entry.path !== canonicalPath ||
+                record?.action !== purgeAction ||
+                record?.effect_class !== 'E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED' ||
+                record?.repository !== repositoryFullName ||
+                !['CURRENT_OWNER_INSTRUCTION', 'STANDING_OWNER_GRANT'].includes(
+                  record?.authority?.source,
+                ) ||
+                record?.authority?.binding_mode !== 'EXACT_REVISION_BOUND' ||
+                record?.target?.kind !== 'repository_branch' ||
+                typeof record?.target?.identifier !== 'string' ||
+                !/^[0-9a-f]{40}$/.test(record?.target?.revision || '') ||
+                !/^[0-9a-f]{40}$/.test(record?.target?.base_revision || '') ||
+                task?.task_id !== record?.task_id ||
+                task?.repository !== repositoryFullName ||
+                task?.effect_class !== 'E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED' ||
+                task?.integrity_mode !== 'IMMUTABLE_AUTHORIZATION_V1' ||
+                !Array.isArray(task?.allowed_actions) ||
+                !task.allowed_actions.includes(purgeAction)
+              ) {
+                continue;
+              }
+
+              const branchName = record.target.identifier;
+              const grants = authorizedPurges.get(branchName) || new Map();
+              const revisionGrants = grants.get(record.target.revision) || [];
+              revisionGrants.push({
+                transitionId: record.transition_id,
+                createdAt: record.created_at,
+              });
+              grants.set(record.target.revision, revisionGrants);
+              authorizedPurges.set(branchName, grants);
+            }
+
+            const deletedByOwnerAuthorization = [];
+            const deletedByAncestry = [];
+            const preserved = [];
+
+            async function liveBranchSha(name) {
+              try {
+                const response = await github.rest.git.getRef({
+                  owner,
+                  repo,
+                  ref: `heads/${name}`,
+                });
+                return response.data.object.sha;
+              } catch (error) {
+                if (error.status === 404) return null;
+                throw error;
+              }
+            }
+
+            async function branchHasOpenPull(name) {
+              const pulls = await github.rest.pulls.list({
+                owner,
+                repo,
+                state: 'open',
+                head: `${owner}:${name}`,
+                per_page: 100,
+              });
+              return pulls.data.some(
+                (pr) =>
+                  pr.head?.repo?.full_name === repositoryFullName &&
+                  pr.head?.ref === name,
+              );
+            }
+
+            async function deleteBranchWithLease(name, expectedSha, bucket) {
+              if (await branchHasOpenPull(name)) {
+                return { status: 'open-pr' };
+              }
+
+              const result = await exec.getExecOutput(
+                'git',
+                [
+                  'push',
+                  `--force-with-lease=refs/heads/${name}:${expectedSha}`,
+                  'origin',
+                  `:refs/heads/${name}`,
+                ],
+                { ignoreReturnCode: true, silent: true },
+              );
+
+              if (result.exitCode === 0) {
+                bucket.push(name);
+                return { status: 'deleted' };
+              }
+
+              const currentSha = await liveBranchSha(name);
+              if (currentSha === null) {
+                bucket.push(`${name} (confirmed absent)`);
+                return { status: 'absent' };
+              }
+              if (currentSha !== expectedSha) {
+                return {
+                  status: 'changed',
+                  currentSha,
+                };
+              }
+
+              throw new Error(
+                `Lease-safe deletion refused for ${name} @ ${expectedSha}: ` +
+                  (result.stderr || result.stdout || 'git push failed'),
+              );
+            }
+
+            for (const branch of branches) {
+              if (branch.name === 'main') continue;
+
+              if (branch.name === currentMergedHead) {
+                preserved.push({
+                  name: branch.name,
+                  sha: branch.commit.sha,
+                  reason: 'handled by serialized merged-PR head cleanup job',
+                });
+                continue;
+              }
+
+              if (openPrHeads.has(branch.name)) {
+                preserved.push({
+                  name: branch.name,
+                  sha: branch.commit.sha,
+                  reason: 'open pull request',
+                });
+                continue;
+              }
+
+              if (authorizedPurges.has(branch.name)) {
+                const grants = authorizedPurges.get(branch.name);
+                if (grants.has(branch.commit.sha)) {
+                  const deletion = await deleteBranchWithLease(
+                    branch.name,
+                    branch.commit.sha,
+                    deletedByOwnerAuthorization,
+                  );
+                  if (deletion.status === 'changed') {
+                    preserved.push({
+                      name: branch.name,
+                      sha: deletion.currentSha,
+                      reason:
+                        `lease mismatch: branch advanced after validation from ${branch.commit.sha}`,
+                    });
+                  } else if (deletion.status === 'open-pr') {
+                    preserved.push({
+                      name: branch.name,
+                      sha: branch.commit.sha,
+                      reason: 'open pull request discovered immediately before deletion',
+                    });
+                  }
+                } else {
+                  preserved.push({
+                    name: branch.name,
+                    sha: branch.commit.sha,
+                    reason:
+                      'no exact live-SHA purge grant; authorized revisions: ' +
+                      [...grants.keys()].sort().join(', '),
+                  });
+                }
+                continue;
+              }
+
+              if (branch.name.startsWith('control/merge-authorization-')) {
+                preserved.push({
+                  name: branch.name,
+                  sha: branch.commit.sha,
+                  reason:
+                    'durable transition-evidence ref; requires exact purge authorization',
+                });
+                continue;
+              }
+
+              const comparison = await github.rest.repos.compareCommits({
+                owner,
+                repo,
+                base: branch.commit.sha,
+                head: mainSha,
+                per_page: 1,
+              });
+              const mergeBase = comparison.data.merge_base_commit?.sha;
+
+              if (mergeBase === branch.commit.sha) {
+                const deletion = await deleteBranchWithLease(
+                  branch.name,
+                  branch.commit.sha,
+                  deletedByAncestry,
+                );
+                if (deletion.status === 'changed') {
+                  preserved.push({
+                    name: branch.name,
+                    sha: deletion.currentSha,
+                    reason:
+                      `lease mismatch: branch advanced after ancestry proof from ${branch.commit.sha}`,
+                  });
+                } else if (deletion.status === 'open-pr') {
+                  preserved.push({
+                    name: branch.name,
+                    sha: branch.commit.sha,
+                    reason: 'open pull request discovered immediately before deletion',
+                  });
+                }
+              } else {
+                preserved.push({
+                  name: branch.name,
+                  sha: branch.commit.sha,
+                  reason:
+                    'not fully contained in main; no exact purge authorization',
+                });
+              }
+            }
+
+            core.summary
+              .addHeading('Repository hygiene')
+              .addRaw(`Canonical main: ${mainSha}\n\n`)
+              .addHeading('Deleted by exact Owner authorization', 2)
+              .addList(
+                deletedByOwnerAuthorization.length
+                  ? deletedByOwnerAuthorization
+                  : ['None'],
+              )
+              .addHeading('Deleted by ancestry', 2)
+              .addList(
+                deletedByAncestry.length ? deletedByAncestry : ['None'],
+              )
+              .addHeading('Preserved branches', 2)
+              .addList(
+                preserved.length
+                  ? preserved.map(
+                      (item) =>
+                        `${item.name} @ ${item.sha} — ${item.reason}`,
+                    )
+                  : ['None'],
+              );
+            await core.summary.write();

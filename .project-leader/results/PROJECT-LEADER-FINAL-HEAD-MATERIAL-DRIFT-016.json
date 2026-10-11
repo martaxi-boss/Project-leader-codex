@@ -1,0 +1,71 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-FINAL-HEAD-MATERIAL-DRIFT-016",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-FINAL-HEAD-MATERIAL-DRIFT-016.json",
+  "authorization_commit_sha": "ba10ac822cdd58bb0527f19e37b9d7c140d9d6fe",
+  "authorization_sha256": "ef87388d8e3a20cc2a8e194e330f0af8cf6dc8719c6daf8a47218716ebfee57e",
+  "implementation_head_sha": "639ba220a5cbb7f868a9027668f9c782eb44d700",
+  "branch": "builder/final-head-material-drift-016",
+  "pr_number": 16,
+  "recorded_at": "2026-10-03T11:20:33.553Z",
+  "state_observed_at": "2026-10-03T11:20:33.553Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-FINAL-HEAD-MATERIAL-DRIFT-016-TRUST-ROOT.result.json",
+  "changes": [
+    "GitHub evidence verification now treats implementation_head_sha as the last material mutation point for a certification.",
+    "Descendant final-head changes are accepted only when every post-CI changed path is task-local Project Leader result, recovery-event, or transition-result evidence.",
+    "Any product, workflow, source, configuration, documentation, or other material change after the CI-certified implementation head invalidates terminal acceptance and requires fresh CI on a new implementation head.",
+    "Regression tests cover task-local evidence acceptance, material drift rejection, cross-task metadata rejection, and missing changed-file evidence."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #16 is stacked only on point 1 and its own diff is limited to task/transition/result evidence, verify_github_evidence.py, contract docs, Project Leader skill, and tests."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required implementation-head workflows completed successfully on exact SHA 639ba220a5cbb7f868a9027668f9c782eb44d700 with concrete run IDs; final metadata-head trusted-gate verification is triggered after this result is persisted."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact Owner-authorized trust-root transition was persisted before protected verifier changes and its transition result was persisted after validation."
+    },
+    {
+      "name": "Post-CI material drift rejection",
+      "status": "PASS",
+      "evidence": "Control contract tests run 37119221395 passed regressions accepting only task-local evidence after the certified implementation head and rejecting material or cross-task post-CI drift."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37119221395
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37119221396
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37119221426
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No merge to main.",
+    "No registered managed-project mutation.",
+    "No project-specific hard-coding.",
+    "No workflow, branch protection, release, deployment, secret, infrastructure, data, history, or paid-service mutation.",
+    "No weakening of Human Gates or CI requirements."
+  ],
+  "residual_blockers": []
+}

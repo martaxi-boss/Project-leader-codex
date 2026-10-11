@@ -1,0 +1,107 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-CONTROL-HARDENING-013",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T08:28:22.145Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "summary": "Owner explicitly authorizes correcting the two generic Project Leader gaps identified in the live audit: durable append-only Recovery Guardian evidence when recovery actually occurs, and managed-project mutation-scope containment parity with the trusted gate. No managed-project mutation or unrelated refactor is authorized.",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND"
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "5c96a3c84444e42256e04629c631c364313f3582",
+    "task_branch": "builder/control-hardening-recovery-scope-013",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".project-leader/tasks/**",
+    ".project-leader/results/**",
+    ".project-leader/transitions/**",
+    "control/**",
+    "tests/**",
+    "RECOVERY_PROTOCOL.md",
+    "plugins/project-leader/skills/project-leader/**"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root",
+    "add_cross_repository_policy_binding",
+    "add_cross_repository_e2e_tests",
+    "reconcile_control_contract_docs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "repository_or_history_deletion",
+    "force_push",
+    "unrelated_refactor"
+  ],
+  "human_gates": [
+    {
+      "action": "merge_to_main",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "license_selection",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_owner_approval": true
+    }
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Managed scope containment parity",
+    "Recovery journal enforcement"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "binding_mode": "LOCAL_BASE_V1",
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "5c96a3c84444e42256e04629c631c364313f3582",
+    "sha256": "9666860e6cf78c6e6ef67ef9ba8c3257cdc0db85af7ddaa9896a2dabe07081d0"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "One isolated Project Leader PR fixes only the two audited generic control-plane gaps: managed cross-repository scope containment uses the same safe subset semantics as the trusted gate, and observable recovery retries require durable append-only recovery evidence while the Recovery Guardian instructions persist events before retry/replan. Required contract tests and plugin packaging pass. Stop before merge to main.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1"
+}

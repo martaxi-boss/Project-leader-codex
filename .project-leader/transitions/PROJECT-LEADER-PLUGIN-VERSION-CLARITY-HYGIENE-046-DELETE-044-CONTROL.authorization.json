@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-PLUGIN-VERSION-CLARITY-HYGIENE-046-DELETE-044-CONTROL",
+  "task_id": "PROJECT-LEADER-PLUGIN-VERSION-CLARITY-HYGIENE-046",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T02:30:00Z",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner requested same-execution hygiene. Task 046 canonicalizes all unique task-044 post-merge evidence. This authorizes deletion only of obsolete control/merge-authorization-044 at the exact live revision after task 046 integration.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "control/merge-authorization-044",
+    "revision": "4a907f5cc77a1f84db2fd1099070831907bbc14c",
+    "base_revision": "7dc5aa8cb86ed0a473c5e95fab4cd40f6eab7875",
+    "environment": null
+  }
+}

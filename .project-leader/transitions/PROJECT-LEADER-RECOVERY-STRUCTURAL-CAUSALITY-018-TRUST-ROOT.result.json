@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-RECOVERY-STRUCTURAL-CAUSALITY-018-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-RECOVERY-STRUCTURAL-CAUSALITY-018",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-RECOVERY-STRUCTURAL-CAUSALITY-018-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/recovery-structural-causality-018",
+    "revision": "c17b09f719fb7146b18106f97a3da5e1e8e592ca",
+    "base_revision": "a282b96ee7961df767e5783330294cf61e6b52fa",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T11:32:14.795Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "e5626dce0d7f63c505828e7adc508592a0721b4e"
+  },
+  "evidence": [
+    "Owner authorization was persisted before protected Recovery verifier changes.",
+    "Control contract tests run 37119940673 completed SUCCESS on implementation head e5626dce0d7f63c505828e7adc508592a0721b4e.",
+    "Validate control plane run 37119940695 completed SUCCESS on the same implementation head.",
+    "Package ChatGPT plugins run 37119940672 completed SUCCESS on the same implementation head."
+  ],
+  "residual_blockers": []
+}

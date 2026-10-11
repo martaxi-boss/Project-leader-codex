@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-HYGIENE-CLOSEOUT-037-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-HYGIENE-CLOSEOUT-037",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-HYGIENE-CLOSEOUT-037-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/hygiene-closeout-037",
+    "revision": "8f4b9f8d3025725ea27efbee7064d0e2815deb83",
+    "base_revision": "b9aab120e59fabeacab775612c5065c6eedc9f63",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T18:33:13Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "4ec29befa48e952746adc01baf2952fe4456b1aa"
+  },
+  "evidence": [
+    "Authorization-only commit 8f4b9f8d3025725ea27efbee7064d0e2815deb83 precedes exact trust-root authorization and implementation.",
+    "155 executable contract tests and exact base-policy scope audit passed locally.",
+    "Exact implementation CI runs 37144435060, 37144435051 and 37144435071 completed-success.",
+    "Six historical/current merge records preserved byte-for-byte; three obsolete branch deletions are limited to freshly audited exact names and SHAs."
+  ],
+  "residual_blockers": []
+}

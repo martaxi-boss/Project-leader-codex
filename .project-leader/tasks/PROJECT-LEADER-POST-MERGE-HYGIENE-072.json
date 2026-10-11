@@ -1,0 +1,120 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-POST-MERGE-HYGIENE-072",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-06T18:45:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Owner explicitly instructed completion of the pending Project Leader repository hygiene after the 0.6.8 merge: audit what remains, preserve valuable audit/transition evidence, close missing post-merge transition evidence, and remove only proven obsolete non-main refs. No runtime/architecture/product change and no mutation outside Project Leader."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "1760cf8a80c3df7c1f3296053b55ef6f9716ca8a",
+    "task_branch": "builder/post-merge-hygiene-072",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".project-leader/tasks/PROJECT-LEADER-POST-MERGE-HYGIENE-072.json",
+    ".project-leader/results/PROJECT-LEADER-POST-MERGE-HYGIENE-072.json",
+    ".project-leader/tasks/PROJECT-LEADER-DIRECT-EXECUTION-HYGIENE-068.json",
+    ".project-leader/tasks/PROJECT-LEADER-DIRECT-EXECUTION-REGRESSION-069.json",
+    ".project-leader/tasks/PROJECT-LEADER-DIRECT-EXECUTION-HYGIENE-070.json",
+    ".project-leader/results/PROJECT-LEADER-DIRECT-EXECUTION-HYGIENE-070.json",
+    ".project-leader/transitions/PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062-DELETE-01.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062-DELETE-01.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062-DELETE-02.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062-DELETE-02.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062-DELETE-03.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062-DELETE-03.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062-MERGE.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062-MERGE.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-RECOVERY-COMPACTION-HYGIENE-067-MERGE.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-RECOVERY-COMPACTION-HYGIENE-067-MERGE.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-DIRECT-EXECUTION-HYGIENE-071-MERGE.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-DIRECT-EXECUTION-HYGIENE-071-MERGE.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-POST-MERGE-HYGIENE-072-*"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "reconcile_transition_records",
+    "delete_owner_authorized_superseded_non_main_branch_refs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "force_push",
+    "unrelated_refactor",
+    "weaken_ci_or_security_controls",
+    "cross_project_mutation",
+    "vps_mutation"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Exact superseded-ref identity audit",
+    "Historical evidence preservation audit",
+    "Transition result reconstruction audit"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "1760cf8a80c3df7c1f3296053b55ef6f9716ca8a",
+    "sha256": "8496c175e9295450ac0d1228c9d08dcee3149d4f7384838fd2f2573250634e22",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Canonical main preserves the valuable unique evidence from obsolete refs, verified PR70/PR73 merge result records exist, exact CURRENT_OWNER_INSTRUCTION purge authorizations bind all five currently obsolete refs to their live SHAs, required CI passes, the hygiene sweep removes only those exact refs plus the merged task branch, and no runtime/architecture/external-project state changes.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

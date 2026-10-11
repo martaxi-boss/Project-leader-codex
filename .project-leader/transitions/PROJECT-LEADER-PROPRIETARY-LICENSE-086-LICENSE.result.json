@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-PROPRIETARY-LICENSE-086-LICENSE",
+  "task_id": "PROJECT-LEADER-PROPRIETARY-LICENSE-086",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-PROPRIETARY-LICENSE-086-LICENSE.authorization.json",
+  "action": "license_selection",
+  "target": {
+    "kind": "repository_file",
+    "identifier": "LICENSE",
+    "revision": "b40090c6395016c53d2929a76ed8e8433090fa06",
+    "base_revision": "faec539991007889f7f0a6252ebf45bd084b6141",
+    "environment": null
+  },
+  "observed_at": "2026-10-07T11:15:00Z",
+  "final_state": {
+    "status": "LICENSE_SELECTED",
+    "revision": "df17bbc3022364c742cdd1518c97f9159d787245"
+  },
+  "evidence": [
+    "The Owner explicitly selected proprietary / All Rights Reserved terms.",
+    "Exact license-selection authorization 04fc4ca5d511ad80a6dfc3c105337ccb77cbf6c3 was persisted before LICENSE implementation.",
+    "Implementation head df17bbc3022364c742cdd1518c97f9159d787245 contains LICENSE and consistent README/PLUGIN_SETUP/CHANGELOG updates.",
+    "Exact-head Control contract tests 37612599258 completed 273 tests successfully; Validate control plane 37612599239 and Package ChatGPT plugins 37612599261 also succeeded."
+  ],
+  "residual_blockers": []
+}

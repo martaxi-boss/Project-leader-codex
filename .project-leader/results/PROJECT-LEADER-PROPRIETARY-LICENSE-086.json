@@ -1,0 +1,76 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-PROPRIETARY-LICENSE-086",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-PROPRIETARY-LICENSE-086.json",
+  "authorization_commit_sha": "b40090c6395016c53d2929a76ed8e8433090fa06",
+  "authorization_sha256": "89816963411c26cb0445f2e5719dcc45a5f03ee72838f4ae53e2f511d0375ced",
+  "implementation_head_sha": "df17bbc3022364c742cdd1518c97f9159d787245",
+  "branch": "builder/proprietary-license-086",
+  "pr_number": 89,
+  "recorded_at": "2026-10-07T11:15:00Z",
+  "state_observed_at": "2026-10-07T11:14:30Z",
+  "changes": [
+    "Added the Owner-selected proprietary / All Rights Reserved LICENSE.",
+    "Updated README.md, PLUGIN_SETUP.md and CHANGELOG.md to state the proprietary status and remove the obsolete unresolved-license wording.",
+    "Preserved third-party license obligations explicitly and granted no general open-source reuse permission.",
+    "Migrated the historical P2 maintenance regression to assert the selected proprietary boundary.",
+    "Added whitespace-robust proprietary license regressions."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Control contract tests run 37612599258 completed successfully on exact implementation head df17bbc3022364c742cdd1518c97f9159d787245 and mutation-scope enforcement passed."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required exact-head CI is terminal-success: Control contract tests 37612599258, Validate control plane 37612599239 and Package ChatGPT plugins 37612599261."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Task 086 contains the complete E3 transition-control set required by base policy, including trust_root_mutation as a control. No trust-root policy file was mutated. The actual consequential license effect is separately authorized by PROJECT-LEADER-PROPRIETARY-LICENSE-086-LICENSE at commit 04fc4ca5d511ad80a6dfc3c105337ccb77cbf6c3."
+    },
+    {
+      "name": "Owner-selected proprietary license regression",
+      "status": "PASS",
+      "evidence": "tests/test_license_selection_regression.py verifies proprietary/All Rights Reserved terms, no general open-source grant, consistent documentation and preservation of third-party rights. The exact-head suite reports 273 tests OK."
+    },
+    {
+      "name": "P2 license-boundary regression migration",
+      "status": "PASS",
+      "evidence": "tests/test_audit_p2_regressions.py now requires the selected proprietary / All Rights Reserved status and rejects the obsolete unresolved-license state."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37612599258
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37612599239
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37612599261
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/89"
+  ],
+  "material_non_effects": [
+    "No open-source license grant was created.",
+    "No third-party software, connector, service, trademark or dependency was relicensed.",
+    "No trust-root policy file, external project, release/publish action, deployment, repository-admin setting, architecture or role hierarchy was changed.",
+    "Superseded Tasks 084 and 085 were closed unmerged and produced no canonical license effect."
+  ],
+  "residual_blockers": []
+}

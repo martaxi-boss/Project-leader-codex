@@ -1,0 +1,107 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-DEVELOPMENT-MERGE-AUTHORITY-020",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T11:37:31.439Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "summary": "Owner authorized correcting mapped universal Project Leader gaps one at a time. This task fixes only the authority-model mismatch for development-branch merges by adding an explicit recoverable project-local merge_development_branch action while preserving merge_to_main as prohibited and Human-gated.",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND"
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "3c1c514c563525f990a9f9e350adfb961372ff94",
+    "task_branch": "builder/development-merge-authority-020",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".project-leader/tasks/**",
+    ".project-leader/results/**",
+    ".project-leader/transitions/**",
+    "projects/policies/**",
+    "tests/**",
+    "PROJECT_LEADER.md",
+    "RUNBOOK.md",
+    "plugins/project-leader/skills/project-leader/**"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root",
+    "add_cross_repository_policy_binding",
+    "reconcile_control_contract_docs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "repository_or_history_deletion",
+    "force_push",
+    "unrelated_refactor",
+    "weaken_main_human_gate"
+  ],
+  "human_gates": [
+    {
+      "action": "merge_to_main",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "license_selection",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_owner_approval": true
+    }
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Development-merge authority separation"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "binding_mode": "LOCAL_BASE_V1",
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "3c1c514c563525f990a9f9e350adfb961372ff94",
+    "sha256": "9666860e6cf78c6e6ef67ef9ba8c3257cdc0db85af7ddaa9896a2dabe07081d0"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Every registered central policy explicitly permits merge_development_branch as recoverable project-local work where applicable, while merge_to_main remains absent from allowed actions and remains required as a prohibited Human Gate. Project Leader contracts require the action to be present in the task authorization before such a development merge. Tests pass. Stop before merge to main.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1"
+}

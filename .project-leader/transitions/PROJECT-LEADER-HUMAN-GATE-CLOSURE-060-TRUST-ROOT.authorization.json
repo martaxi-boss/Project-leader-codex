@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-HUMAN-GATE-CLOSURE-060-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-HUMAN-GATE-CLOSURE-060",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T18:38:20.787353Z",
+  "action": "trust_root_mutation",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner authorizes correction, audit and hygiene of Project Leader while preserving its existing autonomous model. This transition binds the immutable task authorization revision before modifying only the enumerated resolver, runtime contract, regression tests, plugin metadata/version checks and documentation; it grants no architecture, standing-authority, managed-project, infrastructure or production change.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/human-gate-closure-060",
+    "revision": "47d5e10cca882a331c7afd8cd48e2360344207c5",
+    "base_revision": "17301664dd53eb4f9c8d7b08d240180153782e1b",
+    "environment": null
+  }
+}

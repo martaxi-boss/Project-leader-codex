@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "task_id": "PROJECT-LEADER-LIVENESS-HYGIENE-041",
+  "repository": "martaxi-boss/Project-leader",
+  "sequence": 2,
+  "recorded_at": "2026-10-03T22:49:49.781Z",
+  "event": "RETRY_AUTHORIZED",
+  "strategy_generation": 1,
+  "action_fingerprint": "PROJECT-LEADER-LIVENESS-HYGIENE-041|PR41|Control contract tests|contract assertions missing canonical recovery guarantees",
+  "attempt_count": 2,
+  "identical_failure_count": 1,
+  "no_progress_iterations": 1,
+  "previous_event_sha256": "315eda1cff88a463a30f38498dde3f1047a75921ea32c6afb7526a50aef10a62",
+  "detail": "Authorize fresh certification on a descendant SHA after canonical RECOVERY_PROTOCOL.md absorbed the two pre-existing packaged guarantees and both packaged recovery references were resynchronized. Do not rerun the failed old SHA; use only fresh CI on a descendant containing this event."
+}

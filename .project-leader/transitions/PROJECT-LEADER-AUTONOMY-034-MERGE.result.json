@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-AUTONOMY-034-MERGE",
+  "task_id": "PROJECT-LEADER-AUTONOMY-034",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-AUTONOMY-034-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#34",
+    "revision": "d0369cbff4342fc9bac9deb9c9affc8be14dfc9b",
+    "base_revision": "73c5512674b2f14d82d69f6f4a10a8f886cf0049",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T17:21:00Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "ca2916d3c4ff46fef7783a4c081c49697a25dfbf"
+  },
+  "evidence": [
+    "Standing-owner merge authorization was durably persisted before the effect on control/merge-authorization-034 at commit 4ca9a959163ecff734c5630a3bbe4fa5152010d8.",
+    "Immediately before merge, PR #34 was open, ready, mergeable, based on main 73c5512674b2f14d82d69f6f4a10a8f886cf0049, with exact head d0369cbff4342fc9bac9deb9c9affc8be14dfc9b.",
+    "Required current-head checks were SUCCESS: Control contract tests 37140029144, Validate control plane 37140029180, Package ChatGPT plugins 37140029236, Trusted authorization gate 37140027885.",
+    "GitHub merged PR #34 using expected_head_sha enforcement and returned merge commit ca2916d3c4ff46fef7783a4c081c49697a25dfbf.",
+    "Post-merge main equals ca2916d3c4ff46fef7783a4c081c49697a25dfbf and certified PR head d0369cbff4342fc9bac9deb9c9affc8be14dfc9b is in its ancestry.",
+    "Post-merge Control contract tests 37140110659, Validate control plane 37140110609, Package ChatGPT plugins 37140110637 and Repository hygiene 37140110732 all completed SUCCESS.",
+    "Project Leader - Protect main ruleset remains active and the merged builder/project-leader-autonomy-034 branch was removed by repository hygiene."
+  ],
+  "residual_blockers": []
+}

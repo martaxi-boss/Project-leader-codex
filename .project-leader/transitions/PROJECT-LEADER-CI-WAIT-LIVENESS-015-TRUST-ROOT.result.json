@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-CI-WAIT-LIVENESS-015-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-CI-WAIT-LIVENESS-015",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-CI-WAIT-LIVENESS-015-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/ci-wait-liveness-015",
+    "revision": "a0c5075d61a1c93f46870a30a111ee60cf3ad039",
+    "base_revision": "c426edc709cfe6538489bdd84c2eeb4bb10bec05",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T11:12:15.375Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "0b3c869deea4c336b85f2a335b8da1b41f18ad00"
+  },
+  "evidence": [
+    "Owner authorization for this universal Project Leader liveness correction was persisted before protected control-plane mutations.",
+    "Control contract tests run 37118834972 completed SUCCESS on implementation head 0b3c869deea4c336b85f2a335b8da1b41f18ad00.",
+    "Validate control plane run 37118834984 completed SUCCESS on the same implementation head.",
+    "Package ChatGPT plugins run 37118834967 completed SUCCESS on the same implementation head."
+  ],
+  "residual_blockers": []
+}

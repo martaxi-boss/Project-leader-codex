@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "task_id": "PROJECT-LEADER-LIVENESS-HYGIENE-041",
+  "repository": "martaxi-boss/Project-leader",
+  "sequence": 1,
+  "recorded_at": "2026-10-03T22:49:12.550Z",
+  "event": "FAILURE_OBSERVED",
+  "strategy_generation": 1,
+  "action_fingerprint": "PROJECT-LEADER-LIVENESS-HYGIENE-041|PR41|Control contract tests|contract assertions missing canonical recovery guarantees",
+  "attempt_count": 1,
+  "identical_failure_count": 1,
+  "no_progress_iterations": 1,
+  "previous_event_sha256": null,
+  "detail": "PR41 exact-head Control contract tests run 37159659588 failed because packaged recovery protocol synchronization exposed two guarantees present in the prior packaged reference but absent from canonical RECOVERY_PROTOCOL.md: terminal certification must fail on invalid/missing recovery evidence, and interrupted waits must reconstruct the existing run set before dispatch. Preserve both guarantees by elevating them into the root protocol; do not weaken tests."
+}

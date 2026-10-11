@@ -1,0 +1,82 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-029",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-029.json",
+  "authorization_commit_sha": "21a90f47079842d8bf1f9ba25716c328d7b053f7",
+  "authorization_sha256": "36ef7d44b8e0810424f5163dafbdcfb95a9a94b6db8938be756cdc03db5b2945",
+  "implementation_head_sha": "5b286ea021e8f3bd3892ca945f0b257bd38548b1",
+  "branch": "builder/superseded-branch-purge-029",
+  "pr_number": 30,
+  "recorded_at": "2026-10-03T13:34:44.746Z",
+  "state_observed_at": "2026-10-03T13:34:44.746Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-029-TRUST-ROOT.result.json",
+  "changes": [
+    "Added six durable exact-revision Owner authorizations for audited obsolete Builder branches.",
+    "Repository hygiene now reads canonical exact purge authorizations from main and deletes only when live branch name and SHA both match.",
+    "Open PR heads, main, unlisted branches, and revision-mismatched authorized branches are preserved.",
+    "Repository hygiene now also runs after pushes to main so temporary control/authorization refs self-clean after their evidence becomes canonical."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #30 changes are limited to task/transition/result evidence, repository hygiene workflow, RUNBOOK and contract tests inside the immutable task scope."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required workflows completed successfully on exact implementation SHA 5b286ea021e8f3bd3892ca945f0b257bd38548b1."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact Owner-authorized trust-root transition was persisted before protected workflow/runbook changes and its result was persisted after validation."
+    },
+    {
+      "name": "Exact superseded branch authorization verification",
+      "status": "PASS",
+      "evidence": "Six transition authorization records bind exact branch names and exact live SHAs under CURRENT_OWNER_INSTRUCTION and EXACT_REVISION_BOUND."
+    },
+    {
+      "name": "Open-PR and revision-mismatch preservation",
+      "status": "PASS",
+      "evidence": "Workflow preserves open PR heads and refuses owner-authorized deletion when the live SHA differs from the authorized revision."
+    },
+    {
+      "name": "Post-cleanup survivor audit",
+      "status": "PASS",
+      "evidence": "Workflow reports all preserved refs with reasons; final live survivor audit will run after the merge-triggered purge."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37126605664
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37126605671
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37126605665
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No branch ref has been deleted before canonical merge.",
+    "No main ref deletion or history rewrite.",
+    "No open-PR or unlisted branch deletion.",
+    "No force push.",
+    "No ruleset or branch-protection change.",
+    "No managed-project mutation."
+  ],
+  "residual_blockers": []
+}

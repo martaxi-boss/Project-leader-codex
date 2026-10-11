@@ -1,0 +1,100 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-EFFICIENCY-FASTPREFLIGHT-100",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-EFFICIENCY-FASTPREFLIGHT-100.json",
+  "authorization_commit_sha": "b48cf324dda1e26310a5b8413cf1fe4efe6d755e",
+  "authorization_sha256": "458c80069db4e0ac8ab21b2cb3b5b94dc410e9c6da07e26cbbdbecfe29276015",
+  "implementation_head_sha": "a98ce131c1e5804e31a3f053a93ed368500b21c3",
+  "branch": "builder/efficiency-fast-preflight-100",
+  "pr_number": 100,
+  "recorded_at": "2026-10-09T15:54:57.215Z",
+  "state_observed_at": "2026-10-09T15:54:57.215Z",
+  "superseded_by": null,
+  "post_transition_record": null,
+  "changes": [
+    "Added a pure E1 exact-candidate preflight router: current focused PASS proceeds to required final validation; stale/missing focused evidence reruns focused checks; current failed focus routes direct Recovery; irrelevant/unavailable focus does not block required full CI.",
+    "Tightened skill and runbook instructions to run cheap relevant validation before automatic CI-triggering pushes and to compact routine cross-role context; existing security and independent Supervisor material review remain mandatory.",
+    "Regression tests cover preflight behavior, E2/E3 preservation, context-compaction invariants and existing Recovery protections. No release or plugin activation."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #100 changes exactly the Task 100 authorization record, RUNBOOK.md, control/managed_project_contract.py, the two scoped SKILL.md files, and tests/test_execution_first_contract.py before this evidence-only result; no other repository or file scope."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Exact implementation a98ce131c1e5804e31a3f053a93ed368500b21c3 has successful Control contract tests run 37954947687, Validate control plane run 37954947761, and Package ChatGPT plugins run 37954947577 in pull_request context for PR 100."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Authorization-only commit b48cf324dda1e26310a5b8413cf1fe4efe6d755e follows canonical base 7f3706f96a43071d797f19774b9eca25ab464e56, predates all implementation changes and has verified SHA-256 458c80069db4e0ac8ab21b2cb3b5b94dc410e9c6da07e26cbbdbecfe29276015; independent trusted gate is checked separately on PR."
+    },
+    {
+      "name": "Focused validation exact-candidate regression",
+      "status": "PASS",
+      "evidence": "Run 37954947687 passed tests for missing, stale, failed and exact-candidate passed focused evidence, routing recovery and mandatory validation safely."
+    },
+    {
+      "name": "Unusable focused-check fallback regression",
+      "status": "PASS",
+      "evidence": "Run 37954947687 passed fallback when a cheap relevant check is unavailable/irrelevant, without skipping mandatory full/security/exact-state validation."
+    },
+    {
+      "name": "Supervisor independent material-audit preservation",
+      "status": "PASS",
+      "evidence": "Role and Skill contracts retain independent Supervisor material/consequential audit, and regression text checks passed in run 37954947687. This draft does not claim a separate Supervisor approval for promotion."
+    },
+    {
+      "name": "E2/E3 unchanged validation regression",
+      "status": "PASS",
+      "evidence": "Run 37954947687 passed E2/E3 material-control regression including unchanged full validation and cancellation behavior; new E1 preflight helper routes material work unchanged."
+    },
+    {
+      "name": "Recovery anti-loop preservation",
+      "status": "PASS",
+      "evidence": "Run 37954947687 passed the existing contract suite and new direct-recovery route tests; no retry-budget, authority, or durable journal code altered."
+    },
+    {
+      "name": "No administrative E1 artifact regression",
+      "status": "PASS",
+      "evidence": "Changes only add mandatory E3 task/result governance, not new E1 Task Authorization/Worker Result or role handoff requirements. Existing FAST_E1 remains without new records."
+    },
+    {
+      "name": "In-scope hygiene complete",
+      "status": "PASS",
+      "evidence": "No temporary diagnostic probes, generated files, unrelated refs, or redundant role records were left; the open draft PR branch, immutable authorization and historical evidence are deliberately preserved."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37954947687
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37954947761
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37954947577
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/100"
+  ],
+  "material_non_effects": [
+    "Project Leader main remains unchanged; the PR remains draft and unmerged.",
+    "No plugin installation/synchronization/publication, release, deployment, ruleset/permission/security weakening, or managed-project mutation was performed.",
+    "No change to effect classes, mandatory full CI, exact-head certification, Supervisor material review, Recovery anti-loop, or project isolation."
+  ],
+  "residual_blockers": []
+}

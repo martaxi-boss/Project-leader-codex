@@ -1,0 +1,147 @@
+name: Trusted authorization gate
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: read
+
+jobs:
+  trusted-authorization:
+    permissions:
+      contents: read
+      pull-requests: read
+      actions: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout trusted base only
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          fetch-depth: 1
+
+      - name: Fetch untrusted change set as data
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          EVENT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          test -n "$HEAD_REPO" || {
+            echo "Trusted gate cannot inspect a missing/deleted PR head repository." >&2
+            exit 1
+          }
+
+          gh api --paginate "/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/files?per_page=100" \
+            --jq '.[] | {filename: .filename, previous_filename: .previous_filename, status: .status}' \
+            | jq -s '.' > /tmp/project-leader-changed.json
+
+          declared_changed="$(gh api "/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" --jq '.changed_files')"
+          observed_changed="$(jq 'length' /tmp/project-leader-changed.json)"
+          if [ "$declared_changed" -ge 3000 ] || [ "$observed_changed" -ne "$declared_changed" ]; then
+            echo "Trusted gate refuses incomplete PR file evidence: declared=$declared_changed observed=$observed_changed." >&2
+            exit 1
+          fi
+
+          live_base_sha="$(gh api "/repos/$GITHUB_REPOSITORY/git/ref/heads/$BASE_REF" --jq '.object.sha')"
+          if [ "$live_base_sha" != "$EVENT_BASE_SHA" ]; then
+            echo "Trusted gate base is stale: event=$EVENT_BASE_SHA live=$live_base_sha." >&2
+            exit 1
+          fi
+
+          mapfile -t task_files < <(
+            jq -r '.[].filename | select(test("^\\.project-leader/tasks/[^/]+\\.json$"))' \
+              /tmp/project-leader-changed.json
+          )
+          if [ "${#task_files[@]}" -eq 0 ]; then
+            echo "PROJECT_LEADER_GATE_MODE=fast" >> "$GITHUB_ENV"
+            exit 0
+          fi
+          if [ "${#task_files[@]}" -ne 1 ]; then
+            echo "Trusted gate allows zero Task Authorization files for FAST_E1 or exactly one for durable control." >&2
+            cat /tmp/project-leader-changed.json >&2
+            exit 1
+          fi
+
+          task_path="${task_files[0]}"
+          gh api -H "Accept: application/vnd.github.raw+json" \
+            "/repos/$HEAD_REPO/contents/$task_path?ref=$HEAD_SHA" > /tmp/task.json
+          task_id="$(python -c 'import json; print(json.load(open("/tmp/task.json"))["task_id"])')"
+          result_path=".project-leader/results/$task_id.json"
+          if ! gh api -H "Accept: application/vnd.github.raw+json" \
+            "/repos/$HEAD_REPO/contents/$result_path?ref=$HEAD_SHA" > /tmp/result.json; then
+            echo "Durable mode requires the final Worker Result on the PR head: $result_path" >&2
+            exit 1
+          fi
+          printf '%s' "$task_path" > /tmp/project-leader-task-path.txt
+          echo "PROJECT_LEADER_GATE_MODE=durable" >> "$GITHUB_ENV"
+
+      - name: Verify trusted admission
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "$PROJECT_LEADER_GATE_MODE" = "fast" ]; then
+            python control/trusted_gate.py \
+              --mode fast \
+              --policy projects/policies/project-leader.json \
+              --base-sha "${{ github.event.pull_request.base.sha }}" \
+              --changed-files /tmp/project-leader-changed.json \
+              --expected-policy-path projects/policies/project-leader.json
+          else
+            python control/trusted_gate.py \
+              --mode durable \
+              --task /tmp/task.json \
+              --task-path "$(cat /tmp/project-leader-task-path.txt)" \
+              --result /tmp/result.json \
+              --policy projects/policies/project-leader.json \
+              --base-sha "${{ github.event.pull_request.base.sha }}" \
+              --changed-files /tmp/project-leader-changed.json \
+              --expected-policy-path projects/policies/project-leader.json
+          fi
+
+      - name: Verify durable task/result contract
+        if: env.PROJECT_LEADER_GATE_MODE == 'durable'
+        run: python control/validate_records.py pair /tmp/task.json /tmp/result.json
+
+      - name: Verify current transition-result semantics
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+        run: |
+          set -euo pipefail
+          mapfile -t transition_results < <(
+            jq -r '.[].filename | select(test("^\\.project-leader/transitions/[^/]+\\.result\\.json$"))' \
+              /tmp/project-leader-changed.json
+          )
+          for transition_path in "${transition_results[@]}"; do
+            gh api -H "Accept: application/vnd.github.raw+json" \
+              "/repos/$HEAD_REPO/contents/$transition_path?ref=$HEAD_SHA" \
+              > /tmp/current-transition-result.json
+            python control/validate_records.py transition-result-current \
+              /tmp/current-transition-result.json
+            auth_path="${transition_path%.result.json}.authorization.json"
+            gh api -H "Accept: application/vnd.github.raw+json" \
+              "/repos/$HEAD_REPO/contents/$auth_path?ref=$HEAD_SHA" \
+              > /tmp/current-transition-authorization.json
+            python control/validate_records.py transition-pair-current \
+              /tmp/current-transition-authorization.json \
+              /tmp/current-transition-result.json
+          done
+
+      - name: Verify GitHub CI evidence externally
+        if: env.PROJECT_LEADER_GATE_MODE == 'durable'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python control/verify_github_evidence.py \
+            --task /tmp/task.json \
+            --result /tmp/result.json \
+            --repository "$GITHUB_REPOSITORY" \
+            --current-head-sha "${{ github.event.pull_request.head.sha }}"

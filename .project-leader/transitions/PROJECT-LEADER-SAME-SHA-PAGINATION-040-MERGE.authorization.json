@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-SAME-SHA-PAGINATION-040-MERGE",
+  "task_id": "PROJECT-LEADER-SAME-SHA-PAGINATION-040",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T19:40:00Z",
+  "action": "merge_to_main",
+  "effect_class": "E2_CONSEQUENTIAL_TRANSITION",
+  "authority": {
+    "source": "STANDING_OWNER_GRANT",
+    "summary": "Owner authorized the external-audit hardening corrections one at a time. PR #40 is the exact isolated third correction; all required final-head checks and trusted authorization are successful, with no architecture, philosophy or external-scope change.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#40",
+    "revision": "d0d347c231573a7dd85be63629fa1a2fe6865628",
+    "base_revision": "71ebe51c7cba90b7caf5b4279d40ff0a7e3375d3",
+    "environment": null
+  }
+}

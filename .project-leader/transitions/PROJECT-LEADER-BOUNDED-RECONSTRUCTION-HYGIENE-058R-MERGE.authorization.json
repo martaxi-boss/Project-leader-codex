@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-BOUNDED-RECONSTRUCTION-HYGIENE-058R-MERGE",
+  "task_id": "PROJECT-LEADER-BOUNDED-RECONSTRUCTION-HYGIENE-058R",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T14:29:00Z",
+  "action": "merge_to_main",
+  "effect_class": "E2_CONSEQUENTIAL_TRANSITION",
+  "authority": {
+    "source": "STANDING_OWNER_GRANT",
+    "summary": "Owner explicitly requested this minimal Project Leader liveness/hygiene correction and continuous hygiene. Supervisor revalidated PR #58 at exact head 5d30b7eb6711411f71d3721593a619a0b0ac76fe on exact main base a546481c6612a161dee6fab050a3196988a279a4. Implementation head 34ae154f81f5a053b8589d29f6400e4103099356 passed required CI; final head differs only by task-local result/transition-result evidence and passed Trusted authorization gate plus all final-head checks. No architecture, role, standing-authority or Human-Gate change is present.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#58",
+    "revision": "5d30b7eb6711411f71d3721593a619a0b0ac76fe",
+    "base_revision": "a546481c6612a161dee6fab050a3196988a279a4",
+    "environment": null
+  }
+}

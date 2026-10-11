@@ -1,0 +1,103 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-HOST-RUNTIME-VERIFICATION-081",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-07T10:50:00Z",
+  "authority": {
+    "kind": "DERIVED_COMPLETION_AUTHORITY",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Close the remaining owner-independent host/runtime audit evidence gap using observations available in the current ChatGPT workspace. Record that the Project Leader skill entrypoint is invocable in the host, that the installed copy can lag canonical GitHub and is reconciled through canonical runtime override, and that no public global plugin release identity is exposed by the available plugin-management surface. This is documentation/evidence only: do not reinstall, publish, change permissions, alter marketplace state or claim a portable release identity that the host does not expose."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "e633144e11b10f1e6e28c778cd42360e1c147985",
+    "task_branch": "builder/host-runtime-verification-081",
+    "pr_number": null
+  },
+  "effect_class": "E1_RECOVERABLE_PROJECT_LOCAL",
+  "mutation_scope": [
+    "PLUGIN_SETUP.md",
+    "SMOKE_TESTS.md",
+    "CHANGELOG.md",
+    ".project-leader/tasks/PROJECT-LEADER-HOST-RUNTIME-VERIFICATION-081.json",
+    ".project-leader/results/PROJECT-LEADER-HOST-RUNTIME-VERIFICATION-081.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "merge_development_branch"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "architecture_redesign",
+    "modify_role_hierarchy",
+    "scope_expansion",
+    "force_push",
+    "unrelated_refactor",
+    "weaken_ci_or_security_controls",
+    "cross_project_mutation",
+    "plugin_install_or_reinstall",
+    "plugin_permission_change",
+    "marketplace_publish"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Host runtime observation traceability"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "e633144e11b10f1e6e28c778cd42360e1c147985",
+    "sha256": "42db94c0426d43e91f33147e99d830cb81b7b62b0fe84e6f8561ab494d345206",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "PLUGIN_SETUP/SMOKE_TESTS/CHANGELOG accurately record the current host observation: installed Project Leader skill is invocable; loaded bytes may lag canonical and are reconciled by RUNTIME_CANONICAL_OVERRIDE_ACTIVE; public-global release identity is not exposed by the available plugin-management lookup; no false claim of portable marketplace installation proof is made. Required CI passes.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

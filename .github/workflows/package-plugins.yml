@@ -1,0 +1,68 @@
+name: Package ChatGPT plugins
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Build deterministic installable ZIPs twice
+        env:
+          SOURCE_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -eu
+          python scripts/package_plugins.py --output-dir dist-a --source-revision "$SOURCE_REVISION" --build-revision "$GITHUB_SHA" --build-run-id "$GITHUB_RUN_ID"
+          python scripts/package_plugins.py --output-dir dist-b --source-revision "$SOURCE_REVISION" --build-revision "$GITHUB_SHA" --build-run-id "$GITHUB_RUN_ID"
+          cmp dist-a/project-leader.zip dist-b/project-leader.zip
+          cmp dist-a/recovery-guardian.zip dist-b/recovery-guardian.zip
+          cmp dist-a/plugin-manifest.json dist-b/plugin-manifest.json
+          cmp dist-a/SHA256SUMS dist-b/SHA256SUMS
+          mv dist-a dist
+          test -s dist/project-leader.zip
+          test -s dist/recovery-guardian.zip
+          unzip -l dist/project-leader.zip | grep -q 'plugin.json'
+          unzip -l dist/recovery-guardian.zip | grep -q 'plugin.json'
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          manifest = json.loads(Path("dist/plugin-manifest.json").read_text())
+          assert manifest["schema_version"] == "2.0"
+          assert manifest["provenance"]["repository"] == "martaxi-boss/Project-leader"
+          assert manifest["provenance"]["source_revision"] == os.environ["SOURCE_REVISION"]
+          assert manifest["provenance"]["build_revision"] == os.environ["GITHUB_SHA"]
+          assert manifest["provenance"]["workflow_path"] == ".github/workflows/package-plugins.yml"
+          assert manifest["provenance"]["build_run_id"] == os.environ["GITHUB_RUN_ID"]
+          assert {item["name"] for item in manifest["plugins"]} == {"project-leader", "recovery-guardian"}
+          for item in manifest["plugins"]:
+              assert item["contents"]
+              assert all(entry["path"] not in {".env", ".env.local"} for entry in item["contents"])
+          PY
+          cat dist/SHA256SUMS
+      - name: Upload Project Leader
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: project-leader-plugin
+          path: dist/project-leader.zip
+          retention-days: 90
+      - name: Upload Recovery Guardian
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: recovery-guardian-plugin
+          path: dist/recovery-guardian.zip
+          retention-days: 90
+      - name: Upload supply-chain manifest
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: plugin-supply-chain-manifest
+          path: |
+            dist/plugin-manifest.json
+            dist/SHA256SUMS
+          retention-days: 90

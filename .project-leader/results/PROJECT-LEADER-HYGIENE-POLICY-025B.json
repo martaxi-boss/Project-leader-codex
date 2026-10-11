@@ -1,0 +1,71 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-HYGIENE-POLICY-025B",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-HYGIENE-POLICY-025B.json",
+  "authorization_commit_sha": "e858861f89c12ae85f7e6b8e9ef990403a7ce078",
+  "authorization_sha256": "ba73ea9d8f246832549279690d4aef446db63f314e2808feb61136e23d013ba3",
+  "implementation_head_sha": "58eb1a01f23ae6adc4f6b3f51e2e2f53115a9e3f",
+  "branch": "builder/hygiene-policy-025b",
+  "pr_number": 25,
+  "recorded_at": "2026-10-03T12:38:11.342Z",
+  "state_observed_at": "2026-10-03T12:38:11.342Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-HYGIENE-POLICY-025B-TRUST-ROOT.result.json",
+  "changes": [
+    "Added delete_fully_merged_non_main_branch_refs to the Project Leader E3 policy ceiling.",
+    "Added install_automatic_merged_pr_branch_hygiene to the Project Leader E3 policy ceiling.",
+    "Kept both actions out of E1.",
+    "No branch deletion is executed by this prerequisite task."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #25 changes are limited to task/transition/result evidence, Project Leader policy and trusted-gate tests."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required workflows completed successfully on exact implementation SHA 58eb1a01f23ae6adc4f6b3f51e2e2f53115a9e3f."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact Owner-authorized trust-root transition was persisted before policy changes and its result was persisted after validation."
+    },
+    {
+      "name": "Repository hygiene action ceiling validation",
+      "status": "PASS",
+      "evidence": "Tests verify the two bounded hygiene actions exist under E3 and remain absent from E1."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37123469078
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37123469122
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37123469113
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No branch deletion.",
+    "No merge to main yet.",
+    "No ruleset or branch-protection change.",
+    "No managed-project mutation.",
+    "No release, deployment, secret, infrastructure, data, or paid-service mutation."
+  ],
+  "residual_blockers": []
+}

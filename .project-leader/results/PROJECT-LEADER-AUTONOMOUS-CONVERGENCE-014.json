@@ -1,0 +1,78 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-AUTONOMOUS-CONVERGENCE-014",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-AUTONOMOUS-CONVERGENCE-014.json",
+  "authorization_commit_sha": "0c0dfa51c03e6a40a206d6582d3ac4c6d774ae2c",
+  "authorization_sha256": "9dd889dab98cd05b38cfbaeab6f95924f09dc848b6fc685846f1af42d676c113",
+  "implementation_head_sha": "37557b194714b41a451b9eb829fe26d12a1273f3",
+  "branch": "builder/autonomous-convergence-gate-recovery-014",
+  "pr_number": 14,
+  "recorded_at": "2026-10-03T09:01:54.904Z",
+  "state_observed_at": "2026-10-03T09:01:54.904Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-AUTONOMOUS-CONVERGENCE-014-TRUST-ROOT.result.json",
+  "changes": [
+    "Project Leader control loop now explicitly follows DETECT -> AUDIT -> CORRECT -> VALIDATE -> CONTINUE.",
+    "Supervisor must run convergence preflight and exhaust covered remediation, reconciliation, final-head evidence and CI before emitting any Human Gate.",
+    "Human Gate effect boundaries remain unchanged; a gate is emitted only when no covered work remains and the next required action itself is gated.",
+    "Recovery certification now requires a matching RETRY_AUTHORIZED event for the exact run attempt to have been durably persisted before the retry started.",
+    "Recovery event files must be created once and never rewritten; RECOVERED evidence for terminal success must not predate retry completion.",
+    "Project Leader and standalone Recovery Guardian contracts were reconciled to the same causal recovery semantics."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub compare from c8c9643bfa39e746079043cfd83c1aae349b0462 to implementation head 37557b194714b41a451b9eb829fe26d12a1273f3 contains only authorized Project Leader control, tests, operating contracts, plugin Skill files and mandatory task/transition records."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required GitHub Actions completed successfully on implementation head 37557b194714b41a451b9eb829fe26d12a1273f3 with concrete run IDs."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact Owner-authorized trust-root transition was persisted at commit 6d03f6351b10eef06736934439b0363e6da48db7 before protected mutations and its result was persisted after validation."
+    },
+    {
+      "name": "Autonomous convergence before Human Gate",
+      "status": "PASS",
+      "evidence": "Control contract run 37111574308 passed the regression requiring DETECT -> AUDIT -> CORRECT -> VALIDATE -> CONTINUE, convergence preflight, and no early gate while covered work remains."
+    },
+    {
+      "name": "Recovery retry causal ordering",
+      "status": "PASS",
+      "evidence": "Control contract run 37111574308 passed causal retry regressions accepting precommitted authorization and rejecting retroactive RETRY_AUTHORIZED or premature RECOVERED evidence."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37111574308
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37111574337
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37111574305
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No merge to main.",
+    "No PINK IPTV, FADEGO, VCAM-PRO or other managed-project mutation.",
+    "No weakening or removal of merge-to-main, release, production deploy, destructive, secret, infrastructure or paid-service Human Gates.",
+    "No workflow or central project-policy change.",
+    "No release, production deploy, secret, infrastructure, repository-history or paid-service mutation."
+  ],
+  "residual_blockers": []
+}

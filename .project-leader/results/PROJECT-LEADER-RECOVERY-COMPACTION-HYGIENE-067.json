@@ -1,0 +1,69 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-RECOVERY-COMPACTION-HYGIENE-067",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-RECOVERY-COMPACTION-HYGIENE-067.json",
+  "authorization_commit_sha": "8a17ba05a5d80a7a43c6ccbf801f279dbc4d68a8",
+  "authorization_sha256": "3ce1c0484649469f5a7a13d5ca2cda30055851ec9fb3bb7c5248f614feb93da8",
+  "implementation_head_sha": "dbc8292a1ca47690740bba812036c44780cc1ddf",
+  "branch": "builder/recovery-compaction-hygiene-067",
+  "pr_number": 70,
+  "recorded_at": "2026-10-05T18:08:20Z",
+  "state_observed_at": "2026-10-05T18:08:20Z",
+  "changes": [
+    "Copied exact Task 066 PR69 merge authorization into the closeout branch and recorded the verified merge result.",
+    "Added exact CURRENT_OWNER_INSTRUCTION purge authorizations for control/merge-authorization-065 and control/merge-authorization-066.",
+    "No functional/runtime/trust-root/policy/role/managed-project file changed."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Base 60651ad4ba105803780e5891178a05713656821f -> implementation dbc8292a1ca47690740bba812036c44780cc1ddf changes only Task 067 authorization, Task 066 merge evidence and two exact purge authorizations."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Control contract tests 37353607263, Validate control plane 37353607106 and Package ChatGPT plugins 37353607354 all completed SUCCESS on exact implementation SHA dbc8292a1ca47690740bba812036c44780cc1ddf."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Final closeout is evidence/governance-only. No trust-root file is in the diff; Task 066 merge authorization existed before merge and its verified result is included for canonicalization."
+    },
+    {
+      "name": "Exact superseded-ref identity audit",
+      "status": "PASS",
+      "evidence": "Fresh branch inventory matched control/merge-authorization-065=5de4287b7f56ab2b141bfd3f4bdb2af98507b9e9 and control/merge-authorization-066=3cd583d168aba0626d9954781d3d1552f462fb22 before authorizing purge. SHA mismatch must preserve a ref."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37353607263
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37353607106
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37353607354
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/70"
+  ],
+  "material_non_effects": [
+    "No Project Leader runtime behavior change.",
+    "No PINK IPTV or other external project mutation.",
+    "No trust-root, policy, role hierarchy, branch protection, release, deploy, secret or paid-service change.",
+    "No branch is deleted by this implementation commit; deletion remains conditional on canonical exact authorization plus live SHA match in repository hygiene."
+  ],
+  "residual_blockers": []
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-NONINTERACTIVE-FALLBACK-HYGIENE-044-MERGE",
+  "task_id": "PROJECT-LEADER-NONINTERACTIVE-FALLBACK-HYGIENE-044",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-NONINTERACTIVE-FALLBACK-HYGIENE-044-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#44",
+    "revision": "fb46da2b73490b7403c8b96cf4ea1518c24b10c3",
+    "base_revision": "80288f44a236c0ca4095bf4399492632e0152dbe",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T02:17:00Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "7dc5aa8cb86ed0a473c5e95fab4cd40f6eab7875"
+  },
+  "evidence": [
+    "Immediately before merge, PR #44 was open, clean and mergeable at exact head fb46da2b73490b7403c8b96cf4ea1518c24b10c3 on exact main base 80288f44a236c0ca4095bf4399492632e0152dbe.",
+    "CI-certified implementation head ac0dca779a31e791ebe31c10437eefbf0a1aa559 passed Control contract tests 37170321802, Validate control plane 37170321831, and Package ChatGPT plugins 37170321849.",
+    "Final evidence head fb46da2b73490b7403c8b96cf4ea1518c24b10c3 passed Trusted authorization gate 37170450349, Control contract tests 37170451757, Validate control plane 37170451760, and Package ChatGPT plugins 37170451803.",
+    "GitHub merged PR #44 using merge method with expected_head_sha enforcement and returned merge commit 7dc5aa8cb86ed0a473c5e95fab4cd40f6eab7875; fresh verification shows main at that exact SHA and PR #44 closed/merged."
+  ],
+  "residual_blockers": []
+}

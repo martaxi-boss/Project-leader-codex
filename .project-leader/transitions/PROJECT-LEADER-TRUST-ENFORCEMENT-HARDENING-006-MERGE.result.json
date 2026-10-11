@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-TRUST-ENFORCEMENT-HARDENING-006-MERGE",
+  "task_id": "PROJECT-LEADER-TRUST-ENFORCEMENT-HARDENING-006",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-TRUST-ENFORCEMENT-HARDENING-006-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#6",
+    "revision": "241213736e9c9427718c0fdfb675898ab23c45ad",
+    "base_revision": "e720f0a9700c08e7cba7ee61115f13194b2c7c90",
+    "environment": null
+  },
+  "observed_at": "2026-10-02T22:47:00Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "1e364f5a5063d7ceb2bb32522795b16b0b809fa8"
+  },
+  "evidence": [
+    "GitHub PR #6 reports merged=true.",
+    "GitHub merge commit is 1e364f5a5063d7ceb2bb32522795b16b0b809fa8.",
+    "Certified PR #6 head 241213736e9c9427718c0fdfb675898ab23c45ad was merged from base e720f0a9700c08e7cba7ee61115f13194b2c7c90."
+  ],
+  "residual_blockers": []
+}

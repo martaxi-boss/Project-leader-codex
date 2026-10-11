@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "task_id": "PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042",
+  "repository": "martaxi-boss/Project-leader",
+  "sequence": 2,
+  "recorded_at": "2026-10-03T23:39:00Z",
+  "event": "RETRY_AUTHORIZED",
+  "strategy_generation": 1,
+  "action_fingerprint": "PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042|PR42|Control contract tests|historical failed transition pair entered certifying transition namespace",
+  "attempt_count": 2,
+  "identical_failure_count": 1,
+  "no_progress_iterations": 1,
+  "previous_event_sha256": "d86dd00e941da5a8c133c097dd012680880db927b5f940a50ecebd6bfbcbc804",
+  "detail": "Authorize fresh certification only on a descendant SHA that contains the non-certifying archive remediation, successful MERGE-002 preservation, exact control/merge-authorization-041 deletion authorization, and this retry record. Do not rerun the old failing SHA and do not weaken transition validation."
+}

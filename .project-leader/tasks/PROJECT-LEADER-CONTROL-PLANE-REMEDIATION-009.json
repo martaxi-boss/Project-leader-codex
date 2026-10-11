@@ -1,0 +1,137 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-CONTROL-PLANE-REMEDIATION-009",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T01:10:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "summary": "Owner explicitly authorizes correction of the audited Project Leader control-plane gaps only: managed-project V2 cross-repository bootstrap, authorization/result integrity binding, truthful BLOCKED/HUMAN_GATE results, trust-root governance path, semantic registry/policy validation, contract/document recovery consistency, canonical transition discoverability, and cross-repository E2E tests. No managed-project mutation.",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND"
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "33fe0b5570666ecb814033b286c83cf667379c49",
+    "task_branch": "builder/control-plane-remediation-009",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".project-leader/tasks/PROJECT-LEADER-CONTROL-PLANE-REMEDIATION-009.json",
+    ".project-leader/results/PROJECT-LEADER-CONTROL-PLANE-REMEDIATION-009.json",
+    ".project-leader/transitions/**",
+    "control/task-authorization.schema.json",
+    "control/worker-result.schema.json",
+    "control/project-policy.schema.json",
+    "control/validate_records.py",
+    "control/trusted_gate.py",
+    "control/verify_github_evidence.py",
+    "control/managed_project_contract.py",
+    "tests/test_control_contract.py",
+    "tests/test_managed_project_contract.py",
+    "tests/test_trusted_gate.py",
+    "tests/test_evidence_verifier.py",
+    "tests/test_managed_cross_repo.py",
+    "projects/registry.yaml",
+    "projects/policy-profiles.json",
+    "projects/policies/project-leader.json",
+    "projects/policies/pink-iptv.json",
+    "projects/policies/fadego.json",
+    "projects/policies/vcam-pro.json",
+    ".github/workflows/trusted-pr-gate.yml",
+    ".github/workflows/validate-control-plane.yml",
+    "PROJECT_LEADER.md",
+    "RUNBOOK.md",
+    "RECOVERY_PROTOCOL.md",
+    "AGENT_BUILDER_PROMPT.md",
+    "SMOKE_TESTS.md",
+    "roles/SUPERVISOR.md",
+    "roles/BUILDER.md",
+    "roles/RECOVERY_GUARDIAN.md",
+    "plugins/project-leader/plugin.json",
+    "plugins/project-leader/skills/project-leader/SKILL.md",
+    "plugins/project-leader/skills/project-leader/references/recovery-protocol.md",
+    "plugins/recovery-guardian/plugin.json",
+    "plugins/recovery-guardian/skills/recovery-guardian/SKILL.md",
+    "plugins/recovery-guardian/skills/recovery-guardian/references/recovery-protocol.md"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root",
+    "add_cross_repository_policy_binding",
+    "add_authorization_integrity_binding",
+    "repair_result_terminal_semantics",
+    "add_semantic_registry_policy_validation",
+    "add_cross_repository_e2e_tests",
+    "reconcile_control_contract_docs",
+    "reconcile_transition_records"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "repository_or_history_deletion",
+    "force_push"
+  ],
+  "human_gates": [
+    {
+      "action": "merge_to_main",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "license_selection",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_owner_approval": true
+    }
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Cross-repository V2 bootstrap",
+    "Authorization integrity binding",
+    "Blocked result semantics",
+    "Trust-root governance path",
+    "Registry and policy consistency",
+    "Control-document consistency"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "33fe0b5570666ecb814033b286c83cf667379c49",
+    "sha256": "15c6673f2f028c8b85e95e8529d7e29a4e2d44971faf2a11aaa52f8f6acb1bfa"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "One isolated Project Leader PR fixes only the audited gaps, proves managed-project V2 cross-repository operation without modifying managed repositories, leaves all standard CI green, independently audits the exact final head, and stops before merge/ruleset/release/deploy Human Gates.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  }
+}

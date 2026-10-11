@@ -1,0 +1,75 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-TRANSITION-TIME-PROVENANCE-080",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-TRANSITION-TIME-PROVENANCE-080.json",
+  "authorization_commit_sha": "c6bd335ca028f3add34c083b5939165809710bfd",
+  "authorization_sha256": "123ec0463c508aad5d1bde1c6515929937c1c994b22bd9fae73aa4ff27e36d31",
+  "implementation_head_sha": "b005130d53c10483e2a6c795bc6a928c434d3f9c",
+  "branch": "builder/transition-time-provenance-080",
+  "pr_number": 84,
+  "recorded_at": "2026-10-07T10:44:00Z",
+  "state_observed_at": "2026-10-07T10:43:30Z",
+  "changes": [
+    "Added current-only transition-pair chronology validation requiring authorization created_at <= result observed_at.",
+    "Kept legacy validate_transition_pair compatibility so known historical timestamp inversions remain readable without rewriting durable history.",
+    "Updated the trusted PR gate to fetch each changed transition result's sibling authorization and validate the current pair.",
+    "Documented declared versus observed transition timestamps and retained exact Git ancestry/revision evidence as the structural authority proof.",
+    "Added positive, inversion, legacy-compatibility and structural-identity regressions."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Control contract tests run 37609186258 completed successfully on exact implementation head b005130d53c10483e2a6c795bc6a928c434d3f9c and Task Authorization scope enforcement passed."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required exact implementation-head CI is terminal-success: Control contract tests 37609186258, Validate control plane 37609186070 and Package ChatGPT plugins 37609186167."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Immutable Task Authorization c6bd335ca028f3add34c083b5939165809710bfd and trust-root authorization 68f1ee1491b7c1b7f8fdf341349b6f3e224542f7 precede protected validator/workflow changes."
+    },
+    {
+      "name": "Current transition chronology regression",
+      "status": "PASS",
+      "evidence": "The current-pair regression rejects created_at later than observed_at and keeps exact target/identity checks. Control suite run 37609186258 reports 267 tests OK."
+    },
+    {
+      "name": "Historical compatibility regression",
+      "status": "PASS",
+      "evidence": "Legacy validate_transition_pair continues to accept a structurally consistent historical pair with inverted declared timestamps, preserving historical evidence without retroactive rewriting."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37609186258
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37609186070
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37609186167
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/84"
+  ],
+  "material_non_effects": [
+    "No historical transition authorization or result record was rewritten.",
+    "No external project, license, release/deploy, repository-admin setting, architecture or role hierarchy was changed.",
+    "Timestamp coherence remains secondary to exact structural Git ancestry/revision evidence."
+  ],
+  "residual_blockers": []
+}

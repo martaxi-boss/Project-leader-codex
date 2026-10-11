@@ -1,0 +1,78 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-HYGIENE-CLOSEOUT-037",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-HYGIENE-CLOSEOUT-037.json",
+  "authorization_commit_sha": "8f4b9f8d3025725ea27efbee7064d0e2815deb83",
+  "authorization_sha256": "66e5cd6912b415b5940ec19b57015764556dc3126bbd25b3cef645de4f3c0c48",
+  "implementation_head_sha": "4ec29befa48e952746adc01baf2952fe4456b1aa",
+  "branch": "builder/hygiene-closeout-037",
+  "pr_number": 37,
+  "recorded_at": "2026-10-03T18:33:13Z",
+  "state_observed_at": "2026-10-03T18:33:13Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-HYGIENE-CLOSEOUT-037-TRUST-ROOT.result.json",
+  "changes": [
+    "Aligned root documentation with the canonical autonomous runtime and expanded the existing regression.",
+    "Preserved unique historical merge evidence from control refs 031/034/036 before safe equivalence cleanup.",
+    "Bound obsolete PR-branch deletion authorizations to three exact audited names and revisions."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Final material diff limited to task authorization, task-local evidence, README/PLUGIN_SETUP, existing regression and transition evidence; exact b9aab120e59fabeacab775612c5065c6eedc9f63 policy scope audit passed."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "GitHub read confirms implementation 4ec29befa48e952746adc01baf2952fe4456b1aa has successful required CI run IDs 37144435060, 37144435051 and 37144435071."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact trust-root authorization precedes edits; implementation CI passed before this transition result."
+    },
+    {
+      "name": "Root documentation hygiene",
+      "status": "PASS",
+      "evidence": "README and PLUGIN_SETUP align with active-target generic bootstrap and standing autonomy; existing registry-free regression covers both and all four role contracts; 155 tests pass."
+    },
+    {
+      "name": "Historical transition preservation",
+      "status": "PASS",
+      "evidence": "Copied four original 031/034 merge records unchanged and preserved authorization/result for certified hygiene merge 036; every transition pair validates."
+    },
+    {
+      "name": "Obsolete branch audit",
+      "status": "PASS",
+      "evidence": "Live GitHub reads prove closed unmerged PRs 32, 33 and 35 and exact corresponding branch SHAs; three deletion authorizations protect main, other revisions and open PRs through the existing bounded workflow."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37144435060
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37144435051
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37144435071
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No external repository mutation.",
+    "No release, production deployment, secrets, infrastructure, data or paid-service effect.",
+    "Deletion authorizations execute only after evidence is canonical on main; no branch refs deleted by this implementation commit."
+  ],
+  "residual_blockers": []
+}

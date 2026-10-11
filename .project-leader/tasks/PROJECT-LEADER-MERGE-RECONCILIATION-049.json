@@ -1,0 +1,89 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-MERGE-RECONCILIATION-049",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T11:22:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Owner instructed Project Leader to continue autonomously after the universal internal-operation liveness correction. Post-merge Supervisor audit found PR #48 was merged to main without a durable pre-effect merge authorization record. This task is limited to durable, non-retroactive reconciliation: record that already-observed merge as HISTORICAL_OBSERVED with authorization_record=null and an explicit residual authorization-evidence gap. Do not alter the functional correction, managed projects, runtime infrastructure, or claim retroactive certification."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "7d89c6b9f99128dbb04a9cfd926cd04aa1210f73",
+    "task_branch": "builder/merge-reconciliation-049",
+    "pr_number": null
+  },
+  "effect_class": "E1_RECOVERABLE_PROJECT_LOCAL",
+  "mutation_scope": [
+    ".project-leader/tasks/PROJECT-LEADER-MERGE-RECONCILIATION-049.json",
+    ".project-leader/results/PROJECT-LEADER-MERGE-RECONCILIATION-049.json",
+    ".project-leader/transitions/PROJECT-LEADER-INTERNAL-OPERATION-LIVENESS-048R-MERGE.result.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "7d89c6b9f99128dbb04a9cfd926cd04aa1210f73",
+    "sha256": "8496c175e9295450ac0d1228c9d08dcee3149d4f7384838fd2f2573250634e22",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Canonical main gains a durable transition result for the already-observed PR #48 merge with terminal_status HISTORICAL_OBSERVED, authorization_record=null, exact observed PR/head/base/merge-commit evidence, and a residual blocker stating that no pre-effect exact merge authorization exists and therefore the merge cannot be retroactively certified. No functional/runtime files change. Required CI passes on the implementation head.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

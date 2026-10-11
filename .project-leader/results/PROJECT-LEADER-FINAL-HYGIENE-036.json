@@ -1,0 +1,99 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-FINAL-HYGIENE-036",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-FINAL-HYGIENE-036.json",
+  "authorization_commit_sha": "1720d893200fb3e7e0353e805d0331246615e870",
+  "authorization_sha256": "feb5714c86388df91e63563e4f8bc3458deaf3701700b1df4ae979b6026ebf01",
+  "implementation_head_sha": "a944b44b50384eccf2020b19affbcf118377157c",
+  "branch": "builder/final-hygiene-036",
+  "pr_number": 36,
+  "recorded_at": "2026-10-03T18:23:45Z",
+  "state_observed_at": "2026-10-03T18:23:45Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-FINAL-HYGIENE-036-TRUST-ROOT.result.json",
+  "changes": [
+    "Removed eight obsolete central registry/profile/project bootstrap policy artifacts and unused registry compatibility functions.",
+    "Unified active runtime, generic target policy and workflow validation around transition_controls and architecture-first bounded tasks.",
+    "Aligned Supervisor, Builder and Recovery Guardian roles and corrected the false-positive absence-guard regression.",
+    "Preserved historical audit compatibility and causal append-only recovery evidence."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Exact ca2916d3c4ff46fef7783a4c081c49697a25dfbf policy and all 40 changed paths passed base-anchored authorization audit; task authorization unchanged at 1720d893200fb3e7e0353e805d0331246615e870."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "GitHub API and connector confirm exact implementation required run IDs 37143599150, 37143599140 and 37143599131 completed-success; journal authorization is an ancestor of implementation."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact trust-root authorization precedes substantive edits and this result follows successful implementation CI."
+    },
+    {
+      "name": "Legacy runtime residue removal",
+      "status": "PASS",
+      "evidence": "Eight obsolete registry/profile/project snapshots/policies removed; unused registry parser/validator removed; all active role contracts are registry-free."
+    },
+    {
+      "name": "Generic project bootstrap contract",
+      "status": "PASS",
+      "evidence": "Architecture-first ACTIVE_TARGET policy and scope narrowing covered by 155 passing executable contract tests."
+    },
+    {
+      "name": "Workflow hygiene",
+      "status": "PASS",
+      "evidence": "Canonical validation workflow executed successfully locally and in run 37143599140; deleted legacy files are guarded by negative absence assertions."
+    },
+    {
+      "name": "Project policy convergence",
+      "status": "PASS",
+      "evidence": "Current Project Leader policy uses required_transition_controls and explicitly permits subsequent root-document cleanup; task 036 still judged by pre-change canonical policy."
+    },
+    {
+      "name": "Historical compatibility isolation",
+      "status": "PASS",
+      "evidence": "Validated 26 task records, 25 result pairs, historical checkpoints/transitions and append-only journals; archived schemas preserve useful audit compatibility."
+    },
+    {
+      "name": "Plugin package/version consistency",
+      "status": "PASS",
+      "evidence": "Project Leader 0.6.0 and Recovery Guardian 0.5.0 package deterministically; Package ChatGPT plugins run 37143599131 success."
+    },
+    {
+      "name": "Superseded branch audit",
+      "status": "PASS",
+      "evidence": "Closed PR branches 032/033/035 and control refs 031/034 audited. Four unique merge evidence records must be preserved before safe ref removal in the closeout task."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37143599150
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37143599140
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37143599131
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No external repository mutation.",
+    "No release, production deployment, secrets, infrastructure, data or paid-service change.",
+    "Root README/PLUGIN_SETUP cleanup and obsolete ref deletion remain separate closeout work."
+  ],
+  "residual_blockers": []
+}

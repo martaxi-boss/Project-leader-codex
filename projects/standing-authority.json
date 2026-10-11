@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "authority_id": "owner-standing-autonomy-v1",
+  "source": "STANDING_OWNER_GRANT",
+  "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+  "runtime_scope": "PROJECT_LEADER_SKILL_RUNTIME",
+  "autonomy_rule": "ALL_CANONICALLY_COVERED_EXECUTABLE_ACTIONS",
+  "human_gate_conditions": [
+    "EXCLUSIVE_HUMAN_INTERVENTION",
+    "NEW_UNCOVERED_MATERIAL_DECISION"
+  ],
+  "required_controls": [
+    "canonical_project_scope_must_cover_effect",
+    "exact_target_and_revision_revalidated_before_consequential_transition",
+    "required_ci_validation_and_evidence_must_pass",
+    "supervisor_audits_before_and_after_consequential_transition",
+    "recovery_guardian_verifies_ambiguous_writes_before_retry",
+    "recovery_guardian_changes_strategy_after_repeated_failure",
+    "transition_authorization_and_result_are_durable",
+    "no_silent_scope_architecture_strategy_or_trust_boundary_expansion"
+  ],
+  "project_isolation": "ONE_MUTABLE_TARGET_REPOSITORY_PER_TASK"
+}

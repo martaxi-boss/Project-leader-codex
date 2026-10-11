@@ -1,0 +1,107 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-EVIDENCE-HYGIENE-050",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T11:32:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Owner instructed Project Leader to continue and perform hygiene at the same time. Supervisor audit discovered valid exact pre-effect merge authorization/result records for PRs #47, #48 and #49 on durable control/merge-authorization-* branches that were not yet canonicalized into main, and also discovered the earlier task 049 HISTORICAL_OBSERVED conclusion for PR #48 was factually wrong because discovery had not inspected that control branch. This task is limited to preserving those valid records in canonical main, correcting the canonical PR #48 transition result to the already-existing SUCCESS evidence, preserving the task-047 cleanup result, and authorizing deletion only of exact obsolete branch refs after canonical preservation."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "f4c7b207646cf084f1c9acda7fd6b71f8a949b49",
+    "task_branch": "builder/evidence-hygiene-050",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".project-leader/tasks/PROJECT-LEADER-EVIDENCE-HYGIENE-050.json",
+    ".project-leader/results/PROJECT-LEADER-EVIDENCE-HYGIENE-050.json",
+    ".project-leader/recovery-events/PROJECT-LEADER-EVIDENCE-HYGIENE-050/**",
+    ".project-leader/transitions/PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047-MERGE.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047-MERGE.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047-DELETE-046-CONTROL.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-INTERNAL-OPERATION-LIVENESS-048R-MERGE.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-INTERNAL-OPERATION-LIVENESS-048R-MERGE.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-MERGE-RECONCILIATION-049-MERGE.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-MERGE-RECONCILIATION-049-MERGE.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-EVIDENCE-HYGIENE-050-DELETE-*"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "reconcile_transition_records",
+    "delete_owner_authorized_superseded_non_main_branch_refs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "force_push",
+    "unrelated_refactor",
+    "weaken_ci_or_security_controls"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "f4c7b207646cf084f1c9acda7fd6b71f8a949b49",
+    "sha256": "8496c175e9295450ac0d1228c9d08dcee3149d4f7384838fd2f2573250634e22",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Canonical main contains the valid exact merge authorization/result evidence for PRs #47, #48 and #49 plus the task-047 delete-046 result; the canonical PR #48 merge result is corrected from the erroneous HISTORICAL_OBSERVED state to the already-existing SUCCESS record without fabricating new authority; task 049's incorrect conclusion remains preserved in Git history and task 050 explicitly supersedes that audit conclusion. Exact deletion authorizations exist for only the currently-observed obsolete branches builder/internal-operation-liveness-048, control/merge-authorization-047, control/merge-authorization-048r and control/merge-authorization-049; repository hygiene may delete them only at the authorized exact SHAs after task integration. No functional runtime or managed-project files change. Required CI passes.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

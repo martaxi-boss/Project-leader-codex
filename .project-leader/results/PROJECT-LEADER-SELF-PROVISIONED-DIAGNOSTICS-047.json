@@ -1,0 +1,103 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047.json",
+  "authorization_commit_sha": "4d2c8c9fac59db41ef475ade83c08e9e5ca8f3f1",
+  "authorization_sha256": "405c288935d33e458f57538b93dbd46e2ec5a9294bc1670c7fd075dfbfc1d313",
+  "implementation_head_sha": "d633ad02f4843425ec41d273ce054c04f5191444",
+  "branch": "builder/self-provisioned-diagnostics-047",
+  "pr_number": 47,
+  "recorded_at": "2026-10-04T03:06:00Z",
+  "state_observed_at": "2026-10-04T03:06:00Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047-TRUST-ROOT.result.json",
+  "changes": [
+    "Added a universal self-provisioned diagnostic bridge stage before platform/tool-consent escalation for every current or future managed project.",
+    "Extended executable fallback routing with DIAGNOSTIC_BRIDGE_REQUIRES_SEPARATE_TASK and DIAGNOSTIC_BRIDGE_REQUIRES_AUTHORITY_RESOLUTION while preserving all existing native diagnostic, access-discovery and Human Gate states.",
+    "Required covered diagnostic bridges to execute automatically as bounded least-privilege repository-side probes, with separate bounded tasks when another repository is the correct mutable target.",
+    "Restricted self-provisioned diagnostics to sanitized read-only evidence and explicitly prohibited credential exposure, production/runtime data mutation, paid resources, architecture expansion and cross-repository mutation within one task.",
+    "Added universal future-project smoke coverage so autonomy does not depend on PINK IPTV, FADEGO, VCAM-PRO or a registry entry.",
+    "Aligned Project Leader, Runbook, Recovery Protocol, Supervisor, Recovery Guardian and packaged skill references; package identity becomes Project Leader 0.6.2 and Recovery Guardian 0.5.2.",
+    "Preserved task 046 post-merge evidence and exact-bound cleanup authorization for obsolete control/merge-authorization-046 after integration."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub compare from canonical base 166d8a2d867e0d8e3b67082069679b0cd3b9242d to implementation head d633ad02f4843425ec41d273ce054c04f5191444 is ahead-only and limited to the task-authorized control-plane docs/runtime/tests/package-version/evidence paths."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Exact implementation head d633ad02f4843425ec41d273ce054c04f5191444 passed Control contract tests 37172937802, Validate control plane 37172937808 and Package ChatGPT plugins 37172937843."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Immutable task authorization commit 4d2c8c9fac59db41ef475ade83c08e9e5ca8f3f1 and trust-root authorization commit cb270bc26fc2afe3c83366ff54eeb2f6d648a9d9 preceded all trust-root/runtime edits."
+    },
+    {
+      "name": "Self-provisioned diagnostic bridge closure",
+      "status": "PASS",
+      "evidence": "Executable reconcile_noninteractive_tool_fallback now requires self_provisioned_diagnostic_bridge discovery after native surfaces and routes covered provisionable bridges to BOUND_DIAGNOSTIC_BRIDGE_TASK instead of Owner consent."
+    },
+    {
+      "name": "Manual-routing suppression proof",
+      "status": "PASS",
+      "evidence": "Automated tests and Smoke Tests 18/19 require Project Leader to determine and execute a safe covered diagnostic route itself and reject Owner prompts for browser/SSH/terminal/tool routing while a native, repository-return or self-provisionable path remains."
+    },
+    {
+      "name": "Read-only diagnostic security proof",
+      "status": "PASS",
+      "evidence": "Canonical contracts constrain diagnostic bridges to temporary least-privilege sanitized evidence, prohibit credential printing, production/customer/runtime mutation, paid resources and architecture expansion, and preserve one mutable repository per task."
+    },
+    {
+      "name": "Packaged skill/runtime alignment",
+      "status": "PASS",
+      "evidence": "Project Leader skill, Recovery Guardian skill and both packaged recovery-protocol references carry the same universal self-provisioning discipline; package workflow 37172937843 succeeded with Project Leader 0.6.2 and Recovery Guardian 0.5.2."
+    },
+    {
+      "name": "Historical transition preservation",
+      "status": "PASS",
+      "evidence": "Unique task 046 MERGE authorization/result and DELETE-044/DELETE-045 cleanup results were copied from control/merge-authorization-046 into task 047 before certification."
+    },
+    {
+      "name": "Obsolete branch audit",
+      "status": "PASS",
+      "evidence": "Exact cleanup authorization binds obsolete control/merge-authorization-046 at d5b89d7d0d8bbeff367a3db39134dbb5f3a7126b; deletion is eligible only after task 047 integration makes preserved evidence and authorization canonical."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37172937802
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37172937808
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37172937843
+    }
+  ],
+  "artifacts": [
+    "project-leader-plugin artifact 11291738072 from run 37172937843, sha256:b79a5989de49dc9ff952037a049979fad7f51c43a04a5dae0da1298c32f5f91c",
+    "recovery-guardian-plugin artifact 11291907852 from run 37172937843, sha256:5d4817af0e4b509bfc807adc1c5222e44c10d81064204faa9d124e106126b0d9",
+    "plugin-supply-chain-manifest artifact 11292091512 from run 37172937843, sha256:6533031a73b0e778bd97758da87776659c40eda8836a3ba886f0df0cc7533360"
+  ],
+  "material_non_effects": [
+    "No PINK IPTV, FADEGO, VCAM-PRO or other managed-project repository mutation.",
+    "No VPS/OVH runtime mutation.",
+    "No deploy, release, production secret, paid-service, branch-protection or force-push effect.",
+    "No existing working access-discovery, recovery, evidence, security or project-isolation control was removed.",
+    "No credential values were read, copied or exposed."
+  ],
+  "residual_blockers": []
+}

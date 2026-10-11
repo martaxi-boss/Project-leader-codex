@@ -1,0 +1,33 @@
+{
+  "name": "project-leader-control-plane",
+  "interface": {
+    "displayName": "Project Leader Control Plane"
+  },
+  "plugins": [
+    {
+      "name": "project-leader",
+      "pluginId": "Plugin_4cbb6b68b0988191ad110a1a3874fa37",
+      "source": {
+        "source": "local",
+        "path": "./plugins/project-leader"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "recovery-guardian",
+      "source": {
+        "source": "local",
+        "path": "./plugins/recovery-guardian"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "task_id": "PROJECT-LEADER-ENFORCEMENT-REMEDIATION-005",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E1_RECOVERABLE_PROJECT_LOCAL",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-ENFORCEMENT-REMEDIATION-005.json",
+  "implementation_head_sha": "42c7b888abde3c4a0127a07250ce886363d11f00",
+  "branch": "builder/enforcement-remediation-005",
+  "pr_number": 5,
+  "recorded_at": "2026-10-02T22:18:00Z",
+  "state_observed_at": "2026-10-02T22:17:00Z",
+  "superseded_by": null,
+  "post_transition_record": null,
+  "changes": [
+    "TERMINAL_SUCCESS now requires at least one positive validation PASS and evidence for PASS/SKIPPED validation entries.",
+    "Task Authorization Records can name required validation and CI gates; pair validation requires PASS/SUCCESS for those gates.",
+    "Pull-request CI now compares the real Git diff against the Task Authorization mutation_scope and fails closed on out-of-scope files.",
+    "Added durable Recovery Checkpoint schema and recovery protocol integration with bounded attempt/no-progress counters.",
+    "Added exact-revision Human-Gate transition authorization/result schemas and validation.",
+    "Recorded the historical PR #4 merge as HISTORICAL_OBSERVED with no invented authorization record.",
+    "Updated four-role fallback documentation, control-plane docs, internal roles, and Project Leader/Recovery Guardian plugin contracts."
+  ],
+  "validation": [
+    {
+      "name": "Control contract tests",
+      "status": "PASS",
+      "evidence": "GitHub Actions run 37071654555 on implementation HEAD 42c7b888abde3c4a0127a07250ce886363d11f00"
+    },
+    {
+      "name": "Validate control plane",
+      "status": "PASS",
+      "evidence": "GitHub Actions run 37071654566 on implementation HEAD 42c7b888abde3c4a0127a07250ce886363d11f00"
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "PASS",
+      "evidence": "GitHub Actions run 37071654564 on implementation HEAD 42c7b888abde3c4a0127a07250ce886363d11f00"
+    },
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #5 diff from main 37e05084a6d99cf9e8d1794be4114fa2abb096e8 contains only files matched by Task Authorization 005 mutation_scope."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37071654555
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37071654566
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37071654564
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No merge to main",
+    "No branch protection or ruleset change",
+    "No release or publication",
+    "No license selection",
+    "No managed-project mutation",
+    "No production deploy",
+    "No destructive data change",
+    "No repository or valuable history deletion",
+    "No production secret change",
+    "No irreversible infrastructure change",
+    "No paid-service activation"
+  ],
+  "residual_blockers": [
+    "Merging PR #5 to main requires explicit Owner approval.",
+    "Protecting main with branch protection or a repository ruleset requires explicit Owner approval.",
+    "A full E2E proof in PINK IPTV, FADEGO, or VCAM-PRO requires separate authorization for mutation of that managed repository.",
+    "Publishing a versioned GitHub Release and selecting a LICENSE remain separate Human Gates."
+  ]
+}

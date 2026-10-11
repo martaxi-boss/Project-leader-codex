@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-EVIDENCE-DESCENDANT-RECOVERY-031-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-EVIDENCE-DESCENDANT-RECOVERY-031",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-EVIDENCE-DESCENDANT-RECOVERY-031-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/evidence-descendant-recovery-031",
+    "revision": "11977f81231b4e1184557fbe84470db3f029cfc4",
+    "base_revision": "638ed1047e7124257027ccc38ad7d12235164ba9",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T15:48:10Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "c359fa1ddf84e1cfa0dae03f6d1e136fe07e0af3"
+  },
+  "evidence": [
+    "Owner authorization was durably recorded before protected control/skill/recovery contract changes.",
+    "Control contract tests run 37134496020 completed SUCCESS on implementation head c359fa1ddf84e1cfa0dae03f6d1e136fe07e0af3.",
+    "Validate control plane run 37134496044 completed SUCCESS on the same implementation head.",
+    "Package ChatGPT plugins run 37134496142 completed SUCCESS on the same implementation head."
+  ],
+  "residual_blockers": []
+}

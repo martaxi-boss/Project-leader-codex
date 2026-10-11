@@ -1,0 +1,39 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "project-leader",
+  "version": "0.7.0",
+  "description": "Execution-first universal project controller with standing authority, direct FAST_E1 work, proportional durable controls, direct recovery, continuous hygiene, and genuine Human Gates.",
+  "author": {
+    "name": "martaxi-boss",
+    "url": "https://github.com/martaxi-boss"
+  },
+  "repository": "https://github.com/martaxi-boss/Project-leader",
+  "keywords": [
+    "project-management",
+    "github",
+    "software-development",
+    "audit",
+    "orchestration",
+    "recovery"
+  ],
+  "skills": "./skills/",
+  "extensions": {
+    "com.openai": {
+      "apps": "./.app.json",
+      "interface": {
+        "displayName": "Project Leader",
+        "shortDescription": "Executes project work directly with proportional control and recovery.",
+        "longDescription": "Use Project Leader as a universal execution-first controller inside any software project. It reconstructs minimum live state, executes covered technical work directly, uses Consultant/Supervisor/Builder/Recovery Guardian as internal capabilities, applies durable control only for material effects or continuity needs, recovers without blind retries, keeps continuous hygiene active, and interrupts the Owner only for genuine manual intervention or a new uncovered material decision.",
+        "developerName": "martaxi-boss",
+        "category": "Productivity",
+        "capabilities": [
+          "Inspect GitHub repositories",
+          "Audit project state",
+          "Coordinate bounded implementation",
+          "Recover interrupted execution",
+          "Review CI and pull requests"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T02:40:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Owner rejects manual routing prompts and wants Project Leader to continue autonomously. The 0.6.1 PINK-IPTV test exhausted native connector evidence and then asked the Owner to authorize a browser because annotations were inaccessible. This task removes that premature manual dependency by requiring a bounded self-provisioned repository-side diagnostic bridge before PLATFORM_CONSENT_REQUIRED whenever current authority can safely create one. Preserve all existing access discovery, recovery, evidence, security and project-isolation controls, and perform same-execution hygiene without mutating managed projects."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "166d8a2d867e0d8e3b67082069679b0cd3b9242d",
+    "task_branch": "builder/self-provisioned-diagnostics-047",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "PROJECT_LEADER.md",
+    "RUNBOOK.md",
+    "RECOVERY_PROTOCOL.md",
+    "SMOKE_TESTS.md",
+    "roles/SUPERVISOR.md",
+    "roles/RECOVERY_GUARDIAN.md",
+    "control/managed_project_contract.py",
+    "tests/test_managed_project_contract.py",
+    "tests/test_control_contract.py",
+    ".github/workflows/validate-control-plane.yml",
+    "plugins/project-leader/plugin.json",
+    "plugins/project-leader/skills/project-leader/SKILL.md",
+    "plugins/project-leader/skills/project-leader/references/recovery-protocol.md",
+    "plugins/recovery-guardian/plugin.json",
+    "plugins/recovery-guardian/skills/recovery-guardian/SKILL.md",
+    "plugins/recovery-guardian/skills/recovery-guardian/references/recovery-protocol.md",
+    "README.md",
+    "PLUGIN_SETUP.md",
+    ".project-leader/tasks/PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047.json",
+    ".project-leader/results/PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047.json",
+    ".project-leader/recovery-events/PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047/**",
+    ".project-leader/transitions/PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047-*",
+    ".project-leader/transitions/PROJECT-LEADER-PLUGIN-VERSION-CLARITY-HYGIENE-046-MERGE.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-PLUGIN-VERSION-CLARITY-HYGIENE-046-MERGE.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-PLUGIN-VERSION-CLARITY-HYGIENE-046-DELETE-044-CONTROL.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-PLUGIN-VERSION-CLARITY-HYGIENE-046-DELETE-045-BUILDER.result.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root",
+    "reconcile_control_contract_docs",
+    "reconcile_transition_records",
+    "delete_owner_authorized_superseded_non_main_branch_refs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "cross_project_mutation",
+    "force_push",
+    "weaken_ci_or_security_controls"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Self-provisioned diagnostic bridge closure",
+    "Manual-routing suppression proof",
+    "Read-only diagnostic security proof",
+    "Packaged skill/runtime alignment",
+    "Historical transition preservation",
+    "Obsolete branch audit"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "166d8a2d867e0d8e3b67082069679b0cd3b9242d",
+    "sha256": "8496c175e9295450ac0d1228c9d08dcee3149d4f7384838fd2f2573250634e22",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Before Project Leader may classify PLATFORM_CONSENT_REQUIRED or ask the Owner to authorize a browser/tool because a connector cannot read diagnostics, it must determine whether a bounded self-provisioned repository-side diagnostic bridge can continue the same objective under existing authority. For GitHub Actions this includes an ephemeral branch/workflow or equivalent read-only GitHub-side probe using minimal read permissions and durable sanitized logs/artifacts/check output. If safely provisionable, Project Leader creates/uses it automatically and continues; platform consent is eligible only when native evidence, repository-return paths, self-provisioning, separately taskable covered operations paths and authority resolution are all unavailable. Existing access-discovery/recovery/security/project-isolation rules remain intact. Package identities become Project Leader 0.6.2 and Recovery Guardian 0.5.2. Task 046 post-merge evidence becomes canonical and obsolete control/merge-authorization-046 may be deleted only at its exact authorized revision after integration. Required CI must pass.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+      "requires_authority_resolution": true
+    }
+  ]
+}

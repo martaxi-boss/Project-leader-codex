@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-AUTONOMY-034-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-AUTONOMY-034",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-AUTONOMY-034-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/project-leader-autonomy-034",
+    "revision": "02986166c1dd8d581c5b52f018ce3b4e18e1b00d",
+    "base_revision": "73c5512674b2f14d82d69f6f4a10a8f886cf0049",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T17:18:00Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "7a7e3b00eedb352e49d68ae2433d0fa84302e044"
+  },
+  "evidence": [
+    "Trust-root authorization was durably persisted before substantive protected-file mutation at commit 116167a00dfa4c6503af831ba56252049b3e5599.",
+    "Exact material implementation head 7a7e3b00eedb352e49d68ae2433d0fa84302e044 passed Control contract tests run 37139914754.",
+    "Exact material implementation head 7a7e3b00eedb352e49d68ae2433d0fa84302e044 passed Validate control plane run 37139914776.",
+    "Exact material implementation head 7a7e3b00eedb352e49d68ae2433d0fa84302e044 passed Package ChatGPT plugins run 37139914750.",
+    "Trusted gate reached only the expected missing-final-Worker-Result condition on the material head; the prior E3 policy-ceiling defect from superseded PR #33 is absent.",
+    "PINK IPTV, FADEGO and VCAM-PRO policy blobs are identical between canonical main and PR #34."
+  ],
+  "residual_blockers": []
+}

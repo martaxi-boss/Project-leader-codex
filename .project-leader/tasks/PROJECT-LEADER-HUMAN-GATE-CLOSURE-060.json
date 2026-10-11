@@ -1,0 +1,128 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-HUMAN-GATE-CLOSURE-060",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T18:35:10.554746Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Owner requests refinement of the existing autonomous Project Leader model with continuous audit, correction and hygiene. Close premature Human Gates by composing existing access/diagnostic preflights with standing-authority resolution, require convergence before human interruption, and preserve genuine physical/manual gates. Test and integrate this bounded correction under existing autonomous merge authority. Preserve architecture, role hierarchy, project isolation, standing grant, retry ceilings and evidence controls."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "17301664dd53eb4f9c8d7b08d240180153782e1b",
+    "task_branch": "builder/human-gate-closure-060",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "control/standing_authority.py",
+    "control/README.md",
+    "tests/test_standing_authority.py",
+    "tests/test_control_contract.py",
+    "PROJECT_LEADER.md",
+    "RUNBOOK.md",
+    "RECOVERY_PROTOCOL.md",
+    "SMOKE_TESTS.md",
+    "roles/SUPERVISOR.md",
+    "roles/RECOVERY_GUARDIAN.md",
+    "README.md",
+    "PLUGIN_SETUP.md",
+    ".github/workflows/validate-control-plane.yml",
+    "plugins/project-leader/plugin.json",
+    "plugins/project-leader/skills/project-leader/SKILL.md",
+    "plugins/project-leader/skills/project-leader/references/recovery-protocol.md",
+    "plugins/recovery-guardian/plugin.json",
+    "plugins/recovery-guardian/skills/recovery-guardian/SKILL.md",
+    "plugins/recovery-guardian/skills/recovery-guardian/references/recovery-protocol.md",
+    ".project-leader/tasks/PROJECT-LEADER-HUMAN-GATE-CLOSURE-060.json",
+    ".project-leader/results/PROJECT-LEADER-HUMAN-GATE-CLOSURE-060.json",
+    ".project-leader/recovery-events/PROJECT-LEADER-HUMAN-GATE-CLOSURE-060/**",
+    ".project-leader/transitions/PROJECT-LEADER-HUMAN-GATE-CLOSURE-060-*"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root",
+    "reconcile_control_contract_docs",
+    "reconcile_transition_records"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "architecture_redesign",
+    "modify_standing_authority",
+    "modify_role_hierarchy",
+    "scope_expansion",
+    "force_push",
+    "unrelated_refactor",
+    "weaken_ci_or_security_controls"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Human Gate closure regression",
+    "Manual intervention distinction",
+    "Independent runtime scenarios",
+    "Plugin contract consistency"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "17301664dd53eb4f9c8d7b08d240180153782e1b",
+    "sha256": "8496c175e9295450ac0d1228c9d08dcee3149d4f7384838fd2f2573250634e22",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Corrected standing-authority resolver cannot emit an operational Human Gate from a missing-capability boolean alone; it recomputes required discovery and diagnostic bridge closure, preserves explicit genuine manual interventions, and requires convergence. Regression and independent scenario checks pass; both packaged runtime contracts are aligned; exact-head required CI and Supervisor audit pass and the authorized transition integrates the correction into canonical main.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

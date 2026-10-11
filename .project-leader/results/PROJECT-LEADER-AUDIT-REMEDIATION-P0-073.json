@@ -1,0 +1,75 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-AUDIT-REMEDIATION-P0-073",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-AUDIT-REMEDIATION-P0-073.json",
+  "authorization_commit_sha": "e2cb4df6dd13627fb17c74ed6c0f860173d2174d",
+  "authorization_sha256": "3ecb865e5413a466a5c18aff35ffdae81d3d8017ecfd44c809636ee66c68a387",
+  "implementation_head_sha": "d587688543b23bf0236f5da5ec7f630c9faf2fe6",
+  "branch": "builder/audit-remediation-p0-073",
+  "pr_number": 75,
+  "recorded_at": "2026-10-07T08:51:00Z",
+  "state_observed_at": "2026-10-07T08:51:00Z",
+  "changes": [
+    "R01: destructive transition authorization is treated as trust-root state; successful transitions require durable matching authorization and exact revision binding.",
+    "R02: trusted diffs preserve rename/copy origins, Git path identity is exact, generic managed scopes require literal bounds, and post-CI transition evidence uses exact validated task identity.",
+    "R03: repository branch hygiene is serialized, rechecks open PRs, retains all exact-SHA grants, and deletes only with force-with-lease while refusing false 422-as-absent success.",
+    "R04: trusted promotion requires canonical immutable task identity and TERMINAL_SUCCESS, fork PRs no longer satisfy the trusted check by job skip, and managed result validation reuses the common task/result pair invariants.",
+    "Added an executable P0 regression matrix derived from the independent 2026-10-06 audit."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Live compare 1a6f38a089becbd2dedb2f760eb13f30f9435b25...d587688543b23bf0236f5da5ec7f630c9faf2fe6 is ahead-only and changes only Task 073-authorized Project Leader control/workflow/test/evidence paths; no external repository was mutated."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Exact implementation SHA d587688543b23bf0236f5da5ec7f630c9faf2fe6: Control contract tests 37596421123 SUCCESS; Validate control plane 37596421088 SUCCESS; Package ChatGPT plugins 37596421181 SUCCESS."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Task authorization e2cb4df6dd13627fb17c74ed6c0f860173d2174d precedes exact trust-root authorization d261adfd7ececd6ce3bfe0d24a876a95436127b5 and implementation d587688543b23bf0236f5da5ec7f630c9faf2fe6; transition result binds that authorized branch/base revision and the exact audited implementation."
+    },
+    {
+      "name": "Audit P0 R01-R04 regression matrix",
+      "status": "PASS",
+      "evidence": "Control contract run 37596421123 completed 218 tests OK, including the new audit P0 regressions for E1/E3 authority, immutable admission, task aliases, exact Git paths, global-scope aliases, exact revision binding, missing transition authorization, BLOCKED promotion, rename origins, task-prefix isolation, lease-safe hygiene, and fork gate behavior."
+    },
+    {
+      "name": "Continuous hygiene consistency",
+      "status": "PASS",
+      "evidence": "The correction removes unsafe branch-delete semantics and stale lexical evidence shortcuts in the same cycle; repository hygiene remains bounded to non-main branch cleanup and no unrelated architecture, product, release, ruleset, secret, paid-service, or external-project change was introduced."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37596421123
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37596421088
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37596421181
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/75"
+  ],
+  "material_non_effects": [
+    "No PINK IPTV or any other external project repository mutation.",
+    "No merge to main, branch-protection/ruleset change, release/publication, license selection, deploy, production secret change, paid-service activation, or role-hierarchy redesign.",
+    "Historical v2 Task Authorization records remain readable; immutable integrity is enforced at the new/changed-task admission boundary."
+  ],
+  "residual_blockers": []
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-NONINTERACTIVE-FALLBACK-HYGIENE-044-DELETE-043-BUILDER",
+  "task_id": "PROJECT-LEADER-NONINTERACTIVE-FALLBACK-HYGIENE-044",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-NONINTERACTIVE-FALLBACK-HYGIENE-044-DELETE-043-BUILDER.authorization.json",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/noninteractive-fallback-hygiene-043",
+    "revision": "6333006ca91c152ff99e0349ddfe9ccc6a5b09be",
+    "base_revision": "80288f44a236c0ca4095bf4399492632e0152dbe",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T02:18:00Z",
+  "final_state": {
+    "status": "DELETED",
+    "revision": null
+  },
+  "evidence": [
+    "PR #43 remains closed and unmerged, preserving the abandoned attempt and invalid recovery-journal history durably without rewriting it.",
+    "Repository hygiene run 37170555209 completed successfully on main merge SHA 7dc5aa8cb86ed0a473c5e95fab4cd40f6eab7875.",
+    "Fresh branch inventory after the hygiene run contains only main and control/merge-authorization-044; builder/noninteractive-fallback-hygiene-043 is absent."
+  ],
+  "residual_blockers": []
+}

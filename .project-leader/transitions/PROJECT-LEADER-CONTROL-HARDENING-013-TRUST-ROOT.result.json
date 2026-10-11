@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-CONTROL-HARDENING-013-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-CONTROL-HARDENING-013",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-CONTROL-HARDENING-013-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/control-hardening-recovery-scope-013",
+    "revision": "786f0b2cec45110e7d52625d6ea674e9a02754d0",
+    "base_revision": "5c96a3c84444e42256e04629c631c364313f3582",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T08:32:12.915Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "d6e5512624e024d22e6a75654a1a0ae34840d80e"
+  },
+  "evidence": [
+    "Owner authorization was durably recorded before protected control-plane files were changed.",
+    "GitHub compare from 5c96a3c84444e42256e04629c631c364313f3582 to d6e5512624e024d22e6a75654a1a0ae34840d80e shows only Project Leader control, tests, recovery contract/Skill files, and mandatory task/transition records.",
+    "Initial Control contract tests run 37109968212 completed SUCCESS.",
+    "Initial Validate control plane run 37109968284 completed SUCCESS.",
+    "Initial Package ChatGPT plugins run 37109968229 completed SUCCESS."
+  ],
+  "residual_blockers": []
+}

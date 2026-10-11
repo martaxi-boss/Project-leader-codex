@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-EVIDENCE-HYGIENE-050-MERGE",
+  "task_id": "PROJECT-LEADER-EVIDENCE-HYGIENE-050",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T11:39:00Z",
+  "action": "merge_to_main",
+  "effect_class": "E2_CONSEQUENTIAL_TRANSITION",
+  "authority": {
+    "source": "STANDING_OWNER_GRANT",
+    "summary": "Owner instructed Project Leader to continue autonomously and perform repository hygiene. Supervisor revalidated PR #51 at exact head b31968ad23f4ae1632ddb09af0b2c8e55559fe88 on exact main base f4c7b207646cf084f1c9acda7fd6b71f8a949b49. Implementation head cdeaa7bfe0f1a2c619e6e89fe39e56ca0c994fc0 passed all task-required CI, and the final PR head differs only by the task-local Worker Result. Final-head Trusted authorization gate, Control contract tests, Validate control plane and Package ChatGPT plugins all succeeded. Scope is evidence canonicalization and exact hygiene only; no functional runtime, managed project, production, deploy, release, secret, paid-service or trust-boundary change.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#51",
+    "revision": "b31968ad23f4ae1632ddb09af0b2c8e55559fe88",
+    "base_revision": "f4c7b207646cf084f1c9acda7fd6b71f8a949b49",
+    "environment": null
+  }
+}

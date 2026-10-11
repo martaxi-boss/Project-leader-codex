@@ -1,0 +1,76 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-CONTROL-HARDENING-013",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-CONTROL-HARDENING-013.json",
+  "authorization_commit_sha": "786f0b2cec45110e7d52625d6ea674e9a02754d0",
+  "authorization_sha256": "89df78822a3b332ae4724eb8a34ecbe4c8a4bf33badeb601b78657a3f0bac8ef",
+  "implementation_head_sha": "d6e5512624e024d22e6a75654a1a0ae34840d80e",
+  "branch": "builder/control-hardening-recovery-scope-013",
+  "pr_number": 13,
+  "recorded_at": "2026-10-03T08:32:36.356Z",
+  "state_observed_at": "2026-10-03T08:32:36.356Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-CONTROL-HARDENING-013-TRUST-ROOT.result.json",
+  "changes": [
+    "Introduced one shared safe mutation-scope containment helper used by both the trusted gate and managed cross-repository verifier.",
+    "Managed-project exact files and narrower subpatterns inside a central policy ceiling are accepted while traversal, sibling-prefix escape and unsupported widening remain fail-closed.",
+    "GitHub evidence verification now treats a certified CI run with run_attempt > 1 as objective recovery evidence and requires a valid append-only task recovery journal.",
+    "Recovery Guardian contracts now persist FAILURE_OBSERVED before retry authorization, RETRY_AUTHORIZED before redispatch/rerun, REPLAN before strategy change, and RECOVERED after success.",
+    "Added focused contract regressions for both generic gaps."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub compare from 5c96a3c84444e42256e04629c631c364313f3582 to implementation head d6e5512624e024d22e6a75654a1a0ae34840d80e contains only Project Leader control/test/recovery Skill files plus mandatory task/transition records; no managed-project repository was changed."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required GitHub Actions completed successfully on implementation head d6e5512624e024d22e6a75654a1a0ae34840d80e with concrete run IDs."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact Owner-authorized trust-root transition was persisted before protected mutations and its result was persisted after the bounded implementation."
+    },
+    {
+      "name": "Managed scope containment parity",
+      "status": "PASS",
+      "evidence": "Control contract run 37109968212 passed managed exact-file/nested-subpattern positives and prefix-collision/parent-traversal fail-closed regressions using the shared helper."
+    },
+    {
+      "name": "Recovery journal enforcement",
+      "status": "PASS",
+      "evidence": "Control contract run 37109968212 passed run_attempt>1 detection, valid retry journal acceptance, missing RECOVERED rejection, and Skill contract sequencing regressions; 97 tests passed."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37109968212
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37109968284
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37109968229
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No merge to main.",
+    "No managed-project mutation, including PINK IPTV, FADEGO or VCAM-PRO.",
+    "No workflow or central policy change.",
+    "No release, deploy, production secret, infrastructure, repository-history or paid-service change."
+  ],
+  "residual_blockers": []
+}

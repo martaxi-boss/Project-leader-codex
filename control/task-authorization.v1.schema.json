@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/martaxi-boss/Project-leader/control/task-authorization.v1.schema.json",
+  "title": "Project Leader Task Authorization Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_id",
+    "project",
+    "repository",
+    "created_at",
+    "authority",
+    "starting_state",
+    "effect_class",
+    "mutation_scope",
+    "allowed_actions",
+    "prohibited_actions",
+    "human_gates",
+    "terminal_condition"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "task_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9._-]{2,127}$"},
+    "project": {"type": "string", "minLength": 1},
+    "repository": {"type": "string", "pattern": "^[^/]+/[^/]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "summary", "source"],
+      "properties": {
+        "kind": {"enum": ["STANDING_DELEGATION", "TRANSACTIONAL_GRANT", "DERIVED_COMPLETION_AUTHORITY"]},
+        "summary": {"type": "string", "minLength": 1, "maxLength": 1000},
+        "source": {"enum": ["CURRENT_OWNER_INSTRUCTION", "STANDING_OWNER_GRANT", "CANONICAL_PROJECT_DECISION"]},
+        "binding_mode": {"enum": ["OBJECTIVE_SCOPE_BOUND", "SCOPE_REF_BOUND", "EXACT_REVISION_BOUND"]}
+      }
+    },
+    "starting_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default_branch", "base_sha", "task_branch"],
+      "properties": {
+        "default_branch": {"type": "string", "minLength": 1},
+        "base_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "task_branch": {"type": "string", "minLength": 1},
+        "pr_number": {"type": ["integer", "null"], "minimum": 1}
+      }
+    },
+    "effect_class": {"enum": ["E0_READ_ONLY", "E1_RECOVERABLE_PROJECT_LOCAL", "E2_CONSEQUENTIAL_TRANSITION", "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED"]},
+    "mutation_scope": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "allowed_actions": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "prohibited_actions": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "human_gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["action", "requires_owner_approval"],
+        "properties": {
+          "action": {"type": "string", "minLength": 1},
+          "requires_owner_approval": {"const": true}
+        }
+      }
+    },
+    "required_validation": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "required_ci": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "terminal_condition": {"type": "string", "minLength": 1},
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contains_secrets": {"const": false},
+        "contains_private_conversation_text": {"const": false}
+      }
+    }
+  }
+}

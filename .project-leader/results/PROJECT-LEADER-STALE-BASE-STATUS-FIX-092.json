@@ -1,0 +1,88 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-STALE-BASE-STATUS-FIX-092",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-STALE-BASE-STATUS-FIX-092.json",
+  "authorization_commit_sha": "e1a37ba2b035249d4deca5e24617f24f255f2ca5",
+  "authorization_sha256": "b8b9630b0738599fecdf0b331945680ef5f944931a8824190a59b5d0f40e00bb",
+  "implementation_head_sha": "4514e1d57af5dfe34d11ea111c315e3976359f66",
+  "branch": "builder/stale-base-status-fix-092",
+  "pr_number": 95,
+  "recorded_at": "2026-10-07T15:43:00Z",
+  "state_observed_at": "2026-10-07T15:43:00Z",
+  "superseded_by": null,
+  "post_transition_record": null,
+  "changes": [
+    "Replaced the post-main stale-base invalidation use of Checks API write permission with least-privilege job-scoped GitHub Actions commit-status publication in the existing trusted-authorization context.",
+    "Kept the PR trusted gate read-only and left the repository ruleset unchanged.",
+    "Added regression coverage requiring statuses: write, the commit statuses endpoint, the trusted-authorization context, and absence of checks: write/check-runs.",
+    "Canonicalized the exact Task 090 merge authorization and SUCCESS result.",
+    "Prepared exact lease-safe purge authorizations for control/merge-authorization-090 and the superseded Task 091 branch."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Exact base 9a2ca8e6fb47fe7341d15c2ed4b580cd517af22b -> implementation 4514e1d57af5dfe34d11ea111c315e3976359f66 changes only the eight Task 092-authorized paths in martaxi-boss/Project-leader."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Exact implementation SHA 4514e1d57af5dfe34d11ea111c315e3976359f66 has successful Control contract tests run 37646043099, Validate control plane run 37646043234 and Package ChatGPT plugins run 37646043409."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Immutable Task 092 authorization commit e1a37ba2b035249d4deca5e24617f24f255f2ca5 is the authorization-only descendant of base 9a2ca8e6fb47fe7341d15c2ed4b580cd517af22b, with SHA-256 190bfc30f1ece049f3e13e3f2e2a2f623835886ee27b4237071f239c7642db1f, and precedes the workflow implementation."
+    },
+    {
+      "name": "Stale-base invalidation startup regression",
+      "status": "PASS",
+      "evidence": "The workflow no longer requests checks: write; the invalidation job has job-scoped statuses: write while the trusted PR job retains only read permissions. Control contract tests run 37646043099 passed the new regression assertions."
+    },
+    {
+      "name": "Commit-status recertification semantics",
+      "status": "PASS",
+      "evidence": "The push job enumerates open PRs based on main and posts state=failure to /statuses/$head_sha with context=trusted-authorization, preserving the ruleset-required context without changing strict_required_status_checks_policy."
+    },
+    {
+      "name": "Task 090 merge evidence reconciliation",
+      "status": "PASS",
+      "evidence": "Task 090 exact merge authorization from control/merge-authorization-090@41985a510a00e7359df8eb476d137c1032bbb879 and its SUCCESS result for merged main 9a2ca8e6fb47fe7341d15c2ed4b580cd517af22b are included together in the implementation."
+    },
+    {
+      "name": "Continuous hygiene reconciliation",
+      "status": "PASS",
+      "evidence": "The repository already removed Task 087/088/089/090 and temporary ci-base refs. Exact purge grants are included for control/merge-authorization-090@41985a510a00e7359df8eb476d137c1032bbb879 and superseded builder/stale-base-status-fix-091@4c5d42a94844016ab0210a8703334804382cede9, conditioned on unchanged SHA and no open PR."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37646043099
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37646043234
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37646043409
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/95"
+  ],
+  "material_non_effects": [
+    "No repository other than martaxi-boss/Project-leader was mutated.",
+    "No ruleset/branch-protection setting was changed and strict_required_status_checks_policy remains untouched.",
+    "No release, deploy, production, secret, credential, paid-service, license or product-architecture transition was executed.",
+    "No valid test, assertion or security control was weakened to obtain PASS."
+  ],
+  "residual_blockers": []
+}

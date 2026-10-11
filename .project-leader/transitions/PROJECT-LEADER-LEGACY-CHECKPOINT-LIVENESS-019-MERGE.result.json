@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-LEGACY-CHECKPOINT-LIVENESS-019-MERGE",
+  "task_id": "PROJECT-LEADER-LEGACY-CHECKPOINT-LIVENESS-019",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-LEGACY-CHECKPOINT-LIVENESS-019-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#19",
+    "revision": "3c1c514c563525f990a9f9e350adfb961372ff94",
+    "base_revision": "8be73a11ee779a385e2103bf96c5ee964a0f820d",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T12:08:49.536Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "c5f831119f514162f9b168d61d18fc380cbc3199"
+  },
+  "evidence": [
+    "Pre-merge authorization was durably persisted on control/merge-authorization-019 at commit 9e84a9171f5b0d08d4ba764a83da0af93a27172b.",
+    "GitHub PR #19 reports merged=true.",
+    "GitHub merge commit is c5f831119f514162f9b168d61d18fc380cbc3199.",
+    "Certified PR head 3c1c514c563525f990a9f9e350adfb961372ff94 was merged with expected_head_sha enforcement."
+  ],
+  "residual_blockers": []
+}

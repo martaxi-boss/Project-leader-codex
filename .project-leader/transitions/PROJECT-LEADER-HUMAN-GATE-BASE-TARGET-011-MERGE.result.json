@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-HUMAN-GATE-BASE-TARGET-011-MERGE",
+  "task_id": "PROJECT-LEADER-HUMAN-GATE-BASE-TARGET-011",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-HUMAN-GATE-BASE-TARGET-011-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#12",
+    "revision": "c2c9c06faf28890b5872ff7982bd9568badded75",
+    "base_revision": "ae7d5fba791f68bc7a1346710ce277578542dd68",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T07:56:01.068Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "38f8af2b62e36b64074b3f15b019c504427b5ff1"
+  },
+  "evidence": [
+    "Durable pre-merge authorization was persisted on control/merge-authorizations-011-012 at commit 6eb790bf06ab8601b53737def45313c5cfb070fa before the merge.",
+    "GitHub PR #12 reports merged=true.",
+    "GitHub merge commit is 38f8af2b62e36b64074b3f15b019c504427b5ff1.",
+    "Certified PR #12 head c2c9c06faf28890b5872ff7982bd9568badded75 was merged with expected_head_sha enforcement."
+  ],
+  "residual_blockers": []
+}

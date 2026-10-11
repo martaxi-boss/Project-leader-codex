@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/access-discovery-hygiene-042",
+    "revision": "7faa1eebde1c684f3963e5b41fb88eb3688346af",
+    "base_revision": "a061a17cb9a70e015672188eef10a5e0a73fba8b",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T23:41:00Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "54914dbc33e3de6815097cbd916fdc853acdb983"
+  },
+  "evidence": [
+    "Task Authorization 7faa1eebde1c684f3963e5b41fb88eb3688346af and exact trust-root authorization 6cfa2ec6a1fa8be3b0c8fa8cb23fee3d98595a77 preceded trust-root edits.",
+    "Project Leader now requires FORCED_OPERATIONAL_ACCESS_DISCOVERY before any access-related Human Gate and no longer treats missing direct session SSH/tooling as proof that operational access is unavailable.",
+    "Executable control logic classifies ACCESS_DISCOVERY_INCOMPLETE, ACCESS_PATH_FOUND, ACCESS_PATH_REQUIRES_SEPARATE_TASK, ACCESS_PATH_REQUIRES_AUTHORITY_RESOLUTION and ACCESS_PATH_UNAVAILABLE, preserving one-mutable-repository isolation.",
+    "Smoke Test 17 and automated tests cover the observed pattern where project A lacks direct SSH but a reasonably discoverable adjacent operations repository has a proven GitHub Actions to SSH channel.",
+    "Recovery event 0001 recorded the first CI failure before remediation; event 0002 authorized fresh certification after the failed 041 transition pair was moved to non-certifying archive evidence without weakening transition validation.",
+    "Fresh implementation head 54914dbc33e3de6815097cbd916fdc853acdb983 passed Control contract tests 37162403493, Validate control plane 37162403486, and Package ChatGPT plugins 37162403487."
+  ],
+  "residual_blockers": []
+}

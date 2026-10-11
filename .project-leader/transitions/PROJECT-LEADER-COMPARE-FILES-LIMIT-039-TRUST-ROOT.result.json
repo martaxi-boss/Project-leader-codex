@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-COMPARE-FILES-LIMIT-039-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-COMPARE-FILES-LIMIT-039",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-COMPARE-FILES-LIMIT-039-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/compare-files-limit-039",
+    "revision": "fe2e6056a7d4bc87a24fd368104dbcae9e426714",
+    "base_revision": "d430f5f7eea3ce9b7ea16931841de21a876e5011",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T19:32:00Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "f276838024b30ea939f050c2fef01e6b65a8f3c9"
+  },
+  "evidence": [
+    "Task Authorization was persisted first at commit fe2e6056a7d4bc87a24fd368104dbcae9e426714 and exact trust-root authorization preceded all verifier/test mutations.",
+    "Verifier now rejects post-CI Compare file lists when len(files) reaches the GitHub 300-file ceiling, preventing a truncated list from being treated as complete.",
+    "Boundary regression tests prove 299 task-local evidence files remain accepted while 300 are rejected fail-closed.",
+    "Required implementation-head CI succeeded: Control contract tests 37148119036, Validate control plane 37148118977, Package ChatGPT plugins 37148119003."
+  ],
+  "residual_blockers": []
+}

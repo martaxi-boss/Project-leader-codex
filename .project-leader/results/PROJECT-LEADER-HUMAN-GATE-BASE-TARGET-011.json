@@ -1,0 +1,70 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-HUMAN-GATE-BASE-TARGET-011",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-HUMAN-GATE-BASE-TARGET-011.json",
+  "authorization_commit_sha": "1b42d7bf5f05856207e05fdbe8d9400e1b63575f",
+  "authorization_sha256": "0c9c1b167481ae0066d306f3ef0001e70a656dac7c3e29861b051a1cb40dc09d",
+  "implementation_head_sha": "d0a0a4e95fe7d7edbea018b84bec3198b9b29840",
+  "branch": "builder/human-gate-base-target-fix-011",
+  "pr_number": 12,
+  "recorded_at": "2026-10-03T07:52:00Z",
+  "state_observed_at": "2026-10-03T07:51:00Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-HUMAN-GATE-BASE-TARGET-011-TRUST-ROOT.result.json",
+  "changes": [
+    "Project Leader Skill now inspects the live PR base branch before classifying merge_to_main.",
+    "Only PRs whose base branch is exactly main are treated as merge-to-main Human Gates.",
+    "Otherwise-authorized merges into development branches continue automatically when no other Human Gate applies.",
+    "Added a focused regression test for the branch-target distinction."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub compare from a8eeff8f25ef9f632ed2542c167b2137a439f705 shows only mandatory task/transition records, Project Leader SKILL.md, and tests/test_control_contract.py."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required GitHub Actions runs completed successfully on implementation head d0a0a4e95fe7d7edbea018b84bec3198b9b29840."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact trust-root authorization and result records were persisted around the bounded Skill mutation."
+    },
+    {
+      "name": "Development-branch merge gate regression",
+      "status": "PASS",
+      "evidence": "Control contract run 37107686443 passed 84 tests including test_skill_distinguishes_development_branch_merge_from_main_gate."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37107686443
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37107686444
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37107686435
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No merge to main.",
+    "No managed-project mutation.",
+    "No policy or workflow change.",
+    "No release, deploy, production secret, infrastructure, or paid-service change."
+  ],
+  "residual_blockers": []
+}

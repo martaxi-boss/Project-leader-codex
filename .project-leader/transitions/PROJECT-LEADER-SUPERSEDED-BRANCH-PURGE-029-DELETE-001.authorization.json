@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-029-DELETE-001",
+  "task_id": "PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-029",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T13:31:52.839Z",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner authorized final hygiene deletion of exact obsolete non-main ref builder/ci-dispatch-dedup-021 @ 6e0b74b8b83031f1570c53356564fd76cc6a5ca2: stale execution packet superseded by certified 021B / merged PR #21.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/ci-dispatch-dedup-021",
+    "revision": "6e0b74b8b83031f1570c53356564fd76cc6a5ca2",
+    "base_revision": "0552f77947bc50943f313540bda58a25d22fe8eb",
+    "environment": null
+  }
+}

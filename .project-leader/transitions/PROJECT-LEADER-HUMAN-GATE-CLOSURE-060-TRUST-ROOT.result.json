@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-HUMAN-GATE-CLOSURE-060-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-HUMAN-GATE-CLOSURE-060",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-HUMAN-GATE-CLOSURE-060-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/human-gate-closure-060",
+    "revision": "47d5e10cca882a331c7afd8cd48e2360344207c5",
+    "base_revision": "17301664dd53eb4f9c8d7b08d240180153782e1b",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T18:58:54.883285Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "ae30f434f4e98f3ae9f6bd5e7979edbd468bff90"
+  },
+  "evidence": [
+    "The immutable Task Authorization and exact trust-root authorization were committed before the bounded runtime changes.",
+    "Implementation ae30f434f4e98f3ae9f6bd5e7979edbd468bff90 was independently read back; required CI runs 37226248665, 37226248659 and 37226248646 all succeeded on that exact SHA.",
+    "195 tests and independent local scenario replay passed; canonical architecture, standing grant, hierarchy, isolation and retry controls are preserved."
+  ],
+  "residual_blockers": []
+}

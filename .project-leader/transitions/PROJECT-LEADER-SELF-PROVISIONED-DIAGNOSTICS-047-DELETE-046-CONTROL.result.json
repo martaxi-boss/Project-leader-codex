@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047-DELETE-046-CONTROL",
+  "task_id": "PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047-DELETE-046-CONTROL.authorization.json",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "control/merge-authorization-046",
+    "revision": "d5b89d7d0d8bbeff367a3db39134dbb5f3a7126b",
+    "base_revision": "166d8a2d867e0d8e3b67082069679b0cd3b9242d",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T03:09:00Z",
+  "final_state": {
+    "status": "DELETED",
+    "revision": null
+  },
+  "evidence": [
+    "Task 047 merged all unique task-046 post-merge evidence into canonical main before cleanup.",
+    "Repository hygiene run 37173079549 completed successfully on main merge SHA 05225695684b54ce5becbb89cf0e5b6dc88dcafa.",
+    "Fresh branch inventory after hygiene contains only main and control/merge-authorization-047; control/merge-authorization-046 is absent."
+  ],
+  "residual_blockers": []
+}

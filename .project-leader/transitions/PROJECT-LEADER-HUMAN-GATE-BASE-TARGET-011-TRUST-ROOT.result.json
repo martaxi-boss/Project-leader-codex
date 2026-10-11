@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-HUMAN-GATE-BASE-TARGET-011-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-HUMAN-GATE-BASE-TARGET-011",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-HUMAN-GATE-BASE-TARGET-011-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/human-gate-base-target-fix-011",
+    "revision": "1b42d7bf5f05856207e05fdbe8d9400e1b63575f",
+    "base_revision": "a8eeff8f25ef9f632ed2542c167b2137a439f705",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T07:49:00Z",
+  "final_state": {
+    "status": "APPLIED_ON_TASK_BRANCH",
+    "revision": "d3d76d85382bd71df20d776547ac71bd690a241f"
+  },
+  "evidence": [
+    "Project Leader SKILL.md now checks the live PR base branch before classifying merge_to_main.",
+    "tests/test_control_contract.py contains the focused development-branch merge regression."
+  ],
+  "residual_blockers": [
+    "Merge to main remains a separate Owner Human Gate."
+  ]
+}

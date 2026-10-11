@@ -1,0 +1,107 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-FINAL-HEAD-MATERIAL-DRIFT-016",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T11:17:01.870Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "summary": "Owner authorized correcting the mapped Project Leader gaps one at a time and merging them only at the end. This task fixes only the certification gap where CI on implementation_head_sha could be followed by material changes before the final PR head while ancestry alone still passed.",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND"
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "5fef513c231c9789a33ea1036549248de53e41cf",
+    "task_branch": "builder/final-head-material-drift-016",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".project-leader/tasks/**",
+    ".project-leader/results/**",
+    ".project-leader/transitions/**",
+    "control/verify_github_evidence.py",
+    "tests/**",
+    "PROJECT_LEADER.md",
+    "RUNBOOK.md",
+    "plugins/project-leader/skills/project-leader/**"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root",
+    "add_authorization_integrity_binding",
+    "reconcile_control_contract_docs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "repository_or_history_deletion",
+    "force_push",
+    "unrelated_refactor",
+    "weaken_ci_evidence_requirements"
+  ],
+  "human_gates": [
+    {
+      "action": "merge_to_main",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "license_selection",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_owner_approval": true
+    }
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Post-CI material drift rejection"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "binding_mode": "LOCAL_BASE_V1",
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "5fef513c231c9789a33ea1036549248de53e41cf",
+    "sha256": "9666860e6cf78c6e6ef67ef9ba8c3257cdc0db85af7ddaa9896a2dabe07081d0"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "The GitHub evidence verifier must reject TERMINAL_SUCCESS when the final PR head contains any material change after implementation_head_sha. Only task-local Project Leader evidence metadata may follow the CI-certified implementation head. Required regression tests and plugin packaging pass. Stop before any merge to main.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1"
+}

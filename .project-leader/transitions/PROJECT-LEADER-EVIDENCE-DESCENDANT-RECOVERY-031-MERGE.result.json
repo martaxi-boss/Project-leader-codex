@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-EVIDENCE-DESCENDANT-RECOVERY-031-MERGE",
+  "task_id": "PROJECT-LEADER-EVIDENCE-DESCENDANT-RECOVERY-031",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-EVIDENCE-DESCENDANT-RECOVERY-031-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#31",
+    "revision": "4a2f2a19a0bfac662c0384d337b358e272c44f27",
+    "base_revision": "638ed1047e7124257027ccc38ad7d12235164ba9",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T16:21:05Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "73c5512674b2f14d82d69f6f4a10a8f886cf0049"
+  },
+  "evidence": [
+    "Owner exact-head merge authorization was durably persisted before the merge on control/merge-authorization-031 at commit eea2e6620b9984495c0df6acd0807e6dcc8565c9.",
+    "Immediately before merge, PR #31 remained open/mergeable with head 4a2f2a19a0bfac662c0384d337b358e272c44f27, base main 638ed1047e7124257027ccc38ad7d12235164ba9 and all required PR checks SUCCESS.",
+    "GitHub merged PR #31 using expected_head_sha enforcement and returned merge commit 73c5512674b2f14d82d69f6f4a10a8f886cf0049.",
+    "Post-merge main equals 73c5512674b2f14d82d69f6f4a10a8f886cf0049 and certified head 4a2f2a19a0bfac662c0384d337b358e272c44f27 is in its ancestry.",
+    "Post-merge Control contract tests, Validate control plane, Package ChatGPT plugins and Repository hygiene all completed SUCCESS on main.",
+    "Project Leader - Protect main ruleset remains active; merged builder branch was removed by repository hygiene."
+  ],
+  "residual_blockers": []
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-HYGIENE-CLOSEOUT-037-MERGE",
+  "task_id": "PROJECT-LEADER-HYGIENE-CLOSEOUT-037",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-HYGIENE-CLOSEOUT-037-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#37",
+    "revision": "9620e40ee412c9b4cf12a0f393ddb77e26f6b7c6",
+    "base_revision": "b9aab120e59fabeacab775612c5065c6eedc9f63",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T18:34:59Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "b30df58fc3c8f91028b6f7cd402e4694bb55a915"
+  },
+  "evidence": [
+    "Independent GitHub PR read confirms #37 merged at b30df58fc3c8f91028b6f7cd402e4694bb55a915.",
+    "Exact final PR head 9620e40ee412c9b4cf12a0f393ddb77e26f6b7c6 passed trusted authorization gate 37144633422 and all required final-head CI.",
+    "Implementation remains certified by runs 37144435060, 37144435051 and 37144435071."
+  ],
+  "residual_blockers": []
+}

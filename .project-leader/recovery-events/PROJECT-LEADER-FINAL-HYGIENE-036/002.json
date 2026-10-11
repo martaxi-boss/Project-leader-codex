@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "task_id": "PROJECT-LEADER-FINAL-HYGIENE-036",
+  "repository": "martaxi-boss/Project-leader",
+  "sequence": 2,
+  "recorded_at": "2026-10-03T18:15:33Z",
+  "event": "RETRY_AUTHORIZED",
+  "strategy_generation": 1,
+  "action_fingerprint": "hygiene-036-registry-free-contract",
+  "attempt_count": 2,
+  "identical_failure_count": 1,
+  "no_progress_iterations": 1,
+  "previous_event_sha256": "ee22693ac9acfa1340326eaa6b5e457b55dcaad15e44f39d1ec6421a6dc98d23",
+  "detail": "Supervisor authorizes remediation within immutable Task 036 scope: narrow the registry dependency regression, align active role contracts with architecture-first targets, and obtain fresh CI on a descendant containing this pre-retry journal. Do not rerun the old implementation SHA or change task authorization."
+}

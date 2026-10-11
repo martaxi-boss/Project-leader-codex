@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-TRUSTED-GATE-SCOPE-SUBSET-012-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-TRUSTED-GATE-SCOPE-SUBSET-012",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-TRUSTED-GATE-SCOPE-SUBSET-012-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/trusted-gate-scope-subset-fix-012",
+    "revision": "40df2abfc826662672e2f11980c857ac77ea1c3e",
+    "base_revision": "a8eeff8f25ef9f632ed2542c167b2137a439f705",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T07:57:00Z",
+  "final_state": {
+    "status": "APPLIED_ON_TASK_BRANCH",
+    "revision": "6a4652e3c97d822e540b8669ee81ffe9b7698bb7"
+  },
+  "evidence": [
+    "control/trusted_gate.py now checks scope-pattern containment instead of exact string membership.",
+    "tests/test_trusted_gate.py adds positive and negative regressions for exact paths, nested subpatterns, narrow wildcards, prefix collisions, parent traversal, and global widening."
+  ],
+  "residual_blockers": [
+    "Merge to main remains a separate Owner Human Gate."
+  ]
+}

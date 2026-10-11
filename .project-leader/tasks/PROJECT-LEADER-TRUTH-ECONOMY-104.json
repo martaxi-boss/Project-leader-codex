@@ -1,0 +1,104 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-TRUTH-ECONOMY-104",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-10T04:20:32.530Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "The Owner requested a minimal Codex-verified harmonization of agents: aggressive authorized autonomy with automatic hygiene, low coordination/token waste, strict security and explicit prohibition on inventing model, quota, access, tests, PASS or results. Codex read-only audit in VPS Issue #55 recommended exactly two concise operating principles. Change only the canonical Project Leader Skill and one regression test; preserve architecture and existing security controls."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "55b7a054df5408ed82f4d7771e5a8c843af26563",
+    "task_branch": "builder/agent-truth-economy-104",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "plugins/project-leader/skills/project-leader/SKILL.md",
+    "tests/test_execution_first_contract.py",
+    ".project-leader/tasks/PROJECT-LEADER-TRUTH-ECONOMY-104.json",
+    ".project-leader/results/PROJECT-LEADER-TRUTH-ECONOMY-104.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "cross_project_mutation",
+    "force_push",
+    "rewrite_git_history",
+    "weaken_ci_or_security_controls",
+    "unrelated_refactor",
+    "new_agent_architecture"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Evidence and capability claims are not fabricated",
+    "No duplicate delegation or token waste beyond necessity",
+    "Standing authority and material security boundaries unchanged"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "55b7a054df5408ed82f4d7771e5a8c843af26563",
+    "sha256": "d8ca49eaaf130b8924ef56ac0912136fe9c2000650db77a1124dada9fabb03cb",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "The protected canonical Project Leader Skill contains only two concise operational rules covering verified truth and minimal coordination budget, with a focused regression test. Mandatory CI succeeds against exact implementation head, trusted E3 authorization/result evidence passes, hygiene is complete. No automatic tool expansion, production modification or new governance obligations.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

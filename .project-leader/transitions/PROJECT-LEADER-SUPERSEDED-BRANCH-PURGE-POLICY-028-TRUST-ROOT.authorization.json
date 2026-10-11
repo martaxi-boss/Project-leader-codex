@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-POLICY-028-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-POLICY-028",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T13:00:47.261Z",
+  "action": "trust_root_mutation",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner authorized the narrow policy capability required to delete exact, audited, superseded non-main branch refs during final Project Leader hygiene.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/superseded-branch-purge-policy-028",
+    "revision": "ea7d7d5babed2f0857c729fc84a307196f9e44c0",
+    "base_revision": "5e9a1cce1aa513b6d8809e28294c4817583760a1",
+    "environment": null
+  }
+}

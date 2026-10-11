@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-POLICY-028-MERGE",
+  "task_id": "PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-POLICY-028",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T13:29:30.678Z",
+  "action": "merge_to_main",
+  "effect_class": "E2_CONSEQUENTIAL_TRANSITION",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner explicitly authorized completing Project Leader repository hygiene, including merging the certified prerequisite policy that enables exact audited superseded-branch ref deletion.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#29",
+    "revision": "ae95e7bf7bf1b24a00116f872448bcb6cf09c05b",
+    "base_revision": "5e9a1cce1aa513b6d8809e28294c4817583760a1",
+    "environment": null
+  }
+}

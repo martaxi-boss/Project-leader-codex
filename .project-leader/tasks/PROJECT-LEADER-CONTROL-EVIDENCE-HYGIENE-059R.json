@@ -1,0 +1,117 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-CONTROL-EVIDENCE-HYGIENE-059R",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T14:39:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Clean Recovery replacement for superseded task 059. Owner explicitly requested continuous hygiene while Project Leader work progresses, without architecture, philosophy, role, standing-authority or Human-Gate changes. This task only canonicalizes durable transition evidence stranded on control/merge-authorization-055, -057 and -058, then authorizes exact deletion of those refs and the superseded builder/control-evidence-hygiene-059 branch after evidence is merged into main. Runtime behavior remains unchanged."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "d68459c3bda12b83ecb8e94e3da4c5aba6af6a92",
+    "task_branch": "builder/control-evidence-hygiene-059r",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".project-leader/tasks/PROJECT-LEADER-CONTROL-EVIDENCE-HYGIENE-059R.json",
+    ".project-leader/results/PROJECT-LEADER-CONTROL-EVIDENCE-HYGIENE-059R.json",
+    ".project-leader/recovery-events/PROJECT-LEADER-CONTROL-EVIDENCE-HYGIENE-059R/**",
+    ".project-leader/transitions/PROJECT-LEADER-CONTROL-EVIDENCE-HYGIENE-059R-*",
+    ".project-leader/transitions/PROJECT-LEADER-HYGIENE-CLOSEOUT-055-MERGE.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-HYGIENE-CLOSEOUT-055-MERGE.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-HYGIENE-CLOSEOUT-055-DELETE-01.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-HYGIENE-CLOSEOUT-055-DELETE-02.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-CANONICAL-RUNTIME-BOOTSTRAP-056R-MERGE.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-CANONICAL-RUNTIME-BOOTSTRAP-056R-MERGE.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-BOUNDED-RECONSTRUCTION-HYGIENE-058R-MERGE.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-BOUNDED-RECONSTRUCTION-HYGIENE-058R-MERGE.result.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "reconcile_transition_records",
+    "delete_owner_authorized_superseded_non_main_branch_refs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "modify_runtime_behavior",
+    "modify_standing_authority",
+    "modify_human_gate_conditions",
+    "modify_role_hierarchy",
+    "architecture_redesign",
+    "scope_expansion",
+    "force_push",
+    "unrelated_refactor",
+    "weaken_ci_or_security_controls"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Control evidence canonicalization",
+    "Exact obsolete-ref cleanup authority",
+    "Role and authority invariants"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "d68459c3bda12b83ecb8e94e3da4c5aba6af6a92",
+    "sha256": "8496c175e9295450ac0d1228c9d08dcee3149d4f7384838fd2f2573250634e22",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Canonical main contains the previously unique durable merge/purge evidence from control/merge-authorization-055, -057 and -058. Exact CURRENT_OWNER_INSTRUCTION purge authorizations exist for control/merge-authorization-055@00a16e859bfba9515e4338f70894220dcd932d9f, control/merge-authorization-057@d7cd00f1df77751998ded30cfa25d22af5e60308, control/merge-authorization-058@634f9004b8b5e3ed7159fa66f7c8d147868859b2, and superseded builder/control-evidence-hygiene-059@7f94df97a338078a2b63576b36421f8c05ac463f. After merge, repository hygiene removes those exact obsolete refs plus the merged 059R builder branch, leaving only main plus the newest merge-authorization evidence ref for task 059R. Project Leader runtime stays 0.6.5 unchanged and all required CI passes.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

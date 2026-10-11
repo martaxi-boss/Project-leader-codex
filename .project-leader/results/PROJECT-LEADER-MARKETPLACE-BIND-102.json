@@ -1,0 +1,90 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-MARKETPLACE-BIND-102",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-MARKETPLACE-BIND-102.json",
+  "authorization_commit_sha": "439ca45fe92b4b4a4a138a07f3565d6ac6e1efc6",
+  "authorization_sha256": "ce15167ab917f858f5a0b1ad0c5fe955988ca80ff42fe811fee7ed4a82d4c87d",
+  "implementation_head_sha": "61414decc7cb01d4f0031d5cc23aba50ff002fd2",
+  "branch": "builder/marketplace-existing-plugin-binding-102",
+  "pr_number": 102,
+  "recorded_at": "2026-10-09T18:02:10.948Z",
+  "state_observed_at": "2026-10-09T18:02:10.948Z",
+  "superseded_by": null,
+  "post_transition_record": null,
+  "changes": [
+    "Added documented pluginId binding for the existing Project Leader workspace installation to the Project Leader entry of the existing GitHub marketplace manifest.",
+    "Replaced the incompatible old no-pluginId bootstrap assertion with valid-ID/canonical-source and Recovery Guardian isolation checks; retained all canonical-bootstrap assertions.",
+    "No plugin runtime, version, dependency, permission, CI workflow, security control or other project changed. User still must perform Admin Marketplace Sync now after integration."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR 102 changes only the scoped marketplace manifest, the targeted bootstrap regression, immutable Task Authorization, and this evidence-only result; source change is exactly one pluginId field on the project-leader entry."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Exact implementation 61414decc7cb01d4f0031d5cc23aba50ff002fd2 has Control contract tests 37970332881, Validate control plane 37970332816, Package ChatGPT plugins 37970332898, all completed success from pull_request event for PR 102."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Authorization-only 439ca45fe92b4b4a4a138a07f3565d6ac6e1efc6 preceded material implementation; canonical base 987dc71a79cf4b3e823f29ac91ad627dd1d13d17; exact authorization SHA-256 ce15167ab917f858f5a0b1ad0c5fe955988ca80ff42fe811fee7ed4a82d4c87d and base policy SHA-256 d8ca49eaaf130b8924ef56ac0912136fe9c2000650db77a1124dada9fabb03cb were checked. Independent trusted gate must pass after this evidence index is committed."
+    },
+    {
+      "name": "Documented existing-plugin binding format and exact plugin ID regression",
+      "status": "PASS",
+      "evidence": "The existing Project Leader plugin ID supplied by the workspace Owner is entered as pluginId beside the existing name/source in .agents/plugins/marketplace.json per official OpenAI import guidance; the test validates ID shape and source path."
+    },
+    {
+      "name": "Recovery Guardian entry unchanged regression",
+      "status": "PASS",
+      "evidence": "Before/after JSON comparison found exact equality of the Recovery Guardian manifest entry; updated test asserts it remains without pluginId and preserves its original source path. Control contract tests 37970332881 passed."
+    },
+    {
+      "name": "Canonical bootstrap and mandatory security regression",
+      "status": "PASS",
+      "evidence": "Previous stale assertion forbidding all pluginId fields was replaced with positive association and guardian-isolation checks, while existing CANONICAL_RUNTIME_BOOTSTRAP/RUNTIME_SYNC_STALE assertions remain. 293-contract suite completed success in run 37970332881; no security check disabled."
+    },
+    {
+      "name": "No plugin manifest, version or permission change",
+      "status": "PASS",
+      "evidence": "Only marketplace source binding and a regression test changed. Neither plugin.json nor .app.json nor required app permissions, standing authority, branch protection, CI workflows or canonical plugin versions were modified."
+    },
+    {
+      "name": "Same-cycle hygiene complete",
+      "status": "PASS",
+      "evidence": "Earlier incompatible draft PR 101 was closed without merge. No temporary diagnostics, generated artifacts, extra handoff files or unrelated repository edits are included in PR 102; preserve legitimate governance records and keep historic closed PR branch for separate safe hygiene reconciliation."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37970332881
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37970332816
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37970332898
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/102"
+  ],
+  "material_non_effects": [
+    "No deletion, replacement or reinstallation of the existing workspace plugin; only its GitHub marketplace source metadata is prepared for future sync.",
+    "No modification of Recovery Guardian, plugin permissions, workspace settings, GitHub rulesets, or any managed-project repository.",
+    "No claim that Admin Marketplace synchronization has occurred: syncing is an independent explicit UI action after merge."
+  ],
+  "residual_blockers": []
+}

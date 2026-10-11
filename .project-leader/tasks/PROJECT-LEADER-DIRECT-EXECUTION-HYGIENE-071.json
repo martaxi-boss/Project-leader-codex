@@ -1,0 +1,127 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-DIRECT-EXECUTION-HYGIENE-071",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-06T18:30:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Explicit Owner-authorized conservative trust-root correction of the independent PROJECT LEADER. Preserve Consultant, Supervisor, Builder, Recovery Guardian, Human Gates, evidence-first, standing authority, project isolation, forced operational access discovery, liveness, consequential transition protections and required auditability; reduce redundant internal ceremony; make covered recoverable E1 failures directly repairable by Recovery Guardian; block blind retries; make continuous in-scope hygiene implicit for mutation-capable work while explicit read-only remains non-mutating. No external project or VPS mutation."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "8efecaccfb5708d3689f9fcd0ad3bb77ec8e40db",
+    "task_branch": "builder/direct-execution-hygiene-071",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".project-leader/tasks/PROJECT-LEADER-DIRECT-EXECUTION-HYGIENE-071.json",
+    ".project-leader/results/PROJECT-LEADER-DIRECT-EXECUTION-HYGIENE-071.json",
+    ".project-leader/recovery-events/PROJECT-LEADER-DIRECT-EXECUTION-HYGIENE-071/**",
+    ".project-leader/transitions/PROJECT-LEADER-DIRECT-EXECUTION-HYGIENE-071-*",
+    ".github/workflows/validate-control-plane.yml",
+    "PROJECT_LEADER.md",
+    "README.md",
+    "RECOVERY_PROTOCOL.md",
+    "RUNBOOK.md",
+    "SMOKE_TESTS.md",
+    "control/standing_authority.py",
+    "plugins/project-leader/plugin.json",
+    "plugins/project-leader/skills/project-leader/SKILL.md",
+    "plugins/project-leader/skills/project-leader/references/recovery-protocol.md",
+    "plugins/recovery-guardian/plugin.json",
+    "plugins/recovery-guardian/skills/recovery-guardian/SKILL.md",
+    "plugins/recovery-guardian/skills/recovery-guardian/references/recovery-protocol.md",
+    "roles/BUILDER.md",
+    "roles/CONSULTANT.md",
+    "roles/RECOVERY_GUARDIAN.md",
+    "roles/SUPERVISOR.md",
+    "tests/test_standing_authority.py",
+    "tests/test_control_contract.py"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root",
+    "reconcile_control_contract_docs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "force_push",
+    "unrelated_refactor",
+    "weaken_ci_or_security_controls",
+    "cross_project_mutation",
+    "vps_mutation"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Role and Skill coherence audit",
+    "Recovery directness regression",
+    "Retry anti-loop regression",
+    "Read-only hygiene boundary regression",
+    "Legacy protection preservation",
+    "Version regression alignment"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "8efecaccfb5708d3689f9fcd0ad3bb77ec8e40db",
+    "sha256": "8496c175e9295450ac0d1228c9d08dcee3149d4f7384838fd2f2573250634e22",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Project Leader 0.6.8 and Recovery Guardian 0.5.6 preserve the existing trust-root guarantees while covered recoverable E1 failures route to direct Recovery repair/retest, blind retries require a material basis or replan, continuous hygiene is automatic for mutation-capable work, explicit read-only remains non-mutating, all trust-root and regression gates pass, and no external project/VPS is mutated.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

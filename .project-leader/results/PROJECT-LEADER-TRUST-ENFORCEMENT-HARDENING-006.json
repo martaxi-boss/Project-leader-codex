@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "task_id": "PROJECT-LEADER-TRUST-ENFORCEMENT-HARDENING-006",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E1_RECOVERABLE_PROJECT_LOCAL",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-TRUST-ENFORCEMENT-HARDENING-006.json",
+  "implementation_head_sha": "752359e657607396f60c458a3a8576c291b6cfc9",
+  "branch": "builder/trust-enforcement-hardening-006",
+  "pr_number": 6,
+  "recorded_at": "2026-10-02T22:37:00Z",
+  "state_observed_at": "2026-10-02T22:36:00Z",
+  "superseded_by": null,
+  "post_transition_record": null,
+  "changes": [
+    "Archived v1 Task Authorization and Worker Result schemas and introduced hardened v2 contracts for future tasks.",
+    "Added exact base-policy binding and a base-anchored trust ceiling that rejects scope/action self-widening.",
+    "Added a pull_request_target trusted gate that executes verifier code from the PR base and handles PR-head task/result files only as data.",
+    "Added external GitHub Actions evidence verification binding run ID, workflow name, repository, implementation SHA, success and ancestry.",
+    "Added append-only hash-chained recovery events with monotonic anti-loop counters.",
+    "Added central policy profiles for PINK IPTV, FADEGO and VCAM-PRO based on live workflow evidence.",
+    "Made plugin packaging byte-reproducible and added SHA256SUMS plus a machine-readable supply-chain manifest.",
+    "Bumped Project Leader to 0.4.0 and Recovery Guardian to 0.3.0."
+  ],
+  "validation": [
+    {
+      "name": "Control contract tests",
+      "status": "PASS",
+      "evidence": "GitHub Actions run 37073357168 executed 54 tests successfully on implementation HEAD 752359e657607396f60c458a3a8576c291b6cfc9."
+    },
+    {
+      "name": "Trusted gate unit tests",
+      "status": "PASS",
+      "evidence": "Included in run 37073357168; self-widened scope/action, wrong policy digest/base, missing required CI and E1 trust-root mutation are rejected."
+    },
+    {
+      "name": "Evidence verifier unit tests",
+      "status": "PASS",
+      "evidence": "Included in run 37073357168; wrong SHA, failed run, wrong workflow name and diverged ancestry are rejected."
+    },
+    {
+      "name": "Recovery journal tests",
+      "status": "PASS",
+      "evidence": "Included in run 37073357168; counter reset, hash tampering, invalid strategy generation and post-terminal append are rejected."
+    },
+    {
+      "name": "Reproducible packaging tests",
+      "status": "PASS",
+      "evidence": "Included in run 37073357168; two packages are byte-identical and manifest digests/sizes match."
+    },
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #6 diff against stacked base 5e4650d05508a5c521e8e5ae2b366f2a4d2d6404 passed mutation_scope enforcement; out-of-scope SMOKE_TESTS.md was reverted instead of widening authorization."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Supervisor independently resolved runs 37073357168, 37073357162 and 37073357169 on implementation HEAD 752359e657607396f60c458a3a8576c291b6cfc9; all completed SUCCESS."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37073357168
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37073357162
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37073357169
+    }
+  ],
+  "artifacts": [
+    "project-leader-plugin artifact 11255832143 digest sha256:d901e48fc0f468e989c33f03a9e352431a4bd590926a13f2a97bc52c83e2c2aa",
+    "recovery-guardian-plugin artifact 11256121664 digest sha256:bfddb98d4c56a76c1943aca00074253ade27808d0e3c8ff26c888894b2fbae16",
+    "plugin-supply-chain-manifest artifact 11255777142 digest sha256:ec558724932e42a359429ac4f5dcfdff2d31587b04db97a0228e8b9161339ef5"
+  ],
+  "material_non_effects": [
+    "No merge to main",
+    "No merge of PR #5",
+    "No branch protection or ruleset mutation",
+    "No release or publication",
+    "No license selection",
+    "No managed-project mutation",
+    "No production deploy",
+    "No destructive data change",
+    "No repository/history deletion",
+    "No production secret change",
+    "No irreversible infrastructure change",
+    "No paid-service activation"
+  ],
+  "residual_blockers": [
+    "PR #5 and stacked PR #6 remain unmerged and require explicit Owner merge authorization before main can inherit these controls.",
+    "Direct-push prevention and required-check enforcement on main still require an external GitHub branch-protection/ruleset change.",
+    "A full mutation E2E proof in PINK IPTV, FADEGO or VCAM-PRO remains a separate managed-repository authorization boundary.",
+    "A versioned GitHub Release and LICENSE selection remain separate Human Gates."
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-RESTORE-PRE-CODEX-105",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-RESTORE-PRE-CODEX-105.json",
+  "authorization_commit_sha": "c14c1f8e470c8e992e973cc55cb234b66c1e6314",
+  "authorization_sha256": "e40718d9852bb1d110e83911e32e766f79725c1eb336324eda79801b36c4d3ab",
+  "implementation_head_sha": "dffe3794fd3bbf023e2f2fffe32400a1ddf90761",
+  "branch": "builder/restore-pre-codex-105",
+  "pr_number": 105,
+  "recorded_at": "2026-10-11T12:26:15.106Z",
+  "state_observed_at": "2026-10-11T12:26:15.106Z",
+  "superseded_by": null,
+  "post_transition_record": null,
+  "changes": [
+    "Restored the canonical Project Leader Skill byte-for-byte to pre-PR104 2026-10-09 main SHA 55b7a054df5408ed82f4d7771e5a8c843af26563, removing only PR104's two Codex-audit-suggested generic rules.",
+    "Restored the matching execution-first regression test file byte-for-byte to that same pre-PR104 main state; all earlier regression, Supervisor, Human Gate and security assertions remain.",
+    "Retained original PR104, authorization, results, history and Marketplace/GitHub links. No modification of other components or installations."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub compare from 80408fd51050b79aaf9d0bd5d2a37d53a5f16adc to implementation dffe3794fd3bbf023e2f2fffe32400a1ddf90761 shows exactly 3 paths: the immutable task JSON, Skill (-2 lines), and test (-23 lines); the authorized evidence-only Worker Result is added after the implementation head."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Live GitHub Actions exact PR implementation SHA dffe3794fd3bbf023e2f2fffe32400a1ddf90761: Control contract tests run 38139154741 SUCCESS, Validate control plane run 38139154770 SUCCESS, Package ChatGPT plugins run 38139154792 SUCCESS. Trusted-authorization gate initial run 38139154406 failed solely because this mandatory Worker Result did not yet exist; final trusted gate must be checked after result commit and is not claimed successful here."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Authorization-only ancestor c14c1f8e470c8e992e973cc55cb234b66c1e6314 was committed before implementation and contains only the immutable Task Authorization; exact SHA256 e40718d9852bb1d110e83911e32e766f79725c1eb336324eda79801b36c4d3ab. Unchanged canonical base policy blob SHA fc6eaf7d3fd6701f071339a80f9b278fe9012569, policy SHA256 d8ca49eaaf130b8924ef56ac0912136fe9c2000650db77a1124dada9fabb03cb; independent GitHub trusted gate remains mandatory before promotion."
+    },
+    {
+      "name": "Canonical Skill exactly matches pre-PR104 baseline",
+      "status": "PASS",
+      "evidence": "GitHub fetch of the implementation head shows the Skill Git blob SHA a090658f558af9615b53990686d943e00e55a4d2, identical to canonical 2026-10-09 main 55b7a054...; compared full content, with zero Codex mentions."
+    },
+    {
+      "name": "Contract tests exactly match pre-PR104 baseline",
+      "status": "PASS",
+      "evidence": "GitHub fetch of the implementation head shows the full test file blob SHA 47ba2fd4ee33b3faa052e95a927c10d3539ad818, identical to canonical 2026-10-09 main 55b7a054...; complete 23-line PR104-only test removed, earlier assertions kept byte-exact."
+    },
+    {
+      "name": "Supervisor, Recovery Guardian, versions, Marketplace, standing authority and security unchanged",
+      "status": "PASS",
+      "evidence": "Scope evidence confirms no modified roles, Recovery Guardian files, plugins/*/plugin.json, .agents/plugins/marketplace.json, projects/standing-authority.json, protected workflow/ruleset/policy paths, security tests outside the restored test file, or external projects. Mandatory PR CI passed."
+    },
+    {
+      "name": "Retain PR #104 historical task/results and transition evidence",
+      "status": "PASS",
+      "evidence": "No deletions or modifications under historical authorization/results/transitions, Git history or PR104; GitHub compare changed only the three authorized files. Original PR #104 remains closed/merged and its evidence remains searchable."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 38139154741
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 38139154770
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 38139154792
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/105",
+    "https://github.com/martaxi-boss/Project-leader/pull/104",
+    "https://github.com/martaxi-boss/Project-leader/actions/runs/38139154741",
+    "https://github.com/martaxi-boss/Project-leader/actions/runs/38139154770",
+    "https://github.com/martaxi-boss/Project-leader/actions/runs/38139154792"
+  ],
+  "material_non_effects": [
+    "No changes to Project Leader plugin version 0.7.0, Recovery Guardian plugin version 0.6.0, standing authority, roles, security architecture, tests/CI gates other than restoration of PR104-specific test, or installed plugin/Marketplace synchronization.",
+    "No production deploy, permission grant, plugin installation, other repository mutation, release, Git history rewrite or ruleset alteration.",
+    "The scoped Builder task prohibits merge to main; this PR is unmerged pending successful trusted-authorization gate and separately authorized exact-revision consequential transition."
+  ],
+  "residual_blockers": []
+}

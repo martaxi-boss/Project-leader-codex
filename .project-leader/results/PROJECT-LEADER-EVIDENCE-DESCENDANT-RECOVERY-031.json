@@ -1,0 +1,77 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-EVIDENCE-DESCENDANT-RECOVERY-031",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-EVIDENCE-DESCENDANT-RECOVERY-031.json",
+  "authorization_commit_sha": "11977f81231b4e1184557fbe84470db3f029cfc4",
+  "authorization_sha256": "d625ee91d889c65abffdce4d1ae8c8e1f48a4ebb827cffddcc658d1cd5501ad2",
+  "implementation_head_sha": "c359fa1ddf84e1cfa0dae03f6d1e136fe07e0af3",
+  "branch": "builder/evidence-descendant-recovery-031",
+  "pr_number": 31,
+  "recorded_at": "2026-10-03T15:49:00Z",
+  "state_observed_at": "2026-10-03T15:48:58Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-EVIDENCE-DESCENDANT-RECOVERY-031-TRUST-ROOT.result.json",
+  "changes": [
+    "Added a mechanical classifier for post-implementation descendants: material changes require a new implementation head, while task-local evidence-only descendants leave certification bound to the existing implementation head.",
+    "Hardened Project Leader and Recovery Guardian contracts so automatic CI on evidence-only descendants is non-certifying and cannot by itself reopen task Recovery or create recursive evidence/CI loops.",
+    "Separated optional/required final-head repository-governance checks from task certification semantics.",
+    "Hardened interrupted external-CI recovery: if chat state is lost before exact wait IDs are captured, reconstruct existing runs from live task/SHA/PR/workflow evidence before any dispatch.",
+    "Added executable unit and contract tests for the reproduced PINK IPTV behavior."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #31 changes are limited to the authorized task/transition/result records, managed control helper, tests, canonical Project Leader/Recovery contracts and packaged plugin copies."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required implementation CI completed successfully on exact implementation head c359fa1ddf84e1cfa0dae03f6d1e136fe07e0af3; final descendants contain only task-local transition/result evidence permitted by the canonical verifier."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact Owner-authorized trust-root transition was persisted before protected contract/plugin/control mutations and its SUCCESS result was persisted after the implementation-head CI passed."
+    },
+    {
+      "name": "Evidence-only descendant CI relevance",
+      "status": "PASS",
+      "evidence": "New classify_post_implementation_descendant tests prove evidence-only descendants route CERTIFICATION_UNCHANGED unless repository governance requires FINAL_HEAD_GOVERNANCE_CHECK; material descendants route FRESH_IMPLEMENTATION_CI."
+    },
+    {
+      "name": "Interrupted external-CI continuity",
+      "status": "PASS",
+      "evidence": "Canonical and packaged recovery contracts now require reconstruction of existing exact runs from durable live state when interruption occurs before wait IDs were captured; missing chat state never authorizes replacement CI."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37134496020
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37134496044
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37134496142
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No merge to main.",
+    "No branch-protection/ruleset change.",
+    "No managed-project mutation, including no PINK IPTV code or branch mutation.",
+    "No release, deploy, secret, destructive, paid-service or infrastructure effect.",
+    "No weakening of existing CI, trusted-gate or evidence requirements."
+  ],
+  "residual_blockers": []
+}

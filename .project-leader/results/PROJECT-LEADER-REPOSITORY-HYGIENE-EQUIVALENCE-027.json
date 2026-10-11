@@ -1,0 +1,85 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-REPOSITORY-HYGIENE-EQUIVALENCE-027",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-REPOSITORY-HYGIENE-EQUIVALENCE-027.json",
+  "authorization_commit_sha": "d97fb98974bec5a2138d23588857d6a4a88d71f2",
+  "authorization_sha256": "01c4b98c76d827fb0ec28f267f5cabd9b6992d8821b6f036ae9c541ef1e586b9",
+  "implementation_head_sha": "1beb5b7a7bbb4b75e1b3e29ddb40a2d3380a8378",
+  "branch": "builder/repository-hygiene-equivalence-027",
+  "pr_number": 28,
+  "recorded_at": "2026-10-03T12:56:45.644Z",
+  "state_observed_at": "2026-10-03T12:56:45.644Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-REPOSITORY-HYGIENE-EQUIVALENCE-027-TRUST-ROOT.result.json",
+  "changes": [
+    "Repository hygiene now supports canonical content-equivalence cleanup for non-main branches with no open PR.",
+    "Ancestry cleanup remains the first deletion path.",
+    "Non-ancestor branches are deleted only when every branch-specific final file state is byte-identical to canonical main.",
+    "Removed paths qualify only when they are also absent from main.",
+    "Open PR heads, renames/unsupported statuses, oversized or unavailable deltas, and any divergent content are preserved.",
+    "The hygiene summary distinguishes ancestry deletion, content-equivalence deletion, and preserved branches."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #28 changes are limited to 027 task/transition/result evidence, repository-hygiene workflow, RUNBOOK and contract tests, all inside immutable task scope."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required workflows completed successfully on exact implementation SHA 1beb5b7a7bbb4b75e1b3e29ddb40a2d3380a8378."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact Owner-authorized trust-root transition was persisted before protected workflow/runbook changes and its result was persisted after validation."
+    },
+    {
+      "name": "Canonical content-equivalence proof",
+      "status": "PASS",
+      "evidence": "Workflow compares each branch-specific added/modified path blob SHA against canonical main and requires removed paths to be absent from main; unsupported/large deltas are preserved."
+    },
+    {
+      "name": "Open-PR preservation",
+      "status": "PASS",
+      "evidence": "Workflow enumerates same-repository open PR heads and preserves their branches from the equivalence sweep."
+    },
+    {
+      "name": "Post-cleanup survivor audit",
+      "status": "PASS",
+      "evidence": "Workflow reports every preserved branch with the reason it was not deleted, enabling the final explicit survivor audit."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37124477620
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37124477643
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37124477633
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No branch deletion has occurred before canonical merge.",
+    "No main ref deletion or rewrite.",
+    "No open-PR branch deletion by the equivalence path.",
+    "No unique/divergent content deletion.",
+    "No force push.",
+    "No ruleset or branch-protection change.",
+    "No managed-project mutation."
+  ],
+  "residual_blockers": []
+}

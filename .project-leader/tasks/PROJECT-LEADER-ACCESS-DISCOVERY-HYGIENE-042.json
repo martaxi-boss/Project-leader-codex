@@ -1,0 +1,124 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T23:35:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Owner explicitly authorizes immediate implementation of a mandatory Access Discovery Preflight before any access-related Human Gate, plus same-execution Project Leader hygiene. The control plane must not equate missing direct session SSH/tooling with missing operational access; it must exhaust reasonably discoverable authorized channels such as target-repository automation, operational repositories, GitHub Actions, SSH bridges, deployment/provider connectors and proven historical access paths. Read-only discovery of adjacent operational repositories is permitted; mutation of another repository still requires its own bounded task and authority. Preserve one mutable target repository per task, do not weaken security or evidence controls, and do not mutate PINK IPTV or VPS in this task."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "a061a17cb9a70e015672188eef10a5e0a73fba8b",
+    "task_branch": "builder/access-discovery-hygiene-042",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "PROJECT_LEADER.md",
+    "RUNBOOK.md",
+    "RECOVERY_PROTOCOL.md",
+    "SMOKE_TESTS.md",
+    "control/managed_project_contract.py",
+    "tests/test_managed_project_contract.py",
+    "tests/test_control_contract.py",
+    "plugins/project-leader/skills/project-leader/SKILL.md",
+    "plugins/project-leader/skills/project-leader/references/recovery-protocol.md",
+    "plugins/recovery-guardian/skills/recovery-guardian/SKILL.md",
+    "plugins/recovery-guardian/skills/recovery-guardian/references/recovery-protocol.md",
+    ".project-leader/tasks/PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042.json",
+    ".project-leader/results/PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042.json",
+    ".project-leader/recovery-events/PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042/**",
+    ".project-leader/transitions/PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042-*",
+    ".project-leader/transitions/PROJECT-LEADER-LIVENESS-HYGIENE-041-MERGE*"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root",
+    "reconcile_control_contract_docs",
+    "reconcile_transition_records",
+    "delete_owner_authorized_superseded_non_main_branch_refs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "cross_project_mutation",
+    "force_push",
+    "weaken_ci_or_security_controls"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Access discovery closure",
+    "Cross-repository read-only discovery",
+    "Human Gate access proof",
+    "Packaged skill/runtime alignment",
+    "Historical transition preservation",
+    "Obsolete branch audit"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "a061a17cb9a70e015672188eef10a5e0a73fba8b",
+    "sha256": "8496c175e9295450ac0d1228c9d08dcee3149d4f7384838fd2f2573250634e22",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Before Project Leader may claim essential access/evidence is unavailable or emit EXCLUSIVE_HUMAN_INTERVENTION for access, a mandatory Access Discovery Preflight must exhaust the canonical discovery surfaces and classify any discovered channel. Missing direct session SSH/tooling alone is insufficient. Read-only inspection of adjacent operational repositories is explicitly allowed without violating one-mutable-repository isolation; a usable path that requires mutation in another repository must route to a separate bounded operations task rather than directly to the Owner when authority covers it. Automated tests and smoke coverage must enforce the observed PINK IPTV/VPS pattern. Historical merge evidence from control/merge-authorization-041 must be canonicalized before hygiene can remove that obsolete branch. All required CI must pass before exact integration.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+      "requires_authority_resolution": true
+    }
+  ]
+}

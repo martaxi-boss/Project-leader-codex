@@ -1,0 +1,128 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-AUTONOMY-034",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T17:16:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "summary": "Owner requires Project Leader to operate autonomously as its own project-control skill. Correct only Project Leader's Human Gate and Recovery semantics so canonically covered executable work continues without repetitive Owner prompts. Preserve strict project isolation and do not modify PINK IPTV, FADEGO, VCAM-PRO, any other project-specific policy, or any other project repository.",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND"
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "73c5512674b2f14d82d69f6f4a10a8f886cf0049",
+    "task_branch": "builder/project-leader-autonomy-034",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".project-leader/tasks/**",
+    ".project-leader/results/**",
+    ".project-leader/recovery-events/**",
+    ".project-leader/transitions/**",
+    "control/standing-authority.schema.json",
+    "control/standing_authority.py",
+    "control/validate_records.py",
+    "control/transition-authorization.schema.json",
+    "tests/test_control_contract.py",
+    "tests/test_standing_authority.py",
+    "PROJECT_LEADER.md",
+    "RUNBOOK.md",
+    "RECOVERY_PROTOCOL.md",
+    "AGENT_BUILDER_PROMPT.md",
+    "roles/BUILDER.md",
+    "roles/SUPERVISOR.md",
+    "roles/RECOVERY_GUARDIAN.md",
+    "plugins/project-leader/skills/project-leader/SKILL.md",
+    "plugins/project-leader/skills/project-leader/references/recovery-protocol.md",
+    "plugins/recovery-guardian/skills/recovery-guardian/SKILL.md",
+    "plugins/recovery-guardian/skills/recovery-guardian/references/recovery-protocol.md",
+    "projects/standing-authority.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root",
+    "reconcile_control_contract_docs",
+    "reconcile_transition_records"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "force_push",
+    "rewrite_git_history",
+    "repository_or_history_deletion",
+    "destructive_data_change",
+    "modify_pink_iptv_policy",
+    "modify_fadego_policy",
+    "modify_vcam_pro_policy",
+    "modify_other_project_repository"
+  ],
+  "human_gates": [
+    {
+      "action": "merge_to_main",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "license_selection",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_owner_approval": true
+    }
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Project isolation",
+    "Standing authority semantics",
+    "Human-gate minimality",
+    "Recovery autonomy semantics"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "73c5512674b2f14d82d69f6f4a10a8f886cf0049",
+    "sha256": "9d185a662234060031ef6919238a480c2a419adf4cbf60f71f31ca376500ea1d",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Project Leader must persist and mechanically apply the Owner standing autonomy model. A consequential/gated effect first resolves against standing authority and exact Supervisor evidence; covered executable validated work continues autonomously through durable transition authorization/result. Human interruption is reserved for exclusive human/manual intervention or a genuinely new uncovered material decision. Recovery preserves authority without widening it. No other project's policy or repository is modified. All required CI and validations pass before integration.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1"
+}

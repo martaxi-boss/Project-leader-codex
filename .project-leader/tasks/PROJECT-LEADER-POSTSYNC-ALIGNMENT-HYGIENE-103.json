@@ -1,0 +1,118 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-POSTSYNC-ALIGNMENT-HYGIENE-103",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-09T18:17:46.642Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Owner explicitly requested an independent audit of the recent Project Leader efficiency/Marketplace work and cleanup of old residues and versions. After read-only Supervisor checks, update only stale current-runtime/setup/changelog descriptions, and explicitly authorize lease-safe deletion of seven exact, closed/superseded non-main builder branches now replaced by later merged PRs. Preserve canonical plugins, legacy compatibility, immutable historical tasks/results, material transition evidence, non-superseded unique post-closure evidence, protected main, permissions, and control branches. No installed ChatGPT plugin uninstallation is authorized."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "ce0b0510897dce25787ccbe058977b60737f8ae2",
+    "task_branch": "builder/postsync-alignment-hygiene-103",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "CHANGELOG.md",
+    "PLUGIN_SETUP.md",
+    ".project-leader/tasks/PROJECT-LEADER-POSTSYNC-ALIGNMENT-HYGIENE-103.json",
+    ".project-leader/results/PROJECT-LEADER-POSTSYNC-ALIGNMENT-HYGIENE-103.json",
+    ".project-leader/transitions/PROJECT-LEADER-POSTSYNC-ALIGNMENT-HYGIENE-103-PURGE-076A.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-POSTSYNC-ALIGNMENT-HYGIENE-103-PURGE-101.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-POSTSYNC-ALIGNMENT-HYGIENE-103-PURGE-076B.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-POSTSYNC-ALIGNMENT-HYGIENE-103-PURGE-077.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-POSTSYNC-ALIGNMENT-HYGIENE-103-PURGE-083.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-POSTSYNC-ALIGNMENT-HYGIENE-103-PURGE-084.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-POSTSYNC-ALIGNMENT-HYGIENE-103-PURGE-085.authorization.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "delete_owner_authorized_superseded_non_main_branch_refs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "cross_project_mutation",
+    "force_push",
+    "rewrite_git_history",
+    "weaken_ci_or_security_controls",
+    "unrelated_refactor",
+    "new_agent_architecture",
+    "plugin_delete_or_uninstall",
+    "workspace_permission_change"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Review fast-preflight/recovery/supervisor/Marketplace consistency",
+    "Preserve existing protected main and required CI",
+    "Superseded branch identity and exact live SHA audit",
+    "No active PR or exclusive still-required evidence on purge candidates",
+    "Preserve special unique post-closure branch and all historical control references",
+    "Docs match post-2026-10-09 behavior and version labels",
+    "Same-cycle hygiene complete"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "ce0b0510897dce25787ccbe058977b60737f8ae2",
+    "sha256": "d8ca49eaaf130b8924ef56ac0912136fe9c2000650db77a1124dada9fabb03cb",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "An exact-SHA-gated PR contains only version/docs alignment, seven exact lease-safe superseded branch purge authorizations, and immutable E3 task/result; all mandatory checks and independent material audit pass. A separately authorized merge may promote to protected main, then existing repository-hygiene automation executes the purges with live open-PR and SHA checks. Preserve main, all control evidence and unique historical work. ChatGPT-side duplicate Skill remains outside repository scope and is report-only without an explicit uninstall request.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

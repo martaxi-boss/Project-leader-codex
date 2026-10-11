@@ -1,0 +1,71 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-POLICY-028",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-POLICY-028.json",
+  "authorization_commit_sha": "ea7d7d5babed2f0857c729fc84a307196f9e44c0",
+  "authorization_sha256": "db7b4385b9c08cd55d189eee278e7f4bd70e5b3b8b60ab652cc9b16a3d4948e4",
+  "implementation_head_sha": "629e798149ceed57de0cafd87550019c20715c14",
+  "branch": "builder/superseded-branch-purge-policy-028",
+  "pr_number": 29,
+  "recorded_at": "2026-10-03T13:28:41.977Z",
+  "state_observed_at": "2026-10-03T13:28:41.977Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-POLICY-028-TRUST-ROOT.result.json",
+  "changes": [
+    "Project Leader E3 policy now explicitly allows delete_owner_authorized_superseded_non_main_branch_refs.",
+    "The superseded-branch purge action remains absent from E1.",
+    "No branch ref is deleted by this prerequisite policy task."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #29 changes are limited to task/transition/result evidence, Project Leader policy and trusted-gate tests."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required workflows completed successfully on exact implementation SHA 629e798149ceed57de0cafd87550019c20715c14."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact Owner-authorized trust-root transition was persisted before the policy mutation and its result was persisted after validation."
+    },
+    {
+      "name": "Superseded-branch purge action ceiling validation",
+      "status": "PASS",
+      "evidence": "Contract test confirms delete_owner_authorized_superseded_non_main_branch_refs exists under E3 and is absent from E1."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37126245567
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37126245421
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37126245448
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No branch deletion.",
+    "No merge to main yet.",
+    "No force push or history rewrite.",
+    "No ruleset or branch-protection change.",
+    "No managed-project mutation.",
+    "No release, deployment, secret, infrastructure, data, or paid-service mutation."
+  ],
+  "residual_blockers": []
+}

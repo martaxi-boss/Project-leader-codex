@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/self-provisioned-diagnostics-047",
+    "revision": "4d2c8c9fac59db41ef475ade83c08e9e5ca8f3f1",
+    "base_revision": "166d8a2d867e0d8e3b67082069679b0cd3b9242d",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T03:05:00Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "d633ad02f4843425ec41d273ce054c04f5191444"
+  },
+  "evidence": [
+    "Immutable Task Authorization commit 4d2c8c9fac59db41ef475ade83c08e9e5ca8f3f1 and exact trust-root authorization commit cb270bc26fc2afe3c83366ff54eeb2f6d648a9d9 preceded all control-plane/runtime edits.",
+    "The correction is universal: it applies to every current or future managed project and does not depend on PINK IPTV, FADEGO, VCAM-PRO, or central project registration.",
+    "Existing access discovery, recovery integrity, standing authority, evidence, security and one-mutable-repository-per-task controls are preserved; the new rule only inserts a self-provisioned least-privilege diagnostic bridge check before platform-consent escalation.",
+    "Implementation head d633ad02f4843425ec41d273ce054c04f5191444 passed Control contract tests run 37172937802, Validate control plane run 37172937808 and Package ChatGPT plugins run 37172937843.",
+    "Package workflow produced Project Leader 0.6.2 artifact 11291738072 with digest sha256:b79a5989de49dc9ff952037a049979fad7f51c43a04a5dae0da1298c32f5f91c and Recovery Guardian 0.5.2 artifact 11291907852 with digest sha256:5d4817af0e4b509bfc807adc1c5222e44c10d81064204faa9d124e106126b0d9."
+  ],
+  "residual_blockers": []
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-COMPARE-FILES-LIMIT-039-MERGE",
+  "task_id": "PROJECT-LEADER-COMPARE-FILES-LIMIT-039",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T19:34:00Z",
+  "action": "merge_to_main",
+  "effect_class": "E2_CONSEQUENTIAL_TRANSITION",
+  "authority": {
+    "source": "STANDING_OWNER_GRANT",
+    "summary": "Owner authorized the external-audit hardening corrections one at a time. PR #39 is the exact isolated second correction, all required final-head checks including trusted authorization are successful, and integration changes only the 300-file Compare fail-closed control plus its regression tests and task evidence.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#39",
+    "revision": "cd6a13b7f9703194b39276197f32431c87b48c9d",
+    "base_revision": "d430f5f7eea3ce9b7ea16931841de21a876e5011",
+    "environment": null
+  }
+}

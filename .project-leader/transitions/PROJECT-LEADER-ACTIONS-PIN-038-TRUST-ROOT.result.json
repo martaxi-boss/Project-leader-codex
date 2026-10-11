@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-ACTIONS-PIN-038-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-ACTIONS-PIN-038",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-ACTIONS-PIN-038-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/actions-github-script-pin-038",
+    "revision": "43c4844ca21c79e0a11e4237ba0068e34b72cf7b",
+    "base_revision": "b30df58fc3c8f91028b6f7cd402e4694bb55a915",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T19:26:00Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "100baa24337497c007fe02c3e908114ad3f50a03"
+  },
+  "evidence": [
+    "Task Authorization was persisted first at commit 43c4844ca21c79e0a11e4237ba0068e34b72cf7b and the exact trust-root transition authorization was persisted before the workflow edit.",
+    "Upstream actions/github-script tag v8 resolved to immutable commit ed597411d8f924073f98dfc5c65a23a2325f34cd immediately before implementation.",
+    "Implementation head 100baa24337497c007fe02c3e908114ad3f50a03 changes exactly two repository-hygiene.yml uses from @v8 to the immutable commit and otherwise only adds task/transition evidence.",
+    "Required implementation-head CI succeeded: Control contract tests 37147774284, Validate control plane 37147774275, Package ChatGPT plugins 37147774294."
+  ],
+  "residual_blockers": []
+}

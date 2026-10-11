@@ -1,0 +1,73 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-RECOVERY-STRUCTURAL-CAUSALITY-018",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-RECOVERY-STRUCTURAL-CAUSALITY-018.json",
+  "authorization_commit_sha": "c17b09f719fb7146b18106f97a3da5e1e8e592ca",
+  "authorization_sha256": "acfac27efd2e1da9589cb2a1c5ae0de6c5e84824e2eb5ee44154736c112cbfc9",
+  "implementation_head_sha": "e5626dce0d7f63c505828e7adc508592a0721b4e",
+  "branch": "builder/recovery-structural-causality-018",
+  "pr_number": 18,
+  "recorded_at": "2026-10-03T11:32:36.001Z",
+  "state_observed_at": "2026-10-03T11:32:36.001Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-RECOVERY-STRUCTURAL-CAUSALITY-018-TRUST-ROOT.result.json",
+  "changes": [
+    "Recovery certification now verifies Git ancestry in addition to timestamp ordering.",
+    "FAILURE_OBSERVED, RETRY_AUTHORIZED and pre-retry REPLAN persistence commits must be ancestors of the CI-certified implementation SHA.",
+    "For terminal success, RECOVERED must be committed as a descendant of the implementation SHA on the final task line.",
+    "A recovery journal is inspected whenever present, even when the replacement CI run has run_attempt=1.",
+    "Old-SHA GitHub reruns can no longer provide terminal v2 Recovery certification solely through apparently valid timestamps.",
+    "Project Leader and Recovery Guardian contracts now require a fresh certifying run on a descendant SHA containing the pre-retry journal."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #18 is stacked only on prior certified points and its own diff is limited to task/transition/result evidence, trusted evidence verifier, Recovery contracts/skills, and tests."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required implementation-head workflows completed successfully on exact SHA e5626dce0d7f63c505828e7adc508592a0721b4e with concrete run IDs; final metadata-head trusted verification follows this Worker Result."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact Owner-authorized trust-root transition was persisted before protected Recovery-verifier changes and its result was persisted after validation."
+    },
+    {
+      "name": "Structural Recovery causal ordering",
+      "status": "PASS",
+      "evidence": "Control contract tests run 37119940673 passed structural ancestry tests for valid pre-retry ancestry, disconnected authorization rejection, RECOVERED-after-implementation enforcement, and latest-retry recovery ordering."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37119940673
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37119940695
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37119940672
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No merge to main.",
+    "No managed-project mutation.",
+    "No project-specific hard-coding.",
+    "No workflow, branch protection, release, deploy, secret, infrastructure, data, history, or paid-service mutation.",
+    "No weakening of Human Gates, CI requirements, or Recovery limits."
+  ],
+  "residual_blockers": []
+}

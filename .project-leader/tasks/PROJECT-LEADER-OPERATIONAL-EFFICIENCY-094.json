@@ -1,0 +1,112 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-OPERATIONAL-EFFICIENCY-094",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-07T21:32:00Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Implement only three incremental Project Leader efficiency refinements: FAST_VALIDATION_BEFORE_FULL_VALIDATION for normal E1, SUPERSEDED_WORK_AUTO_CANCEL with evidence-preserving cancellation checks, and FIRST_SUFFICIENT_SAFE_PASS_STOP. Preserve Project Leader architecture, authority/effect boundaries, security, stale-base protection, direct Recovery, anti-loop, continuous hygiene, progressive loading, and all material E2/E3 controls. No other repository may be mutated."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "3de696a1286d79e080d3c72bcfdf6691d9255030",
+    "task_branch": "builder/operational-efficiency-094",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "control/managed_project_contract.py",
+    "plugins/project-leader/skills/project-leader/SKILL.md",
+    "plugins/project-leader/plugin.json",
+    "tests/test_execution_first_contract.py",
+    ".github/workflows/validate-control-plane.yml",
+    "README.md",
+    "PLUGIN_SETUP.md",
+    "CHANGELOG.md",
+    ".project-leader/tasks/PROJECT-LEADER-OPERATIONAL-EFFICIENCY-094.json",
+    ".project-leader/results/PROJECT-LEADER-OPERATIONAL-EFFICIENCY-094.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "merge_development_branch",
+    "harden_trust_root",
+    "reconcile_control_contract_docs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "cross_project_mutation",
+    "force_push",
+    "weaken_ci_or_security_controls"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Focused-before-full validation regression",
+    "Superseded work cancellation regression",
+    "Safe-pass stop regression",
+    "Material controls unchanged regression",
+    "Version identity regression"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "3de696a1286d79e080d3c72bcfdf6691d9255030",
+    "sha256": "d8ca49eaaf130b8924ef56ac0912136fe9c2000650db77a1124dada9fabb03cb",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Exactly the three requested efficiency rules are integrated into the current Project Leader runtime/Skill; normal E1 focuses validation before any required full validation, superseded heavy work cancels only when it cannot certify the final state and has no required exclusive diagnostic evidence, sufficient safe PASS stops optional adjacent work, Project Leader identity is coherent at the minimal compatible patch version, required CI is green on the exact implementation SHA, hygiene is complete, all existing security/E2/E3 protections remain unchanged, and no external repository is mutated.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

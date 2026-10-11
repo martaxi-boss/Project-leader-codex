@@ -1,0 +1,71 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-MANAGED-PROJECT-RUNTIME-REMEDIATION-008",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E1_RECOVERABLE_PROJECT_LOCAL",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-MANAGED-PROJECT-RUNTIME-REMEDIATION-008.json",
+  "implementation_head_sha": "52776019f2c8b6f1dadd29ed9162374483f25272",
+  "branch": "builder/managed-project-runtime-remediation-008",
+  "pr_number": 8,
+  "recorded_at": "2026-10-03T00:44:30Z",
+  "state_observed_at": "2026-10-03T00:44:30Z",
+  "changes": [
+    "Universal v2 requirement for new mutation-capable work in every registered managed project",
+    "Append-only recovery is authoritative for new managed-project recovery",
+    "Live GitHub CI run IDs and implementation-head/final-head binding are mandatory for terminal certification",
+    "Active external CI is classified as WAITING_EXTERNAL_CI and is not blindly redispatched",
+    "Project Leader plugin updated to 0.4.1; no managed-project repository changed"
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Base 1e364f5... to implementation 5277601... changes only the 11 paths authorized by Task 008; projects/policy-profiles.json was restored to main and is absent from the final diff."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Implementation-head GitHub Actions are SUCCESS: Control contract tests 37083252890, Validate control plane 37083252891, Package ChatGPT plugins 37083252903. Trusted authorization gate on the result head independently verifies run name/repository/SHA/conclusion and ancestry."
+    },
+    {
+      "name": "Managed project v2 enforcement tests",
+      "status": "PASS",
+      "evidence": "Control contract tests run 37083252890 executed the new managed-project contract suite; v1 task/result rejection, append-only recovery requirement and required-CI checks passed."
+    },
+    {
+      "name": "External CI wait-state tests",
+      "status": "PASS",
+      "evidence": "Control contract tests run 37083252890 verified active CI => WAITING_EXTERNAL_CI, stale active CI => INVESTIGATE_STALE_CI, and completed success classification. Full suite: 63 tests."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37083252890
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37083252891
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37083252903
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No managed project repository mutation",
+    "No merge to main",
+    "No release or publication",
+    "No deploy",
+    "No branch protection or ruleset change",
+    "No production secret or paid-service change"
+  ],
+  "residual_blockers": [
+    "PR #8 remains open; merge to main is an Owner Human Gate."
+  ]
+}

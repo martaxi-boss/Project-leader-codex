@@ -1,0 +1,70 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-TRUSTED-GATE-SCOPE-SUBSET-012",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-TRUSTED-GATE-SCOPE-SUBSET-012.json",
+  "authorization_commit_sha": "40df2abfc826662672e2f11980c857ac77ea1c3e",
+  "authorization_sha256": "5adc7a7626f8a076c84489f19326f3e6af2cbd3e5acde56d4bdc73fce723c57e",
+  "implementation_head_sha": "3e6ca4c14a54dcd7408398d3bff9d802958aa592",
+  "branch": "builder/trusted-gate-scope-subset-fix-012",
+  "pr_number": 11,
+  "recorded_at": "2026-10-03T07:51:00Z",
+  "state_observed_at": "2026-10-03T07:50:00Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-TRUSTED-GATE-SCOPE-SUBSET-012-TRUST-ROOT.result.json",
+  "changes": [
+    "Trusted gate now checks whether each requested mutation-scope pattern is contained within a trusted policy ceiling instead of requiring exact string equality.",
+    "Exact files and narrower subpatterns under trusted directory ceilings are accepted.",
+    "Global widening, prefix collisions, parent traversal, and unsupported ambiguous wildcard containment remain closed.",
+    "Added focused positive and negative regressions for scope containment."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub compare from a8eeff8f25ef9f632ed2542c167b2137a439f705 shows only mandatory task/transition records, control/trusted_gate.py, and tests/test_trusted_gate.py."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required GitHub Actions runs completed successfully on implementation head 3e6ca4c14a54dcd7408398d3bff9d802958aa592."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact trust-root authorization and result records were persisted around the bounded verifier mutation."
+    },
+    {
+      "name": "Scope subset regression",
+      "status": "PASS",
+      "evidence": "Control contract run 37107638843 passed 88 tests including exact file, nested subpattern, narrow wildcard, prefix collision and parent-traversal regressions."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37107638843
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37107638863
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37107638866
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No merge to main.",
+    "No managed-project mutation.",
+    "No policy or workflow change.",
+    "No release, deploy, production secret, infrastructure, or paid-service change."
+  ],
+  "residual_blockers": []
+}

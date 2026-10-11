@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-PLUGIN-VERSION-CLARITY-HYGIENE-046-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-PLUGIN-VERSION-CLARITY-HYGIENE-046",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-PLUGIN-VERSION-CLARITY-HYGIENE-046-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/plugin-version-clarity-046",
+    "revision": "3aa59b1e2b1452371fb0040df56e46cda7479dbd",
+    "base_revision": "7dc5aa8cb86ed0a473c5e95fab4cd40f6eab7875",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T02:31:30Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "c5aa1e0a02ec4a6ab161a3b4de0d0b2b52656ea5"
+  },
+  "evidence": [
+    "Immutable Task Authorization commit 3aa59b1e2b1452371fb0040df56e46cda7479dbd and exact trust-root authorization commit 29dee7f565d15532152fa53f831d574c84c733fd preceded all package/version and validation-workflow edits.",
+    "Project Leader plugin identity is 0.6.1 and Recovery Guardian plugin identity is 0.5.1; README, PLUGIN_SETUP, contract tests and Validate control plane version assertions are aligned to those exact versions.",
+    "Project Leader SKILL.md, managed_project_contract.py and Recovery Guardian SKILL.md are byte-identical to canonical main, so the already-merged non-interactive fallback behavior was not modified by this task.",
+    "Implementation head c5aa1e0a02ec4a6ab161a3b4de0d0b2b52656ea5 passed Control contract tests run 37171276914, Validate control plane run 37171276930 and Package ChatGPT plugins run 37171276890.",
+    "Package workflow produced a new Project Leader artifact digest sha256:f25a969a802cb6d83c08556a8461450c7e4caca8f35366a9ae4c889114ada843 from exact implementation head c5aa1e0a02ec4a6ab161a3b4de0d0b2b52656ea5."
+  ],
+  "residual_blockers": []
+}

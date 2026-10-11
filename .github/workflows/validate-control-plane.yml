@@ -1,0 +1,116 @@
+name: Validate control plane
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Check canonical autonomous control plane
+        run: |
+          set -eu
+
+          test -f PROJECT_LEADER.md
+          test -f RUNBOOK.md
+          test -f RECOVERY_PROTOCOL.md
+          test -f SMOKE_TESTS.md
+
+          test -f control/task-authorization.schema.json
+          test -f control/task-authorization.v1.schema.json
+          test -f control/task-authorization.v2.schema.json
+          test -f control/worker-result.schema.json
+          test -f control/worker-result.v1.schema.json
+          test -f control/recovery-checkpoint.schema.json
+          test -f control/recovery-event.schema.json
+          test -f control/project-policy.schema.json
+          test -f control/generic-project-policy.json
+          test -f control/standing-authority.schema.json
+          test -f control/standing_authority.py
+          test -f control/trusted_gate.py
+          test -f control/verify_github_evidence.py
+          test -f control/managed_project_contract.py
+          test -f control/transition-authorization.schema.json
+          test -f control/transition-result.schema.json
+
+          grep -q 'NEW_TASK_SCHEMA_VERSION = "2.0"' control/managed_project_contract.py
+          grep -q 'GENERIC_POLICY_PATH = "control/generic-project-policy.json"' control/managed_project_contract.py
+          grep -q 'CI_WAIT_STATE = "WAITING_EXTERNAL_CI"' control/managed_project_contract.py
+          grep -q '"transition_controls"' control/task-authorization.schema.json
+
+          test -f roles/CONSULTANT.md
+          test -f roles/SUPERVISOR.md
+          test -f roles/BUILDER.md
+          test -f roles/RECOVERY_GUARDIAN.md
+
+          test -f projects/standing-authority.json
+          test -f projects/policies/project-leader.json
+          test -f projects/README.md
+
+          # Removed legacy runtime residue must stay removed.
+          test ! -e projects/registry.yaml
+          test ! -e projects/policy-profiles.json
+          test ! -e projects/pink-iptv.md
+          test ! -e projects/fadego.md
+          test ! -e projects/vcam-pro.md
+          test ! -e projects/policies/pink-iptv.json
+          test ! -e projects/policies/fadego.json
+          test ! -e projects/policies/vcam-pro.json
+
+          python control/validate_records.py standing-authority projects/standing-authority.json
+          python control/validate_records.py policy projects/policies/project-leader.json
+          python control/validate_records.py policy control/generic-project-policy.json
+
+          test -f .github/workflows/trusted-pr-gate.yml
+          test -f scripts/package_plugins.py
+          test -f .agents/plugins/marketplace.json
+
+          test -f plugins/project-leader/plugin.json
+          test -f plugins/project-leader/.app.json
+          test -f plugins/project-leader/skills/project-leader/SKILL.md
+          test -f plugins/project-leader/skills/project-leader/agents/openai.yaml
+          test -f plugins/project-leader/skills/project-leader/references/recovery-protocol.md
+
+          test -f plugins/recovery-guardian/plugin.json
+          test -f plugins/recovery-guardian/.app.json
+          test -f plugins/recovery-guardian/skills/recovery-guardian/SKILL.md
+          test -f plugins/recovery-guardian/skills/recovery-guardian/agents/openai.yaml
+          test -f plugins/recovery-guardian/skills/recovery-guardian/references/recovery-protocol.md
+
+          grep -q '"skills": "./skills/"' plugins/project-leader/plugin.json
+          grep -q '"skills": "./skills/"' plugins/recovery-guardian/plugin.json
+          grep -q '"version": "0.7.0"' plugins/project-leader/plugin.json
+          grep -q '"version": "0.6.0"' plugins/recovery-guardian/plugin.json
+          grep -q 'display_name: "Project Leader"' plugins/project-leader/skills/project-leader/agents/openai.yaml
+          grep -q 'display_name: "Recovery Guardian"' plugins/recovery-guardian/skills/recovery-guardian/agents/openai.yaml
+          grep -q '^name: project-leader$' plugins/project-leader/skills/project-leader/SKILL.md
+          grep -q 'CANONICAL_RUNTIME_BOOTSTRAP' plugins/project-leader/skills/project-leader/SKILL.md
+          grep -q 'RUNTIME_SYNC_STALE' plugins/project-leader/skills/project-leader/SKILL.md
+          grep -q 'RUNTIME_CANONICAL_OVERRIDE_ACTIVE' plugins/project-leader/skills/project-leader/SKILL.md
+          grep -q 'BOUNDED_STATE_PREFLIGHT' plugins/project-leader/skills/project-leader/SKILL.md
+          grep -q 'RECOVERY_DIRECT_REPAIR' plugins/project-leader/skills/project-leader/SKILL.md
+          grep -q 'CONTINUOUS_HYGIENE_ACTIVE' plugins/project-leader/skills/project-leader/SKILL.md
+          grep -q 'def resolve_hygiene_action' control/standing_authority.py
+          grep -q '^name: recovery-guardian$' plugins/recovery-guardian/skills/recovery-guardian/SKILL.md
+          grep -q 'projects/standing-authority.json' PROJECT_LEADER.md
+          grep -q 'control/generic-project-policy.json' PROJECT_LEADER.md
+          grep -q 'RECOVERY_PROTOCOL.md' RUNBOOK.md
+          grep -q '.project-leader/checkpoints/<task-id>.json' RECOVERY_PROTOCOL.md
+          grep -q 'four internal operating phases' AGENT_BUILDER_PROMPT.md
+
+          python -m json.tool .agents/plugins/marketplace.json >/dev/null
+          python -m json.tool plugins/project-leader/plugin.json >/dev/null
+          python -m json.tool plugins/project-leader/.app.json >/dev/null
+          python -m json.tool plugins/recovery-guardian/plugin.json >/dev/null
+          python -m json.tool plugins/recovery-guardian/.app.json >/dev/null
+          python -m json.tool projects/standing-authority.json >/dev/null
+          python -m json.tool projects/policies/project-leader.json >/dev/null
+          python -m json.tool control/generic-project-policy.json >/dev/null
+
+          echo "Project Leader autonomous control plane: PASS"

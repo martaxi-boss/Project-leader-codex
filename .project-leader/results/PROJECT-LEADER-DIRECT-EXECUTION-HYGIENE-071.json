@@ -1,0 +1,96 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-DIRECT-EXECUTION-HYGIENE-071",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-DIRECT-EXECUTION-HYGIENE-071.json",
+  "authorization_commit_sha": "43b4289c77ba67bfae20994e7de9d0d0a3fc8fde",
+  "authorization_sha256": "26131660698041422f6b5acb6d777f41104ee7440e478f95060abb59406722c7",
+  "implementation_head_sha": "4ab17a3a411208eac0911912719486255d7ec0e6",
+  "branch": "builder/direct-execution-hygiene-071",
+  "pr_number": 73,
+  "changes": [
+    "Compacted Project Leader's internal control flow so Consultant, Supervisor, Builder and Recovery Guardian remain distinct capabilities without mandatory administrative handoffs between ordinary covered operations.",
+    "Recovery Guardian now directly owns covered recoverable E1 diagnosis/correction/test/hygiene through RECOVERY_DIRECT_REPAIR; blind same-action retries without material basis route to RECOVERY_DIRECT_REPLAN.",
+    "Added bounded continuous hygiene semantics: CONTINUOUS_HYGIENE_ACTIVE for covered recoverable mutation cleanup and HYGIENE_REPORT_ONLY for explicit read-only/diagnostic/no-change requests.",
+    "Standing authority and Task Authorization are treated as durable envelopes for subordinate covered work while architecture/security/permission boundaries and consequential transitions retain Supervisor/transition controls.",
+    "Bounded preflight dimensions can be reused until materially stale and evidence requirements are proportional without weakening exact-state certification.",
+    "Preserved canonical access discovery, self-provisioned diagnostics, liveness, stale-CI recovery, legacy checkpoint handling, immutable transition evidence and repository hygiene protections.",
+    "Advanced Project Leader 0.6.7 to 0.6.8 and Recovery Guardian 0.5.5 to 0.5.6; only the corresponding two version literals changed in the existing version regression test."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Base main 8efecaccfb5708d3689f9fcd0ad3bb77ec8e40db -> implementation 4ab17a3a411208eac0911912719486255d7ec0e6 changes exactly one Task Authorization plus 19 explicitly listed Project Leader paths. No external repository or VPS is in the mutation set."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Exact implementation SHA 4ab17a3a411208eac0911912719486255d7ec0e6: Control contract tests 37511250575 SUCCESS; Validate control plane 37511250618 SUCCESS; Package ChatGPT plugins 37511250576 SUCCESS."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Task 071 is explicitly E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED under CURRENT_OWNER_INSTRUCTION, bound to project-leader-v1 at canonical base 8efecaccfb5708d3689f9fcd0ad3bb77ec8e40db, includes all policy-required prohibitions and transition controls including trust_root_mutation, and does not alter the policy or standing-authority grant."
+    },
+    {
+      "name": "Role and Skill coherence audit",
+      "status": "PASS",
+      "evidence": "PROJECT_LEADER.md, RUNBOOK.md, Project Leader Skill and all four role contracts agree on task-level standing authority, Builder for planned work, direct Recovery for covered E1 faults, and Supervisor for material boundaries/independent acceptance. RECOVERY_PROTOCOL.md and both packaged references share blob 25a5f8e7f20ea12ea1eb13e552422d2d937f608d."
+    },
+    {
+      "name": "Recovery directness regression",
+      "status": "PASS",
+      "evidence": "Executable standing-authority tests assert COMPACT_RECOVERY + RECOVERY_DIRECT_REPAIR + executor RECOVERY_GUARDIAN for covered E1 recovery; full Control contract tests run 37511250575 passed."
+    },
+    {
+      "name": "Retry anti-loop regression",
+      "status": "PASS",
+      "evidence": "Blind same-action retry returns BLIND_RETRY_BLOCKED + RECOVERY_DIRECT_REPLAN; a retry with NEW_EVIDENCE remains permitted with durable causal evidence when required. Run 37511250575 passed."
+    },
+    {
+      "name": "Read-only hygiene boundary regression",
+      "status": "PASS",
+      "evidence": "Executable tests prove covered mutation cleanup -> CONTINUOUS_HYGIENE_ACTIVE and explicit read-only -> HYGIENE_REPORT_ONLY with write_allowed=false. Run 37511250575 passed."
+    },
+    {
+      "name": "Legacy protection preservation",
+      "status": "PASS",
+      "evidence": "Run 37511250575 passed existing assertions for Human Gate convergence, FORCED_OPERATIONAL_ACCESS_DISCOVERY, non-interactive/self-provisioned diagnostics, STALE_WAIT_STATE, INTERNAL_OPERATION_STALLED, BOUNDED_STATE_PREFLIGHT, legacy checkpoints, transition evidence and bounded branch hygiene."
+    },
+    {
+      "name": "Version regression alignment",
+      "status": "PASS",
+      "evidence": "tests/test_control_contract.py changes only the expected versions to Project Leader 0.6.8 and Recovery Guardian 0.5.6; no behavioral assertion was removed or weakened. Run 37511250575 passed."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37511250575
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37511250618
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37511250576
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/73"
+  ],
+  "material_non_effects": [
+    "No PINK IPTV, VCAM-PRO, FADEGO, VPS or any other Owner project was mutated.",
+    "No branch-protection/ruleset, credential, secret, deployment, release, paid service, production system, product strategy or unrelated architecture was changed.",
+    "Human Gates, evidence-first, standing authority, project isolation, access discovery, liveness, anti-loop, CI requirements and exact consequential-transition authorization remain active.",
+    "No canonical history or mandatory audit evidence was deleted; compatibility markers were retained where existing regression contracts require them."
+  ],
+  "residual_blockers": []
+}

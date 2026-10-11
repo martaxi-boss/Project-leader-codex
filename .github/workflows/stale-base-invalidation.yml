@@ -1,0 +1,33 @@
+name: Invalidate stale trusted authorization
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: read
+  statuses: write
+
+jobs:
+  invalidate-stale-base:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Invalidate prior trusted certification for open PR heads
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api --paginate "/repos/$GITHUB_REPOSITORY/pulls?state=open&base=main&per_page=100" \
+            --jq '.[] | [.number, .head.sha] | @tsv' |
+          while IFS=$'\t' read -r number head_sha; do
+            [ -n "$head_sha" ] || continue
+            gh api --method POST "/repos/$GITHUB_REPOSITORY/statuses/$head_sha" \
+              -H "Accept: application/vnd.github+json" \
+              -f state='failure' \
+              -f context='trusted-authorization' \
+              -f description='Base advanced; recertification required' \
+              -f target_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          done

@@ -1,0 +1,74 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-TRANSITION-EVIDENCE-HYGIENE-061",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-TRANSITION-EVIDENCE-HYGIENE-061.json",
+  "authorization_commit_sha": "b7d0300461eb2e1368a99c3f3ffa8af787133c39",
+  "authorization_sha256": "132f7cc416ec02dd55614cfb4f7e121e786f62d4875f5a9e8fcb6fbc4cec7316",
+  "implementation_head_sha": "436b203b6b497853537c320a9dfe124b5f80df8c",
+  "branch": "builder/transition-evidence-hygiene-061",
+  "pr_number": 62,
+  "changes": [
+    "Preserved four exact historical merge authorization/result blob objects in the canonicalization branch without rewriting them.",
+    "Added only the immutable hygiene task and task-local evidence; existing safe repository hygiene can clean the source control refs after integration."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Live exact-base compare contains five files: immutable task authorization plus four named historical records, all in mutation_scope. Local base-policy trusted gate and GitHub CI mutation-scope validation passed."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required GitHub runs Control contract tests 37227073729; Validate control plane 37227073753; Package ChatGPT plugins 37227073792 are completed success on exact implementation 436b203b6b497853537c320a9dfe124b5f80df8c. Authorization commit b7d0300461eb2e1368a99c3f3ffa8af787133c39 precedes that implementation; Worker Result binds its exact unchanged task digest. Final-head trusted verification is reconciled before the separate merge transition."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Only .project-leader durable records are changed; no policy, verifier, runtime, workflow or other protected implementation path is mutated. E3 base-policy ceiling and transition controls pass; no trust-root mutation transition is exercised."
+    },
+    {
+      "name": "Exact historical evidence preservation",
+      "status": "PASS",
+      "evidence": "Independent live GitHub compare verified exact existing blob SHAs: .project-leader/transitions/PROJECT-LEADER-CONTROL-EVIDENCE-HYGIENE-059R-MERGE.authorization.json=a922d6fa6b344bfb0fc4086cd9d2d71719040c29; .project-leader/transitions/PROJECT-LEADER-CONTROL-EVIDENCE-HYGIENE-059R-MERGE.result.json=9c65a7256ba58c5aeea741642e16b1836228b6ad; .project-leader/transitions/PROJECT-LEADER-HUMAN-GATE-CLOSURE-060-MERGE.authorization.json=b88e645e8f513374e80217604cb50d109ffa8fa3; .project-leader/transitions/PROJECT-LEADER-HUMAN-GATE-CLOSURE-060-MERGE.result.json=453f14706c8d088718854cc01859d1979b5cf789. Both merge authorization/result pairs and all existing Task/Worker pairs validate. No historical timestamp, approval or result was rewritten."
+    },
+    {
+      "name": "Runtime and authority invariants",
+      "status": "PASS",
+      "evidence": "The real GitHub delta is .project-leader-only. Project Leader remains 0.6.6 / Recovery Guardian 0.5.4; code, architecture, roles, standing grant, policy, workflows, retry ceilings, managed projects and production remain unchanged."
+    },
+    {
+      "name": "Obsolete-reference cleanup safety",
+      "status": "PASS",
+      "evidence": "Read-only exact source deltas show only the two preserved records per control ref. After their exact bytes become canonical, the existing bounded equivalence-based hygiene can remove control/merge-authorization-060 and control/human-gate-closure-060; unique newest merge evidence remains preserved. No valuable history or source ref was deleted by this implementation."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37227073729
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37227073753
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37227073792
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/62"
+  ],
+  "material_non_effects": [
+    "No runtime, version, architecture, role hierarchy, standing-authority, project policy, workflow, security-control or managed-project change.",
+    "No production, credential, paid service, release, force-push, history deletion or manual/physical operation."
+  ],
+  "residual_blockers": []
+}

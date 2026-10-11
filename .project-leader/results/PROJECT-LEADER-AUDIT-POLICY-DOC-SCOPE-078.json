@@ -1,0 +1,68 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-AUDIT-POLICY-DOC-SCOPE-078",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-AUDIT-POLICY-DOC-SCOPE-078.json",
+  "authorization_commit_sha": "20031db962a49560b225e9ddbe73a9db10ff848e",
+  "authorization_sha256": "bb62d5730d54fdb5344fd4cdbd1ecc60d81d4407366598bb0cad8adac95c72ee",
+  "implementation_head_sha": "a87bec60dfa6dc47723a014f3cef544f800b3dba",
+  "branch": "builder/audit-policy-doc-scope-078",
+  "pr_number": 82,
+  "recorded_at": "2026-10-07T10:20:00Z",
+  "state_observed_at": "2026-10-07T10:19:30Z",
+  "changes": [
+    "Added exact CHANGELOG.md and SOURCES.md scope entries to Project Leader E1/E3 policy ceilings.",
+    "Added SECURITY.md only to E3 scope and marked it sensitive/protected so ordinary E1 tasks cannot mutate security-reporting policy.",
+    "Added regression coverage proving the three paths are exact and no broad Markdown wildcard was introduced."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Control contract tests run 37606535456 completed successfully on exact implementation head a87bec60dfa6dc47723a014f3cef544f800b3dba and mutation-scope enforcement passed."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required exact-head CI is terminal-success: Control contract tests 37606535456, Validate control plane 37606535518 and Package ChatGPT plugins 37606535512."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Immutable Task Authorization 20031db962a49560b225e9ddbe73a9db10ff848e and exact trust-root authorization PROJECT-LEADER-AUDIT-POLICY-DOC-SCOPE-078-TRUST-ROOT were persisted before policy mutation."
+    },
+    {
+      "name": "Exact documentation policy ceiling regression",
+      "status": "PASS",
+      "evidence": "The new regression verifies CHANGELOG.md/SOURCES.md exact E1/E3 admission, SECURITY.md E3-only protection and absence of *.md/**.md widening."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37606535456
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37606535518
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37606535512
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/82"
+  ],
+  "material_non_effects": [
+    "No documentation content was changed by this task.",
+    "No external project repository, license, release, deploy, branch/ruleset, Actions event policy, secret, paid service, product architecture or role hierarchy was changed.",
+    "The policy ceiling was widened only by three exact maintenance-document paths; no broad Markdown wildcard was added."
+  ],
+  "residual_blockers": []
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-FINAL-HEAD-MATERIAL-DRIFT-016-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-FINAL-HEAD-MATERIAL-DRIFT-016",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-FINAL-HEAD-MATERIAL-DRIFT-016-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/final-head-material-drift-016",
+    "revision": "ba10ac822cdd58bb0527f19e37b9d7c140d9d6fe",
+    "base_revision": "5fef513c231c9789a33ea1036549248de53e41cf",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T11:20:20.076Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "639ba220a5cbb7f868a9027668f9c782eb44d700"
+  },
+  "evidence": [
+    "Owner authorization for this universal Project Leader verifier hardening was persisted before protected control-plane mutations.",
+    "Control contract tests run 37119221395 completed SUCCESS on implementation head 639ba220a5cbb7f868a9027668f9c782eb44d700.",
+    "Validate control plane run 37119221396 completed SUCCESS on the same implementation head.",
+    "Package ChatGPT plugins run 37119221426 completed SUCCESS on the same implementation head."
+  ],
+  "residual_blockers": []
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-HUMAN-GATE-CLOSURE-060-MERGE",
+  "task_id": "PROJECT-LEADER-HUMAN-GATE-CLOSURE-060",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-HUMAN-GATE-CLOSURE-060-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "https://github.com/martaxi-boss/Project-leader/pull/61",
+    "revision": "9f2454516d840ee454292e469f435cdbe158feee",
+    "base_revision": "17301664dd53eb4f9c8d7b08d240180153782e1b",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T19:04:16.275150Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "25da015507ea877ca3fd8f13298ab49eef2c3328"
+  },
+  "evidence": [
+    "Exact authorization was durably committed as 413a8336a2fcbe149021852765e18532e7740932 before the native merge.",
+    "Native merge accepted expected PR head 9f2454516d840ee454292e469f435cdbe158feee; independent PR read confirms closed/merged at 25da015507ea877ca3fd8f13298ab49eef2c3328, and live main equals that merge SHA.",
+    "Post-merge Control contract tests 37226673688, Validate control plane 37226673673 and Package ChatGPT plugins 37226673672 completed SUCCESS on main 25da015507ea877ca3fd8f13298ab49eef2c3328.",
+    "Canonical main manifest/Skill reads confirm Project Leader 0.6.6 with bootstrap and executable closure/re-entry rules; Recovery Guardian manifest is 0.5.4. Repository hygiene 37226673705 succeeded and the merged Builder branch is absent."
+  ],
+  "residual_blockers": []
+}

@@ -1,0 +1,113 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-REPOSITORY-HYGIENE-EQUIVALENCE-027",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T12:52:31.916Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "summary": "Owner explicitly authorized completing Project Leader repository hygiene. This task extends the bounded hygiene sweep so a non-main branch with no open PR may also be deleted when every branch-specific final file state is byte-identical to canonical main, covering copied/cherry-picked control and authorization branches without deleting unique history.",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND"
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "9fa5cf6ee61eb73dce5aba32e6e81292a208e1ee",
+    "task_branch": "builder/repository-hygiene-equivalence-027",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".project-leader/tasks/**",
+    ".project-leader/results/**",
+    ".project-leader/transitions/**",
+    ".github/workflows/repository-hygiene.yml",
+    "tests/**",
+    "RUNBOOK.md"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root",
+    "reconcile_control_contract_docs",
+    "delete_fully_merged_non_main_branch_refs",
+    "install_automatic_merged_pr_branch_hygiene"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "delete_main",
+    "delete_unmerged_unique_history",
+    "force_push",
+    "rewrite_git_history",
+    "unrelated_refactor"
+  ],
+  "human_gates": [
+    {
+      "action": "merge_to_main",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "license_selection",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "delete_unmerged_unique_history",
+      "requires_owner_approval": true
+    }
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Canonical content-equivalence proof",
+    "Open-PR preservation",
+    "Post-cleanup survivor audit"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "binding_mode": "LOCAL_BASE_V1",
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "9fa5cf6ee61eb73dce5aba32e6e81292a208e1ee",
+    "sha256": "f76b194d6dbfb46326f93931eb1b750eb803f65d342e379cda45539708a89127"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Repository hygiene deletes non-main branches only when either their tip is an ancestor of main or, with no open PR, every branch-specific final file state is byte-identical to main. Unique/divergent branches remain preserved; required CI/trusted gate pass; first post-merge sweep cleans duplicate control/authorization refs and survivors are audited.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1"
+}

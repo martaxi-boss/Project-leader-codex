@@ -1,0 +1,80 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-POST-MERGE-HYGIENE-072",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-POST-MERGE-HYGIENE-072.json",
+  "implementation_head_sha": "793751a95b3f6b886bc0adef908d2ea6dc9f31f4",
+  "branch": "builder/post-merge-hygiene-072",
+  "pr_number": 74,
+  "recorded_at": "2026-10-06T19:02:00Z",
+  "state_observed_at": "2026-10-06T19:02:00Z",
+  "changes": [
+    "Canonicalized previously unique transition evidence from control/merge-authorization-062, control/merge-authorization-067, and control/merge-authorization-071.",
+    "Recorded verified post-effect merge results for PR 70 and PR 73; both had exact pre-effect durable merge authorizations.",
+    "Added five exact CURRENT_OWNER_INSTRUCTION purge authorizations for the currently obsolete non-main refs, each bound to the live branch SHA observed before cleanup.",
+    "Kept superseded Builder task records in GitHub PR/commit history instead of copying them into canonical task storage, preserving the one-current-task trusted-gate invariant."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Canonical main 1760cf8a80c3df7c1f3296053b55ef6f9716ca8a -> implementation 793751a95b3f6b886bc0adef908d2ea6dc9f31f4 changes exactly one current Task Authorization plus bounded .project-leader transition evidence/authorizations; no runtime or external-project file is changed."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Exact implementation SHA 793751a95b3f6b886bc0adef908d2ea6dc9f31f4 passed Control contract tests 37515749854, Validate control plane 37515749791, and Package ChatGPT plugins 37515749793."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Task is explicitly E3 under CURRENT_OWNER_INSTRUCTION, uses the unchanged project-leader-v1 policy, changes no trust-root/runtime policy files, and retains all required consequential transition controls."
+    },
+    {
+      "name": "Exact superseded-ref identity audit",
+      "status": "PASS",
+      "evidence": "Pre-cleanup live refs were builder/direct-execution-hygiene-068=af7d2f8110cd4efdf62c837ca7bf1e295fa40838, builder/direct-execution-hygiene-070=d385d7e6a07828d3617e837a681fd0939680b679, control/merge-authorization-062=114d38a7c571441e82f6628203fe7e7345c0812c, control/merge-authorization-067=a60a48f1f509b2094754567f0489e4aa6bf770e6, and control/merge-authorization-071=4aa075ebfa711b48eb8ef80c56324c1208538546; zero open PRs targeted those refs before PR 74."
+    },
+    {
+      "name": "Historical evidence preservation audit",
+      "status": "PASS",
+      "evidence": "Valuable unique control-ref transition evidence is copied byte-for-byte where applicable into the closeout branch; superseded Builder attempts remain durably discoverable through closed PRs 71/72 and their commit history without polluting canonical current Task Authorization storage."
+    },
+    {
+      "name": "Transition result reconstruction audit",
+      "status": "PASS",
+      "evidence": "PR 70 and PR 73 merge results are recorded only because their exact authorizations pre-existed the effects and GitHub independently confirms the merged revisions plus successful post-main CI/hygiene runs."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37515749854
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37515749791
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37515749793
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/74"
+  ],
+  "material_non_effects": [
+    "No Project Leader 0.6.8 runtime behavior, roles, architecture, policy, standing authority, plugin version, or tests were changed.",
+    "No PINK IPTV, VCAM-PRO, FADEGO, VPS, or other Owner project was mutated.",
+    "No branch protection/ruleset, release, deploy, secret, paid service, production state, or force push was changed.",
+    "Branch deletion remains conditional on canonical exact authorization plus live SHA match in the existing repository-hygiene workflow."
+  ],
+  "residual_blockers": [],
+  "authorization_commit_sha": "9ac186b3fb60590b136beaaa69539b9d45378adf",
+  "authorization_sha256": "18971c1bf365e47b78b7473a804ed52f4d74fcd1b3b89232f4263f57cb21d35f"
+}

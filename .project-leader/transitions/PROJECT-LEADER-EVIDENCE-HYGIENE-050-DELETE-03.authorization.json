@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-EVIDENCE-HYGIENE-050-DELETE-03",
+  "task_id": "PROJECT-LEADER-EVIDENCE-HYGIENE-050",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T11:38:00Z",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner requested concurrent repository hygiene. Delete only exact obsolete ref control/merge-authorization-048r after canonical evidence preservation. Unique PR #48 merge authorization/result has been copied into the hygiene task for canonical preservation.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "control/merge-authorization-048r",
+    "revision": "4a1a8333c891fa36027c5251c07655c9aacc5cec",
+    "base_revision": "f4c7b207646cf084f1c9acda7fd6b71f8a949b49",
+    "environment": null
+  }
+}

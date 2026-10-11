@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-CI-DISPATCH-DEDUP-021B-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-CI-DISPATCH-DEDUP-021B",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-CI-DISPATCH-DEDUP-021B-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/ci-dispatch-dedup-021b",
+    "revision": "5c7c10147d0c0136c443a5a9e0c3fd7900582f3d",
+    "base_revision": "f10673d868f8f1a4b28c3e88b280624a16491513",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T11:47:04.439Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "2ae8ce41fff837cac1e254f0684ee62104db49d4"
+  },
+  "evidence": [
+    "Owner authorization was persisted before protected CI orchestration changes.",
+    "Control contract tests run 37120669332 completed SUCCESS on implementation head 2ae8ce41fff837cac1e254f0684ee62104db49d4.",
+    "Validate control plane run 37120669338 completed SUCCESS on the same implementation head.",
+    "Package ChatGPT plugins run 37120669331 completed SUCCESS on the same implementation head."
+  ],
+  "residual_blockers": []
+}

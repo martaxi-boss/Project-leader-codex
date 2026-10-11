@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-LEGACY-CHECKPOINT-LIVENESS-019-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-LEGACY-CHECKPOINT-LIVENESS-019",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T11:33:37.089Z",
+  "action": "trust_root_mutation",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner authorized correcting mapped universal Project Leader gaps one at a time. This transition authorizes only legacy checkpoint liveness reconciliation in the Project Leader trust root.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/legacy-checkpoint-liveness-019",
+    "revision": "2bfad12b25d945d22327d4b2ca36d90d31d5c5e9",
+    "base_revision": "6cfe5dab4b3daa022d1fa307ecb5a649a35e3338",
+    "environment": null
+  }
+}

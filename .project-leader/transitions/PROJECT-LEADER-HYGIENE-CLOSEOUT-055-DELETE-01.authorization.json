@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-HYGIENE-CLOSEOUT-055-DELETE-01",
+  "task_id": "PROJECT-LEADER-HYGIENE-CLOSEOUT-055",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T11:49:00Z",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner requested continuous Project Leader hygiene. Delete only exact obsolete ref builder/hygiene-finalize-052 after task-052 evidence is canonical. Closed unmerged superseded PR #53; its narrower cleanup plan was replaced by the canonical evidence-preserving path.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/hygiene-finalize-052",
+    "revision": "325a3f75665a6417119c8e830f77ef892d8a1996",
+    "base_revision": "7a303af73acd11de4d58c9dd93a0405b857c050d",
+    "environment": null
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-EXECUTION-FIRST-090",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-07T14:56:00Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Complete the incremental execution-first Project Leader simplification as one coherent validated generation. Preserve material safety, universal project isolation, direct recovery, anti-loop behavior, proportional evidence, continuous hygiene and genuine Human Gates. Finalize Project Leader 0.7.0 / Recovery Guardian 0.6.0. Do not mutate any other repository."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "2730cc8c695bb8e3cde25debd67b5b35d3a160d0",
+    "task_branch": "builder/execution-first-090",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "plugins/project-leader/skills/project-leader/SKILL.md",
+    "plugins/recovery-guardian/skills/recovery-guardian/SKILL.md",
+    "plugins/project-leader/plugin.json",
+    "plugins/recovery-guardian/plugin.json",
+    "PROJECT_LEADER.md",
+    "RUNBOOK.md",
+    "AGENT_BUILDER_PROMPT.md",
+    "roles/CONSULTANT.md",
+    "roles/SUPERVISOR.md",
+    "roles/BUILDER.md",
+    "roles/RECOVERY_GUARDIAN.md",
+    "control/README.md",
+    "control/managed_project_contract.py",
+    "control/trusted_gate.py",
+    ".github/workflows/trusted-pr-gate.yml",
+    ".github/workflows/validate-control-plane.yml",
+    "tests/test_execution_first_contract.py",
+    "tests/test_control_contract.py",
+    "README.md",
+    "CHANGELOG.md",
+    ".project-leader/tasks/PROJECT-LEADER-EXECUTION-FIRST-090.json",
+    ".project-leader/results/PROJECT-LEADER-EXECUTION-FIRST-090.json",
+    ".project-leader/transitions/PROJECT-LEADER-EXECUTION-FIRST-087-PURGE.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-EXECUTION-FIRST-088-PURGE.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-EXECUTION-FIRST-089-PURGE.authorization.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "merge_development_branch",
+    "harden_trust_root",
+    "reconcile_control_contract_docs",
+    "delete_owner_authorized_superseded_non_main_branch_refs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "cross_project_mutation",
+    "force_push",
+    "weaken_ci_or_security_controls"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Execution-first fast-path regression",
+    "Recovery anti-loop and hygiene regression",
+    "Stale-base recertification regression",
+    "Version identity regression",
+    "Superseded branch hygiene authorization"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "2730cc8c695bb8e3cde25debd67b5b35d3a160d0",
+    "sha256": "d8ca49eaaf130b8924ef56ac0912136fe9c2000650db77a1124dada9fabb03cb",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Project Leader 0.7.0 and Recovery Guardian 0.6.0 are coherently identified; normal covered E1 uses execution-first FAST_E1 without control-only authorization ceremony; material boundaries retain proportional durable control; recovery is direct and anti-loop; stale-base PR certification is invalidated; continuous hygiene is active; required CI is green on the exact implementation SHA; no external project was mutated.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

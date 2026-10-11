@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "task_id": "PROJECT-LEADER-ENFORCEMENT-REMEDIATION-005",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-02T22:04:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "summary": "Remediate the audit findings in the Project Leader control plane using recoverable project-local changes on a dedicated branch, while preserving Human Gates for main merge, repository governance settings, releases, license selection, cross-project mutation, production effects, secrets, infrastructure and paid services.",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND"
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "37e05084a6d99cf9e8d1794be4114fa2abb096e8",
+    "task_branch": "builder/enforcement-remediation-005",
+    "pr_number": null
+  },
+  "effect_class": "E1_RECOVERABLE_PROJECT_LOCAL",
+  "mutation_scope": [
+    "control/**",
+    "tests/**",
+    ".github/workflows/**",
+    ".project-leader/tasks/**",
+    ".project-leader/results/**",
+    ".project-leader/checkpoints/**",
+    ".project-leader/transitions/**",
+    "PROJECT_LEADER.md",
+    "RUNBOOK.md",
+    "RECOVERY_PROTOCOL.md",
+    "AGENT_BUILDER_PROMPT.md",
+    "roles/**",
+    "plugins/project-leader/**",
+    "plugins/recovery-guardian/**"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "add_durable_control_schemas",
+    "add_contract_tests",
+    "add_recovery_checkpoints",
+    "record_historical_transition_gap_without_claiming_authorization"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "destructive_data_change",
+    "repository_or_history_deletion",
+    "production_secret_change",
+    "irreversible_infrastructure_change",
+    "paid_service_activation"
+  ],
+  "human_gates": [
+    {
+      "action": "merge_to_main",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "license_selection",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_owner_approval": true
+    }
+  ],
+  "terminal_condition": "Open PR with hardened TERMINAL_SUCCESS evidence rules, task-bound required validation/CI enforcement, automatic mutation_scope diff validation, durable recovery checkpoint schema/protocol, durable Human-Gate transition authorization/result schemas plus an honest PR #4 historical-gap reconciliation record, updated four-role fallback documentation, and all available Project Leader CI green; no Human Gate crossed.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  }
+}

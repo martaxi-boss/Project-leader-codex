@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-RUNTIME-REMEDIATION-008-MERGE",
+  "task_id": "PROJECT-LEADER-MANAGED-PROJECT-RUNTIME-REMEDIATION-008",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-RUNTIME-REMEDIATION-008-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#8",
+    "revision": "053c56a5cf50b039da5126b474cb8203feec58af",
+    "base_revision": "1e364f5a5063d7ceb2bb32522795b16b0b809fa8",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T00:51:00Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "33fe0b5570666ecb814033b286c83cf667379c49"
+  },
+  "evidence": [
+    "PR #8 state=closed merged=true",
+    "merge commit=33fe0b5570666ecb814033b286c83cf667379c49",
+    "main=33fe0b5570666ecb814033b286c83cf667379c49",
+    "approved head 053c56a5cf50b039da5126b474cb8203feec58af is in main ancestry",
+    "post-merge Control contract tests run 37083731378 SUCCESS",
+    "post-merge Validate control plane run 37083731333 SUCCESS",
+    "post-merge Package ChatGPT plugins run 37083731365 SUCCESS"
+  ],
+  "residual_blockers": []
+}

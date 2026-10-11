@@ -1,0 +1,66 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-EVIDENCE-HYGIENE-050",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-EVIDENCE-HYGIENE-050.json",
+  "authorization_commit_sha": "cb297266da0bc0416f6d8d63b40538bbd93e441e",
+  "authorization_sha256": "2bf18f9237001e116bf787985bd9056e1ea83e989e1add8123930101c2a04815",
+  "implementation_head_sha": "cdeaa7bfe0f1a2c619e6e89fe39e56ca0c994fc0",
+  "branch": "builder/evidence-hygiene-050",
+  "pr_number": 51,
+  "recorded_at": "2026-10-04T11:38:00Z",
+  "state_observed_at": "2026-10-04T11:38:00Z",
+  "superseded_by": null,
+  "post_transition_record": null,
+  "changes": [
+    "Canonicalized the pre-effect merge authorization and SUCCESS result for Project Leader PR #47 from control/merge-authorization-047.",
+    "Canonicalized the pre-effect merge authorization and SUCCESS result for PR #48 from control/merge-authorization-048r, replacing the incorrect temporary HISTORICAL_OBSERVED canonical record without inventing new authority.",
+    "Canonicalized the pre-effect merge authorization and SUCCESS result for PR #49 from control/merge-authorization-049.",
+    "Canonicalized the task-047 result proving deletion of obsolete control/merge-authorization-046.",
+    "Persisted exact CURRENT_OWNER_INSTRUCTION purge authorizations for builder/internal-operation-liveness-048, control/merge-authorization-047, control/merge-authorization-048r and control/merge-authorization-049 at their audited SHAs so repository hygiene may delete only those exact refs after integration.",
+    "Kept later convergence branches outside this task's purge scope after they appeared post-authorization, avoiding silent task expansion."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub compare main...cdeaa7bfe0f1a2c619e6e89fe39e56ca0c994fc0 is ahead-only and changes exactly one Task Authorization plus task-authorized transition evidence and four exact purge authorization records; no runtime, role, workflow, policy or managed-project file changes."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Implementation head cdeaa7bfe0f1a2c619e6e89fe39e56ca0c994fc0 passed Control contract tests run 37199347538, Validate control plane run 37199347543 and Package ChatGPT plugins run 37199347540. The initial Trusted authorization gate failure is expected because the final Worker Result did not yet exist on that head."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "No trust-root file is modified. E3 is used only for exact-revision destructive branch-hygiene authorization already allowed by the canonical Project Leader policy, with CURRENT_OWNER_INSTRUCTION binding and no force-push or history rewrite."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37199347538
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37199347543
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37199347540
+    }
+  ],
+  "material_non_effects": [
+    "No PINK IPTV, FADEGO, VCAM-PRO or other managed-project repository mutation.",
+    "No functional Project Leader runtime, plugin source, role contract, workflow, policy or standing-authority change.",
+    "No VPS/OVH mutation, deploy, release, production secret, paid service, branch-protection or force-push effect.",
+    "No later-created convergence branch is silently deleted under task 050; those require their own exact hygiene resolution."
+  ],
+  "residual_blockers": []
+}

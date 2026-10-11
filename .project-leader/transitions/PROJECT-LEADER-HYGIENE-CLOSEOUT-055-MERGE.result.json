@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-HYGIENE-CLOSEOUT-055-MERGE",
+  "task_id": "PROJECT-LEADER-HYGIENE-CLOSEOUT-055",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-HYGIENE-CLOSEOUT-055-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#55",
+    "revision": "1f8a51954d56c362cf0b36da96b7219a245b3565",
+    "base_revision": "7a303af73acd11de4d58c9dd93a0405b857c050d",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T11:51:00Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "a2f7d8e207b979095f1866d9c526002cf5b98b6a"
+  },
+  "evidence": [
+    "Durable exact-revision merge authorization commit c66303e0a5cc1e31ca7b6ad536a1a1039ed51d34 existed before the merge effect.",
+    "Immediately before merge, PR #55 was open and mergeable at exact head 1f8a51954d56c362cf0b36da96b7219a245b3565 on exact main base 7a303af73acd11de4d58c9dd93a0405b857c050d.",
+    "Implementation head 5e77e7cd17bdaa1e9bac06a9cbe3d6db7ca1eef8 passed Control contract tests 37199897749, Validate control plane 37199897738 and Package ChatGPT plugins 37199897757.",
+    "Final PR head 1f8a51954d56c362cf0b36da96b7219a245b3565 passed Trusted authorization gate 37199989857, Control contract tests 37199990987, Validate control plane 37199990985 and Package ChatGPT plugins 37199990980.",
+    "Fresh GitHub verification shows PR #55 merged=true and canonical main=a2f7d8e207b979095f1866d9c526002cf5b98b6a.",
+    "Post-merge Control contract tests 37200058276, Validate control plane 37200058294, Package ChatGPT plugins 37200058274 and Repository hygiene 37200058247 all completed successfully."
+  ],
+  "residual_blockers": []
+}

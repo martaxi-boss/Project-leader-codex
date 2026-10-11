@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-AUTONOMOUS-CONVERGENCE-014-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-AUTONOMOUS-CONVERGENCE-014",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-AUTONOMOUS-CONVERGENCE-014-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/autonomous-convergence-gate-recovery-014",
+    "revision": "0c0dfa51c03e6a40a206d6582d3ac4c6d774ae2c",
+    "base_revision": "c8c9643bfa39e746079043cfd83c1aae349b0462",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T09:01:43.595Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "37557b194714b41a451b9eb829fe26d12a1273f3"
+  },
+  "evidence": [
+    "Owner authorization was durably recorded before protected Project Leader control-plane files were changed.",
+    "Control contract tests run 37111574308 completed SUCCESS with 101 tests.",
+    "Validate control plane run 37111574337 completed SUCCESS.",
+    "Package ChatGPT plugins run 37111574305 completed SUCCESS."
+  ],
+  "residual_blockers": []
+}

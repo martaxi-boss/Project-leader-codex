@@ -1,0 +1,90 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-LIVENESS-HYGIENE-041",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-LIVENESS-HYGIENE-041.json",
+  "authorization_commit_sha": "887e9e6e85858697a356a09cf8684474a64e1403",
+  "authorization_sha256": "509d024a6b894e3a49cad2201fa5dcb810b287542205dc65620d88300ee8a763",
+  "implementation_head_sha": "854a616337b33f6b99bad4c7f88a694688c523b9",
+  "branch": "builder/liveness-hygiene-041",
+  "pr_number": 41,
+  "recorded_at": "2026-10-03T22:51:48.325Z",
+  "state_observed_at": "2026-10-03T22:51:48.325Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-LIVENESS-HYGIENE-041-TRUST-ROOT.result.json",
+  "changes": [
+    "Added an executable active liveness guard around external-CI waiting and a LIVENESS_RECONCILE_REQUIRED recovery route after two no-progress polling intervals.",
+    "Strengthened Project Leader, Runbook, Recovery Guardian, packaged skills and smoke contract so WAITING_EXTERNAL_CI cannot be used as a passive Work/UI spinner state while the Work execution is still live.",
+    "Added direct regression coverage for the observed stale-spinner case and preserved pre-existing recovery causality guarantees in the canonical root protocol.",
+    "Consolidated unique transition evidence from control/merge-authorization-037..040 so obsolete control refs can be removed only after canonical integration."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub compare from base 66db27d8118cfa527a21466b8a5034acd5b4395e to implementation head 854a616337b33f6b99bad4c7f88a694688c523b9 is ahead-only and limited to authorized liveness/control-plane files, task-local recovery/evidence, and historical transition records."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Exact implementation-head runs completed SUCCESS: Control contract tests 37159753459, Validate control plane 37159753443, Package ChatGPT plugins 37159753467."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Task Authorization and exact trust-root authorization preceded substantive edits; failed first certification was recorded in append-only recovery events before correction and RETRY_AUTHORIZED preceded the fresh successful descendant CI."
+    },
+    {
+      "name": "External-CI liveness recovery",
+      "status": "PASS",
+      "evidence": "managed_project_contract.reconcile_external_ci_liveness routes terminal CI immediately and forces LIVENESS_RECONCILE_REQUIRED after two polling intervals without control-plane progress while the Work execution remains live."
+    },
+    {
+      "name": "No passive stale wait",
+      "status": "PASS",
+      "evidence": "PROJECT_LEADER.md, RUNBOOK.md, RECOVERY_PROTOCOL.md and packaged skills explicitly prohibit using a Work/UI spinner or blocking wait as the continuation mechanism."
+    },
+    {
+      "name": "Packaged skill/runtime alignment",
+      "status": "PASS",
+      "evidence": "Canonical recovery protocol was resynchronized into both packaged Project Leader and Recovery Guardian references; package workflow 37159753467 succeeded."
+    },
+    {
+      "name": "Historical transition preservation",
+      "status": "PASS",
+      "evidence": "Unique merge/deletion transition records from control refs 037-040 are present on the task branch unchanged before cleanup."
+    },
+    {
+      "name": "Obsolete branch audit",
+      "status": "PASS",
+      "evidence": "Pre-task inventory contained only main plus control/merge-authorization-037..040; no open PRs/issues existed. Repository hygiene may delete those refs only after their unique final file states are canonical on main."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37159753459
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37159753443
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37159753467
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No PINK IPTV or VPS repository mutation.",
+    "No deploy, release, production, secrets, paid-service, branch-protection or history-rewrite effect.",
+    "No CI/security control was disabled or weakened.",
+    "A fully frozen/unavailable ChatGPT Work process still cannot self-execute; the correction guarantees active-session liveness and deterministic GitHub reconstruction on next activation."
+  ],
+  "residual_blockers": []
+}

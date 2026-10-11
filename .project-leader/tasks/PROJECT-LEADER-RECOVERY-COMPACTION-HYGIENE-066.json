@@ -1,0 +1,108 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-RECOVERY-COMPACTION-HYGIENE-066",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-05T17:58:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Owner instructed Project Leader to perform hygiene continuously while implementing Recovery Compaction. Task 065 is merged on canonical main. This closeout task is limited to canonicalizing the exact Task 065 merge authorization/result and authorizing deletion of only four superseded refs created during this cycle: builder/recovery-compaction-063 at d3656ecfda8632846bc54fa93cfb9484052d6bf2, builder/recovery-compaction-064 at a3feb3f2ad357e854ad5dacdda25ed926c0b120f, control/merge-authorization-065 at 47ede2b5dada9963944eda6b3bc32d688827e3f1, and control/merge-authorization-065-pr67 at 44d350dbd2aa47549aadb3b67bef3c5d640bd883. No runtime, trust-root, policy, role, managed-project or external-project mutation."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "d64b4a8d0f5d11621b691b79da18123bbbc3a9d3",
+    "task_branch": "builder/recovery-compaction-hygiene-066",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".project-leader/tasks/PROJECT-LEADER-RECOVERY-COMPACTION-HYGIENE-066.json",
+    ".project-leader/results/PROJECT-LEADER-RECOVERY-COMPACTION-HYGIENE-066.json",
+    ".project-leader/recovery-events/PROJECT-LEADER-RECOVERY-COMPACTION-HYGIENE-066/**",
+    ".project-leader/transitions/PROJECT-LEADER-RECOVERY-COMPACTION-065-MERGE-67.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-RECOVERY-COMPACTION-065-MERGE-67.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-RECOVERY-COMPACTION-HYGIENE-066-DELETE-*"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "reconcile_transition_records",
+    "delete_owner_authorized_superseded_non_main_branch_refs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "force_push",
+    "unrelated_refactor",
+    "weaken_ci_or_security_controls",
+    "trust_root_mutation",
+    "runtime_mutation",
+    "policy_mutation",
+    "role_hierarchy_mutation",
+    "pink_iptv_mutation"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Exact superseded-ref identity audit"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "d64b4a8d0f5d11621b691b79da18123bbbc3a9d3",
+    "sha256": "8496c175e9295450ac0d1228c9d08dcee3149d4f7384838fd2f2573250634e22",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Canonical main contains exact Task 065 merge authorization/result and exact CURRENT_OWNER_INSTRUCTION purge authorizations for the four listed superseded refs. Repository hygiene may delete only a ref whose live SHA still exactly matches its authorization. No functional/runtime/trust-root/policy/role/managed-project file changes. Required CI passes.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

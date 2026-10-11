@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-STALE-BASE-STATUS-FIX-092-MERGE-AUTH-PURGE",
+  "task_id": "PROJECT-LEADER-STALE-BASE-EVENT-ISOLATION-093",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-07T15:50:00Z",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Task 092 merge authorization is now canonicalized with its SUCCESS result. Delete the superseded control ref only if the live SHA still matches exactly and no open PR uses it.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "control/merge-authorization-092",
+    "revision": "59af5091399aaf9c5a4db4ac52967df4f4f63b52",
+    "base_revision": "9a2ca8e6fb47fe7341d15c2ed4b580cd517af22b",
+    "environment": null
+  }
+}

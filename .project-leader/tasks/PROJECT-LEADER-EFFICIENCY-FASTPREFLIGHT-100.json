@@ -1,0 +1,114 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-EFFICIENCY-FASTPREFLIGHT-100",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-09T15:49:11.807Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Implement a narrow operational-efficiency correction based on the completed five-area audit: enforce focused validation against the current E1 candidate before heavy full CI where usable, compact agent/context summaries and recovery output, preserve Supervisor independent material audits and exact-state security checks. Perform same-cycle hygiene. Work exclusively in a separate Project Leader branch and draft PR; do not merge to main, sync/install/publish plugins, or mutate any managed project while another Project Leader execution is running."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "7f3706f96a43071d797f19774b9eca25ab464e56",
+    "task_branch": "builder/efficiency-fast-preflight-100",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "control/managed_project_contract.py",
+    "tests/test_execution_first_contract.py",
+    "plugins/project-leader/skills/project-leader/SKILL.md",
+    "plugins/recovery-guardian/skills/recovery-guardian/SKILL.md",
+    "RUNBOOK.md",
+    ".project-leader/tasks/PROJECT-LEADER-EFFICIENCY-FASTPREFLIGHT-100.json",
+    ".project-leader/results/PROJECT-LEADER-EFFICIENCY-FASTPREFLIGHT-100.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root",
+    "reconcile_control_contract_docs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "cross_project_mutation",
+    "force_push",
+    "rewrite_git_history",
+    "weaken_ci_or_security_controls",
+    "unrelated_refactor",
+    "new_agent_architecture",
+    "plugin_sync_or_install"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Focused validation exact-candidate regression",
+    "Unusable focused-check fallback regression",
+    "Supervisor independent material-audit preservation",
+    "E2/E3 unchanged validation regression",
+    "Recovery anti-loop preservation",
+    "No administrative E1 artifact regression",
+    "In-scope hygiene complete"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "7f3706f96a43071d797f19774b9eca25ab464e56",
+    "sha256": "d8ca49eaaf130b8924ef56ac0912136fe9c2000650db77a1124dada9fabb03cb",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "A draft PR on the dedicated branch with a demonstrably correct E1 focused-validation preflight, compact reporting guidance and regression tests; required CI passes against exact implementation head; trusted governance remains intact; hygiene is complete. Keep main and installed canonical plugin unchanged until other active Project Leader work reaches safe completion and a separately authorized merge/synchronization can occur.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

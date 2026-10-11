@@ -1,0 +1,69 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-PR-CI-CONTEXT-STABILITY-077",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-PR-CI-CONTEXT-STABILITY-077.json",
+  "authorization_commit_sha": "db0dde61203513a73dd6ba6b1446df129eeb604e",
+  "authorization_sha256": "373736ce159a9eabd18e85ef0873dedc6bf3fe5c0839efcd205e94bb6b12541b",
+  "implementation_head_sha": "936a512840d9555f1c0e7e4e90c56ef9ecb3ebd2",
+  "branch": "builder/pr-ci-context-stability-077",
+  "pr_number": null,
+  "recorded_at": "2026-10-07T10:11:40Z",
+  "state_observed_at": "2026-10-07T10:11:29Z",
+  "changes": [
+    "Separated immutable workflow-run identity from GitHub's mutable pull_requests head/base projection.",
+    "PR-associated CI still requires pull_request event and the expected PR number; exact workflow ID/path/repository and immutable run head_sha remain mandatory.",
+    "Added live Pull Request verification for current trusted-gate head, exact Task Authorization base SHA/default branch and same-repository context.",
+    "Added regressions for evidence-only descendants plus wrong immutable run SHA, PR association, live base/head, closed PR and cross-repository context."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Control contract tests run 37605689329 completed successfully on implementation head 936a512840d9555f1c0e7e4e90c56ef9ecb3ebd2 and scope validation passed."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required exact-head CI succeeded: Control contract tests 37605689329, Validate control plane 37605689173 and Package ChatGPT plugins 37605689197."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Immutable task authorization db0dde61203513a73dd6ba6b1446df129eeb604e and trust-root authorization eb23786df9054cb9eaf4f26a2004300c0eda3dfe precede verifier implementation."
+    },
+    {
+      "name": "Stable PR CI context regression",
+      "status": "PASS",
+      "evidence": "Control contract run 37605689329 reports 244 tests OK, including evidence-descendant acceptance with immutable run SHA plus negative live PR/run context cases."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37605689329
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37605689173
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37605689197
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/81"
+  ],
+  "material_non_effects": [
+    "No external project repository was mutated.",
+    "No workflow definition, branch/ruleset, release, deploy, secret, paid service, license, product architecture or role hierarchy was changed.",
+    "This bootstrap trust-root repair leaves Worker Result pr_number null because the legacy base verifier's mutable PR-head comparison is the defect under repair; the trusted workflow still binds the live PR base/head at the workflow level and exact CI implementation SHA. Future verification uses the repaired live-PR binding."
+  ],
+  "residual_blockers": []
+}

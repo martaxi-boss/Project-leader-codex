@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047-MERGE",
+  "task_id": "PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-SELF-PROVISIONED-DIAGNOSTICS-047-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#47",
+    "revision": "9176faf1dd3d35ace48d2743fb58c15c30f3bce6",
+    "base_revision": "166d8a2d867e0d8e3b67082069679b0cd3b9242d",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T03:08:00Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "05225695684b54ce5becbb89cf0e5b6dc88dcafa"
+  },
+  "evidence": [
+    "Immediately before merge, PR #47 was open, clean and mergeable at exact head 9176faf1dd3d35ace48d2743fb58c15c30f3bce6 on exact main base 166d8a2d867e0d8e3b67082069679b0cd3b9242d.",
+    "Exact final head 9176faf1dd3d35ace48d2743fb58c15c30f3bce6 passed Trusted authorization gate 37173024264, Control contract tests 37173025989, Validate control plane 37173025994 and Package ChatGPT plugins 37173025996.",
+    "GitHub merged PR #47 using merge method with expected_head_sha enforcement and returned merge commit 05225695684b54ce5becbb89cf0e5b6dc88dcafa.",
+    "Fresh verification shows main at 05225695684b54ce5becbb89cf0e5b6dc88dcafa and PR #47 closed/merged."
+  ],
+  "residual_blockers": []
+}

@@ -1,0 +1,3 @@
+interface:
+  display_name: "Recovery Guardian"
+  short_description: "Recovers interrupted project workflows, verifies ambiguous writes, and breaks execution loops."

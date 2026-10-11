@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042-DELETE-041-CONTROL",
+  "task_id": "PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042-DELETE-041-CONTROL.authorization.json",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "control/merge-authorization-041",
+    "revision": "ed00c2c564530f7db51b956fe29c962efd263ad2",
+    "base_revision": "a061a17cb9a70e015672188eef10a5e0a73fba8b",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T23:45:00Z",
+  "final_state": {
+    "status": "DELETED",
+    "revision": null
+  },
+  "evidence": [
+    "Deletion authorization became canonical in main merge commit 80288f44a236c0ca4095bf4399492632e0152dbe.",
+    "Canonical main preserves the successful 041 MERGE-002 transition pair and the failed first attempt as NON_CERTIFYING_TRANSITION_ATTEMPT archive evidence.",
+    "Independent live GitHub branch inventory after PR #42 integration contains main and control/merge-authorization-042 only; control/merge-authorization-041 is absent.",
+    "The merged builder/access-discovery-hygiene-042 branch is also absent after repository hygiene."
+  ],
+  "residual_blockers": []
+}

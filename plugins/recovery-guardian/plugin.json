@@ -1,0 +1,37 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "recovery-guardian",
+  "version": "0.6.0",
+  "description": "Direct recovery controller with standing-authority preservation, anti-loop repair, regression-first diagnosis, safe rollback, continuous hygiene, and proportional durable evidence.",
+  "author": {
+    "name": "martaxi-boss",
+    "url": "https://github.com/martaxi-boss"
+  },
+  "repository": "https://github.com/martaxi-boss/Project-leader",
+  "keywords": [
+    "recovery",
+    "github",
+    "project-management",
+    "anti-loop",
+    "resumption"
+  ],
+  "skills": "./skills/",
+  "extensions": {
+    "com.openai": {
+      "apps": "./.app.json",
+      "interface": {
+        "displayName": "Recovery Guardian",
+        "shortDescription": "Recovers interrupted project workflows and prevents duplicate retries.",
+        "longDescription": "Use Recovery Guardian after failed, interrupted, looping, stale-wait, or ambiguous execution. It reconstructs minimum durable state, verifies writes before retry, directly repairs covered E1 failures under existing standing-authority, changes strategy instead of blind retry, prioritizes regressions and safe rollback, and escalates only at material boundaries or genuine Human Gates.",
+        "developerName": "martaxi-boss",
+        "category": "Productivity",
+        "capabilities": [
+          "Recover interrupted execution",
+          "Verify ambiguous GitHub writes",
+          "Break no-progress loops",
+          "Reconstruct project state"
+        ]
+      }
+    }
+  }
+}

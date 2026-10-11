@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-HYGIENE-CLOSEOUT-055-DELETE-02",
+  "task_id": "PROJECT-LEADER-HYGIENE-CLOSEOUT-055",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T11:50:00Z",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner requested continuous Project Leader hygiene. Delete only exact obsolete ref control/merge-authorization-054 after task-052 evidence is canonical. All task-052 merge and purge evidence from this control branch is being canonicalized by task 055 before deletion.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "control/merge-authorization-054",
+    "revision": "1a1498af1ca8a21531a999381cd630caaa3569a6",
+    "base_revision": "7a303af73acd11de4d58c9dd93a0405b857c050d",
+    "environment": null
+  }
+}

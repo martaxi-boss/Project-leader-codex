@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-TRANSITION-EVIDENCE-HYGIENE-061-MERGE",
+  "task_id": "PROJECT-LEADER-TRANSITION-EVIDENCE-HYGIENE-061",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-TRANSITION-EVIDENCE-HYGIENE-061-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "https://github.com/martaxi-boss/Project-leader/pull/62",
+    "revision": "91f50fd35af1911b03446bdf2e90a13086a92a34",
+    "base_revision": "25da015507ea877ca3fd8f13298ab49eef2c3328",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T19:20:52.804Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "5d9f449208e0a043fa1cc2d81174e7a56ecf7762"
+  },
+  "evidence": [
+    "Exact merge authorization was durably committed as b019fc2cce307443761d6eb570de89beebb24006 before native expected-head merge of PR 62.",
+    "Independent GitHub reads confirmed PR 62 closed/merged and canonical main at 5d9f449208e0a043fa1cc2d81174e7a56ecf7762. Four historical record blobs match their original SHAs exactly.",
+    "Post-merge Control contract tests 37227463329, Validate control plane 37227463350 and Package ChatGPT plugins 37227463415 succeeded on exact main. Repository hygiene 37227463420 succeeded; the merged Builder branch is absent.",
+    "Follow-up audit supersedes task 061 Worker Result's equivalence-based cleanup explanation: task 058R intentionally removed content-equivalence sweeping. Source refs remain preserved until exact CURRENT_OWNER_INSTRUCTION purge authorizations are canonical. Task 062 will reconcile the stale runbook, preserve this merge evidence and authorize only exact audited obsolete refs. No deletion has yet been certified."
+  ],
+  "residual_blockers": []
+}

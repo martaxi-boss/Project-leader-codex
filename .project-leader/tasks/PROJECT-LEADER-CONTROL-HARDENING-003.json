@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "task_id": "PROJECT-LEADER-CONTROL-HARDENING-003",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-02T21:10:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "summary": "Continue low-risk project-local remediation identified by the Project Leader audit; stop at real Human Gates.",
+    "source": "STANDING_OWNER_GRANT",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND"
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "3ec11c3582cfc8c45ec60449419438ebeee7c78f",
+    "task_branch": "builder/control-plane-hardening-003",
+    "pr_number": null
+  },
+  "effect_class": "E1_RECOVERABLE_PROJECT_LOCAL",
+  "mutation_scope": [
+    "control/**",
+    ".project-leader/tasks/**",
+    ".project-leader/results/**",
+    ".github/workflows/contract-tests.yml",
+    ".github/CODEOWNERS",
+    "SECURITY.md",
+    "PROJECT_LEADER.md",
+    "RECOVERY_PROTOCOL.md",
+    "roles/SUPERVISOR.md",
+    "roles/BUILDER.md",
+    "roles/RECOVERY_GUARDIAN.md",
+    "plugins/project-leader/skills/project-leader/SKILL.md",
+    "plugins/recovery-guardian/skills/recovery-guardian/SKILL.md",
+    "plugins/project-leader/plugin.json",
+    "plugins/recovery-guardian/plugin.json",
+    "tests/**"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "release_or_publish",
+    "production_deploy",
+    "destructive_data_mutation",
+    "repository_or_history_deletion",
+    "production_secret_change",
+    "irreversible_infrastructure_change",
+    "paid_service_activation",
+    "managed_project_mutation"
+  ],
+  "human_gates": [
+    {
+      "action": "merge_to_main",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "production_deploy",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "repository_governance_or_branch_protection_change",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "license_selection",
+      "requires_owner_approval": true
+    }
+  ],
+  "terminal_condition": "Open PR with durable authorization, structured result schema, executable contract tests, CODEOWNERS and SECURITY policy; all available CI green; no Human Gate crossed.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  }
+}

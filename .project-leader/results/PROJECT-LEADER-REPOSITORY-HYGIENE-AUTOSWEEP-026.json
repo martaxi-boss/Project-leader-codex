@@ -1,0 +1,77 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-REPOSITORY-HYGIENE-AUTOSWEEP-026",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-REPOSITORY-HYGIENE-AUTOSWEEP-026.json",
+  "authorization_commit_sha": "8fec7d87364c27faf49876e81c152f59ff8650dc",
+  "authorization_sha256": "38880374d731f6fddc579be77ae660b6532886d13d1650e98dd517f2dede3ecd",
+  "implementation_head_sha": "d49e07ae0ae7064909b50056395bea20477e5695",
+  "branch": "builder/repository-hygiene-autosweep-026",
+  "pr_number": 27,
+  "recorded_at": "2026-10-03T12:45:50.364Z",
+  "state_observed_at": "2026-10-03T12:45:50.364Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-REPOSITORY-HYGIENE-AUTOSWEEP-026-TRUST-ROOT.result.json",
+  "changes": [
+    "Repository hygiene sweep now runs after every same-repository merged PR as well as manual workflow dispatch.",
+    "Sweep remains bounded to non-main branch tips proven fully contained in canonical main.",
+    "Merged PR branch deletion and the contained-branch sweep now happen in the same post-merge hygiene event.",
+    "Unique/divergent branches remain preserved for explicit audit."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #27 changes are limited to 026 task/transition/result evidence, repository hygiene workflow and its contract test."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required workflows completed successfully on exact implementation SHA d49e07ae0ae7064909b50056395bea20477e5695."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact Owner-authorized trust-root transition was persisted before the protected workflow change and its result was persisted after validation."
+    },
+    {
+      "name": "Merged-branch ancestry proof",
+      "status": "PASS",
+      "evidence": "Sweep deletion condition remains merge-base equals branch-tip SHA before deleteRef."
+    },
+    {
+      "name": "Post-cleanup survivor audit",
+      "status": "PASS",
+      "evidence": "Non-contained branches remain preserved and will be audited after the first merged-PR sweep executes."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37123872772
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37123872790
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37123872786
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No branch deletion has occurred before canonical merge.",
+    "No main ref deletion or rewrite.",
+    "No unique/divergent history deletion.",
+    "No force push.",
+    "No ruleset or branch-protection change.",
+    "No managed-project mutation."
+  ],
+  "residual_blockers": []
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-RECOVERY-COMPACTION-HYGIENE-066-DELETE-02",
+  "task_id": "PROJECT-LEADER-RECOVERY-COMPACTION-HYGIENE-066",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-05T17:59:00Z",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner requested continuous Project Leader hygiene. Delete only exact obsolete ref builder/recovery-compaction-064 at a3feb3f2ad357e854ad5dacdda25ed926c0b120f; superseded failed Task 064 attempt; policy-ceiling correction was rebuilt cleanly as Task 065. If the live ref SHA differs, preserve it.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/recovery-compaction-064",
+    "revision": "a3feb3f2ad357e854ad5dacdda25ed926c0b120f",
+    "base_revision": "d64b4a8d0f5d11621b691b79da18123bbbc3a9d3",
+    "environment": null
+  }
+}

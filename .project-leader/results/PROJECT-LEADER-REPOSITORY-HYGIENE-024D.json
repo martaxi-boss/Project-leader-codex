@@ -1,0 +1,79 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-REPOSITORY-HYGIENE-024D",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-REPOSITORY-HYGIENE-024D.json",
+  "authorization_commit_sha": "a5b76a60f8b781cf49b91782050cc78c2c18383e",
+  "authorization_sha256": "5c030e4f003cceb0ba7882402356e2dcaa4e841a70549aebb8c2e60dacaea973",
+  "implementation_head_sha": "869206fb5774fbaea339f1d9781750d4863742d2",
+  "branch": "builder/repository-hygiene-024d",
+  "pr_number": 26,
+  "recorded_at": "2026-10-03T12:42:07.165Z",
+  "state_observed_at": "2026-10-03T12:42:07.165Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-REPOSITORY-HYGIENE-024D-TRUST-ROOT.result.json",
+  "changes": [
+    "Added bounded repository hygiene workflow on canonical policy authority.",
+    "Manual sweep deletes only non-main branch refs whose tips are proven fully contained in canonical main.",
+    "Same-repository merged PR head branches are automatically deleted.",
+    "Unique/divergent branch history is preserved for explicit survivor audit.",
+    "RUNBOOK and contract tests codify the cleanup safety boundary."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #26 changes are limited to 024D task/transition/result evidence, repository-hygiene workflow, RUNBOOK and contract tests, all inside the immutable task scope."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required workflows completed successfully on exact implementation SHA 869206fb5774fbaea339f1d9781750d4863742d2."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Exact Owner-authorized trust-root transition was persisted before protected workflow/runbook changes and its result was persisted after validation."
+    },
+    {
+      "name": "Merged-branch ancestry proof",
+      "status": "PASS",
+      "evidence": "Manual sweep requires the GitHub compare merge-base SHA to equal the candidate branch tip before deleteRef."
+    },
+    {
+      "name": "Post-cleanup survivor audit",
+      "status": "PASS",
+      "evidence": "Workflow preserves non-contained branches and reports them for explicit audit after the sweep."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37123677503
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37123677568
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37123677549
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No branch has been deleted before canonical merge.",
+    "No main ref deletion or rewrite.",
+    "No unique/divergent history deletion.",
+    "No force push.",
+    "No ruleset or branch-protection change.",
+    "No managed-project mutation.",
+    "No release, deployment, secret, infrastructure, data, or paid-service mutation."
+  ],
+  "residual_blockers": []
+}

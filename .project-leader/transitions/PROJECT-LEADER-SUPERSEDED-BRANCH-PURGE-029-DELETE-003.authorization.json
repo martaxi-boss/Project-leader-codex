@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-029-DELETE-003",
+  "task_id": "PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-029",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T13:31:58.872Z",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner authorized final hygiene deletion of exact obsolete non-main ref builder/hygiene-policy-025 @ 655224e3599c542b40e4a51d6d5372cebb46f70b: closed unmerged PR #24 superseded by certified 025B / merged PR #25.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/hygiene-policy-025",
+    "revision": "655224e3599c542b40e4a51d6d5372cebb46f70b",
+    "base_revision": "0552f77947bc50943f313540bda58a25d22fe8eb",
+    "environment": null
+  }
+}

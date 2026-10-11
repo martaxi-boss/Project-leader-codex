@@ -1,0 +1,86 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-BOUNDED-RECONSTRUCTION-HYGIENE-058R",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-BOUNDED-RECONSTRUCTION-HYGIENE-058R.json",
+  "authorization_commit_sha": "098bf703079602caa37ad0b6e1f9a7ff283710ca",
+  "authorization_sha256": "b21553ae5d9059a9955f129664c4ba98f4c8c134217b909fefd998d018bfe413",
+  "implementation_head_sha": "34ae154f81f5a053b8589d29f6400e4103099356",
+  "branch": "builder/bounded-reconstruction-hygiene-058r",
+  "pr_number": 58,
+  "recorded_at": "2026-10-04T14:27:00Z",
+  "state_observed_at": "2026-10-04T14:27:00Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-BOUNDED-RECONSTRUCTION-HYGIENE-058R-TRUST-ROOT.result.json",
+  "changes": [
+    "Added BOUNDED_STATE_PREFLIGHT before potentially broad internal compare/diff/reconstruction/audit/history work so the smallest durable state vector is checked first.",
+    "After a frozen/interrupted unresolved internal operation, the next live activation now enters LIVENESS_RECONCILE_REQUIRED and runs BOUNDED_STATE_PREFLIGHT before any retry of the prior opaque operation.",
+    "Kept CANONICAL_RUNTIME_BOOTSTRAP limited to canonical Project Leader plugin manifest + Skill reads and explicitly separated it from target-project reconstruction.",
+    "Made repository hygiene non-blocking for ordinary project execution.",
+    "Simplified repository hygiene by removing broad file-by-file content-equivalence branch comparison; cleanup now uses exact Owner-authorized purge, merged-PR-head cleanup, or ancestry proof, while preserving durable merge-authorization refs absent exact purge authority.",
+    "Aligned Project Leader package, docs and validation to version 0.6.5."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub compare from canonical base a546481c6612a161dee6fab050a3196988a279a4 to implementation head 34ae154f81f5a053b8589d29f6400e4103099356 is ahead-only and limited to task-authorized Project Leader runtime/docs/tests/workflows/package metadata plus durable 058R task/transition authorization."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required exact-head runs succeeded: Control contract tests 37209193641, Validate control plane 37209193633, Package ChatGPT plugins 37209193665."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Immutable Task Authorization 098bf703079602caa37ad0b6e1f9a7ff283710ca and exact trust-root authorization 2a8c1d2b8a9f1a1011c0c26470e35d11b5aefe09 are ancestors of all trust-root/runtime edits."
+    },
+    {
+      "name": "Bounded reconstruction behavior",
+      "status": "PASS",
+      "evidence": "Canonical Skill, PROJECT_LEADER.md, RUNBOOK.md, RECOVERY_PROTOCOL.md, packaged recovery reference, regression tests and Smoke Test 22 require BOUNDED_STATE_PREFLIGHT and immediate LIVENESS_RECONCILE_REQUIRED on resumed unresolved internal operations."
+    },
+    {
+      "name": "Repository hygiene boundedness",
+      "status": "PASS",
+      "evidence": "repository-hygiene.yml no longer contains getPathState, branchDelta, deletedByEquivalence, or file-by-file branch content-equivalence traversal; it preserves open PR heads/control evidence refs and deletes only exact-authorized or ancestry-contained refs plus merged PR heads."
+    },
+    {
+      "name": "Role and authority invariants",
+      "status": "PASS",
+      "evidence": "Diff does not modify roles/CONSULTANT.md, roles/SUPERVISOR.md, roles/BUILDER.md, roles/RECOVERY_GUARDIAN.md, projects/standing-authority.json, or Human Gate conditions."
+    },
+    {
+      "name": "Packaged skill/runtime alignment",
+      "status": "PASS",
+      "evidence": "Project Leader plugin version is 0.6.5; README/PLUGIN_SETUP/validation checks align; Package ChatGPT plugins run 37209193665 succeeded."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37209193641
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37209193633
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37209193665
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No PINK IPTV, FADEGO, VCAM-PRO or other managed-project mutation.",
+    "No role-hierarchy, standing-authority, Human-Gate, architecture, branch-protection, release, deploy, production-secret, paid-service, or force-push change.",
+    "Task 058 superseded itself before CI because its immutable scope was incomplete; no retroactive authorization edit was made."
+  ],
+  "residual_blockers": []
+}

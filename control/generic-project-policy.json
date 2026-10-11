@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "generic-project-v1",
+  "project": "ACTIVE TARGET PROJECT",
+  "repository_mode": "ACTIVE_TARGET",
+  "default_branch_mode": "ACTIVE_TARGET",
+  "effect_policies": {
+    "E1_RECOVERABLE_PROJECT_LOCAL": {
+      "allowed_scope_patterns": [
+        "**"
+      ],
+      "allowed_actions": [
+        "create_branch",
+        "edit_project_files",
+        "create_commits",
+        "run_ci",
+        "open_or_update_pull_request",
+        "merge_development_branch"
+      ],
+      "required_prohibited_actions": [
+        "merge_to_main",
+        "branch_protection_or_ruleset_change",
+        "release_or_publish",
+        "production_deploy",
+        "destructive_data_change",
+        "repository_or_history_deletion",
+        "production_secret_change",
+        "irreversible_infrastructure_change",
+        "paid_service_activation"
+      ],
+      "required_transition_controls": [
+        "merge_to_main",
+        "branch_protection_or_ruleset_change",
+        "release_or_publish",
+        "production_deploy",
+        "destructive_data_change",
+        "repository_or_history_deletion",
+        "production_secret_change",
+        "irreversible_infrastructure_change",
+        "paid_service_activation"
+      ],
+      "required_ci": [],
+      "required_validation": [
+        "Project architecture scope audit",
+        "Mutation scope audit",
+        "GitHub evidence verification"
+      ]
+    },
+    "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED": {
+      "allowed_scope_patterns": [
+        "**"
+      ],
+      "allowed_actions": [
+        "create_branch",
+        "edit_project_files",
+        "create_commits",
+        "run_ci",
+        "open_or_update_pull_request",
+        "merge_development_branch",
+        "reconcile_project_architecture",
+        "change_project_governance",
+        "change_infrastructure",
+        "change_secrets",
+        "change_data",
+        "prepare_release",
+        "prepare_deploy"
+      ],
+      "required_prohibited_actions": [
+        "merge_to_main",
+        "branch_protection_or_ruleset_change",
+        "release_or_publish",
+        "production_deploy",
+        "destructive_data_change",
+        "repository_or_history_deletion",
+        "production_secret_change",
+        "irreversible_infrastructure_change",
+        "paid_service_activation"
+      ],
+      "required_transition_controls": [
+        "merge_to_main",
+        "branch_protection_or_ruleset_change",
+        "release_or_publish",
+        "production_deploy",
+        "destructive_data_change",
+        "repository_or_history_deletion",
+        "production_secret_change",
+        "irreversible_infrastructure_change",
+        "paid_service_activation"
+      ],
+      "required_ci": [],
+      "required_validation": [
+        "Project architecture scope audit",
+        "Mutation scope audit",
+        "GitHub evidence verification",
+        "Consequential transition readiness audit"
+      ]
+    }
+  },
+  "sensitive_paths": [
+    ".github/workflows/**",
+    ".env*",
+    "**/secrets*",
+    ".project-leader/**",
+    "**/.env*",
+    "secrets*"
+  ],
+  "protected_paths": [
+    ".github/workflows/**",
+    ".env*",
+    "**/secrets*",
+    "**/.env*",
+    "secrets*"
+  ]
+}

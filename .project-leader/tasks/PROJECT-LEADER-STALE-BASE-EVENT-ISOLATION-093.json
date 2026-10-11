@@ -1,0 +1,112 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-STALE-BASE-EVENT-ISOLATION-093",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-07T15:49:00Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Recover the remaining Project Leader 0.7.0 stale-base recertification startup failure by isolating pull_request_target admission and push-based stale certification invalidation into event-specific workflows. Preserve the existing trusted-authorization ruleset context, canonicalize Task 092 merge evidence, and prepare exact cleanup of obsolete Task 092 refs. No other repository may be mutated."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "0f1fb5d9aaf9f171c843937e482fcdf75edd7482",
+    "task_branch": "builder/stale-base-event-isolation-093",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".github/workflows/trusted-pr-gate.yml",
+    ".github/workflows/stale-base-invalidation.yml",
+    "tests/test_execution_first_contract.py",
+    "CHANGELOG.md",
+    ".project-leader/tasks/PROJECT-LEADER-STALE-BASE-EVENT-ISOLATION-093.json",
+    ".project-leader/results/PROJECT-LEADER-STALE-BASE-EVENT-ISOLATION-093.json",
+    ".project-leader/transitions/PROJECT-LEADER-STALE-BASE-STATUS-FIX-092-MERGE.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-STALE-BASE-STATUS-FIX-092-MERGE.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-STALE-BASE-STATUS-FIX-092-MERGE-AUTH-PURGE.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-STALE-BASE-STATUS-FIX-092-BRANCH-PURGE.authorization.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "merge_development_branch",
+    "harden_trust_root",
+    "reconcile_transition_records",
+    "delete_owner_authorized_superseded_non_main_branch_refs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "cross_project_mutation",
+    "force_push",
+    "weaken_ci_or_security_controls"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Event-specific workflow isolation regression",
+    "Stale-base commit-status semantics",
+    "Task 092 merge evidence reconciliation",
+    "Continuous hygiene reconciliation"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "0f1fb5d9aaf9f171c843937e482fcdf75edd7482",
+    "sha256": "d8ca49eaaf130b8924ef56ac0912136fe9c2000650db77a1124dada9fabb03cb",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "The event-isolated stale-base repair is promotable: trusted-pr-gate is pull_request_target-only, stale-base-invalidation is push-to-main-only with the required trusted-authorization commit-status context, regression coverage passes, Task 092 merge evidence is canonicalized, exact cleanup grants are prepared, required CI is green on the exact implementation SHA, and no external repository is mutated. Actual push execution is verified immediately after merge as a consequential transition check.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

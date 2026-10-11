@@ -1,0 +1,108 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-LEGACY-CHECKPOINT-LIVENESS-019",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T11:33:26.525Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "summary": "Owner authorized correcting mapped universal Project Leader gaps one at a time. This task fixes only legacy v1 checkpoint liveness so stale ACTIVE checkpoint snapshots cannot be mistaken for current execution without corroborating live workstream evidence.",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND"
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "6cfe5dab4b3daa022d1fa307ecb5a649a35e3338",
+    "task_branch": "builder/legacy-checkpoint-liveness-019",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".project-leader/tasks/**",
+    ".project-leader/results/**",
+    ".project-leader/transitions/**",
+    "control/managed_project_contract.py",
+    "tests/**",
+    "PROJECT_LEADER.md",
+    "RUNBOOK.md",
+    "RECOVERY_PROTOCOL.md",
+    "plugins/project-leader/skills/project-leader/**",
+    "plugins/recovery-guardian/skills/recovery-guardian/**"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root",
+    "reconcile_control_contract_docs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "repository_or_history_deletion",
+    "force_push",
+    "rewrite_legacy_checkpoint_history",
+    "unrelated_refactor"
+  ],
+  "human_gates": [
+    {
+      "action": "merge_to_main",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "license_selection",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_owner_approval": true
+    }
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Legacy checkpoint liveness reconciliation"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "binding_mode": "LOCAL_BASE_V1",
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "6cfe5dab4b3daa022d1fa307ecb5a649a35e3338",
+    "sha256": "9666860e6cf78c6e6ef67ef9ba8c3257cdc0db85af7ddaa9896a2dabe07081d0"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Legacy v1 checkpoint status ACTIVE is never accepted as current execution by itself. A live workstream must corroborate it; terminal-result evidence or absence of a live branch/PR/workstream classifies it as STALE_LEGACY_CHECKPOINT while preserving history. Required tests pass. Stop before merge to main.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1"
+}

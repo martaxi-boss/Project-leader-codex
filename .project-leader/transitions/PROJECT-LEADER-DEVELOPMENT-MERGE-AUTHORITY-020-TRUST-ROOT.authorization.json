@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-DEVELOPMENT-MERGE-AUTHORITY-020-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-DEVELOPMENT-MERGE-AUTHORITY-020",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T11:37:41.953Z",
+  "action": "trust_root_mutation",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner authorized correcting mapped universal Project Leader gaps one at a time. This transition authorizes only the central policy/contract separation of development-branch merges from merge-to-main.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/development-merge-authority-020",
+    "revision": "2dbb080970165e4b91f8a213cbb304e80aedfffb",
+    "base_revision": "3c1c514c563525f990a9f9e350adfb961372ff94",
+    "environment": null
+  }
+}

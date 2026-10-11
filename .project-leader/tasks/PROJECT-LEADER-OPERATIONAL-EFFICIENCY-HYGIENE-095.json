@@ -1,0 +1,107 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-OPERATIONAL-EFFICIENCY-HYGIENE-095",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-07T22:31:00Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Complete the final hygiene of the operational-efficiency refinement by deleting only the exact obsolete branch builder/operational-efficiency-094 at SHA a7fce780f0bde8ba097016c0ce61ece454b7ad80. Preserve main, all other branches, Project Leader 0.7.0 behavior, all security/governance protections, and every other repository."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "a53a6bbd66ac0edb9c419c483ad3462818122c04",
+    "task_branch": "builder/operational-efficiency-hygiene-095",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".project-leader/tasks/PROJECT-LEADER-OPERATIONAL-EFFICIENCY-HYGIENE-095.json",
+    ".project-leader/results/PROJECT-LEADER-OPERATIONAL-EFFICIENCY-HYGIENE-095.json",
+    ".project-leader/transitions/PROJECT-LEADER-OPERATIONAL-EFFICIENCY-HYGIENE-095-PURGE.authorization.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "delete_owner_authorized_superseded_non_main_branch_refs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "cross_project_mutation",
+    "delete_main",
+    "delete_unlisted_branch_ref",
+    "delete_revision_mismatched_branch_ref",
+    "delete_open_pr_branch_ref",
+    "force_push",
+    "rewrite_git_history",
+    "weaken_ci_or_security_controls",
+    "unrelated_refactor"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Exact superseded branch authorization verification",
+    "Open-PR and revision-mismatch preservation",
+    "Post-cleanup survivor audit"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "a53a6bbd66ac0edb9c419c483ad3462818122c04",
+    "sha256": "d8ca49eaaf130b8924ef56ac0912136fe9c2000650db77a1124dada9fabb03cb",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "The exact obsolete branch builder/operational-efficiency-094 at a7fce780f0bde8ba097016c0ce61ece454b7ad80 is deleted lease-safely only after canonical exact-revision authorization, main remains unchanged except for durable cleanup evidence, no open PR or revision-mismatched branch is deleted, required CI remains green, and no other repository or Project Leader behavior is changed.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

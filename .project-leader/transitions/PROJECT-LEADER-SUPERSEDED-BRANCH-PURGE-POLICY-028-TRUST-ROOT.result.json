@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-POLICY-028-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-POLICY-028",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-POLICY-028-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/superseded-branch-purge-policy-028",
+    "revision": "ea7d7d5babed2f0857c729fc84a307196f9e44c0",
+    "base_revision": "5e9a1cce1aa513b6d8809e28294c4817583760a1",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T13:28:26.610Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "629e798149ceed57de0cafd87550019c20715c14"
+  },
+  "evidence": [
+    "Owner authorization was persisted before the policy change.",
+    "Control contract tests run 37126245567 completed SUCCESS on implementation head 629e798149ceed57de0cafd87550019c20715c14.",
+    "Validate control plane run 37126245421 completed SUCCESS on the same implementation head.",
+    "Package ChatGPT plugins run 37126245448 completed SUCCESS on the same implementation head."
+  ],
+  "residual_blockers": []
+}

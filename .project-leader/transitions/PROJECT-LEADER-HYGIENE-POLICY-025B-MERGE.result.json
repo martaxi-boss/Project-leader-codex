@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-HYGIENE-POLICY-025B-MERGE",
+  "task_id": "PROJECT-LEADER-HYGIENE-POLICY-025B",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-HYGIENE-POLICY-025B-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#25",
+    "revision": "ee1490543c4aa162e4dc96161efdf0120d54633b",
+    "base_revision": "aa39702a3d2fb7d5c211cc088c1badc06663b9f3",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T12:39:29.562Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "ad1a8c9d54cea2147e01fc1d4fba1a1a114bf9d5"
+  },
+  "evidence": [
+    "Pre-merge authorization was durably persisted on control/merge-authorization-025 at commit ced03529ace4afb2efe3ee02e372abfaa4657317.",
+    "GitHub PR #25 reports merged=true.",
+    "GitHub merge commit is ad1a8c9d54cea2147e01fc1d4fba1a1a114bf9d5.",
+    "Certified PR head ee1490543c4aa162e4dc96161efdf0120d54633b was merged with expected_head_sha enforcement."
+  ],
+  "residual_blockers": []
+}

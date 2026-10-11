@@ -1,0 +1,240 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/martaxi-boss/Project-leader/control/project-policy.schema.json",
+  "title": "Project Leader Base-Anchored Project Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "policy_id",
+    "project",
+    "effect_policies",
+    "sensitive_paths",
+    "protected_paths"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "project": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repository": {
+      "type": "string",
+      "pattern": "^[^/]+/[^/]+$"
+    },
+    "default_branch": {
+      "type": "string",
+      "minLength": 1
+    },
+    "effect_policies": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "E1_RECOVERABLE_PROJECT_LOCAL": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "allowed_scope_patterns",
+            "allowed_actions",
+            "required_prohibited_actions",
+            "required_ci",
+            "required_validation"
+          ],
+          "properties": {
+            "allowed_scope_patterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            },
+            "allowed_actions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            },
+            "required_prohibited_actions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            },
+            "required_human_gates": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true,
+              "minItems": 1,
+              "description": "Legacy compatibility field. New policies use required_transition_controls."
+            },
+            "required_ci": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true,
+              "minItems": 0
+            },
+            "required_validation": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            },
+            "allowed_ci": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "required_transition_controls": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            }
+          }
+        },
+        "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "allowed_scope_patterns",
+            "allowed_actions",
+            "required_prohibited_actions",
+            "required_ci",
+            "required_validation"
+          ],
+          "properties": {
+            "allowed_scope_patterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            },
+            "allowed_actions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            },
+            "required_prohibited_actions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            },
+            "required_human_gates": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true,
+              "minItems": 1,
+              "description": "Legacy compatibility field. New policies use required_transition_controls."
+            },
+            "required_ci": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true,
+              "minItems": 0
+            },
+            "required_validation": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            },
+            "allowed_ci": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "required_transition_controls": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            }
+          }
+        }
+      }
+    },
+    "sensitive_paths": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "protected_paths": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "repository_mode": {
+      "enum": [
+        "ACTIVE_TARGET"
+      ]
+    },
+    "default_branch_mode": {
+      "enum": [
+        "ACTIVE_TARGET"
+      ]
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "task_id": "PROJECT-LEADER-HUMAN-GATE-CLOSURE-060",
+  "repository": "martaxi-boss/Project-leader",
+  "sequence": 2,
+  "recorded_at": "2026-10-04T18:38:20.787212Z",
+  "event": "REPLAN",
+  "strategy_generation": 2,
+  "action_fingerprint": "task060|github|publish-control-records|native-git-data",
+  "attempt_count": 0,
+  "identical_failure_count": 0,
+  "no_progress_iterations": 0,
+  "previous_event_sha256": "dbcccae5770bd0f979c3208f83e504cc83e6504ee2f6878436a77b0edbe910b5",
+  "detail": "Use connected native GitHub Git-data tools for all remaining writes. This changes transport only, needs no additional Owner action, and preserves immutable task scope, minimum permissions, exact refs, side-effect verification and retry ceilings. No direct Git push retry is authorized."
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-ACTIONS-PIN-038",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-ACTIONS-PIN-038.json",
+  "authorization_commit_sha": "43c4844ca21c79e0a11e4237ba0068e34b72cf7b",
+  "authorization_sha256": "ae9afc8d59009afdcbb9d5fa79b1f4e76223c6596b0690af2b447655f5a3e2a1",
+  "implementation_head_sha": "100baa24337497c007fe02c3e908114ad3f50a03",
+  "branch": "builder/actions-github-script-pin-038",
+  "pr_number": 38,
+  "recorded_at": "2026-10-03T19:27:00Z",
+  "state_observed_at": "2026-10-03T19:27:00Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-ACTIONS-PIN-038-TRUST-ROOT.result.json",
+  "changes": [
+    "Pinned both actions/github-script@v8 references in .github/workflows/repository-hygiene.yml to immutable upstream v8 commit ed597411d8f924073f98dfc5c65a23a2325f34cd.",
+    "Preserved workflow triggers, permissions, scripts, branch-cleanup semantics, Project Leader architecture and all other external-audit findings unchanged."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub compare from base b30df58fc3c8f91028b6f7cd402e4694bb55a915 to implementation head 100baa24337497c007fe02c3e908114ad3f50a03 shows only repository-hygiene.yml plus the task and pre-effect transition authorization; repository-hygiene.yml itself is exactly +2/-2."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Supervisor re-read the exact implementation head and GitHub Actions run IDs 37147774284, 37147774275 and 37147774294; all three required workflows completed successfully on implementation head 100baa24337497c007fe02c3e908114ad3f50a03."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Authorization-only commit 43c4844ca21c79e0a11e4237ba0068e34b72cf7b and exact trust-root transition authorization both precede the workflow mutation; transition result records final material revision 100baa24337497c007fe02c3e908114ad3f50a03."
+    },
+    {
+      "name": "Action pin verification",
+      "status": "PASS",
+      "evidence": "Both uses lines in repository-hygiene.yml reference actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd and upstream tag v8 resolved to that exact commit immediately before implementation."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37147774284
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37147774275
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37147774294
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No Project Leader architecture, philosophy, standing authority, policy ceiling, plugin contract or recovery model changed.",
+    "No Compare API remediation, workflow-run pagination remediation, pull_request_target policy remediation or generic-project policy change was included.",
+    "No external repository, production, release, deployment, credential, secret, infrastructure or paid-service effect occurred."
+  ],
+  "residual_blockers": []
+}

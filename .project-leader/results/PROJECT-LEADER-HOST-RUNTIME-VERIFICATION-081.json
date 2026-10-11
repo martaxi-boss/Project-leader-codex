@@ -1,0 +1,64 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-HOST-RUNTIME-VERIFICATION-081",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E1_RECOVERABLE_PROJECT_LOCAL",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-HOST-RUNTIME-VERIFICATION-081.json",
+  "authorization_commit_sha": "4f46e1fb45dafc5cfe5f58dc35504c44ea362b10",
+  "authorization_sha256": "fa095b066ca39a33b167ca4cce0b22eeec4da6d8e612ab68ebb257ef5e1b6a92",
+  "implementation_head_sha": "322c8d9925fe768175459f76ec06b76163a0c081",
+  "branch": "builder/host-runtime-verification-081",
+  "pr_number": 85,
+  "recorded_at": "2026-10-07T10:51:00Z",
+  "state_observed_at": "2026-10-07T10:50:30Z",
+  "changes": [
+    "Recorded that the current ChatGPT host resolves and invokes skills://plugins/project-leader/project-leader/skill.md.",
+    "Recorded the observed stale-loaded-copy condition and the canonical RUNTIME_SYNC_STALE -> RUNTIME_CANONICAL_OVERRIDE_ACTIVE reconciliation path.",
+    "Recorded that the available plugin-management dependency lookup does not expose project-leader as a public globally listed plugin with a current release, so no public marketplace release identity is claimed.",
+    "Added a host runtime smoke scenario and changelog entry without installing, publishing or changing plugin permissions."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Control contract tests run 37609867473 completed successfully on exact implementation head 322c8d9925fe768175459f76ec06b76163a0c081 and scope enforcement passed."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Required exact-head CI is terminal-success: Control contract tests 37609867473, Validate control plane 37609867580 and Package ChatGPT plugins 37609867516."
+    },
+    {
+      "name": "Host runtime observation traceability",
+      "status": "PASS",
+      "evidence": "The current ChatGPT skills surface returned the Project Leader skill entrypoint; comparison with canonical main showed the loaded copy lacked current pinned-revision bootstrap wording, so the invocation is an observed RUNTIME_SYNC_STALE case handled by canonical override. Plugin-management dependency lookup returned no public global listed plugin/current release for project-leader; documentation records that limitation rather than upgrading it into portable install proof."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37609867473
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37609867580
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37609867516
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/85"
+  ],
+  "material_non_effects": [
+    "No plugin was installed, reinstalled, published, uninstalled or permission-modified.",
+    "No public marketplace release identity was fabricated.",
+    "No external project, license, release/deploy, repository-admin setting, architecture or role hierarchy was changed."
+  ],
+  "residual_blockers": []
+}

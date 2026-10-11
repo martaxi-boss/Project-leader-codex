@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-MERGE-RECONCILIATION-049-MERGE",
+  "task_id": "PROJECT-LEADER-MERGE-RECONCILIATION-049",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-MERGE-RECONCILIATION-049-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#49",
+    "revision": "2818f301ca9fba15f82c528ed1cb161e16faf4e4",
+    "base_revision": "7d89c6b9f99128dbb04a9cfd926cd04aa1210f73",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T11:28:05Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "f4c7b207646cf084f1c9acda7fd6b71f8a949b49"
+  },
+  "evidence": [
+    "Durable exact-revision merge authorization commit f70cf39003e17ee669c1ba034c439db4d681cd8f existed before the merge effect.",
+    "Immediately before merge, PR #49 was OPEN and mergeable with exact head 2818f301ca9fba15f82c528ed1cb161e16faf4e4 and base/main 7d89c6b9f99128dbb04a9cfd926cd04aa1210f73.",
+    "Exact PR-head checks were terminal-success: Control contract tests 37198786981, Validate control plane 37198786962, Package ChatGPT plugins 37198787006 and Trusted authorization gate 37198785517.",
+    "GitHub merge API was executed with expected_head_sha 2818f301ca9fba15f82c528ed1cb161e16faf4e4 and returned merged=true with merge commit f4c7b207646cf084f1c9acda7fd6b71f8a949b49.",
+    "Post-effect re-read confirms PR #49 merged=true and canonical main=f4c7b207646cf084f1c9acda7fd6b71f8a949b49."
+  ],
+  "residual_blockers": []
+}

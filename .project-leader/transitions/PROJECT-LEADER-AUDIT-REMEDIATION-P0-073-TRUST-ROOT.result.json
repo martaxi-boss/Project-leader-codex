@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-AUDIT-REMEDIATION-P0-073-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-AUDIT-REMEDIATION-P0-073",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-AUDIT-REMEDIATION-P0-073-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/audit-remediation-p0-073",
+    "revision": "e2cb4df6dd13627fb17c74ed6c0f860173d2174d",
+    "base_revision": "1a6f38a089becbd2dedb2f760eb13f30f9435b25",
+    "environment": null
+  },
+  "observed_at": "2026-10-07T08:51:00Z",
+  "final_state": {
+    "status": "AUDITED",
+    "revision": "d587688543b23bf0236f5da5ec7f630c9faf2fe6"
+  },
+  "evidence": [
+    "Immutable Task Authorization e2cb4df6dd13627fb17c74ed6c0f860173d2174d was persisted before trust-root authorization d261adfd7ececd6ce3bfe0d24a876a95436127b5 and before implementation d587688543b23bf0236f5da5ec7f630c9faf2fe6.",
+    "Exact implementation d587688543b23bf0236f5da5ec7f630c9faf2fe6 passed Control contract tests 37596421123, Validate control plane 37596421088, and Package ChatGPT plugins 37596421181.",
+    "The P0 change is bounded to Project Leader authority/scope/trusted-gate/branch-hygiene controls and regression tests; no external project repository was mutated."
+  ],
+  "residual_blockers": []
+}

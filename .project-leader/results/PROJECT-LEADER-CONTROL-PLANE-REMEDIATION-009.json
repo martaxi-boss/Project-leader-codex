@@ -1,0 +1,95 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-CONTROL-PLANE-REMEDIATION-009",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-CONTROL-PLANE-REMEDIATION-009.json",
+  "implementation_head_sha": "05267449c9b503c764dccb768b1b712660d56f39",
+  "branch": "builder/control-plane-remediation-009",
+  "pr_number": 9,
+  "recorded_at": "2026-10-03T01:33:00Z",
+  "state_observed_at": "2026-10-03T01:33:00Z",
+  "changes": [
+    "Separated managed-project target base SHA from exact canonical Project Leader control-policy revision using CENTRAL_CONTROL_V1.",
+    "Added executable central policies for all registered managed projects and semantic registry/profile/policy validation.",
+    "Added immutable authorization commit+SHA-256 binding for new v2 Worker Results and external verification of authorization -> implementation -> final head ancestry.",
+    "Allowed truthful BLOCKED/HUMAN_GATE/STALE Worker Results without invented changes or CI, while requiring concrete residual blockers.",
+    "Added an explicit E3 governance path and expanded the Project Leader trust root so ordinary E1 tasks cannot modify control-plane authority.",
+    "Added cross-repository regression tests, reconciled recovery/document contracts, bumped Project Leader to 0.5.0 and Recovery Guardian to 0.4.0, and restored prior merge transition records to the canonical branch history."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Supervisor compared main 33fe0b5570666ecb814033b286c83cf667379c49 to implementation head 05267449c9b503c764dccb768b1b712660d56f39; every changed path is inside Task 009 mutation_scope and no managed repository was mutated."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Implementation-head runs are completed SUCCESS: Control contract tests 37086487056, Validate control plane 37086486996, Package ChatGPT plugins 37086487012."
+    },
+    {
+      "name": "Cross-repository V2 bootstrap",
+      "status": "PASS",
+      "evidence": "Run 37086487056 passed test_target_base_and_control_revision_are_independent plus central policy digest/revision/protected-path negative cases."
+    },
+    {
+      "name": "Authorization integrity binding",
+      "status": "PASS",
+      "evidence": "Run 37086487056 passed immutable authorization commit/digest tests, including rejection when the task changes after binding or when terminal success has no work after the authorization commit."
+    },
+    {
+      "name": "Blocked result semantics",
+      "status": "PASS",
+      "evidence": "Run 37086487056 passed truthful BLOCKED result tests with empty changes/validation/CI and mandatory residual blocker."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Run 37086487056 passed tests proving ordinary E1 trust-root mutation is rejected and explicit E3 governance tasks with the required trust-root gate are accepted by the new policy logic."
+    },
+    {
+      "name": "Registry and policy consistency",
+      "status": "PASS",
+      "evidence": "Run 37086487056 passed semantic registry/profile/central-policy consistency checks for every registered project; Validate control plane 37086486996 also passed."
+    },
+    {
+      "name": "Control-document consistency",
+      "status": "PASS",
+      "evidence": "Run 37086487056 passed the runtime-contract consistency test across PROJECT_LEADER.md, RUNBOOK.md, Builder prompt, Project Leader skill and recovery reference."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37086487056
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37086486996
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37086487012
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No managed-project repository mutation",
+    "No merge to main",
+    "No branch protection or ruleset change",
+    "No release or publication",
+    "No production deploy",
+    "No production secret change",
+    "No paid service activation",
+    "No repository/history deletion or force push"
+  ],
+  "residual_blockers": [
+    "The trusted authorization gate currently on main predates the new E3 governance path, so this one bootstrap PR is expected to fail that base-controlled gate. It must not be silently bypassed; merge remains a separate exact Owner Human Gate after independent final-head audit.",
+    "GitHub main branch protection/rulesets remain a separate repository-governance Human Gate."
+  ]
+}

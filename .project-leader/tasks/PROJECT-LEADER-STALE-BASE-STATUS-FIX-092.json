@@ -1,0 +1,111 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-STALE-BASE-STATUS-FIX-092",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-07T15:40:00Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Repair the Project Leader 0.7.0 stale-base invalidation startup failure, keep the existing trusted-authorization ruleset contract intact, canonicalize Task 090 merge evidence, and prepare lease-safe cleanup for superseded recovery/control refs. The implementation result covers pre-merge promotability; post-merge push-path verification is a consequential transition check, not a pre-merge success condition. No other repository may be mutated."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "9a2ca8e6fb47fe7341d15c2ed4b580cd517af22b",
+    "task_branch": "builder/stale-base-status-fix-092",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".github/workflows/trusted-pr-gate.yml",
+    "tests/test_execution_first_contract.py",
+    "CHANGELOG.md",
+    ".project-leader/tasks/PROJECT-LEADER-STALE-BASE-STATUS-FIX-092.json",
+    ".project-leader/results/PROJECT-LEADER-STALE-BASE-STATUS-FIX-092.json",
+    ".project-leader/transitions/PROJECT-LEADER-EXECUTION-FIRST-090-MERGE.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-EXECUTION-FIRST-090-MERGE.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-EXECUTION-FIRST-090-MERGE-AUTH-PURGE.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-STALE-BASE-STATUS-FIX-091-PURGE.authorization.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "merge_development_branch",
+    "harden_trust_root",
+    "reconcile_transition_records",
+    "delete_owner_authorized_superseded_non_main_branch_refs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "cross_project_mutation",
+    "force_push",
+    "weaken_ci_or_security_controls"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Stale-base invalidation startup regression",
+    "Commit-status recertification semantics",
+    "Task 090 merge evidence reconciliation",
+    "Continuous hygiene reconciliation"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "9a2ca8e6fb47fe7341d15c2ed4b580cd517af22b",
+    "sha256": "d8ca49eaaf130b8924ef56ac0912136fe9c2000650db77a1124dada9fabb03cb",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "The stale-base workflow correction is promotable: it uses least-privilege GitHub Actions commit-status invalidation in the existing trusted-authorization context, regression coverage passes, Task 090 merge evidence is canonicalized, lease-safe cleanup authorizations are prepared, required CI is green on the exact implementation SHA, and no external repository is mutated. The actual main-push execution is verified after merge under the consequential transition.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

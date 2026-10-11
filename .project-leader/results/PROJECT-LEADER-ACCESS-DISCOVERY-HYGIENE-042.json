@@ -1,0 +1,98 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042.json",
+  "authorization_commit_sha": "7faa1eebde1c684f3963e5b41fb88eb3688346af",
+  "authorization_sha256": "2c41925da6c79df478a3d406ee0447ecb770f02bd71cc7b4184f3bc7eef1fe4b",
+  "implementation_head_sha": "54914dbc33e3de6815097cbd916fdc853acdb983",
+  "branch": "builder/access-discovery-hygiene-042",
+  "pr_number": 42,
+  "recorded_at": "2026-10-03T23:41:30Z",
+  "state_observed_at": "2026-10-03T23:41:30Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-ACCESS-DISCOVERY-HYGIENE-042-TRUST-ROOT.result.json",
+  "changes": [
+    "Added an executable mandatory operational-access discovery state machine before access-related Human Gates.",
+    "Made missing direct session SSH/shell/provider tooling insufficient evidence of missing operational access.",
+    "Required read-only discovery of target automation, reasonably discoverable adjacent operational repositories, and historical workflow/run evidence without searching for secret values.",
+    "Required a separate bounded operations task before mutating any discovered adjacent repository, preserving one mutable repository per task.",
+    "Integrated the same access-discovery rule into Project Leader, Runbook, Recovery Protocol, Recovery Guardian, packaged skills and Smoke Test 17.",
+    "Preserved the successful PR41 merge transition canonically, archived the failed PR41 merge attempt as non-certifying evidence, and added exact Owner-authorized cleanup for obsolete control/merge-authorization-041."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub compare from a061a17cb9a70e015672188eef10a5e0a73fba8b to implementation head 54914dbc33e3de6815097cbd916fdc853acdb983 is ahead-only and limited to authorized control-plane/runtime/tests/skill files plus task-local evidence and 041 hygiene evidence."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Exact implementation-head CI succeeded: Control contract tests 37162403493, Validate control plane 37162403486, Package ChatGPT plugins 37162403487."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Immutable Task Authorization and exact trust-root authorization preceded substantive edits; Recovery failure and retry authorization were persisted before the fresh successful descendant CI."
+    },
+    {
+      "name": "Access discovery closure",
+      "status": "PASS",
+      "evidence": "reconcile_operational_access_discovery requires all canonical discovery surfaces before returning ACCESS_PATH_UNAVAILABLE and routes incomplete discovery to CONTINUE_DISCOVERY."
+    },
+    {
+      "name": "Cross-repository read-only discovery",
+      "status": "PASS",
+      "evidence": "Contract and tests explicitly permit read-only inspection of adjacent operational repositories while requiring a separate bounded task before any mutation of another repository."
+    },
+    {
+      "name": "Human Gate access proof",
+      "status": "PASS",
+      "evidence": "Project Leader/Runbook/Skill now forbid treating lack of direct session SSH as sufficient proof for EXCLUSIVE_HUMAN_INTERVENTION; ACCESS_PATH_UNAVAILABLE is only a Human Gate candidate after discovery exhaustion."
+    },
+    {
+      "name": "Packaged skill/runtime alignment",
+      "status": "PASS",
+      "evidence": "Canonical Recovery Protocol was resynchronized into both packaged references; package workflow 37162403487 succeeded."
+    },
+    {
+      "name": "Historical transition preservation",
+      "status": "PASS",
+      "evidence": "Successful PROJECT-LEADER-LIVENESS-HYGIENE-041-MERGE-002 authorization/result are preserved unchanged; failed first merge attempt is preserved verbatim in a non-certifying archive file."
+    },
+    {
+      "name": "Obsolete branch audit",
+      "status": "PASS",
+      "evidence": "Obsolete control/merge-authorization-041 is exact-bound at ed00c2c564530f7db51b956fe29c962efd263ad2 by a CURRENT_OWNER_INSTRUCTION deletion authorization, eligible for repository hygiene only after this evidence becomes canonical."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37162403493
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37162403486
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37162403487
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No PINK IPTV repository mutation.",
+    "No VPS repository or OVH runtime mutation.",
+    "No deploy, release, production secret, paid-service, branch-protection or history-rewrite effect.",
+    "No credential values were read, searched, copied or exposed.",
+    "Cross-repository discovery remains read-only unless a separate repository task is independently authorized."
+  ],
+  "residual_blockers": []
+}

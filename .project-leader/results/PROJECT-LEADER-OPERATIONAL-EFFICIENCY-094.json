@@ -1,0 +1,92 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-OPERATIONAL-EFFICIENCY-094",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-OPERATIONAL-EFFICIENCY-094.json",
+  "authorization_commit_sha": "83f20836044cdeb029a4e60c28dbb4356f0f42c0",
+  "authorization_sha256": "9fde238bd494495decb559c213c5526e8521b42eb65c21e22cad670a6a8ae267",
+  "implementation_head_sha": "fe7255eb58081e5e594e518bf16c2735369115f2",
+  "branch": "builder/operational-efficiency-094",
+  "pr_number": 97,
+  "recorded_at": "2026-10-07T21:54:00Z",
+  "state_observed_at": "2026-10-07T21:54:00Z",
+  "superseded_by": null,
+  "post_transition_record": null,
+  "changes": [
+    "Added FAST_VALIDATION_BEFORE_FULL_VALIDATION so normal E1 uses the smallest relevant validation before required full validation, while exact final-state certification remains mandatory.",
+    "Added SUPERSEDED_WORK_AUTO_CANCEL so obsolete heavy E1 work is cancelled/hygienized only when it cannot certify the current state, has no exclusive diagnostic evidence still needed, and cancellation is safe; E2/E3 are excluded.",
+    "Added FIRST_SUFFICIENT_SAFE_PASS_STOP so completed in-scope work stops before optional adjacent improvements, while any failed acceptance, regression, required validation, exact-state certification or hygiene condition forces continued correction and revalidation.",
+    "Preserved Project Leader 0.7.0 / Recovery Guardian 0.6.0 after regression-first correction of an unnecessary 0.7.1 version attempt; no Recovery Guardian implementation changed."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Exact canonical base 3de696a1286d79e080d3c72bcfdf6691d9255030 -> implementation fe7255eb58081e5e594e518bf16c2735369115f2 changes only the authorized Task 094 record plus CHANGELOG.md, PLUGIN_SETUP.md, control/managed_project_contract.py, plugins/project-leader/skills/project-leader/SKILL.md and tests/test_execution_first_contract.py; all are inside martaxi-boss/Project-leader."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Exact implementation SHA fe7255eb58081e5e594e518bf16c2735369115f2 has successful Control contract tests run 37692474624, Validate control plane run 37692474687 and Package ChatGPT plugins run 37692474580; every run_attempt is 1 and every run head_sha equals the implementation SHA."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Immutable Task 094 authorization commit 83f20836044cdeb029a4e60c28dbb4356f0f42c0 is the authorization-only descendant of canonical base 3de696a1286d79e080d3c72bcfdf6691d9255030 with exact task SHA-256 9fde238bd494495decb559c213c5526e8521b42eb65c21e22cad670a6a8ae267 and precedes all protected implementation changes."
+    },
+    {
+      "name": "Focused-before-full validation regression",
+      "status": "PASS",
+      "evidence": "Control contract tests run 37692474624 passed the new focused-before-full validation assertions, including the safeguard that security/certification requirements still force FULL_VALIDATION and final exact-state certification."
+    },
+    {
+      "name": "Superseded work cancellation regression",
+      "status": "PASS",
+      "evidence": "Control contract tests run 37692474624 passed both safe obsolete-heavy-work cancellation and exclusive-diagnostic-evidence retention cases; material E2/E3 work remains KEEP_RUNNING under this E1 rule."
+    },
+    {
+      "name": "Safe-pass stop regression",
+      "status": "PASS",
+      "evidence": "Control contract tests run 37692474624 passed FIRST_SUFFICIENT_SAFE_PASS_STOP only when every terminal condition is true and CONTINUE_REQUIRED when a real acceptance criterion is false."
+    },
+    {
+      "name": "Material controls unchanged regression",
+      "status": "PASS",
+      "evidence": "Control contract tests run 37692474624 passed assertions that E2/E3 still resolve to DURABLE_CONTROL, retain full validation, do not receive E1 focused validation, and are not auto-cancelled as superseded work."
+    },
+    {
+      "name": "Version identity regression",
+      "status": "PASS",
+      "evidence": "The final candidate preserves Project Leader 0.7.0 and Recovery Guardian 0.6.0; both the existing canonical version assertion and the execution-first version identity regression passed in run 37692474624."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37692474624
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37692474687
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37692474580
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/97"
+  ],
+  "material_non_effects": [
+    "No repository other than martaxi-boss/Project-leader was mutated.",
+    "No Project Leader philosophy, agent architecture, authority/effect boundary, stale-base protection, secrets protection, direct Recovery behavior, anti-loop rule, continuous hygiene rule, progressive-loading rule or material E2/E3 control was weakened or replaced.",
+    "No release, deploy, production, credential, permission, ruleset/branch-protection, license, paid-service or external-project transition was executed.",
+    "No valid test, security check, regression requirement, certification step or acceptance criterion was removed or weakened to obtain PASS."
+  ],
+  "residual_blockers": []
+}

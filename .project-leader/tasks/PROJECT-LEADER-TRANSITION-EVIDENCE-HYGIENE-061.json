@@ -1,0 +1,114 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-TRANSITION-EVIDENCE-HYGIENE-061",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T19:06:29.872Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Owner requests continuous audit, immediate correction and hygiene while Project Leader work progresses. Preserve four exact merge authorization/result records currently unique to control/merge-authorization-060 and control/human-gate-closure-060 in canonical main. Validate their historical bytes/pairs and observe existing safe repository hygiene after integration. Do not change runtime behavior, versions, architecture, roles, standing authority, policy, workflows, managed projects or production."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "25da015507ea877ca3fd8f13298ab49eef2c3328",
+    "task_branch": "builder/transition-evidence-hygiene-061",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".project-leader/transitions/PROJECT-LEADER-CONTROL-EVIDENCE-HYGIENE-059R-MERGE.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-CONTROL-EVIDENCE-HYGIENE-059R-MERGE.result.json",
+    ".project-leader/transitions/PROJECT-LEADER-HUMAN-GATE-CLOSURE-060-MERGE.authorization.json",
+    ".project-leader/transitions/PROJECT-LEADER-HUMAN-GATE-CLOSURE-060-MERGE.result.json",
+    ".project-leader/tasks/PROJECT-LEADER-TRANSITION-EVIDENCE-HYGIENE-061.json",
+    ".project-leader/results/PROJECT-LEADER-TRANSITION-EVIDENCE-HYGIENE-061.json",
+    ".project-leader/recovery-events/PROJECT-LEADER-TRANSITION-EVIDENCE-HYGIENE-061/**",
+    ".project-leader/transitions/PROJECT-LEADER-TRANSITION-EVIDENCE-HYGIENE-061-*"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "reconcile_transition_records"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "architecture_redesign",
+    "modify_standing_authority",
+    "modify_role_hierarchy",
+    "scope_expansion",
+    "force_push",
+    "unrelated_refactor",
+    "weaken_ci_or_security_controls",
+    "modify_runtime_behavior",
+    "modify_plugin_versions",
+    "modify_project_policy",
+    "modify_workflow_definitions"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Exact historical evidence preservation",
+    "Runtime and authority invariants",
+    "Obsolete-reference cleanup safety"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "25da015507ea877ca3fd8f13298ab49eef2c3328",
+    "sha256": "8496c175e9295450ac0d1228c9d08dcee3149d4f7384838fd2f2573250634e22",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Canonical main contains the four exact historical merge authorization/result records from control/merge-authorization-060@996c016b204d8d53e50b56dfb3dcb3231485791e and control/human-gate-closure-060@9556a9bd50559b8041ad04e18311ceee14ef0206. Required scope/record/CI/evidence controls pass. Existing bounded repository hygiene can remove those evidence-source refs after their content becomes canonical while preserving the newest unique merge-evidence ref. Project Leader runtime remains 0.6.6 / Recovery Guardian 0.5.4 unchanged.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

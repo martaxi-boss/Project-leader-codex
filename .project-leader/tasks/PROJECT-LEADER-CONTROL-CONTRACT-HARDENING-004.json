@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "task_id": "PROJECT-LEADER-CONTROL-CONTRACT-HARDENING-004",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-02T21:30:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "summary": "Continue project-local hardening identified by the latest Project Leader audit, without crossing governance, release, license, or cross-project Human Gates.",
+    "source": "STANDING_OWNER_GRANT",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND"
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "183563df62bbe71b9fe2de5700f5253009acf25b",
+    "task_branch": "builder/control-contract-hardening-004",
+    "pr_number": null
+  },
+  "effect_class": "E1_RECOVERABLE_PROJECT_LOCAL",
+  "mutation_scope": [
+    "control/**",
+    "tests/**",
+    ".github/workflows/**",
+    ".project-leader/tasks/**",
+    ".project-leader/results/**"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "release_or_publish",
+    "production_deploy",
+    "branch_protection_or_ruleset_change",
+    "license_selection",
+    "managed_project_mutation",
+    "production_secret_change",
+    "paid_service_activation"
+  ],
+  "human_gates": [
+    {
+      "action": "merge_to_main",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "license_selection",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_owner_approval": true
+    }
+  ],
+  "terminal_condition": "Open PR with schema-equivalent stdlib validation, negative contract tests, pair validation, historical-record compatibility, least-privilege workflow permissions, and SHA-pinned external Actions; all available CI green; no Human Gate crossed.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  }
+}

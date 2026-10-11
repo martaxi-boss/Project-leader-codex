@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-HYGIENE-CLOSEOUT-037-DELETE-001",
+  "task_id": "PROJECT-LEADER-HYGIENE-CLOSEOUT-037",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-HYGIENE-CLOSEOUT-037-DELETE-001.authorization.json",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/human-gate-autonomy-032",
+    "revision": "6ee46ed3c8846e3528949c71df201cd20dcc934f",
+    "base_revision": "b9aab120e59fabeacab775612c5065c6eedc9f63",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T18:37:56Z",
+  "final_state": {
+    "status": "DELETED",
+    "revision": null
+  },
+  "evidence": [
+    "Original exact deletion authorization was persisted on implementation 4ec29befa48e952746adc01baf2952fe4456b1aa before merge and deletion; this is an unchanged archival copy.",
+    "Authorization became canonical in main b30df58fc3c8f91028b6f7cd402e4694bb55a915.",
+    "Repository hygiene push run 37144705325 completed-success.",
+    "Independent live GitHub branch inventory confirms builder/human-gate-autonomy-032 is absent; its closed PR history remains available."
+  ],
+  "residual_blockers": []
+}

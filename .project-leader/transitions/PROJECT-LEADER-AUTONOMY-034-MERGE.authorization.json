@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-AUTONOMY-034-MERGE",
+  "task_id": "PROJECT-LEADER-AUTONOMY-034",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T17:20:00Z",
+  "action": "merge_to_main",
+  "effect_class": "E2_CONSEQUENTIAL_TRANSITION",
+  "authority": {
+    "source": "STANDING_OWNER_GRANT",
+    "summary": "Owner standing autonomy grant covers canonically scoped executable Project Leader transitions without repetitive prompts. PR #34 is the exact audited integration for the requested Project Leader Human Gate/Recovery autonomy correction; all required checks are green and no new material decision is introduced.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#34",
+    "revision": "d0369cbff4342fc9bac9deb9c9affc8be14dfc9b",
+    "base_revision": "73c5512674b2f14d82d69f6f4a10a8f886cf0049",
+    "environment": null
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062-MERGE",
+  "task_id": "PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T19:28:48.381Z",
+  "action": "merge_to_main",
+  "effect_class": "E2_CONSEQUENTIAL_TRANSITION",
+  "authority": {
+    "source": "STANDING_OWNER_GRANT",
+    "summary": "Existing Owner audit/correction/hygiene and audited-merge authority covers exact PR 63 head 823ac15824adf6c4f05b18bd1e33e1a55e610e59 / base 5d9f449208e0a043fa1cc2d81174e7a56ecf7762. Implementation CI 37228192990/37228192979/37228192952 passed; final-head contract 37228321988, validate 37228321997, package 37228321981 and trusted gate 37228320788 all succeeded. Scope is audited; six valuable historical evidence blobs match exactly; current obsolete refs match three pre-bound purge revisions. Authorize only regular history-preserving merge after immediate head/base revalidation.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "pull_request",
+    "identifier": "https://github.com/martaxi-boss/Project-leader/pull/63",
+    "revision": "823ac15824adf6c4f05b18bd1e33e1a55e610e59",
+    "base_revision": "5d9f449208e0a043fa1cc2d81174e7a56ecf7762",
+    "environment": null
+  }
+}

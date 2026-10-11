@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/martaxi-boss/Project-leader/control/transition-authorization.schema.json",
+  "title": "Project Leader Consequential Transition Authorization",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","transition_id","task_id","repository","created_at","action","effect_class","authority","target"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "transition_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9._-]{2,159}$"},
+    "task_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9._-]{2,127}$"},
+    "repository": {"type": "string", "pattern": "^[^/]+/[^/]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "action": {"type": "string", "minLength": 1},
+    "effect_class": {"enum": ["E2_CONSEQUENTIAL_TRANSITION", "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED"]},
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source","summary","binding_mode"],
+      "properties": {
+        "source": {"enum": ["CURRENT_OWNER_INSTRUCTION","STANDING_OWNER_GRANT","CANONICAL_PROJECT_DECISION"]},
+        "summary": {"type": "string", "minLength": 1, "maxLength": 1000},
+        "binding_mode": {"const": "EXACT_REVISION_BOUND"}
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind","identifier"],
+      "properties": {
+        "kind": {"type": "string", "minLength": 1},
+        "identifier": {"type": "string", "minLength": 1},
+        "revision": {"type": ["string","null"], "minLength": 1},
+        "base_revision": {"type": ["string","null"], "minLength": 1},
+        "environment": {"type": ["string","null"], "minLength": 1}
+      }
+    }
+  }
+}

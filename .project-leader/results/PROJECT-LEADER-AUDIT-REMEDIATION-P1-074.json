@@ -1,0 +1,86 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-AUDIT-REMEDIATION-P1-074",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-AUDIT-REMEDIATION-P1-074.json",
+  "authorization_commit_sha": "61a962bd074c7d2fef4a54eeeda432947ed07454",
+  "authorization_sha256": "22ecb8893f2fe6b941f4be48301e3cb944dd94e9f3c4ad56d5ff3b3289bd25ee",
+  "implementation_head_sha": "35532aeecf3c942d8dd354d897f19920448bd89b",
+  "branch": "builder/audit-remediation-p1-074",
+  "pr_number": 76,
+  "recorded_at": "2026-10-07T09:21:46Z",
+  "state_observed_at": "2026-10-07T09:21:46Z",
+  "changes": [
+    "Bound Project Leader CI certification to trusted workflow ID/path/event plus exact PR, base and implementation SHA context; added authorization-only history proof and fail-closed PR file/base checks.",
+    "Strengthened append-only Recovery continuity so deleted/renamed journal events are detected from Git history, non-retry journals validate without fictitious retries, and anti-loop budgets cannot reset through interleaved fingerprints.",
+    "Made authorized FAILURE and NOT_EXECUTED transition outcomes auditable without promoting them, while current SUCCESS evidence rejects residual blockers and historical records remain readable.",
+    "Confined plugin packaging to the intended five-file allowlist, rejected symlinks/unexpected or inconsistent metadata, enforced SemVer/connector identity, and added source/build/workflow/run plus per-file provenance.",
+    "Pinned canonical runtime bootstrap to one exact source revision with an explicit minimum-loader contract and observable bundle revision.",
+    "Corrected stale installation-version documentation and synchronized the canonical Recovery protocol into both plugin packages."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Control contract run 37599996636 completed successfully at implementation head 35532aeecf3c942d8dd354d897f19920448bd89b; its PR mutation-scope enforcement step returned VALID. Final material diff is confined to Task 074 mutation_scope and no external repository was mutated."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "GitHub run payloads 37599996636, 37599996677 and 37599996698 are completed/success on exact head 35532aeecf3c942d8dd354d897f19920448bd89b, PR 76 and base aaf9b2c4b6c7a3a698264d6cb78d2edc274cb2df with expected workflow IDs/paths."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Immutable task authorization 61a962bd074c7d2fef4a54eeeda432947ed07454 is one commit after base and changes only the Task Authorization record. Exact pre-effect trust-root authorization exists at .project-leader/transitions/PROJECT-LEADER-AUDIT-REMEDIATION-P1-074-TRUST-ROOT.authorization.json; audited result records implementation 35532aeecf3c942d8dd354d897f19920448bd89b."
+    },
+    {
+      "name": "Audit P1 R05-R09 regression matrix",
+      "status": "PASS",
+      "evidence": "Control contract run 37599996636 reports 237 tests OK, including P1 regressions for homonymous workflow rejection, authorization-only ordering, incomplete/stale PR evidence, Recovery journal continuity/mode separation/budgets, transition state semantics, package confinement/provenance and pinned runtime generation."
+    },
+    {
+      "name": "Packaging confinement and provenance validation",
+      "status": "PASS",
+      "evidence": "Package ChatGPT plugins run 37599996698 succeeded. Packaging now uses an exact allowlist, rejects symlinks/unexpected files/invalid SemVer or connector identity, builds deterministically, and emits manifest v2 binding repository, source revision, build revision, workflow path, run ID and content hashes."
+    },
+    {
+      "name": "Runtime generation consistency",
+      "status": "PASS",
+      "evidence": "Executable pin_runtime_bundle in control/managed_project_contract.py resolves one exact 40-hex canonical revision once, reads all selected contract files through that revision and rejects incompatible loader versions; tests passed in run 37599996636 and Skill/Project Leader contracts require the same invariant."
+    },
+    {
+      "name": "Continuous hygiene consistency",
+      "status": "PASS",
+      "evidence": "Out-of-scope exploratory additions were removed/restored before certification; control/trusted_gate.py is identical to the P0 base and the temporary control/runtime_bootstrap.py was deleted after moving the executable invariant into the authorized managed-project contract module. No obsolete task-local operational residue remains in the certified material diff."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37599996636
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37599996677
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37599996698
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/76"
+  ],
+  "material_non_effects": [
+    "No external project repository was mutated.",
+    "No branch protection/ruleset, release, deploy, production secret, paid service, license, product architecture or role hierarchy change was made.",
+    "This task does not claim a portable installation/execution proof on every external ChatGPT host; that audit integration proof is kept separate from the code/runtime-generation hardening certified here."
+  ],
+  "residual_blockers": []
+}

@@ -1,0 +1,133 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-RECOVERY-COMPACTION-065",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-05T17:36:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Owner authorizes a minimal universal Project Leader correction based on read-only behavioral evidence from PINK IPTV. Preserve Consultant, Supervisor, Builder, Recovery Guardian, Human Gates, evidence-first controls, safety, scope isolation and automatic continuity. Remove redundant control-only commit ceremony from ordinary already-authorized bounded E1 Recovery, keep durable causal Recovery evidence where continuity/governance requires it, synchronize the existing validation workflow version checks with the new plugin versions using only existing Project Leader actions, validate scenarios A-E, and perform continuous hygiene. No external target repository may be mutated."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "c42ed27cc6c520bfd63015097c8c60ee42392ba5",
+    "task_branch": "builder/recovery-compaction-065",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "control/standing_authority.py",
+    "control/verify_github_evidence.py",
+    "control/README.md",
+    "tests/test_standing_authority.py",
+    "tests/test_evidence_verifier.py",
+    "tests/test_control_contract.py",
+    ".github/workflows/validate-control-plane.yml",
+    "PROJECT_LEADER.md",
+    "RUNBOOK.md",
+    "RECOVERY_PROTOCOL.md",
+    "AGENT_BUILDER_PROMPT.md",
+    "SMOKE_TESTS.md",
+    "roles/SUPERVISOR.md",
+    "roles/BUILDER.md",
+    "roles/RECOVERY_GUARDIAN.md",
+    "plugins/project-leader/plugin.json",
+    "plugins/project-leader/skills/project-leader/SKILL.md",
+    "plugins/project-leader/skills/project-leader/references/recovery-protocol.md",
+    "plugins/recovery-guardian/plugin.json",
+    "plugins/recovery-guardian/skills/recovery-guardian/SKILL.md",
+    "plugins/recovery-guardian/skills/recovery-guardian/references/recovery-protocol.md",
+    "README.md",
+    "PLUGIN_SETUP.md",
+    ".project-leader/tasks/PROJECT-LEADER-RECOVERY-COMPACTION-065.json",
+    ".project-leader/results/PROJECT-LEADER-RECOVERY-COMPACTION-065.json",
+    ".project-leader/recovery-events/PROJECT-LEADER-RECOVERY-COMPACTION-065/**",
+    ".project-leader/transitions/PROJECT-LEADER-RECOVERY-COMPACTION-065-*"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root",
+    "reconcile_control_contract_docs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "architecture_redesign",
+    "modify_standing_authority",
+    "modify_role_hierarchy",
+    "scope_expansion",
+    "force_push",
+    "unrelated_refactor",
+    "weaken_ci_or_security_controls",
+    "cross_project_mutation",
+    "pink_iptv_mutation"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Recovery compaction scenario matrix",
+    "Runtime contract consistency",
+    "Validation workflow version consistency",
+    "Continuous hygiene consistency"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "c42ed27cc6c520bfd63015097c8c60ee42392ba5",
+    "sha256": "8496c175e9295450ac0d1228c9d08dcee3149d4f7384838fd2f2573250634e22",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Canonical Project Leader implements universal Recovery Compaction so an already-authorized bounded E1 technical failure can use DERIVED_COMPLETION_AUTHORITY and proceed FAIL -> DIAGNOSE -> REMEDIATE -> TEST -> VERIFY -> CONTINUE without per-event control-only commits; durable append-only evidence remains strict when continuity, same-action rerun causality, anti-loop/replan state, ambiguous-write proof, immutable audit or a boundary outcome requires it. CI liveness/Human Gates/security/scope rules remain intact. Project Leader is 0.6.7, Recovery Guardian is 0.5.5, validation workflow expectations match those versions, all required CI passes, docs/roles/skills/references are coherent, and no external project is mutated.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

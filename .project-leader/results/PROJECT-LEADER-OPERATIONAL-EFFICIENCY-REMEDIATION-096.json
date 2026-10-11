@@ -1,0 +1,83 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-OPERATIONAL-EFFICIENCY-REMEDIATION-096",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-OPERATIONAL-EFFICIENCY-REMEDIATION-096.json",
+  "authorization_commit_sha": "5b287ad6b0ef33bec43cc184ef677ec6d5056e53",
+  "authorization_sha256": "ee8e2eb72b856c53dce9b468ea2ba5fc771f4f553f3af88fc9fcc5be5d5f0a76",
+  "implementation_head_sha": "c5f63e219ee19eb6d6283c5feff8c0478ac686aa",
+  "branch": "builder/operational-efficiency-remediation-096",
+  "pr_number": 99,
+  "recorded_at": "2026-10-07T23:02:00Z",
+  "state_observed_at": "2026-10-07T23:02:00Z",
+  "superseded_by": null,
+  "post_transition_record": null,
+  "changes": [
+    "SUPERSEDED_WORK_AUTO_CANCEL now keeps obsolete E1 heavy work running when it can still change a technical decision, independently of certification value or exclusive diagnostic evidence.",
+    "Task 095 purge evidence now includes a durable transition result proving builder/operational-efficiency-094 was deleted, and Worker Result 095 points to that post-transition record.",
+    "No other Project Leader rule, architecture, version, workflow, policy, security control, or project was changed."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "Exact base 6fc73496e516c77e5fb744eca3642ea90e3f8d92 to implementation c5f63e219ee19eb6d6283c5feff8c0478ac686aa changes only Task 096, the classifier, its regression tests, and Task 095 post-transition evidence paths authorized by Task 096."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Exact implementation SHA c5f63e219ee19eb6d6283c5feff8c0478ac686aa passed Control contract tests 37699662414, Validate control plane 37699662096, and Package ChatGPT plugins 37699662134, all on run_attempt 1."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Immutable Task 096 authorization commit 5b287ad6b0ef33bec43cc184ef677ec6d5056e53 is the authorization-only descendant of canonical base 6fc73496e516c77e5fb744eca3642ea90e3f8d92 with exact raw task SHA-256 ee8e2eb72b856c53dce9b468ea2ba5fc771f4f553f3af88fc9fcc5be5d5f0a76 and precedes all remediation changes."
+    },
+    {
+      "name": "Technical-decision retention regression",
+      "status": "PASS",
+      "evidence": "Control contract tests 37699662414 passed the new regression proving can_change_technical_decision=True forces KEEP_RUNNING with reason TECHNICAL_DECISION_STILL_RELEVANT."
+    },
+    {
+      "name": "Superseded cancellation regression",
+      "status": "PASS",
+      "evidence": "Control contract tests 37699662414 retained the existing safe cancellation and exclusive-diagnostic-evidence retention regressions."
+    },
+    {
+      "name": "Task 095 transition-result reconciliation",
+      "status": "PASS",
+      "evidence": "The remediation adds PROJECT-LEADER-OPERATIONAL-EFFICIENCY-HYGIENE-095-PURGE.result.json with final_state=DELETED, bound to the pre-existing exact authorization, repository hygiene run 37698432292, merged main 6fc73496e516c77e5fb744eca3642ea90e3f8d92, and live branch absence; Worker Result 095 now references this record."
+    },
+    {
+      "name": "Existing operational-efficiency regression suite",
+      "status": "PASS",
+      "evidence": "Control contract tests 37699662414 passed the focused-before-full validation, safe superseded cancellation, exclusive diagnostic retention, safe-pass STOP, false-PASS prevention, and material-control preservation tests."
+    },
+    {
+      "name": "Material E2/E3 preservation regression",
+      "status": "PASS",
+      "evidence": "Control contract tests 37699662414 confirm E2/E3 remain DURABLE_CONTROL, retain full validation, and remain excluded from E1 superseded auto-cancellation."
+    },
+    {
+      "name": "Version identity regression",
+      "status": "PASS",
+      "evidence": "Project Leader remains 0.7.0 and Recovery Guardian remains 0.6.0; no plugin manifest or Recovery Guardian file is changed by this remediation."
+    }
+  ],
+  "ci": [
+    {"name": "Control contract tests", "status": "SUCCESS", "run_id": 37699662414},
+    {"name": "Validate control plane", "status": "SUCCESS", "run_id": 37699662096},
+    {"name": "Package ChatGPT plugins", "status": "SUCCESS", "run_id": 37699662134}
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/99"
+  ],
+  "material_non_effects": [
+    "No repository other than martaxi-boss/Project-leader was mutated.",
+    "No new conceptual rule, agent architecture, version bump, workflow change, policy change, ruleset change, branch-protection change, release, deploy, secret, permission, license, or external effect was introduced.",
+    "Existing FAST_E1, DURABLE_CONTROL, direct Recovery, anti-loop, REGRESSION_FIRST, SAFE_ROLLBACK, stale-base, secrets, continuous hygiene, progressive loading, Human Gates, and material E2/E3 controls remain unchanged."
+  ],
+  "residual_blockers": []
+}

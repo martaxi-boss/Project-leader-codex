@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-RECOVERY-COMPACTION-HYGIENE-067-DELETE-01",
+  "task_id": "PROJECT-LEADER-RECOVERY-COMPACTION-HYGIENE-067",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-05T18:08:00Z",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner requested continuous Project Leader hygiene. Delete only exact obsolete ref control/merge-authorization-065 at 5de4287b7f56ab2b141bfd3f4bdb2af98507b9e9; its merge authorization/result evidence is already canonical in main; the live ref advanced only to add duplicate merge result records. If the live ref SHA differs, preserve it.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "control/merge-authorization-065",
+    "revision": "5de4287b7f56ab2b141bfd3f4bdb2af98507b9e9",
+    "base_revision": "60651ad4ba105803780e5891178a05713656821f",
+    "environment": null
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-029-MERGE",
+  "task_id": "PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-029",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-SUPERSEDED-BRANCH-PURGE-029-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#30",
+    "revision": "0e97decad2f75706d2267ae1c2facf92e0ad7e00",
+    "base_revision": "0552f77947bc50943f313540bda58a25d22fe8eb",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T13:36:15.272Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "35a7c6d88ec39b2a626e8595e2d4b082147a7a17"
+  },
+  "evidence": [
+    "Pre-merge authorization was durably persisted on control/merge-authorization-030 at commit 6692b620efd7dc067c8415576ed7289c256d7226.",
+    "GitHub PR #30 reports merged=true.",
+    "GitHub merge commit is 35a7c6d88ec39b2a626e8595e2d4b082147a7a17.",
+    "Certified PR head 0e97decad2f75706d2267ae1c2facf92e0ad7e00 was merged with expected_head_sha enforcement."
+  ],
+  "residual_blockers": []
+}

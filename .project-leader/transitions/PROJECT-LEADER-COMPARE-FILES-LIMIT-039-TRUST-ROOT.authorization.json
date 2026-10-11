@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-COMPARE-FILES-LIMIT-039-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-COMPARE-FILES-LIMIT-039",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T19:32:00Z",
+  "action": "trust_root_mutation",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner authorized the second isolated external-audit hardening correction: make the trusted GitHub Compare evidence path fail closed at the 300-file ceiling, with boundary tests, without changing Project Leader architecture or unrelated runtime behavior.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/compare-files-limit-039",
+    "revision": "fe2e6056a7d4bc87a24fd368104dbcae9e426714",
+    "base_revision": "d430f5f7eea3ce9b7ea16931841de21a876e5011",
+    "environment": null
+  }
+}

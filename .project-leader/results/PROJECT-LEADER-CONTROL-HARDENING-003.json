@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "task_id": "PROJECT-LEADER-CONTROL-HARDENING-003",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E1_RECOVERABLE_PROJECT_LOCAL",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-CONTROL-HARDENING-003.json",
+  "implementation_head_sha": "96c23b1de7b9195c7b1a5fd13763f7f16f18bdd4",
+  "branch": "builder/control-plane-hardening-003",
+  "pr_number": 3,
+  "changes": [
+    "Added durable Task Authorization Record schema and validator",
+    "Added machine-readable Worker Result schema and validator",
+    "Integrated durable authorization into Project Leader, Supervisor, Builder and Recovery Guardian contracts",
+    "Added executable control-contract tests and least-privilege CI workflow",
+    "Added CODEOWNERS and SECURITY.md",
+    "Bumped Project Leader to 0.3.0 and Recovery Guardian to 0.2.0",
+    "Proved GitHub write path through branch, tree/file mutation, commit, ref update and PR creation"
+  ],
+  "validation": [
+    {
+      "name": "Validate control plane",
+      "status": "PASS",
+      "evidence": "GitHub Actions run 37065774693"
+    },
+    {
+      "name": "Control contract tests",
+      "status": "PASS",
+      "evidence": "GitHub Actions run 37065774782"
+    },
+    {
+      "name": "Builder write path",
+      "status": "PASS",
+      "evidence": "PR #3 created from commit 96c23b1de7b9195c7b1a5fd13763f7f16f18bdd4"
+    }
+  ],
+  "ci": [
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37065774693
+    },
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37065774782
+    }
+  ],
+  "artifacts": [],
+  "material_non_effects": [
+    "No merge to main",
+    "No release or publication",
+    "No production deploy",
+    "No production secret change",
+    "No managed-project mutation",
+    "No branch-protection or ruleset mutation",
+    "No license selection",
+    "No paid service activation"
+  ],
+  "residual_blockers": [
+    "Merging PR #2 or PR #3 requires Owner approval",
+    "Changing main protection/rulesets requires Owner approval",
+    "Selecting a repository license requires Owner decision"
+  ]
+}

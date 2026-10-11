@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-SAME-SHA-PAGINATION-040-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-SAME-SHA-PAGINATION-040",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-SAME-SHA-PAGINATION-040-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/same-sha-pagination-040",
+    "revision": "2fd6b81f2bfbf6a54fe251c6dbe950256a0ccee9",
+    "base_revision": "71ebe51c7cba90b7caf5b4279d40ff0a7e3375d3",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T19:38:00Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "861f1786aa332231a6185bfba26e9a175e66633d"
+  },
+  "evidence": [
+    "Task Authorization was persisted first at commit 2fd6b81f2bfbf6a54fe251c6dbe950256a0ccee9 and exact trust-root authorization preceded verifier/test mutations.",
+    "Same-SHA workflow evidence now paginates in 100-run pages with stable total_count and unique run-id checks.",
+    "The verifier fails closed at the 1,000-result search ceiling and on unstable, duplicate or prematurely-ended pagination.",
+    "Required implementation-head CI succeeded: Control contract tests 37148404223, Validate control plane 37148404128, Package ChatGPT plugins 37148404087."
+  ],
+  "residual_blockers": []
+}

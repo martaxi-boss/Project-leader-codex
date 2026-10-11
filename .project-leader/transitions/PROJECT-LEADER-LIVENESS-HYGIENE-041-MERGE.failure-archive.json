@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "archive_kind": "NON_CERTIFYING_TRANSITION_ATTEMPT",
+  "repository": "martaxi-boss/Project-leader",
+  "archived_at": "2026-10-03T23:38:00Z",
+  "source_branch": "control/merge-authorization-041",
+  "source_revision": "ed00c2c564530f7db51b956fe29c962efd263ad2",
+  "original_authorization_path": ".project-leader/transitions/PROJECT-LEADER-LIVENESS-HYGIENE-041-MERGE.authorization.json",
+  "original_result_path": ".project-leader/transitions/PROJECT-LEADER-LIVENESS-HYGIENE-041-MERGE.result.json",
+  "authorization": {
+    "schema_version": "1.0",
+    "transition_id": "PROJECT-LEADER-LIVENESS-HYGIENE-041-MERGE",
+    "task_id": "PROJECT-LEADER-LIVENESS-HYGIENE-041",
+    "repository": "martaxi-boss/Project-leader",
+    "created_at": "2026-10-03T22:53:06.562Z",
+    "action": "merge_to_main",
+    "effect_class": "E2_CONSEQUENTIAL_TRANSITION",
+    "authority": {
+      "source": "STANDING_OWNER_GRANT",
+      "summary": "Owner explicitly ordered immediate Project Leader liveness correction and complete same-repository hygiene. PR #41 is the exact bounded implementation: active external-CI liveness guard, regression/smoke coverage, canonical packaged recovery alignment, and preservation of unique historical transition evidence. Exact implementation and final-head checks are successful; no external project, deploy, release, secret, paid-service or branch-protection effect is included.",
+      "binding_mode": "EXACT_REVISION_BOUND"
+    },
+    "target": {
+      "kind": "pull_request",
+      "identifier": "#41",
+      "revision": "7bfb7d5b6e511c61c0026d4afbc14aee11d668ab",
+      "base_revision": "66db27d8118cfa527a21466b8a5034acd5b4395e",
+      "environment": null
+    }
+  },
+  "result": {
+    "schema_version": "1.0",
+    "transition_id": "PROJECT-LEADER-LIVENESS-HYGIENE-041-MERGE",
+    "task_id": "PROJECT-LEADER-LIVENESS-HYGIENE-041",
+    "repository": "martaxi-boss/Project-leader",
+    "terminal_status": "FAILURE",
+    "authorization_record": ".project-leader/transitions/PROJECT-LEADER-LIVENESS-HYGIENE-041-MERGE.authorization.json",
+    "action": "merge_to_main",
+    "target": {
+      "kind": "pull_request",
+      "identifier": "#41",
+      "revision": "7bfb7d5b6e511c61c0026d4afbc14aee11d668ab",
+      "base_revision": "66db27d8118cfa527a21466b8a5034acd5b4395e",
+      "environment": null
+    },
+    "observed_at": "2026-10-03T22:59:28.854Z",
+    "final_state": {
+      "status": "BLOCKED_BY_REQUIRED_STATUS_CHECK",
+      "revision": null
+    },
+    "evidence": [
+      "GitHub rejected the exact merge attempt with HTTP 405 because required status check trusted-authorization was failing; no merge occurred and main remained 66db27d8118cfa527a21466b8a5034acd5b4395e.",
+      "Trusted authorization gate run 37160123013 proved policy/scope and Task/Result validation passed, then failed external evidence verification because Worker Result authorization_sha256 did not match the immutable Task Authorization bytes.",
+      "Task Authorization at authorization commit 887e9e6e85858697a356a09cf8684474a64e1403 and current PR head had identical blob SHA 11b6efd87e02612de0ab83ea51bc149d9d62992a; the evidence defect was corrected on PR head descendant 43139f69d96b4318a936e2549f4e1ca9f142d8ba.",
+      "This failed transition authorization remains historical and is not reused for the corrected PR head."
+    ],
+    "residual_blockers": [
+      "Authorization is exact-revision bound to superseded PR head 7bfb7d5b6e511c61c0026d4afbc14aee11d668ab and cannot authorize the corrected head."
+    ]
+  },
+  "note": "Historical failed merge attempt preserved verbatim as non-certifying audit evidence. The corrected successful transition is PROJECT-LEADER-LIVENESS-HYGIENE-041-MERGE-002."
+}

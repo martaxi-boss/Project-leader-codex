@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062-DELETE-03",
+  "task_id": "PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T19:23:13.717Z",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner authorized ongoing Project Leader hygiene. This exact non-main control ref has no open PR or active work. Preserve its valuable merge authorization/result bytes in canonical main before repository-hygiene deletion. A different live SHA, main, any open PR, or unpreserved unique evidence is not authorized. Closed PRs and commit history remain audit-readable; this deletes only the named superseded branch ref.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "control/merge-authorization-061",
+    "revision": "15fde28cc92dc691788ded367b079170691a2761",
+    "base_revision": "5d9f449208e0a043fa1cc2d81174e7a56ecf7762",
+    "environment": null
+  }
+}

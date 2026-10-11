@@ -1,0 +1,93 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-OPERATIONAL-EFFICIENCY-REMEDIATION-096",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-07T22:52:00Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Close exactly two residual gaps from the operational-efficiency refinement: make SUPERSEDED_WORK_AUTO_CANCEL preserve old work that can still change a technical decision, and complete the already-authorized Task 095 purge evidence with a durable post-effect transition result plus reconciled Worker Result. Do not introduce any other conceptual, architectural, security, version, or cross-project change."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "6fc73496e516c77e5fb744eca3642ea90e3f8d92",
+    "task_branch": "builder/operational-efficiency-remediation-096",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "control/managed_project_contract.py",
+    "tests/test_execution_first_contract.py",
+    ".project-leader/results/PROJECT-LEADER-OPERATIONAL-EFFICIENCY-HYGIENE-095.json",
+    ".project-leader/transitions/PROJECT-LEADER-OPERATIONAL-EFFICIENCY-HYGIENE-095-PURGE.result.json",
+    ".project-leader/tasks/PROJECT-LEADER-OPERATIONAL-EFFICIENCY-REMEDIATION-096.json",
+    ".project-leader/results/PROJECT-LEADER-OPERATIONAL-EFFICIENCY-REMEDIATION-096.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "reconcile_control_contract_docs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "cross_project_mutation",
+    "force_push",
+    "rewrite_git_history",
+    "weaken_ci_or_security_controls",
+    "unrelated_refactor",
+    "new_agent_architecture",
+    "new_conceptual_rule"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Technical-decision retention regression",
+    "Superseded cancellation regression",
+    "Task 095 transition-result reconciliation",
+    "Existing operational-efficiency regression suite",
+    "Material E2/E3 preservation regression",
+    "Version identity regression"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "6fc73496e516c77e5fb744eca3642ea90e3f8d92",
+    "sha256": "d8ca49eaaf130b8924ef56ac0912136fe9c2000650db77a1124dada9fabb03cb",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "The superseded-work classifier explicitly keeps old E1 heavy work running whenever it can still change a technical decision; the exact Task 095 purge has a valid durable transition result proving builder/operational-efficiency-094 was deleted and Worker Result 095 points to it; all existing operational-efficiency rules and Project Leader protections remain unchanged; required CI is green on the exact implementation SHA; hygiene is complete; no additional conceptual change is introduced.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {"action": "merge_to_main", "requires_authority_resolution": true},
+    {"action": "branch_protection_or_ruleset_change", "requires_authority_resolution": true},
+    {"action": "release_or_publish", "requires_authority_resolution": true},
+    {"action": "license_selection", "requires_authority_resolution": true},
+    {"action": "managed_project_mutation", "requires_authority_resolution": true},
+    {"action": "trust_root_mutation", "requires_authority_resolution": true}
+  ]
+}

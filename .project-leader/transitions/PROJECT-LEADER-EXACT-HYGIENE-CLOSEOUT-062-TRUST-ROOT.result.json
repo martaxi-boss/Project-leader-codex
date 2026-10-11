@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-EXACT-HYGIENE-CLOSEOUT-062-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/exact-hygiene-closeout-062",
+    "revision": "17d781a818fafd51596f3f7268a7e47d31ba80f2",
+    "base_revision": "5d9f449208e0a043fa1cc2d81174e7a56ecf7762",
+    "environment": null
+  },
+  "observed_at": "2026-10-04T19:27:03.834Z",
+  "final_state": {
+    "status": "AUDITED",
+    "revision": "4bb2395871b93c34cf95a86f6424cfa90e635e2f"
+  },
+  "evidence": [
+    "Exact pre-effect authorization binds immutable task commit 17d781a818fafd51596f3f7268a7e47d31ba80f2; native GitHub ancestry confirms authorization at 1652af8a73f000e9e2c73b20e29403f99349a14d before protected RUNBOOK correction implementation 4bb2395871b93c34cf95a86f6424cfa90e635e2f.",
+    "Nine-file exact-base scope delta and unchanged task digest f414ad9de8159728bb61deca51d8df12dd175137107c773ab9edb650959d8b7c verified. Only stale hygiene documentation and its regression are corrected; active workflow remains unchanged.",
+    "195 local and GitHub contract tests pass. Required exact implementation runs 37228192990, 37228192979 and 37228192952 succeeded; no policy, verifier, authority, architecture or control relaxation."
+  ],
+  "residual_blockers": []
+}

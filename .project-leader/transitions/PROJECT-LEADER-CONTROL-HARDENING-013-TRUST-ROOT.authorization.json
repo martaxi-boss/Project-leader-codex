@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-CONTROL-HARDENING-013-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-CONTROL-HARDENING-013",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T08:28:28.470Z",
+  "action": "trust_root_mutation",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner explicitly authorized correcting the two identified generic Project Leader trust-root gaps: Recovery Guardian append-only persistence and managed-project scope containment parity.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/control-hardening-recovery-scope-013",
+    "revision": "786f0b2cec45110e7d52625d6ea674e9a02754d0",
+    "base_revision": "5c96a3c84444e42256e04629c631c364313f3582",
+    "environment": null
+  }
+}

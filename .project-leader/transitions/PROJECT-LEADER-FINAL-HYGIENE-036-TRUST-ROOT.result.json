@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-FINAL-HYGIENE-036-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-FINAL-HYGIENE-036",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-FINAL-HYGIENE-036-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/final-hygiene-036",
+    "revision": "1720d893200fb3e7e0353e805d0331246615e870",
+    "base_revision": "ca2916d3c4ff46fef7783a4c081c49697a25dfbf",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T18:23:45Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "a944b44b50384eccf2020b19affbcf118377157c"
+  },
+  "evidence": [
+    "Trust-root authorization fdb6c6cb3663a956b9e1ee68d94ced4e3340202f precedes implementation.",
+    "155 contract tests passed locally.",
+    "Exact implementation CI: Control contract tests 37143599150, Validate control plane 37143599140, Package ChatGPT plugins 37143599131 all completed success.",
+    "Registry-free role contracts, eight obsolete artifact deletions and negative absence guards independently audited."
+  ],
+  "residual_blockers": []
+}

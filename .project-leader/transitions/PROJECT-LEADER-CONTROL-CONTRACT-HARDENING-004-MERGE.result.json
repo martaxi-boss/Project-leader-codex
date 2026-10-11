@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-CONTROL-CONTRACT-HARDENING-004-MERGE",
+  "task_id": "PROJECT-LEADER-CONTROL-CONTRACT-HARDENING-004",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "HISTORICAL_OBSERVED",
+  "authorization_record": null,
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#4",
+    "revision": "48c3246b9b6ba9a6c3e8552c5f097c8e16039e81",
+    "base_revision": "183563df62bbe71b9fe2de5700f5253009acf25b",
+    "environment": null
+  },
+  "observed_at": "2026-10-02T21:54:03Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "37e05084a6d99cf9e8d1794be4114fa2abb096e8"
+  },
+  "evidence": [
+    "GitHub PR #4 reports merged_at 2026-10-02T21:54:03Z.",
+    "PR #4 final head was 48c3246b9b6ba9a6c3e8552c5f097c8e16039e81.",
+    "GitHub merge commit is 37e05084a6d99cf9e8d1794be4114fa2abb096e8."
+  ],
+  "residual_blockers": [
+    "No durable exact-revision Owner authorization record for the PR #4 merge exists in the repository; this record proves the observed effect only and must not be treated as retroactive authorization."
+  ]
+}

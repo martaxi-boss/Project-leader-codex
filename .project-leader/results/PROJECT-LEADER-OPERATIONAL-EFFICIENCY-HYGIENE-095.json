@@ -1,0 +1,79 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-OPERATIONAL-EFFICIENCY-HYGIENE-095",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-OPERATIONAL-EFFICIENCY-HYGIENE-095.json",
+  "authorization_commit_sha": "94efefa21a0c52e5e4a5eb37e337fd10f3737e74",
+  "authorization_sha256": "83e7afac7b69a59cc49ab1e818001825d29e72700eb18608185bbbfeec981f83",
+  "implementation_head_sha": "e34b8bb85e961c6fb2a1f0251dd5f591f94e5ff6",
+  "branch": "builder/operational-efficiency-hygiene-095",
+  "pr_number": 98,
+  "recorded_at": "2026-10-07T22:44:00Z",
+  "state_observed_at": "2026-10-07T22:55:00Z",
+  "superseded_by": null,
+  "post_transition_record": ".project-leader/transitions/PROJECT-LEADER-OPERATIONAL-EFFICIENCY-HYGIENE-095-PURGE.result.json",
+  "changes": [
+    "Added one exact-revision purge authorization for the residual branch builder/operational-efficiency-094 at a7fce780f0bde8ba097016c0ce61ece454b7ad80.",
+    "No runtime, Skill, workflow, policy, version, architecture, security control, or external project was changed."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #98 changes only the immutable Task 095, its exact purge authorization, and this Worker Result inside .project-leader; no runtime or external repository files are modified."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Exact implementation SHA e34b8bb85e961c6fb2a1f0251dd5f591f94e5ff6 passed Control contract tests 37697861009, Validate control plane 37697860886, and Package ChatGPT plugins 37697860785, all on run_attempt 1."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Immutable Task 095 authorization commit 94efefa21a0c52e5e4a5eb37e337fd10f3737e74 is a descendant of exact canonical base a53a6bbd66ac0edb9c419c483ad3462818122c04 with exact raw task SHA-256 83e7afac7b69a59cc49ab1e818001825d29e72700eb18608185bbbfeec981f83 and precedes the exact purge authorization."
+    },
+    {
+      "name": "Exact superseded branch authorization verification",
+      "status": "PASS",
+      "evidence": "The purge record binds only builder/operational-efficiency-094 at exact live revision a7fce780f0bde8ba097016c0ce61ece454b7ad80 under CURRENT_OWNER_INSTRUCTION and EXACT_REVISION_BOUND."
+    },
+    {
+      "name": "Open-PR and revision-mismatch preservation",
+      "status": "PASS",
+      "evidence": "Live audit found no open PR using builder/operational-efficiency-094; repository hygiene independently rechecks open PR use and exact live SHA immediately before lease-safe deletion and preserves the branch on mismatch."
+    },
+    {
+      "name": "Post-cleanup survivor audit",
+      "status": "PASS",
+      "evidence": "Repository hygiene run 37698432292 completed SUCCESS on exact merged main 6fc73496e516c77e5fb744eca3642ea90e3f8d92; subsequent live GitHub branch inspection confirmed builder/operational-efficiency-094 and the temporary hygiene branch were absent. The durable transition result records final_state=DELETED."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 37697861009
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 37697860886
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 37697860785
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader/pull/98"
+  ],
+  "material_non_effects": [
+    "No repository other than martaxi-boss/Project-leader is mutated.",
+    "No main history, ruleset, branch protection, runtime, Skill, policy, version, security control, release, deploy, secret, permission, license, or product architecture is changed.",
+    "No branch other than builder/operational-efficiency-094 at the exact authorized SHA is eligible for this purge."
+  ],
+  "residual_blockers": []
+}

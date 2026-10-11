@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-DEVELOPMENT-MERGE-AUTHORITY-020-TRUST-ROOT",
+  "task_id": "PROJECT-LEADER-DEVELOPMENT-MERGE-AUTHORITY-020",
+  "repository": "martaxi-boss/Project-leader",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PROJECT-LEADER-DEVELOPMENT-MERGE-AUTHORITY-020-TRUST-ROOT.authorization.json",
+  "action": "trust_root_mutation",
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/development-merge-authority-020",
+    "revision": "2dbb080970165e4b91f8a213cbb304e80aedfffb",
+    "base_revision": "3c1c514c563525f990a9f9e350adfb961372ff94",
+    "environment": null
+  },
+  "observed_at": "2026-10-03T11:39:54.988Z",
+  "final_state": {
+    "status": "MUTATED",
+    "revision": "f57963ad6589b9d7c32a2b39ec6270750fec4282"
+  },
+  "evidence": [
+    "Owner authorization was persisted before central policy/contract mutations.",
+    "Control contract tests run 37120348554 completed SUCCESS on implementation head f57963ad6589b9d7c32a2b39ec6270750fec4282.",
+    "Validate control plane run 37120348547 completed SUCCESS on the same implementation head.",
+    "Package ChatGPT plugins run 37120348535 completed SUCCESS on the same implementation head."
+  ],
+  "residual_blockers": []
+}

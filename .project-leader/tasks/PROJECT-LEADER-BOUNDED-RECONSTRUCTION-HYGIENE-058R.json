@@ -1,0 +1,124 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-BOUNDED-RECONSTRUCTION-HYGIENE-058R",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-04T14:32:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Clean Recovery replacement for superseded task 058. Owner explicitly authorized only a minimal Project Leader correction plus hygiene, preserving the existing architecture, Consultant/Supervisor/Builder/Recovery Guardian hierarchy, standing authority, Human Gates and all working rules. Scope is limited to bounded startup/resume/recovery reads, immediate liveness reconciliation after unresolved frozen internal operations, and simplifying repository hygiene so broad content-equivalence comparison is removed from routine cleanup and hygiene remains non-critical-path. PINK IPTV is read-only evidence only."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "a546481c6612a161dee6fab050a3196988a279a4",
+    "task_branch": "builder/bounded-reconstruction-hygiene-058r",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "PROJECT_LEADER.md",
+    "RUNBOOK.md",
+    "RECOVERY_PROTOCOL.md",
+    "SMOKE_TESTS.md",
+    "README.md",
+    "PLUGIN_SETUP.md",
+    "tests/test_control_contract.py",
+    ".github/workflows/repository-hygiene.yml",
+    ".github/workflows/validate-control-plane.yml",
+    "plugins/project-leader/plugin.json",
+    "plugins/project-leader/skills/project-leader/SKILL.md",
+    "plugins/project-leader/skills/project-leader/references/recovery-protocol.md",
+    ".project-leader/tasks/PROJECT-LEADER-BOUNDED-RECONSTRUCTION-HYGIENE-058R.json",
+    ".project-leader/results/PROJECT-LEADER-BOUNDED-RECONSTRUCTION-HYGIENE-058R.json",
+    ".project-leader/recovery-events/PROJECT-LEADER-BOUNDED-RECONSTRUCTION-HYGIENE-058R/**",
+    ".project-leader/transitions/PROJECT-LEADER-BOUNDED-RECONSTRUCTION-HYGIENE-058R-*"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root",
+    "reconcile_control_contract_docs",
+    "install_automatic_merged_pr_branch_hygiene",
+    "delete_owner_authorized_superseded_non_main_branch_refs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "modify_standing_authority",
+    "modify_human_gate_conditions",
+    "modify_role_hierarchy",
+    "architecture_redesign",
+    "scope_expansion",
+    "pink_iptv_mutation",
+    "force_push",
+    "unrelated_refactor",
+    "weaken_ci_or_security_controls"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Bounded reconstruction behavior",
+    "Repository hygiene boundedness",
+    "Role and authority invariants",
+    "Packaged skill/runtime alignment"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "a546481c6612a161dee6fab050a3196988a279a4",
+    "sha256": "8496c175e9295450ac0d1228c9d08dcee3149d4f7384838fd2f2573250634e22",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Without changing Project Leader architecture, roles, standing authority or Human Gate semantics, startup/resume/recovery first gathers a bounded durable state vector and avoids repository-wide compare/diff when that evidence already answers the next decision; after a frozen/interrupted internal operation, the next live activation enters existing LIVENESS_RECONCILE_REQUIRED before repeating the prior opaque operation; repository hygiene remains autonomous but non-critical-path and removes broad content-equivalence branch comparison, retaining only exact owner-authorized cleanup, merged/ancestor-safe cleanup and preservation of durable control/evidence refs. Superseded branches builder/canonical-runtime-bootstrap-056 and builder/bounded-reconstruction-hygiene-058 are removed only under exact current Owner authorization after the replacement evidence is canonical. Project Leader package/docs/validation align at 0.6.5 and required CI passes.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

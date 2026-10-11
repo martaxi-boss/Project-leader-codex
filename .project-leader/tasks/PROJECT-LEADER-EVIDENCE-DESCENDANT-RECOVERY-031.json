@@ -1,0 +1,113 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-EVIDENCE-DESCENDANT-RECOVERY-031",
+  "project": "PROJECT LEADER",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-03T15:40:00Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "summary": "Owner explicitly requested auditing the interrupted PINK IPTV Project Leader run and correcting the already diagnosed Project Leader gaps. Scope is limited to hardening evidence-only descendant CI/recovery semantics and interrupted external-CI continuity without changing product-project code or crossing merge/governance gates.",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND"
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "638ed1047e7124257027ccc38ad7d12235164ba9",
+    "task_branch": "builder/evidence-descendant-recovery-031",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    ".project-leader/tasks/**",
+    ".project-leader/results/**",
+    ".project-leader/transitions/**",
+    "control/managed_project_contract.py",
+    "tests/**",
+    "PROJECT_LEADER.md",
+    "RUNBOOK.md",
+    "RECOVERY_PROTOCOL.md",
+    "plugins/project-leader/skills/project-leader/SKILL.md",
+    "plugins/project-leader/skills/project-leader/references/recovery-protocol.md",
+    "plugins/recovery-guardian/skills/recovery-guardian/SKILL.md",
+    "plugins/recovery-guardian/skills/recovery-guardian/references/recovery-protocol.md"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root",
+    "repair_result_terminal_semantics",
+    "reconcile_control_contract_docs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "force_push",
+    "rewrite_git_history",
+    "repository_or_history_deletion",
+    "destructive_data_change",
+    "unrelated_refactor"
+  ],
+  "human_gates": [
+    {
+      "action": "merge_to_main",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "license_selection",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_owner_approval": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_owner_approval": true
+    }
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Evidence-only descendant CI relevance",
+    "Interrupted external-CI continuity"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins"
+  ],
+  "policy": {
+    "profile": "project-leader-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "638ed1047e7124257027ccc38ad7d12235164ba9",
+    "sha256": "9d185a662234060031ef6919238a480c2a419adf4cbf60f71f31ca376500ea1d",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "The Project Leader must distinguish required implementation-head CI from incidental automatic CI on allowed evidence-only descendants, must not enter task Recovery solely for a non-certifying evidence-only descendant run unless repository governance explicitly makes final-head checks mandatory, and must reconstruct interrupted WAITING_EXTERNAL_CI work from live GitHub state without duplicate dispatch. Contract tests and package/validation CI must pass on the exact implementation head. Stop before merge to main.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1"
+}

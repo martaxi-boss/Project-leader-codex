@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PROJECT-LEADER-POSTSYNC-ALIGNMENT-HYGIENE-103-PURGE-077",
+  "task_id": "PROJECT-LEADER-POSTSYNC-ALIGNMENT-HYGIENE-103",
+  "repository": "martaxi-boss/Project-leader",
+  "created_at": "2026-10-09T18:18:56.012Z",
+  "action": "delete_owner_authorized_superseded_non_main_branch_refs",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner requested old-version/residue hygiene. Supervisor confirmed exact branch 'builder/pr-context-stability-077' is a closed or abandoned non-main candidate at 39a7f9b925ec963b2b00729d5fb8fb1ae3b64d5f, superseded by already-merged PR #81; its active functionality is in protected main. Only delete this exact ref after live no-open-PR and lease verification; preserve audit history, required control evidence, unrelated refs and any branch that has advanced.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "repository_branch",
+    "identifier": "builder/pr-context-stability-077",
+    "revision": "39a7f9b925ec963b2b00729d5fb8fb1ae3b64d5f",
+    "base_revision": "ce0b0510897dce25787ccbe058977b60737f8ae2",
+    "environment": null
+  }
+}
