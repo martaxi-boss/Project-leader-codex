@@ -20,8 +20,9 @@ BLOCKED_SECRETS = re.compile(
     r"(?i)(?:-----BEGIN [A-Z ]*PRIVATE KEY|gh[pousr]_[a-z0-9]{12,}|"
     r"(?:api[_-]?key|password|senha|secret|access[_-]?token)\s*[:=]\s*\S+)"
 )
-HIGH_SIGNALS = ("deadlock", "race condition", "regressao complexa", "regressão complexa", "root cause",
-                "segurança crítica", "critical security", "migração irreversível", "irreversible")
+HIGH_SIGNALS = ("deadlock", "race condition", "regressao complexa", "regressão complexa",
+                "root cause", "segurança crítica", "segurança", "seguranca", "concorrência",
+                "concorrencia", "critical security", "migração irreversível", "irreversible")
 LOW_SIGNALS = ("corrige um typo", "typo", "ortografia", "formatar", "ajusta o readme", "fix spelling")
 MULTISTEP_SIGNALS = ("implementar", "implement", "integrar", "integration", "testar", "test",
                      "desenvolver", "develop", "criar", "build", "refactor", "refator")
@@ -55,10 +56,12 @@ def _validate_item(raw: Any) -> dict:
     if not all(dual._is_safe_path(p) for p in paths):
         raise RoutingError("Unsafe work-item path; inspect repository scope")
     deps = raw.get("depends_on", [])
-    if not isinstance(deps, list) or len(deps) > MAX_ITEMS or len(set(deps)) != len(deps) or not all(type(d) is str and ITEM_ID.fullmatch(d) for d in deps):
+    if (not isinstance(deps, list) or len(deps) > MAX_ITEMS
+            or not all(type(d) is str and ITEM_ID.fullmatch(d) for d in deps)
+            or len(set(deps)) != len(deps)):
         raise RoutingError("Invalid work-item dependencies")
     effort = raw.get("reasoning_effort", "auto")
-    if effort not in dual.LEVELS | {"auto"}:
+    if type(effort) is not str or effort not in dual.LEVELS:
         raise RoutingError("Invalid requested reasoning effort")
     return {"id": identifier, "task": task, "paths": paths,
             "depends_on": deps, "reasoning_effort": effort}
@@ -108,7 +111,9 @@ def _load_profiles(registry: Any) -> list[dict]:
                 raise RoutingError("Invalid relative cost (unknown must be null)")
             if not isinstance(model["capabilities"], list) or not all(x in {"code_edit", "code_review", "research", "planning"} for x in model["capabilities"]):
                 raise RoutingError("Invalid model capabilities")
-            if not isinstance(model["efforts"], list) or not model["efforts"] or not set(model["efforts"]) <= dual.LEVELS:
+            if (not isinstance(model["efforts"], list) or not model["efforts"]
+                    or not all(type(e) is str for e in model["efforts"])
+                    or not set(model["efforts"]) <= dual.LEVELS):
                 raise RoutingError("Invalid supported effort choices")
             if type(model["attested"]) is not bool:
                 raise RoutingError("attested must be boolean")

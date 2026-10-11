@@ -22,6 +22,29 @@ class RoutingTests(unittest.TestCase):
         self.assertEqual(result["agent_count"], 0)
         self.assertNotIn("tasks", result)
 
+    def test_malformed_json_effort_dependencies_and_registry_fail_closed(self):
+        base = request([item("one", "src/x")])
+        for bad in ([], {}, 9):
+            broken = {**base, "work_items": [{**base["work_items"][0], "reasoning_effort": bad}]}
+            with self.subTest(effort=bad), self.assertRaises(RoutingError):
+                plan(broken)
+        bad_dep = {**base, "work_items": [{**base["work_items"][0], "depends_on": [{}]}]}
+        with self.assertRaises(RoutingError):
+            plan(bad_dep)
+        reg = load_registry()
+        reg["providers"][0]["models"][0]["efforts"] = [{}]
+        with self.assertRaises(RoutingError):
+            plan(base, reg)
+
+    def test_accented_security_and_concurrency_require_high_capability(self):
+        for request_text in ("Corrige a segurança e valida os testes",
+                             "Diagnostica concorrência de threads e aplica testes"):
+            p = plan({"request": request_text,
+                      "target_repository": "martaxi-boss/pink-iptv",
+                      "work_items": [item("one", "src/core", request_text)]})
+            self.assertEqual(p["tasks"][0]["selection"]["reasoning_effort"], "high")
+            self.assertEqual(p["status"], "blocked_no_provider")
+
     def test_short_simple_tasks_use_single_agent_to_avoid_duplicate_cost(self):
         p = plan(request([item("first", "docs/a", "Corrige um typo no README da secção A"),
                           item("second", "docs/b", "Corrige um typo no README da secção B")]))

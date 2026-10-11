@@ -57,6 +57,22 @@ class PlanTests(unittest.TestCase):
         with self.assertRaises(dual.PlanError):
             dual.parse_order(p)
 
+    def test_safe_hidden_project_scopes_and_accents(self):
+        self.assertTrue(dual._is_safe_path(".github/workflows/build.yml"))
+        self.assertTrue(dual._is_safe_path(".codex/config.toml"))
+        for path in (".git/config", ".env", "foo/.github/config", ".codex/../secret"):
+            self.assertFalse(dual._is_safe_path(path))
+        for text in ("Diagnostica falha de segurança", "Corrige concorrência nos processos"):
+            self.assertEqual(dual.effort(task("one", "docs", text)), "high")
+        for bad in ([], {}, 42):
+            p = order(); p["tasks"][0]["reasoning_effort"] = bad
+            with self.subTest(value=bad), self.assertRaises(dual.PlanError):
+                dual.parse_order(p)
+        for name in ("./..", "martaxi-boss/..", "../repo"):
+            p = order(); p["target_repository"] = name
+            with self.subTest(repo=name), self.assertRaises(dual.PlanError):
+                dual.parse_order(p)
+
     def test_no_execution_without_explicit_flag(self):
         with tempfile.TemporaryDirectory() as td:
             m = Path(td) / "order.json"; m.write_text(json.dumps(order()))
@@ -93,12 +109,22 @@ import sys
 import time
 prompt = sys.stdin.read()
 args = sys.argv
+if '--ask-for-approval' not in args or args.index('--ask-for-approval') > args.index('exec'):
+    sys.stderr.write('error: unrecognized post-exec approval option')
+    sys.exit(2)
 workspace = Path(args[args.index('-C')+1])
 owned = prompt.split('Owned paths: ', 1)[-1].split('\\n', 1)[0].split(',')[0]
 if 'CHECK-PRIOR' in prompt and not (workspace / 'docs/channels/created.txt').exists():
     sys.exit(13)
 if 'FAIL-ONE' in prompt:
+    time.sleep(0.4)
     sys.exit(12)
+if 'SLOW-LONG' in prompt:
+    time.sleep(12)
+if 'SLOW-GROUP' in prompt:
+    import subprocess
+    subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(12)'])
+    time.sleep(12)
 if 'NO-CHANGE' in prompt:
     print('{"type":"turn.completed"}')
     sys.exit(0)
@@ -113,6 +139,14 @@ time.sleep(0.15)
 target = workspace / owned / 'created.txt'
 target.parent.mkdir(parents=True, exist_ok=True)
 target.write_text('fake codex result refined' if 'CHECK-PRIOR' in prompt else 'fake codex result')
+if 'COMMIT-OUTSIDE' in prompt or 'COMMIT-OWNED' in prompt:
+    import subprocess
+    if 'COMMIT-OUTSIDE' in prompt:
+        rogue = workspace / 'unowned/rogue.txt'
+        rogue.parent.mkdir(parents=True, exist_ok=True)
+        rogue.write_text('unauthorized committed file')
+    subprocess.run(['git', '-C', str(workspace), 'add', '-A'], check=True)
+    subprocess.run(['git', '-C', str(workspace), 'commit', '-qm', 'bad worker commit'], check=True)
 print('{"type":"something_else"}' if 'INVALID-EVENT' in prompt else '{"type":"turn.completed","usage":{"input_tokens":15,"output_tokens":6,"cached_input_tokens":2}}')
 """)
         executable.chmod(0o755)
@@ -179,6 +213,52 @@ print('{"type":"something_else"}' if 'INVALID-EVENT' in prompt else '{"type":"tu
         r = self._run(p)
         self.assertEqual(r["workers"][1]["status"], "scope_violation")
         self.assertEqual(r["workers"][1]["out_of_scope"], ["unowned/created.txt"])
+
+    def test_committed_out_of_scope_cannot_hide_behind_clean_git_status(self):
+        p = order("serial")
+        p["tasks"][0]["task"] = "COMMIT-OUTSIDE: add a rogue file and commit every change"
+        r = self._run(p)
+        first = r["workers"][0]
+        self.assertEqual(first["status"], "scope_violation")
+        self.assertTrue(first["commit_detected"])
+        self.assertIn("unowned/rogue.txt", first["committed_paths"])
+        self.assertIn("unowned/rogue.txt", first["out_of_scope"])
+        self.assertEqual(dual._changes(Path(first["workspace"])), set())
+        self.assertEqual(r["workers"][1]["status"], "not_started")
+
+    def test_in_scope_worker_commit_never_counts_as_safe_completion(self):
+        p = order("serial")
+        p["tasks"][0]["task"] = "COMMIT-OWNED: commit a file within approved paths"
+        r = self._run(p)
+        self.assertEqual(r["workers"][0]["status"], "unauthorized_commit")
+        self.assertTrue(r["workers"][0]["commit_detected"])
+        self.assertEqual(r["workers"][0]["out_of_scope"], [])
+        self.assertEqual(r["workers"][1]["status"], "not_started")
+
+    def test_parallel_failure_cancels_running_sibling(self):
+        p = order()
+        p["tasks"][0]["task"] = "FAIL-ONE: fail first worker deliberately and do not modify anything"
+        p["tasks"][1]["task"] = "SLOW-LONG: this second worker would hang without cancellation"
+        started = __import__("time").monotonic()
+        r = self._run(p)
+        self.assertEqual(r["workers"][0]["status"], "failed")
+        self.assertEqual(r["workers"][1]["status"], "cancelled")
+        self.assertLess(__import__("time").monotonic() - started, 5)
+
+    def test_codex_timeout_terminates_worker_process(self):
+        p = dual.parse_order(order())
+        workspace = self.repo
+        result = dual._worker(p["tasks"][0] | {"task": "SLOW-LONG: exceed a tiny timeout"},
+                              workspace, self.runs, timeout=0.5)
+        self.assertEqual(result["status"], "timeout")
+
+    def test_timeout_kills_child_process_group_and_releases_pipes(self):
+        p = dual.parse_order(order())
+        task = p["tasks"][0] | {"task": "SLOW-GROUP: spawn a child that inherits stdout"}
+        started = __import__("time").monotonic()
+        r = dual._worker(task, self.repo, self.runs, timeout=0.5)
+        self.assertEqual(r["status"], "timeout")
+        self.assertLess(__import__("time").monotonic() - started, 3)
 
     def test_remote_mismatch_and_dirty_checkout_block(self):
         p = dual.parse_order(order())

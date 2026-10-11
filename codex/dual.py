@@ -8,6 +8,8 @@ from __future__ import annotations
 import argparse
 import hashlib
 from concurrent.futures import ThreadPoolExecutor
+import signal
+import threading
 import json
 import os
 from pathlib import Path, PurePosixPath
@@ -18,12 +20,13 @@ import sys
 import time
 from uuid import uuid4
 
-REPO_NAME = re.compile(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+\Z")
+REPO_NAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]*/[A-Za-z0-9][A-Za-z0-9_.-]*\Z")
 JOB_NAME = re.compile(r"[a-z][a-z0-9-]{0,39}\Z")
 LEVELS = {"auto", "low", "medium", "high"}
-HARD = ("race condition", "deadlock", "security", "seguranca", "seguranca critica",
-        "migration", "migracao", "regression", "regressao", "root cause", "causa raiz",
-        "complex", "complexo", "concurrency", "concorrencia", "credential")
+HARD = ("race condition", "deadlock", "security", "seguranca", "segurança",
+        "seguranca critica", "segurança crítica", "migration", "migracao", "migração",
+        "regression", "regressao", "regressão", "root cause", "causa raiz",
+        "complex", "complexo", "concurrency", "concorrencia", "concorrência", "credential")
 EASY = ("typo", "ortografia", "readme", "formatting", "formatar", "renomear")
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -35,16 +38,19 @@ class PlanError(ValueError):
 def _is_safe_path(value: object) -> bool:
     if type(value) is not str or not value or len(value) > 160 or "\\" in value:
         return False
-    path = PurePosixPath(value)
-    return not path.is_absolute() and all(
-        part not in {"", ".", "..", ".git"} and not part.startswith(".")
-        for part in value.split("/")
-    ) and not any(c in value for c in "*?[]\n\r\x00")
-
+    parts = value.split("/")
+    # Only the two known repository metadata areas may start with a dot.
+    # .git, .env, nested hidden directories and traversal remain forbidden.
+    return (not PurePosixPath(value).is_absolute()
+            and all(part not in {"", ".", "..", ".git"}
+                    and (not part.startswith(".") or (i == 0 and part in {".codex", ".github"}))
+                    for i, part in enumerate(parts))
+            and not any(c in value for c in "*?[]\n\r\x00")
+            and not any(ord(c) < 32 or ord(c) == 127 for c in value))
 
 def effort(task: dict) -> str:
     requested = task.get("reasoning_effort", "auto")
-    if requested not in LEVELS:
+    if type(requested) is not str or requested not in LEVELS:
         raise PlanError("reasoning_effort must be auto, low, medium or high")
     if requested != "auto":
         return requested
@@ -180,7 +186,7 @@ def _prompt(task: dict) -> str:
     rules = (ROOT / "CODEX_COORDINATION.md").read_text(encoding="utf-8")
     return (
         "Apply the following Project Leader rules and this repository's Codex specialization. "
-        "Only change the explicitly owned paths. Never push, merge, deploy, or reveal credentials. "
+         "Only change the explicitly owned paths. Never commit, push, merge, deploy, or reveal credentials. "
         "Do not claim validation without running it.\n\n"
         "=== PROJECT LEADER RULES ===\n" + skill + "\n=== CODEX SPECIALIZATION ===\n" + rules +
         "\n=== THIS WORKER ===\nOwned paths: " + ", ".join(task["paths"]) +
@@ -195,28 +201,96 @@ def _completed_event(line: str) -> bool:
         return False
 
 
-def _worker(task: dict, workspace: Path, logdir: Path, timeout: int) -> dict:
-    cmd = [shutil.which("codex") or "codex", "exec", "--sandbox", "workspace-write",
-           "--ask-for-approval", "never", "-c", "model_reasoning_effort=" + task["selected_effort"],
+def _committed_paths(workspace: Path, before: str, after: str) -> set[str]:
+    """Audit committed edits as well as working-tree edits (including renames)."""
+    if before == after:
+        return set()
+    result = subprocess.run(
+        ["git", "-C", str(workspace), "diff", "--no-renames", "--name-only", "-z", before, after],
+        capture_output=True, check=False,
+    )
+    if result.returncode:
+        raise PlanError("Cannot audit Codex worker commits; fail closed")
+    return {os.fsdecode(p) for p in result.stdout.split(b"\x00") if p}
+
+
+def _stop_process_group(process: subprocess.Popen) -> tuple[str, str]:
+    """Terminate the entire spawned Codex process group, not only its parent."""
+    if os.name == "posix":
+        try:
+            os.killpg(process.pid, signal.SIGTERM)
+        except ProcessLookupError:
+            pass
+    elif process.poll() is None:
+        process.terminate()
+    try:
+        return process.communicate(timeout=0.6)
+    except subprocess.TimeoutExpired:
+        if os.name == "posix":
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+        elif process.poll() is None:
+            process.kill()
+        try:
+            return process.communicate(timeout=2)
+        except subprocess.TimeoutExpired as exc:
+            raise PlanError("Worker process group did not stop; inspect retained workspace") from exc
+
+
+def _invoke_codex(cmd: list[str], prompt: str, timeout: int,
+                  cancel_event: threading.Event | None = None) -> tuple[int, str, str, str]:
+    if cancel_event is not None and cancel_event.is_set():
+        return 125, "", "Cancelled before model launch", "cancelled"
+    process = subprocess.Popen(
+        cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        text=True, start_new_session=(os.name == "posix"),
+    )
+    started = time.monotonic()
+    first_input = True
+    while True:
+        if cancel_event is not None and cancel_event.is_set():
+            stdout, stderr = _stop_process_group(process)
+            return 125, stdout, stderr, "cancelled"
+        remaining = timeout - (time.monotonic() - started)
+        if remaining <= 0:
+            stdout, stderr = _stop_process_group(process)
+            return 124, stdout, stderr, "timeout"
+        try:
+            stdout, stderr = process.communicate(
+                input=prompt if first_input else None,
+                timeout=min(0.2, remaining),
+            )
+            return process.returncode, stdout, stderr, "finished"
+        except subprocess.TimeoutExpired:
+            # Python preserves buffered input/output across communicate retries.
+            first_input = False
+
+
+def _worker(task: dict, workspace: Path, logdir: Path, timeout: int,
+            cancel_event: threading.Event | None = None) -> dict:
+    # --ask-for-approval is a ROOT option on Codex 0.159.x, not an exec option.
+    # Retain workspace-write sandbox and explicit never-approval policy.
+    cmd = [shutil.which("codex") or "codex", "--ask-for-approval", "never", "exec",
+           "--sandbox", "workspace-write",
+           "-c", "model_reasoning_effort=" + task["selected_effort"],
            "-C", str(workspace), "--json", "-"]
     started = time.monotonic()
+    previous_head = _git(workspace, "rev-parse", "HEAD")
     previous_state = _snapshot(workspace)
-    try:
-        result = subprocess.run(cmd, input=_prompt(task), text=True, capture_output=True, timeout=timeout, check=False)
-        code, stdout, stderr = result.returncode, result.stdout, result.stderr
-        timed_out = False
-    except subprocess.TimeoutExpired as exc:
-        code = 124
-        stdout = exc.stdout.decode("utf-8", "replace") if isinstance(exc.stdout, bytes) else (exc.stdout or "")
-        stderr = exc.stderr.decode("utf-8", "replace") if isinstance(exc.stderr, bytes) else (exc.stderr or "")
-        timed_out = True
+    code, stdout, stderr, termination = _invoke_codex(
+        cmd, _prompt(task), timeout, cancel_event,
+    )
     _private_file(logdir / (task["id"] + ".jsonl"), stdout)
     _private_file(logdir / (task["id"] + ".stderr"), stderr)
+    current_head = _git(workspace, "rev-parse", "HEAD")
     current_state = _snapshot(workspace)
-    changed = sorted(current_state)
+    committed = _committed_paths(workspace, previous_head, current_head)
+    changed = sorted(set(current_state) | committed)
     newly_changed = sorted(
-        p for p in (set(previous_state) | set(current_state))
-        if previous_state.get(p) != current_state.get(p)
+        {p for p in (set(previous_state) | set(current_state))
+         if previous_state.get(p) != current_state.get(p)} | committed
     )
     mutated = bool(newly_changed)
     out_of_scope = [p for p in newly_changed if not _scope(p, task["paths"])]
@@ -224,14 +298,23 @@ def _worker(task: dict, workspace: Path, logdir: Path, timeout: int) -> dict:
         line.strip().startswith("{") and _completed_event(line)
         for line in stdout.splitlines()
     )
-    status = ("scope_violation" if out_of_scope else "timeout" if timed_out else
-              "failed" if code else "unverified_result" if not completed_event else
+    committed_by_worker = previous_head != current_head
+    status = ("scope_violation" if out_of_scope else
+              "timeout" if termination == "timeout" else
+              "cancelled" if termination == "cancelled" else
+              "failed" if code else
+              "unauthorized_commit" if committed_by_worker else
+              "unverified_result" if not completed_event else
               "no_change" if not mutated else "completed")
+    if cancel_event is not None and status in {
+        "scope_violation", "timeout", "failed", "unauthorized_commit", "unverified_result",
+    }:
+        cancel_event.set()
     return {"id": task["id"], "status": status, "exit_code": code,
             "reasoning_effort": task["selected_effort"], "workspace": str(workspace),
             "changed_paths": changed, "new_paths": newly_changed,
+            "committed_paths": sorted(committed), "commit_detected": committed_by_worker,
             "out_of_scope": out_of_scope, "duration_seconds": round(time.monotonic() - started, 2)}
-
 
 def run(order: dict, repo: Path, runs_dir: Path | None = None, timeout: int = 1200) -> dict:
     if shutil.which("codex") is None:
@@ -260,8 +343,18 @@ def run(order: dict, repo: Path, runs_dir: Path | None = None, timeout: int = 12
     tasks = order["tasks"]
     try:
         if order["mode"] == "parallel":
+            cancel_event = threading.Event()
+
+            def guarded_worker(task: dict, workspace: Path) -> dict:
+                try:
+                    return _worker(task, workspace, work_root, timeout, cancel_event)
+                except Exception:
+                    # A runner/setup error must not leave its sibling running unattended.
+                    cancel_event.set()
+                    raise
+
             with ThreadPoolExecutor(max_workers=2) as executor:
-                futures = [executor.submit(_worker, t, workspaces[i], work_root, timeout)
+                futures = [executor.submit(guarded_worker, t, workspaces[i])
                            for i, t in enumerate(tasks)]
                 results = [f.result() for f in futures]
         else:
