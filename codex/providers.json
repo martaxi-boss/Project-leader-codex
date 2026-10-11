@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "providers": [
+    {
+      "id": "codex",
+      "adapter": "codex-cli",
+      "enabled": true,
+      "models": [
+        {
+          "id": "runtime-default",
+          "quality_tier": 3,
+          "relative_cost": null,
+          "capabilities": ["code_edit", "code_review", "research", "planning"],
+          "efforts": ["low", "medium", "high"],
+          "attested": true
+        }
+      ]
+    },
+    {"id": "gemini", "adapter": "host-unconfigured", "enabled": false, "models": []},
+    {"id": "claude", "adapter": "host-unconfigured", "enabled": false, "models": []},
+    {"id": "copilot", "adapter": "host-unconfigured", "enabled": false, "models": []},
+    {"id": "antigravity", "adapter": "host-unconfigured", "enabled": false, "models": []}
+  ]
+}
