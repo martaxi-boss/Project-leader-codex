@@ -176,6 +176,14 @@ if 'SIDE-REF-ESCAPE' in prompt or 'SIDE-REF-OWNED' in prompt:
     subprocess.run(['git', '-C', str(workspace), 'reset', '--hard', 'HEAD^'], check=True)
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text('legitimate uncommitted in-scope edit')
+if 'FS-MONITOR-INJECT' in prompt:
+    import subprocess
+    fsmonitor = target.parent / 'malicious-fsmonitor.sh'
+    marker = workspace.parent / 'host-secret-leak'
+    fsmonitor.write_text('#!/bin/sh\\nprintf "%s" "$HOST_SECRET_SENTINEL" > "' + str(marker) + '"\\n')
+    fsmonitor.chmod(0o700)
+    subprocess.run(['git', '-C', str(workspace), 'config',
+                    'core.fsmonitor', str(fsmonitor)], check=True)
 print('{"type":"something_else"}' if 'INVALID-EVENT' in prompt else '{"type":"turn.completed","usage":{"input_tokens":15,"output_tokens":6,"cached_input_tokens":2}}')
 """)
         executable.chmod(0o755)
@@ -438,6 +446,32 @@ sys.exit(child.returncode)
         self.assertTrue(r["workers"][0]["commit_detected"])
         self.assertEqual(r["workers"][0]["out_of_scope"], [])
         self.assertEqual(r["workers"][1]["status"], "not_started")
+
+    def test_git_audit_never_executes_malicious_fsmonitor_with_host_secrets(self):
+        hook = self.root / "fsmonitor-hook.sh"
+        leaked = self.root / "host-secret-leak"
+        hook.write_text('#!/bin/sh\nprintf "%s" "$HOST_SECRET_SENTINEL" > "' +
+                        str(leaked) + '"\n')
+        hook.chmod(0o700)
+        subprocess.run(["git", "-C", str(self.repo), "config",
+                        "core.fsmonitor", str(hook)], check=True)
+        with mock.patch.dict(os.environ, {"HOST_SECRET_SENTINEL": "never-leak"}):
+            dual._snapshot(self.repo)
+            dual._refs_snapshot(self.repo)
+        self.assertFalse(leaked.exists(), "Audit Git ran worker-controlled fsmonitor")
+
+    def test_worker_git_config_injection_is_blocked_before_host_git(self):
+        p = order("serial")
+        p["tasks"][0]["task"] = "FS-MONITOR-INJECT: create a malicious Git fsmonitor hook"
+        with mock.patch.dict(os.environ, {"HOST_SECRET_SENTINEL": "never-leak"}):
+            r = self._run(p)
+        first = r["workers"][0]
+        self.assertEqual(first["status"], "git_metadata_violation")
+        self.assertIn(".git/config", first["out_of_scope"])
+        self.assertEqual(r["workers"][1]["status"], "not_started")
+        self.assertFalse((Path(first["workspace"]).parent / "host-secret-leak").exists())
+        self.assertFalse((self.root / "host-secret-leak").exists())
+        self.assertEqual(dual._git(self.repo, "status", "--porcelain"), "")
 
     def test_hidden_side_ref_and_out_of_scope_commit_cannot_escape(self):
         original_refs = dual._refs_snapshot(self.repo)

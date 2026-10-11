@@ -115,11 +115,68 @@ def parse_order(data: object) -> dict:
             "integration": "manual review + tested PR; no automatic merge"}
 
 
+def _safe_git(repo: Path, *args: str, text: bool = False) -> subprocess.CompletedProcess:
+    """Read attacker-writable Git workspaces without executing their helpers.
+
+    Workers may alter .git/config, hooks, fsmonitor and diff drivers. Never
+    give post-worker Git inspection the host environment or credential data.
+    """
+    clean_env = {
+        "PATH": os.defpath,
+        "HOME": os.devnull,
+        "LANG": "C.UTF-8",
+        "GIT_CONFIG_NOSYSTEM": "1",
+        "GIT_CONFIG_GLOBAL": os.devnull,
+        "GIT_CONFIG_SYSTEM": os.devnull,
+        "GIT_TERMINAL_PROMPT": "0",
+        "GIT_OPTIONAL_LOCKS": "0",
+        "GIT_NO_REPLACE_OBJECTS": "1",
+    }
+    cmd = [
+        shutil.which("git") or "git",
+        "-c", "core.fsmonitor=false",
+        "-c", "core.hooksPath=" + os.devnull,
+        "-c", "diff.external=",
+        "-C", str(repo),
+        *args,
+    ]
+    return subprocess.run(cmd, capture_output=True, text=text,
+                          check=False, env=clean_env)
+
+
 def _git(repo: Path, *args: str) -> str:
-    result = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True, check=False)
+    result = _safe_git(repo, *args, text=True)
     if result.returncode:
         raise PlanError("Git preflight failed: " + " ".join(args))
     return result.stdout.strip()
+
+
+def _metadata_config_snapshot(workspace: Path) -> dict[str, str]:
+    """Inspect code-bearing .git control surfaces without invoking Git."""
+    root = workspace / ".git"
+    if root.is_symlink() or not root.is_dir():
+        raise PlanError("Worker replaced or removed its private Git directory")
+    probes = [root / "config", root / "config.worktree",
+              root / "info/attributes"]
+    hooks = root / "hooks"
+    if hooks.is_symlink():
+        raise PlanError("Worker Git hooks directory is a symlink")
+    if hooks.exists():
+        if not hooks.is_dir():
+            raise PlanError("Worker Git hooks directory is invalid")
+        probes.extend(hooks.iterdir())
+    state = {}
+    for path in probes:
+        if path.is_symlink():
+            raise PlanError("Worker Git control file is a symlink")
+        if not path.exists():
+            continue
+        if not path.is_file() or not path.resolve().is_relative_to(root.resolve()):
+            raise PlanError("Worker Git control file is not private")
+        if path.stat().st_size > 1048576:
+            raise PlanError("Worker Git control file exceeds audit limit")
+        state[str(path.relative_to(root))] = hashlib.sha256(path.read_bytes()).hexdigest()
+    return state
 
 
 def _remote_repo(origin: str) -> str:
@@ -143,7 +200,7 @@ def _preflight(repo: Path, expected: str) -> str:
 
 
 def _changes(workspace: Path) -> set[str]:
-    result = subprocess.run(["git", "-C", str(workspace), "status", "--porcelain=1", "--untracked-files=all", "-z"], capture_output=True, check=False)
+    result = _safe_git(workspace, "status", "--porcelain=1", "--untracked-files=all", "-z")
     if result.returncode:
         raise PlanError("Cannot read worker Git status")
     pieces = result.stdout.decode("utf-8", errors="replace").split("\x00")
@@ -213,9 +270,9 @@ def _committed_paths(workspace: Path, before: str, after: str) -> set[str]:
     """Audit committed edits as well as working-tree edits (including renames)."""
     if before == after:
         return set()
-    result = subprocess.run(
-        ["git", "-C", str(workspace), "diff", "--no-renames", "--name-only", "-z", before, after],
-        capture_output=True, check=False,
+    result = _safe_git(
+        workspace, "diff", "--no-ext-diff", "--no-textconv",
+        "--no-renames", "--name-only", "-z", before, after,
     )
     if result.returncode:
         raise PlanError("Cannot audit Codex worker commits; fail closed")
@@ -224,10 +281,9 @@ def _committed_paths(workspace: Path, before: str, after: str) -> set[str]:
 
 def _refs_snapshot(repo: Path) -> dict[str, str]:
     """Audit all Git ref names and object IDs, not only detached HEAD."""
-    proc = subprocess.run(
-        ["git", "-C", str(repo), "for-each-ref",
-         "--format=%(refname)%00%(objectname)"],
-        capture_output=True, text=True, check=False,
+    proc = _safe_git(
+        repo, "for-each-ref", "--format=%(refname)%00%(objectname)",
+        text=True,
     )
     if proc.returncode:
         raise PlanError("Cannot audit Git references; fail closed")
@@ -249,10 +305,9 @@ def _ref_committed_paths(workspace: Path, baseline: str,
         object_id = refs.get(name)
         if object_id is None:
             continue
-        commit = subprocess.run(
-            ["git", "-C", str(workspace), "rev-parse", "--verify",
-             object_id + "^{commit}"],
-            capture_output=True, text=True, check=False,
+        commit = _safe_git(
+            workspace, "rev-parse", "--verify", object_id + "^{commit}",
+            text=True,
         )
         if commit.returncode:
             # Still an unauthorized ref mutation; cannot treat it as success.
@@ -472,11 +527,26 @@ def _worker(task: dict, workspace: Path, logdir: Path, timeout: int,
     previous_head = _git(workspace, "rev-parse", "HEAD")
     previous_refs = _refs_snapshot(workspace)
     previous_state = _snapshot(workspace)
+    previous_metadata = _metadata_config_snapshot(workspace)
     code, stdout, stderr, termination = _invoke_codex(
         cmd, _prompt(task), timeout, cancel_event,
     )
     _private_file(logdir / (task["id"] + ".jsonl"), stdout)
     _private_file(logdir / (task["id"] + ".stderr"), stderr)
+    current_metadata = _metadata_config_snapshot(workspace)
+    if current_metadata != previous_metadata:
+        if cancel_event is not None:
+            cancel_event.set()
+        modified = sorted(name for name in set(previous_metadata) | set(current_metadata)
+                          if previous_metadata.get(name) != current_metadata.get(name))
+        # Do not call Git, status, diff or ref inspection on a potentially
+        # hostile .git/config (e.g. core.fsmonitor) after model execution.
+        return {"id": task["id"], "status": "git_metadata_violation",
+                "exit_code": code, "reasoning_effort": task["selected_effort"],
+                "workspace": str(workspace), "changed_paths": [],
+                "new_paths": [], "committed_paths": [], "commit_detected": False,
+                "ref_changes": [], "out_of_scope": [".git/" + x for x in modified],
+                "duration_seconds": round(time.monotonic() - started, 2)}
     current_head = _git(workspace, "rev-parse", "HEAD")
     current_refs = _refs_snapshot(workspace)
     ref_changes = sorted(
