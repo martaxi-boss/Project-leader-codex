@@ -147,21 +147,22 @@ def _changes(workspace: Path) -> set[str]:
     return paths
 
 
-def _fingerprint(workspace: Path) -> str:
-    """Fingerprint both changed path names and working-tree content."""
-    digest = hashlib.sha256()
+def _snapshot(workspace: Path) -> dict[str, str]:
+    """Record each changed path separately, so serial workers cannot alter inherited files."""
+    states = {}
     for name in sorted(_changes(workspace)):
         path = workspace / name
-        digest.update(name.encode("utf-8", errors="replace") + b"\0")
+        digest = hashlib.sha256()
         if path.is_symlink():
-            digest.update(b"link:" + os.readlink(path).encode("utf-8", errors="replace"))
+            digest.update(b"symlink:" + os.readlink(path).encode("utf-8", errors="replace"))
         elif path.is_file():
             with path.open("rb") as stream:
                 for block in iter(lambda: stream.read(65536), b""):
                     digest.update(block)
         else:
             digest.update(b"absent-or-directory")
-    return digest.hexdigest()
+        states[name] = digest.hexdigest()
+    return states
 
 
 def _scope(path: str, owned: list[str]) -> bool:
@@ -194,12 +195,12 @@ def _completed_event(line: str) -> bool:
         return False
 
 
-def _worker(task: dict, workspace: Path, logdir: Path, timeout: int, previous: set[str]) -> dict:
+def _worker(task: dict, workspace: Path, logdir: Path, timeout: int) -> dict:
     cmd = [shutil.which("codex") or "codex", "exec", "--sandbox", "workspace-write",
            "--ask-for-approval", "never", "-c", "model_reasoning_effort=" + task["selected_effort"],
            "-C", str(workspace), "--json", "-"]
     started = time.monotonic()
-    previous_state = _fingerprint(workspace)
+    previous_state = _snapshot(workspace)
     try:
         result = subprocess.run(cmd, input=_prompt(task), text=True, capture_output=True, timeout=timeout, check=False)
         code, stdout, stderr = result.returncode, result.stdout, result.stderr
@@ -211,10 +212,14 @@ def _worker(task: dict, workspace: Path, logdir: Path, timeout: int, previous: s
         timed_out = True
     _private_file(logdir / (task["id"] + ".jsonl"), stdout)
     _private_file(logdir / (task["id"] + ".stderr"), stderr)
-    changed = sorted(_changes(workspace))
-    newly_changed = sorted(set(changed) - previous)
-    mutated = _fingerprint(workspace) != previous_state
-    out_of_scope = [p for p in changed if not _scope(p, task["paths"])]
+    current_state = _snapshot(workspace)
+    changed = sorted(current_state)
+    newly_changed = sorted(
+        p for p in (set(previous_state) | set(current_state))
+        if previous_state.get(p) != current_state.get(p)
+    )
+    mutated = bool(newly_changed)
+    out_of_scope = [p for p in newly_changed if not _scope(p, task["paths"])]
     completed_event = any(
         line.strip().startswith("{") and _completed_event(line)
         for line in stdout.splitlines()
@@ -256,20 +261,16 @@ def run(order: dict, repo: Path, runs_dir: Path | None = None, timeout: int = 12
     try:
         if order["mode"] == "parallel":
             with ThreadPoolExecutor(max_workers=2) as executor:
-                futures = [executor.submit(_worker, t, workspaces[i], work_root, timeout, set())
+                futures = [executor.submit(_worker, t, workspaces[i], work_root, timeout)
                            for i, t in enumerate(tasks)]
                 results = [f.result() for f in futures]
         else:
-            first = _worker(tasks[0], workspaces[0], work_root, timeout, set())
+            first = _worker(tasks[0], workspaces[0], work_root, timeout)
             results = [first]
             if first["status"] == "completed":
                 # The second agent sees the first agent's changes, in the same worktree.
-                second = _worker(tasks[1], workspaces[0], work_root, timeout,
-                                 set(first["changed_paths"]))
-                # Serial workers may legitimately inherit the first agent's changed paths.
-                second["out_of_scope"] = [p for p in second["new_paths"] if not _scope(p, tasks[1]["paths"])]
-                if second["status"] == "scope_violation" and not second["out_of_scope"]:
-                    second["status"] = "completed"
+                # Per-file before/after hashes distinguish inherited diffs from new edits.
+                second = _worker(tasks[1], workspaces[0], work_root, timeout)
                 results.append(second)
             else:
                 results.append({"id": tasks[1]["id"], "status": "not_started", "reason": "First task did not complete"})

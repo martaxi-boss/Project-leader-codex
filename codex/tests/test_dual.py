@@ -104,6 +104,11 @@ if 'NO-CHANGE' in prompt:
     sys.exit(0)
 if 'BREAK-SCOPE' in prompt:
     owned = 'unowned'
+if 'BREAK-INHERITED' in prompt:
+    prior = workspace / 'docs/channels/created.txt'
+    if not prior.exists():
+        sys.exit(14)
+    prior.write_text('unauthorized second-worker edit')
 time.sleep(0.15)
 target = workspace / owned / 'created.txt'
 target.parent.mkdir(parents=True, exist_ok=True)
@@ -160,6 +165,14 @@ print('{"type":"something_else"}' if 'INVALID-EVENT' in prompt else '{"type":"tu
         p["tasks"][1]["task"] = "CHECK-PRIOR: refine the existing channels file after first task"
         r = self._run(p)
         self.assertEqual(r["workers"][1]["status"], "completed")
+
+    def test_serial_worker_cannot_modify_inherited_out_of_scope_file(self):
+        p = order("serial")
+        p["tasks"][1]["task"] = "BREAK-INHERITED: edit previous agent's channel file illegally"
+        r = self._run(p)
+        self.assertEqual(r["workers"][0]["status"], "completed")
+        self.assertEqual(r["workers"][1]["status"], "scope_violation")
+        self.assertIn("docs/channels/created.txt", r["workers"][1]["out_of_scope"])
 
     def test_scope_violation_is_not_success(self):
         p = order(); p["tasks"][1]["task"] = "BREAK-SCOPE: attempt to edit something outside assigned paths"
