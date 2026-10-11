@@ -99,7 +99,18 @@ class RoutingTests(unittest.TestCase):
         p = plan(request([item("spell", "docs", "Corrige um typo no README da interface")]))
         self.assertEqual(p["tasks"][0]["selection"]["reasoning_effort"], "low")
         p = plan(request([item("fix", "docs", "Improve architecture and make sure critical security is protected")]))
-        self.assertEqual(p["tasks"][0]["selection"]["reasoning_effort"], "high")
+        self.assertEqual(p["status"], "blocked_no_provider")
+        self.assertEqual(p["tasks"][0]["selection"]["status"], "no_adequate_provider")
+
+    def test_protected_actions_inside_subtasks_require_material_control(self):
+        p = plan(request([item("job", "src", "Deploy to production and publish new credentials safely")]))
+        self.assertIn("material_boundary_requires_project_leader_controls", p["warnings"])
+
+    def test_not_enough_model_capacity_does_not_silently_use_cheapest(self):
+        reg = load_registry()
+        p = plan(request([item("hard", "src", "Diagnose deadlock in the account recovery flow")]), reg)
+        self.assertEqual(p["status"], "blocked_no_provider")
+        self.assertEqual(p["tasks"][0]["selection"]["status"], "no_adequate_provider")
 
 
 if __name__ == "__main__":

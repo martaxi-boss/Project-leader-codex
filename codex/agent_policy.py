@@ -132,7 +132,10 @@ def _select_model(profiles: list[dict], capability: str, reasoning: str, allowed
         return {"status": "no_attested_provider", "reason": "No enabled, attested model for this capability and effort"}
     floor = {"low": 2, "medium": 3, "high": 4}[reasoning]
     adequate = [p for p in candidates if p["quality_tier"] >= floor]
-    pool = adequate or candidates
+    if not adequate:
+        return {"status": "no_adequate_provider",
+                "reason": "No attested model meets the configured capability floor; never silently downgrade"}
+    pool = adequate
     # Do not silently substitute an unmeasured cheap model for a capable one.
     # Without declared cost, prefer the best attested capacity, not a guessed discount.
     chosen = min(pool, key=lambda p: (p["relative_cost"] is None,
@@ -262,7 +265,7 @@ def plan(order: dict, registry: dict | None = None) -> dict:
     return {"version": 1, "status": "planned" if ready else "blocked_no_provider", "request": request,
             "target_repository": repo, "capability": capability,
             "mode": mode, "agent_count": len(assigned), "tasks": assigned,
-            "warnings": _safety(request),
+            "warnings": _safety(request + "\n" + "\n".join(t["task"] for t in tasks)),
             "rationale": "parallel only for separate costly scopes" if mode == "parallel" else
                          "sequential dependency" if mode == "serial" else "one capable agent avoids coordination overhead",
             "integration": "manual validated PR; never merge/deploy automatically",
