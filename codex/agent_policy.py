@@ -20,8 +20,10 @@ BLOCKED_SECRETS = re.compile(
     r"(?i)(?:-----BEGIN [A-Z ]*PRIVATE KEY|gh[pousr]_[a-z0-9]{12,}|"
     r"(?:api[_-]?key|password|senha|secret|access[_-]?token)\s*[:=]\s*\S+)"
 )
-HIGH_SIGNALS = ("deadlock", "race condition", "regressao complexa", "regressão complexa", "root cause",
-                "segurança crítica", "critical security", "migração irreversível", "irreversible")
+HIGH_SIGNALS = ("deadlock", "race condition", "regressao complexa", "regressão complexa",
+                "root cause", "segurança crítica", "segurança", "seguranca", "concorrência",
+                "concorrencia", "security", "concurrency", "critical security",
+                "migração irreversível", "irreversible")
 LOW_SIGNALS = ("corrige um typo", "typo", "ortografia", "formatar", "ajusta o readme", "fix spelling")
 MULTISTEP_SIGNALS = ("implementar", "implement", "integrar", "integration", "testar", "test",
                      "desenvolver", "develop", "criar", "build", "refactor", "refator")
@@ -55,10 +57,12 @@ def _validate_item(raw: Any) -> dict:
     if not all(dual._is_safe_path(p) for p in paths):
         raise RoutingError("Unsafe work-item path; inspect repository scope")
     deps = raw.get("depends_on", [])
-    if not isinstance(deps, list) or len(deps) > MAX_ITEMS or len(set(deps)) != len(deps) or not all(type(d) is str and ITEM_ID.fullmatch(d) for d in deps):
+    if (not isinstance(deps, list) or len(deps) > MAX_ITEMS
+            or not all(type(d) is str and ITEM_ID.fullmatch(d) for d in deps)
+            or len(set(deps)) != len(deps)):
         raise RoutingError("Invalid work-item dependencies")
     effort = raw.get("reasoning_effort", "auto")
-    if effort not in dual.LEVELS | {"auto"}:
+    if type(effort) is not str or effort not in dual.LEVELS:
         raise RoutingError("Invalid requested reasoning effort")
     return {"id": identifier, "task": task, "paths": paths,
             "depends_on": deps, "reasoning_effort": effort}
@@ -70,18 +74,23 @@ def _has_overlap(left: dict, right: dict) -> bool:
 
 
 def _classify_effort(task: dict) -> str:
-    if task["reasoning_effort"] != "auto":
-        return task["reasoning_effort"]
+    """Apply a safety floor before accepting any manually requested effort."""
     prompt = task["task"].casefold()
     if any(signal in prompt for signal in HIGH_SIGNALS):
-        return "high"
-    # Low is appropriate only for very narrow edits with no substantive risk.
-    if len(prompt) <= 160 and any(signal in prompt for signal in LOW_SIGNALS) and not any(
+        minimum = "high"
+    elif len(prompt) <= 160 and any(signal in prompt for signal in LOW_SIGNALS) and not any(
         signal in prompt for signal in ("security", "segurança", "production", "produção", "migration", "migração")
     ):
-        return "low"
-    return "medium"
-
+        minimum = "low"
+    else:
+        minimum = "medium"
+    requested = task["reasoning_effort"]
+    if requested == "auto":
+        return minimum
+    rank = {"low": 0, "medium": 1, "high": 2}
+    if rank[requested] < rank[minimum]:
+        raise RoutingError("Unsafe reasoning-effort override: task requires at least " + minimum)
+    return requested
 
 def _load_profiles(registry: Any) -> list[dict]:
     if not isinstance(registry, dict) or registry.get("version") != 1 or not isinstance(registry.get("providers"), list):
@@ -106,9 +115,13 @@ def _load_profiles(registry: Any) -> list[dict]:
             cost = model["relative_cost"]
             if cost is not None and (type(cost) is not int or not 1 <= cost <= 100):
                 raise RoutingError("Invalid relative cost (unknown must be null)")
-            if not isinstance(model["capabilities"], list) or not all(x in {"code_edit", "code_review", "research", "planning"} for x in model["capabilities"]):
+            if (not isinstance(model["capabilities"], list) or not all(
+                    type(x) is str and x in {"code_edit", "code_review", "research", "planning"}
+                    for x in model["capabilities"])):
                 raise RoutingError("Invalid model capabilities")
-            if not isinstance(model["efforts"], list) or not model["efforts"] or not set(model["efforts"]) <= dual.LEVELS:
+            if (not isinstance(model["efforts"], list) or not model["efforts"]
+                    or not all(type(e) is str for e in model["efforts"])
+                    or not set(model["efforts"]) <= dual.LEVELS):
                 raise RoutingError("Invalid supported effort choices")
             if type(model["attested"]) is not bool:
                 raise RoutingError("attested must be boolean")
@@ -173,10 +186,10 @@ def plan(order: dict, registry: dict | None = None) -> dict:
     if type(repo) is not str or not dual.REPO_NAME.fullmatch(repo) or repo.casefold() == "martaxi-boss/project-leader":
         raise RoutingError("Invalid target or protected universal Project Leader repository")
     preference = order.get("preference", "auto")
-    if preference not in {"auto", "single", "parallel", "serial"}:
+    if type(preference) is not str or preference not in {"auto", "single", "parallel", "serial"}:
         raise RoutingError("Invalid execution preference")
     capability = order.get("capability", "code_edit")
-    if capability not in {"code_edit", "code_review", "research", "planning"}:
+    if type(capability) is not str or capability not in {"code_edit", "code_review", "research", "planning"}:
         raise RoutingError("Unsupported requested capability")
     allowed_raw = order.get("providers")
     if allowed_raw is not None and (not isinstance(allowed_raw, list) or not allowed_raw or

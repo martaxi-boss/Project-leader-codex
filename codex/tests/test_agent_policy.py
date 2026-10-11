@@ -2,7 +2,7 @@
 import copy
 import unittest
 
-from codex.agent_policy import RoutingError, load_registry, plan
+from codex.agent_policy import RoutingError, load_registry, plan, _classify_effort
 
 
 def item(name, path, prompt="Implement the navigation and validate it with focused integration tests.", **kwargs):
@@ -21,6 +21,58 @@ class RoutingTests(unittest.TestCase):
         self.assertEqual(result["status"], "needs_scoping")
         self.assertEqual(result["agent_count"], 0)
         self.assertNotIn("tasks", result)
+
+    def test_malformed_json_effort_dependencies_and_registry_fail_closed(self):
+        base = request([item("one", "src/x")])
+        for bad in ([], {}, 9):
+            broken = {**base, "work_items": [{**base["work_items"][0], "reasoning_effort": bad}]}
+            with self.subTest(effort=bad), self.assertRaises(RoutingError):
+                plan(broken)
+        bad_dep = {**base, "work_items": [{**base["work_items"][0], "depends_on": [{}]}]}
+        with self.assertRaises(RoutingError):
+            plan(bad_dep)
+        for key in ("preference", "capability"):
+            for bad in ([], {}, 4):
+                with self.subTest(key=key, value=bad), self.assertRaises(RoutingError):
+                    plan({**base, key: bad})
+        reg = load_registry()
+        reg["providers"][0]["models"][0]["efforts"] = [{}]
+        with self.assertRaises(RoutingError):
+            plan(base, reg)
+        reg = load_registry()
+        reg["providers"][0]["models"][0]["capabilities"] = [{}]
+        with self.assertRaises(RoutingError):
+            plan(base, reg)
+
+    def test_accented_security_and_concurrency_require_high_capability(self):
+        for request_text in ("Corrige a segurança e valida os testes",
+                             "Diagnostica concorrência de threads e aplica testes"):
+            p = plan({"request": request_text,
+                      "target_repository": "martaxi-boss/pink-iptv",
+                      "work_items": [item("one", "src/core", request_text)]})
+            self.assertEqual(_classify_effort({"task": request_text, "reasoning_effort": "auto"}), "high")
+            self.assertEqual(p["status"], "blocked_no_provider")
+            self.assertEqual(p["tasks"][0]["selection"]["status"], "no_adequate_provider")
+
+    def test_hard_tasks_reject_unsafe_low_and_medium_effort_override(self):
+        for prompt in (
+            "Diagnose deadlock in worker synchronization and fix with tests",
+            "Corrige falha de segurança grave com testes independentes",
+            "Fix the security vulnerability and verify the failing tests",
+            "Fix the concurrency defect and verify thread safety",
+        ):
+            for effort in ("low", "medium"):
+                with self.subTest(prompt=prompt, effort=effort), self.assertRaisesRegex(
+                    RoutingError, "Unsafe reasoning-effort override"
+                ):
+                    plan(request([item("hard", "src/core", prompt, reasoning_effort=effort)]))
+        with self.assertRaisesRegex(RoutingError, "Unsafe reasoning-effort override"):
+            plan(request([item("normal", "src/view",
+                               "Implement module navigation and run the integration tests",
+                               reasoning_effort="low")]))
+        valid = plan(request([item("simple", "docs/readme", "Corrige um typo no README",
+                                   reasoning_effort="low")]))
+        self.assertEqual(valid["tasks"][0]["selection"]["reasoning_effort"], "low")
 
     def test_short_simple_tasks_use_single_agent_to_avoid_duplicate_cost(self):
         p = plan(request([item("first", "docs/a", "Corrige um typo no README da secção A"),

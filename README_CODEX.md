@@ -36,10 +36,12 @@ python -m codex.dual run --manifest codex/example-order.json --repo-dir /path/to
 The example manifest is **illustrative**; replace ownership paths with real
 paths after inspecting the target project. `plan` consumes no Codex tokens.
 `run` launches two actual `codex exec` subprocesses (parallel or serial).
-It creates isolated Git worktrees and private logs, preserves workspaces,
-and never pushes, merges or deploys automatically. Inspect `result.json`,
-review changes and validate before opening a PR. Serial mode runs two jobs
-in sequence against a shared worktree so the second sees the first's edits.
+It creates **independent Git clones** (no shared refs, object store,
+alternates or source remote) and private logs, preserves workspaces, and never
+pushes, merges or deploys automatically. Detached HEAD and all other Git refs
+are audited, including concealed side refs. Inspect `result.json`, review
+changes and validate before opening a PR. Serial mode runs two jobs in
+sequence against one private clone so the second sees the first's edits.
 
 **Reasoning effort is chosen once per task** (`low`, `medium` or `high`, or
 `auto`), not retroactively changed mid-run. This tool does not know the

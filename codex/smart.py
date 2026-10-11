@@ -35,26 +35,30 @@ def _private_runs(path: Path, repo: Path) -> Path:
 def _execute_solo(planned: dict, repo: Path, root: Path, timeout: int, run_id: str) -> dict:
     task = planned["tasks"][0]
     head = dual._preflight(repo, planned["target_repository"])
+    original_refs = dual._refs_snapshot(repo)
     work_root = root / ("run-" + run_id)
     work_root.mkdir(mode=0o700)
     workspace = work_root / "worker-1"
     try:
-        subprocess.run(["git", "-C", str(repo), "worktree", "add", "--detach", str(workspace), head],
-                       capture_output=True, check=True)
+        dual._private_clone(repo, workspace, head)
         item = {"id": task["id"], "task": task["task"], "paths": task["paths"],
                 "selected_effort": task["selection"]["reasoning_effort"]}
         result = dual._worker(item, workspace, work_root, timeout)
+        if (dual._git(repo, "rev-parse", "HEAD") != head
+                or dual._refs_snapshot(repo) != original_refs
+                or dual._changes(repo)):
+            raise RoutingError("Original source Git repository changed during solo worker")
         outcome = {"target_repository": planned["target_repository"], "mode": "single",
                    "base_head": head, "run_directory": str(work_root), "workers": [result],
                    "integration": "NOT_AUTOMATED: review changes, validate and open PR"}
         dual._private_file(work_root / "result.json", json.dumps(outcome, indent=2) + "\n")
         return outcome
     except (OSError, subprocess.CalledProcessError, dual.PlanError) as exc:
-        raise RoutingError("Solo executor stopped; worktree preserved in " + str(work_root)) from exc
+        raise RoutingError("Solo executor stopped; independent clone preserved in " + str(work_root)) from exc
 
 
 def execute(planned: dict, repo_dir: Path, runs_dir: Path | None = None, *, timeout: int = 1200,
-            soft_limit: int = budget.SOFT_LIMIT_DEFAULT) -> dict:
+            soft_limit: int = budget.SOFT_LIMIT_DEFAULT, phase_one_validator=None) -> dict:
     if planned.get("status") != "planned" or planned.get("capability") != "code_edit":
         raise RoutingError("Plan is not executable for code edits; no agent started")
     if not 30 <= timeout <= 7200:
@@ -67,6 +71,11 @@ def execute(planned: dict, repo_dir: Path, runs_dir: Path | None = None, *, time
         if (profile["status"] != "selected" or profile["provider"] != "codex"
                 or profile["adapter"] != "codex-cli" or profile["model"] != "runtime-default"):
             raise RoutingError("Provider/model lacks a verified executor adapter; no agent started")
+    if planned["mode"] == "serial" and not callable(phase_one_validator):
+        raise RoutingError(
+            "Serial execution requires an independent project validator; "
+            "no worker or budget reserved"
+        )
     if shutil.which("codex") is None:
         raise RoutingError("Codex CLI absent; no agent started")
     repo = repo_dir.expanduser().resolve(strict=True)
@@ -86,7 +95,8 @@ def execute(planned: dict, repo_dir: Path, runs_dir: Path | None = None, *, time
                                 "reasoning_effort": x["selection"]["reasoning_effort"]}
                                for x in planned["tasks"]]}
             parsed = dual.parse_order(order)
-            result = dual.run(parsed, repo, root, timeout)
+            result = dual.run(parsed, repo, root, timeout,
+                              phase_one_validator=phase_one_validator)
     finally:
         usage = {}
         for entry in selected:
@@ -110,6 +120,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--timeout", type=int, default=1200)
     parser.add_argument("--soft-limit", type=int, default=budget.SOFT_LIMIT_DEFAULT)
     parser.add_argument("--execute", action="store_true")
+    parser.add_argument("--phase-one-validator", type=Path,
+                        help="Trusted host acceptance verifier needed for serial CLI mode")
     args = parser.parse_args(argv)
     try:
         if not args.order.is_file() or args.order.stat().st_size > 16_000:
@@ -123,7 +135,11 @@ def main(argv: list[str] | None = None) -> int:
             return 0 if planned["status"] == "planned" else 2
         if not args.execute or args.repo_dir is None:
             raise RoutingError("run requires --execute and --repo-dir; no agent started")
-        result = execute(planned, args.repo_dir, args.runs_dir, timeout=args.timeout, soft_limit=args.soft_limit)
+        validator = (dual.trusted_phase_one_validator(
+            args.phase_one_validator, args.repo_dir, args.timeout,
+        ) if args.phase_one_validator is not None else None)
+        result = execute(planned, args.repo_dir, args.runs_dir, timeout=args.timeout,
+                         soft_limit=args.soft_limit, phase_one_validator=validator)
         print(json.dumps(result, indent=2, ensure_ascii=False))
         return 0 if all(x["status"] == "completed" for x in result["workers"]) else 2
     except (RoutingError, dual.PlanError, budget.BudgetError, ValueError, OSError) as exc:

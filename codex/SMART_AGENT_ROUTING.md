@@ -25,14 +25,14 @@ planner and cloud bridge are **provider-neutral**.
    not be downgraded solely because one keyword looks easy.
 6. Execute only through an authenticated and **verified host adapter**. The
    included signed-in Codex CLI supports one or two code-edit jobs with private
-   worktrees. For other cloud agents the trusted host must implement
+   Git clones with no shared Git object store, refs or source remote. For other cloud agents the trusted host must implement
    \`CloudHost.supports/execute\` and substantiate worker IDs, results and usage.
    Provider names in \`providers.json\` DO NOT provision vendor accounts.
 7. Before starting, reserve the shared local soft budget; after running, settle
    with observed usage where provided, or conservatively keep the reservation
    when telemetry is unknown. This is **not** the provider's account-wide quota
    and cannot stop tokens mid-generation.
-8. Keep independent diffs isolated. On failure, use Project Leader recovery,
+8. Keep independent diffs and Git metadata isolated. Side-ref mutations are audited even if HEAD is reset; the original checkout is checked again at the end. After model execution, reject worker changes to Git trust/configuration files **before running host Git**. Git audits use a minimal environment with fsmonitor, hooks and external diff disabled; they must not inherit orchestration credentials. On failure, use Project Leader recovery,
    not blind retries. Integrate only through authorized, tested PRs, never
    automatic merges or production deploys.
 9. Report decisions and **real proof**: exact target SHA, provider/models,
@@ -56,6 +56,43 @@ It is limited to the single implemented \`codex-cli\` adapter. For other cloud
 providers, an authenticated host must call \`codex.cloud_bridge.execute_cloud\`
 with a verified adapter; the repository contains neither credentials nor
 provider-specific magic login code.
+
+### Validação obrigatória entre fases em série
+
+O modo `serial` exige uma validação **independente**, escolhida pelo coordenador
+do projeto. A conclusão da chamada Codex não demonstra, por si só, que o código
+da primeira fase cumpre os testes e os critérios de aceitação.
+
+O host autenticado fornece um executável de validação próprio, fora do
+checkout do projeto, com caminho absoluto e sem permissões de escrita para
+grupo/outros. Nos comandos `codex.smart run` e `codex.dual run` é aceite
+`--phase-one-validator /caminho/absoluto/do/validador`. Não é um parâmetro
+que o Owner deva definir por voz: o gestor identifica e fornece um validador
+fiável para o projeto antes de arrancar.
+
+**Isolamento obrigatório:** o executável é lançado com Linux `bubblewrap`
+(`/usr/bin/bwrap`, fornecido e validado pelo host), dentro de namespaces
+isolados, sem rede, variáveis ou credenciais do gestor, com os binários de
+sistema apenas de leitura e o código produzido pelo primeiro agente
+montado **apenas de leitura** em `/work`. O verificador está disponível
+em `/validator/check` e só dispõe de `/tmp` para ficheiros temporários.
+O gestor verifica com um processo de ensaio que os namespaces e
+a montagem isolada funcionam antes de iniciar o primeiro trabalhador.
+Se o host não tiver esta sandbox funcional, a execução em série falha
+**antes de iniciar qualquer trabalhador**. Não existe fallback para executar
+código dos agentes diretamente no host. A fixture de CI verifica o contrato,
+mas **não comprova isolamento real do kernel**: esse ensaio deve ser
+confirmado no host final antes da primeira execução autenticada.
+
+O validador recebe por `stdin` JSON com `workspace: "/work"`,
+`task_id`, `owned_paths`, `changed_paths` e `base_head`; devolve JSON
+`{"passed": true, "evidence": "testes ..."}` e `exit code 0` apenas
+quando verificou os critérios aplicáveis.
+Qualquer falta de validador, resultado inválido, falha ou timeout impede
+a segunda fase. Sem um verificador configurado, **não arranca o primeiro
+agente nem se reserva orçamento**. Os testes de CI para este protocolo
+usam um validador de fixture e um Codex simulado; a execução autenticada
+ainda carece de prova.
 
 ### Fail-closed behavior
 

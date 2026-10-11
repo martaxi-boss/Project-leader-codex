@@ -1,6 +1,8 @@
 """Offline, deterministic dual-agent safety and actual two-process tests (fake Codex)."""
 import json
+import io
 import os
+from contextlib import redirect_stdout
 from pathlib import Path
 import shutil
 import subprocess
@@ -26,11 +28,14 @@ class PlanTests(unittest.TestCase):
         self.assertEqual(dual.effort(task("one", "docs", "Implement the viewing module")), "medium")
         self.assertEqual(dual.effort(task("one", "docs", "Diagnose security regression and validate")), "high")
         self.assertEqual(dual.effort(task("one", "docs", "Update docs and tests", verified_hard_failure=True)), "high")
-        self.assertEqual(dual.effort(task("one", "docs", "Diagnose race condition", reasoning_effort="low")), "low")
+        with self.assertRaisesRegex(dual.PlanError, "Unsafe reasoning-effort override"):
+            dual.effort(task("one", "docs", "Diagnose race condition", reasoning_effort="low"))
+        self.assertEqual(dual.effort(task("one", "docs", "Run normal regression tests")), "medium")
+        self.assertEqual(dual.effort(task("one", "docs", "Diagnose deadlock", reasoning_effort="high")), "high")
 
     def test_two_jobs_and_ordering(self):
         self.assertEqual(len(dual.parse_order(order())["tasks"]), 2)
-        self.assertEqual(dual.parse_order(order("serial"))["execution"], "one ordered worktree")
+        self.assertEqual(dual.parse_order(order("serial"))["execution"], "one ordered private Git clone")
         with self.assertRaisesRegex(dual.PlanError, "Exactly two"):
             dual.parse_order({**order(), "tasks": order()["tasks"][:1]})
         with self.assertRaisesRegex(dual.PlanError, "Invalid task fields"):
@@ -56,6 +61,26 @@ class PlanTests(unittest.TestCase):
         p = order(); p["tasks"][0]["reasoning_effort"] = "infinite"
         with self.assertRaises(dual.PlanError):
             dual.parse_order(p)
+
+    def test_safe_hidden_project_scopes_and_accents(self):
+        self.assertTrue(dual._is_safe_path(".github/workflows/build.yml"))
+        self.assertTrue(dual._is_safe_path(".codex/config.toml"))
+        for path in (".git/config", ".env", "foo/.github/config", ".codex/../secret"):
+            self.assertFalse(dual._is_safe_path(path))
+        for text in ("Diagnostica falha de segurança", "Corrige concorrência nos processos"):
+            self.assertEqual(dual.effort(task("one", "docs", text)), "high")
+        for bad in ([], {}, 42):
+            p = order(); p["tasks"][0]["reasoning_effort"] = bad
+            with self.subTest(value=bad), self.assertRaises(dual.PlanError):
+                dual.parse_order(p)
+        for bad_mode in ([], {}, 5):
+            p = order(); p["mode"] = bad_mode
+            with self.subTest(mode=bad_mode), self.assertRaises(dual.PlanError):
+                dual.parse_order(p)
+        for name in ("./..", "martaxi-boss/..", "../repo"):
+            p = order(); p["target_repository"] = name
+            with self.subTest(repo=name), self.assertRaises(dual.PlanError):
+                dual.parse_order(p)
 
     def test_no_execution_without_explicit_flag(self):
         with tempfile.TemporaryDirectory() as td:
@@ -93,13 +118,24 @@ import sys
 import time
 prompt = sys.stdin.read()
 args = sys.argv
+if '--ask-for-approval' not in args or args.index('--ask-for-approval') > args.index('exec'):
+    sys.stderr.write('error: unrecognized post-exec approval option')
+    sys.exit(2)
 workspace = Path(args[args.index('-C')+1])
 owned = prompt.split('Owned paths: ', 1)[-1].split('\\n', 1)[0].split(',')[0]
 if 'CHECK-PRIOR' in prompt and not (workspace / 'docs/channels/created.txt').exists():
     sys.exit(13)
 if 'FAIL-ONE' in prompt:
+    time.sleep(0.4)
     sys.exit(12)
+if 'SLOW-LONG' in prompt:
+    time.sleep(12)
+if 'SLOW-GROUP' in prompt:
+    import subprocess
+    subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(12)'])
+    time.sleep(12)
 if 'NO-CHANGE' in prompt:
+    time.sleep(0.3)
     print('{"type":"turn.completed"}')
     sys.exit(0)
 if 'BREAK-SCOPE' in prompt:
@@ -113,9 +149,96 @@ time.sleep(0.15)
 target = workspace / owned / 'created.txt'
 target.parent.mkdir(parents=True, exist_ok=True)
 target.write_text('fake codex result refined' if 'CHECK-PRIOR' in prompt else 'fake codex result')
+if 'COMMIT-OUTSIDE' in prompt or 'COMMIT-OWNED' in prompt:
+    import subprocess
+    if 'COMMIT-OUTSIDE' in prompt:
+        rogue = workspace / 'unowned/rogue.txt'
+        rogue.parent.mkdir(parents=True, exist_ok=True)
+        rogue.write_text('unauthorized committed file')
+    subprocess.run(['git', '-C', str(workspace), 'add', '-A'], check=True)
+    subprocess.run(['git', '-C', str(workspace),
+                    '-c', 'user.name=Offline Worker',
+                    '-c', 'user.email=offline-worker@example.test',
+                    'commit', '-qm', 'bad worker commit'], check=True)
+if 'SIDE-REF-ESCAPE' in prompt or 'SIDE-REF-OWNED' in prompt:
+    import subprocess
+    if 'SIDE-REF-ESCAPE' in prompt:
+        rogue = workspace / 'unowned/hidden-commit.txt'
+        rogue.parent.mkdir(parents=True, exist_ok=True)
+        rogue.write_text('hidden outside approved scope')
+    subprocess.run(['git', '-C', str(workspace), 'add', '-A'], check=True)
+    subprocess.run(['git', '-C', str(workspace),
+                    '-c', 'user.name=Offline Worker',
+                    '-c', 'user.email=offline-worker@example.test',
+                    'commit', '-qm', 'hidden side reference commit'], check=True)
+    subprocess.run(['git', '-C', str(workspace), 'update-ref',
+                    'refs/heads/worker-hidden', 'HEAD'], check=True)
+    subprocess.run(['git', '-C', str(workspace), 'reset', '--hard', 'HEAD^'], check=True)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text('legitimate uncommitted in-scope edit')
+if 'FS-MONITOR-INJECT' in prompt:
+    import subprocess
+    fsmonitor = target.parent / 'malicious-fsmonitor.sh'
+    marker = workspace.parent / 'host-secret-leak'
+    fsmonitor.write_text('#!/bin/sh\\nprintf "%s" "$HOST_SECRET_SENTINEL" > "' + str(marker) + '"\\n')
+    fsmonitor.chmod(0o700)
+    subprocess.run(['git', '-C', str(workspace), 'config',
+                    'core.fsmonitor', str(fsmonitor)], check=True)
 print('{"type":"something_else"}' if 'INVALID-EVENT' in prompt else '{"type":"turn.completed","usage":{"input_tokens":15,"output_tokens":6,"cached_input_tokens":2}}')
 """)
         executable.chmod(0o755)
+        self.validator = self.bin / "phase-one-validator"
+        self.validator.write_text("""#!/usr/bin/env python3
+import json
+from pathlib import Path
+import sys
+payload = json.load(sys.stdin)
+workspace = Path(payload['workspace'])
+good = (workspace / 'docs/channels/created.txt').exists()
+print(json.dumps({'passed': good,
+                  'evidence': 'Independent offline validator checked the first worker output'}))
+sys.exit(0 if good else 1)
+""")
+        self.validator.chmod(0o700)
+        # The fake bwrap checks isolation arguments, then emulates /work
+        # solely for deterministic tests. It is NOT a real security sandbox.
+        sandbox = self.bin / "bwrap"
+        sandbox.write_text("""#!/usr/bin/env python3
+import json
+import os
+import subprocess
+import sys
+args = sys.argv[1:]
+required = ('--die-with-parent', '--unshare-all', '--new-session',
+            '--clearenv', '--ro-bind', '--chdir')
+if not all(arg in args for arg in required) or '--bind' in args:
+    sys.stderr.write('missing sandbox controls or writable bind')
+    sys.exit(20)
+if '--ro-bind' not in args or '/validator/check' not in args or '/work' not in args:
+    sys.exit(21)
+if 'OWNER_PRIVATE_TOKEN' in os.environ:
+    sys.exit(22)
+if args[-1] == '/usr/bin/true':
+    sys.exit(0)
+validator = args[args.index('/validator/check')-1]
+workspace = args[args.index('/work')-1]
+data = json.loads(sys.stdin.read())
+if data['workspace'] != '/work':
+    sys.exit(23)
+data['workspace'] = workspace
+child = subprocess.run(
+    [validator], input=json.dumps(data), capture_output=True, text=True,
+    cwd=workspace, env={'PATH': '/usr/bin:/bin', 'HOME': '/tmp',
+                        'LANG': 'C.UTF-8'}
+)
+sys.stdout.write(child.stdout)
+sys.stderr.write(child.stderr)
+sys.exit(child.returncode)
+""")
+        sandbox.chmod(0o700)
+        self.sandbox_patch = mock.patch.object(dual, "BWRAP_CANDIDATES", (sandbox,))
+        self.sandbox_patch.start()
+        self.addCleanup(self.sandbox_patch.stop)
         self.env_path = str(self.bin) + os.pathsep + os.environ["PATH"]
         self.env_patch = mock.patch.dict(os.environ, {"PATH": self.env_path})
         self.env_patch.start()
@@ -124,13 +247,40 @@ print('{"type":"something_else"}' if 'INVALID-EVENT' in prompt else '{"type":"tu
         self.root_patch.start()
         self.addCleanup(self.root_patch.stop)
 
-    def _run(self, plan):
-        return dual.run(dual.parse_order(plan), self.repo, self.runs, timeout=30)
+    @staticmethod
+    def _validated_fake_phase(workspace, task, report):
+        # An independent offline fixture validates the first phase's output,
+        # rather than trusting a Codex turn.completed event as code acceptance.
+        paths = report["new_paths"]
+        allowed = task["paths"]
+        good = bool(paths) and all(dual._scope(p, allowed) for p in paths)
+        git_check = subprocess.run(
+            ["git", "-C", str(workspace), "diff", "--check"],
+            capture_output=True, check=False,
+        )
+        good = good and git_check.returncode == 0
+        return {"passed": good,
+                "evidence": "Offline independent fixture inspected changed paths and diff"}
+
+    def _run(self, plan, validator=None):
+        if plan["mode"] == "serial" and validator is None:
+            validator = self._validated_fake_phase
+        return dual.run(dual.parse_order(plan), self.repo, self.runs,
+                        timeout=30, phase_one_validator=validator)
 
     def test_parallel_real_processes_isolated_no_integration(self):
         result = self._run(order())
         self.assertEqual([w["status"] for w in result["workers"]], ["completed", "completed"])
         self.assertNotEqual(result["workers"][0]["workspace"], result["workers"][1]["workspace"])
+        original_git = Path(dual._git(self.repo, "rev-parse", "--absolute-git-dir"))
+        for worker in result["workers"]:
+            clone = Path(worker["workspace"])
+            self.assertTrue((clone / ".git").is_dir())
+            self.assertFalse((clone / ".git/objects/info/alternates").exists())
+            self.assertEqual(dual._git(clone, "remote"), "")
+            self.assertEqual(Path(dual._git(clone, "rev-parse", "--absolute-git-dir")),
+                             clone / ".git")
+            self.assertNotEqual(clone / ".git", original_git)
         self.assertEqual(dual._git(self.repo, "status", "--porcelain"), "")
         self.assertEqual((self.repo / "base.txt").read_text(), "initial\n")
         self.assertTrue((Path(result["workers"][0]["workspace"]) / "docs/channels/created.txt").exists())
@@ -143,6 +293,102 @@ print('{"type":"something_else"}' if 'INVALID-EVENT' in prompt else '{"type":"tu
         result = self._run(p)
         self.assertEqual([w["status"] for w in result["workers"]], ["completed", "completed"])
         self.assertEqual(result["workers"][0]["workspace"], result["workers"][1]["workspace"])
+
+    def test_serial_requires_independent_validation_before_any_model_launch(self):
+        p = dual.parse_order(order("serial"))
+        with self.assertRaisesRegex(dual.PlanError, "independent acceptance validator"):
+            dual.run(p, self.repo, self.runs, timeout=30)
+        self.assertEqual(list(self.runs.iterdir()), [])
+
+    def test_failed_independent_validation_stops_phase_two(self):
+        result = self._run(order("serial"),
+                           validator=lambda workspace, task, report: {
+                               "passed": False, "evidence": "Simulated regression failed"
+                           })
+        self.assertEqual(result["workers"][0]["status"], "completed")
+        self.assertEqual(result["workers"][0]["validation"]["passed"], False)
+        self.assertEqual(result["workers"][1]["status"], "not_started")
+
+    def test_malformed_independent_validation_never_starts_phase_two(self):
+        p = dual.parse_order(order("serial"))
+        with self.assertRaisesRegex(dual.PlanError, "verdict and evidence"):
+            dual.run(p, self.repo, self.runs, timeout=30,
+                     phase_one_validator=lambda w, t, r: {"passed": True})
+
+    def test_serial_cli_uses_trusted_external_validation_script(self):
+        m = self.root / "order.json"
+        m.write_text(json.dumps(order("serial")))
+        printed = io.StringIO()
+        with redirect_stdout(printed):
+            status = dual.main([
+                "run", "--manifest", str(m), "--repo-dir", str(self.repo),
+                "--runs-dir", str(self.runs), "--timeout", "30", "--execute",
+                "--phase-one-validator", str(self.validator),
+            ])
+        self.assertEqual(status, 0)
+        result = json.loads(printed.getvalue())
+        self.assertEqual([w["status"] for w in result["workers"]],
+                         ["completed", "completed"])
+        self.assertTrue(result["workers"][0]["validation"]["passed"])
+        self.assertIn("Independent offline validator", result["workers"][0]["validation"]["evidence"])
+
+    def test_validator_sandbox_hides_host_credentials_and_mounts_readonly(self):
+        with mock.patch.dict(os.environ, {"OWNER_PRIVATE_TOKEN": "secret-sentinel"}):
+            result = self._run(order("serial"),
+                               validator=dual.trusted_phase_one_validator(
+                                   self.validator, self.repo, 30,
+                               ))
+        self.assertEqual([w["status"] for w in result["workers"]],
+                         ["completed", "completed"])
+        self.assertTrue(result["workers"][0]["validation"]["passed"])
+        cmd = dual._validator_sandbox_cmd(self.bin / "bwrap", self.validator, self.repo)
+        self.assertIn("--unshare-all", cmd)
+        self.assertIn("--clearenv", cmd)
+        self.assertNotIn("--bind", cmd)
+        self.assertIn("--ro-bind", cmd)
+        self.assertFalse(any(
+            cmd[i] in {"--ro-bind", "--bind"} and cmd[i + 1] == "/"
+            for i in range(len(cmd) - 1)
+        ))
+        self.assertIn("/work", cmd)
+        self.assertIn("/validator/check", cmd)
+
+    def test_missing_validator_sandbox_fails_closed_without_agent_launch(self):
+        m = self.root / "safe-order.json"
+        m.write_text(json.dumps(order("serial")))
+        with mock.patch.object(dual, "BWRAP_CANDIDATES", (self.root / "missing-bwrap",)):
+            with self.assertRaisesRegex(dual.PlanError, "requires trusted /usr/bin/bwrap"):
+                dual.trusted_phase_one_validator(self.validator, self.repo, 30)
+            exit_code = dual.main([
+                "run", "--manifest", str(m), "--repo-dir", str(self.repo),
+                "--runs-dir", str(self.runs), "--execute",
+                "--phase-one-validator", str(self.validator),
+            ])
+        self.assertEqual(exit_code, 3)
+        self.assertEqual(list(self.runs.iterdir()), [])
+
+    def test_validator_sandbox_preflight_failure_blocks_before_model(self):
+        blocker = self.bin / "broken-bwrap"
+        blocker.write_text("#!/bin/sh\nexit 72\n")
+        blocker.chmod(0o700)
+        with mock.patch.object(dual, "BWRAP_CANDIDATES", (blocker,)):
+            with self.assertRaisesRegex(dual.PlanError, "sandbox preflight failed"):
+                dual.trusted_phase_one_validator(self.validator, self.repo, 30)
+        self.assertEqual(list(self.runs.iterdir()), [])
+
+    def test_untrusted_validator_paths_are_rejected_before_execution(self):
+        with self.assertRaisesRegex(dual.PlanError, "absolute"):
+            dual.trusted_phase_one_validator(Path("relative-validator"), self.repo, 30)
+        inside = self.repo / "untrusted-validator"
+        inside.write_text("#!/bin/sh\nexit 0\n")
+        inside.chmod(0o700)
+        with self.assertRaisesRegex(dual.PlanError, "outside"):
+            dual.trusted_phase_one_validator(inside, self.repo, 30)
+        inside.unlink()
+        link = self.root / "link-validator"
+        link.symlink_to(self.validator)
+        with self.assertRaisesRegex(dual.PlanError, "non-symlinked"):
+            dual.trusted_phase_one_validator(link, self.repo, 30)
 
     def test_failed_first_does_not_start_second(self):
         p = order("serial")
@@ -179,6 +425,119 @@ print('{"type":"something_else"}' if 'INVALID-EVENT' in prompt else '{"type":"tu
         r = self._run(p)
         self.assertEqual(r["workers"][1]["status"], "scope_violation")
         self.assertEqual(r["workers"][1]["out_of_scope"], ["unowned/created.txt"])
+
+    def test_committed_out_of_scope_cannot_hide_behind_clean_git_status(self):
+        p = order("serial")
+        p["tasks"][0]["task"] = "COMMIT-OUTSIDE: add a rogue file and commit every change"
+        r = self._run(p)
+        first = r["workers"][0]
+        self.assertEqual(first["status"], "scope_violation")
+        self.assertTrue(first["commit_detected"])
+        self.assertIn("unowned/rogue.txt", first["committed_paths"])
+        self.assertIn("unowned/rogue.txt", first["out_of_scope"])
+        self.assertEqual(dual._changes(Path(first["workspace"])), set())
+        self.assertEqual(r["workers"][1]["status"], "not_started")
+
+    def test_in_scope_worker_commit_never_counts_as_safe_completion(self):
+        p = order("serial")
+        p["tasks"][0]["task"] = "COMMIT-OWNED: commit a file within approved paths"
+        r = self._run(p)
+        self.assertEqual(r["workers"][0]["status"], "unauthorized_commit")
+        self.assertTrue(r["workers"][0]["commit_detected"])
+        self.assertEqual(r["workers"][0]["out_of_scope"], [])
+        self.assertEqual(r["workers"][1]["status"], "not_started")
+
+    def test_git_audit_never_executes_malicious_fsmonitor_with_host_secrets(self):
+        hook = self.root / "fsmonitor-hook.sh"
+        leaked = self.root / "host-secret-leak"
+        hook.write_text('#!/bin/sh\nprintf "%s" "$HOST_SECRET_SENTINEL" > "' +
+                        str(leaked) + '"\n')
+        hook.chmod(0o700)
+        subprocess.run(["git", "-C", str(self.repo), "config",
+                        "core.fsmonitor", str(hook)], check=True)
+        with mock.patch.dict(os.environ, {"HOST_SECRET_SENTINEL": "never-leak"}):
+            dual._snapshot(self.repo)
+            dual._refs_snapshot(self.repo)
+        self.assertFalse(leaked.exists(), "Audit Git ran worker-controlled fsmonitor")
+
+    def test_worker_git_config_injection_is_blocked_before_host_git(self):
+        p = order("serial")
+        p["tasks"][0]["task"] = "FS-MONITOR-INJECT: create a malicious Git fsmonitor hook"
+        with mock.patch.dict(os.environ, {"HOST_SECRET_SENTINEL": "never-leak"}):
+            r = self._run(p)
+        first = r["workers"][0]
+        self.assertEqual(first["status"], "git_metadata_violation")
+        self.assertIn(".git/config", first["out_of_scope"])
+        self.assertEqual(r["workers"][1]["status"], "not_started")
+        self.assertFalse((Path(first["workspace"]).parent / "host-secret-leak").exists())
+        self.assertFalse((self.root / "host-secret-leak").exists())
+        self.assertEqual(dual._git(self.repo, "status", "--porcelain"), "")
+
+    def test_hidden_side_ref_and_out_of_scope_commit_cannot_escape(self):
+        original_refs = dual._refs_snapshot(self.repo)
+        original_head = dual._git(self.repo, "rev-parse", "HEAD")
+        p = order("serial")
+        p["tasks"][0]["task"] = "SIDE-REF-ESCAPE: conceal a committed out-of-scope file behind an in-scope edit"
+        r = self._run(p)
+        first = r["workers"][0]
+        self.assertEqual(first["status"], "scope_violation")
+        self.assertFalse(first["commit_detected"])
+        self.assertIn("refs/heads/worker-hidden", first["ref_changes"])
+        self.assertIn("unowned/hidden-commit.txt", first["out_of_scope"])
+        self.assertIn("unowned/hidden-commit.txt", first["committed_paths"])
+        self.assertEqual(dual._git(Path(first["workspace"]), "rev-parse", "HEAD"),
+                         original_head)
+        self.assertIn("docs/channels/created.txt", first["new_paths"])
+        self.assertEqual(r["workers"][1]["status"], "not_started")
+        self.assertEqual(dual._git(self.repo, "rev-parse", "HEAD"), original_head)
+        self.assertEqual(dual._refs_snapshot(self.repo), original_refs)
+        self.assertEqual(dual._git(self.repo, "status", "--porcelain"), "")
+
+    def test_in_scope_side_ref_is_also_unauthorized(self):
+        p = order("serial")
+        p["tasks"][0]["task"] = "SIDE-REF-OWNED: write an unauthorized Git side ref"
+        r = self._run(p)
+        first = r["workers"][0]
+        self.assertEqual(first["status"], "unauthorized_ref_change")
+        self.assertIn("refs/heads/worker-hidden", first["ref_changes"])
+        self.assertEqual(first["out_of_scope"], [])
+        self.assertFalse(first["commit_detected"])
+        self.assertEqual(r["workers"][1]["status"], "not_started")
+
+    def test_parallel_failure_cancels_running_sibling(self):
+        p = order()
+        p["tasks"][0]["task"] = "FAIL-ONE: fail first worker deliberately and do not modify anything"
+        p["tasks"][1]["task"] = "SLOW-LONG: this second worker would hang without cancellation"
+        started = __import__("time").monotonic()
+        r = self._run(p)
+        self.assertEqual(r["workers"][0]["status"], "failed")
+        self.assertEqual(r["workers"][1]["status"], "cancelled")
+        self.assertLess(__import__("time").monotonic() - started, 5)
+
+    def test_parallel_no_change_cancels_sibling(self):
+        p = order()
+        p["tasks"][0]["task"] = "NO-CHANGE: return completion with no material edit"
+        p["tasks"][1]["task"] = "SLOW-LONG: continue until sibling stops"
+        started = __import__("time").monotonic()
+        r = self._run(p)
+        self.assertEqual(r["workers"][0]["status"], "no_change")
+        self.assertEqual(r["workers"][1]["status"], "cancelled")
+        self.assertLess(__import__("time").monotonic() - started, 5)
+
+    def test_codex_timeout_terminates_worker_process(self):
+        p = dual.parse_order(order())
+        workspace = self.repo
+        result = dual._worker(p["tasks"][0] | {"task": "SLOW-LONG: exceed a tiny timeout"},
+                              workspace, self.runs, timeout=0.5)
+        self.assertEqual(result["status"], "timeout")
+
+    def test_timeout_kills_child_process_group_and_releases_pipes(self):
+        p = dual.parse_order(order())
+        task = p["tasks"][0] | {"task": "SLOW-GROUP: spawn a child that inherits stdout"}
+        started = __import__("time").monotonic()
+        r = dual._worker(task, self.repo, self.runs, timeout=0.5)
+        self.assertEqual(r["status"], "timeout")
+        self.assertLess(__import__("time").monotonic() - started, 3)
 
     def test_remote_mismatch_and_dirty_checkout_block(self):
         p = dual.parse_order(order())

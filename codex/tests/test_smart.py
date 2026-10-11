@@ -1,5 +1,8 @@
 """Guarded executor tests using fake local Codex, never live model calls."""
 import json
+import io
+import os
+from contextlib import redirect_stdout
 from pathlib import Path
 import tempfile
 import unittest
@@ -22,6 +25,26 @@ class SmartRunTests(unittest.TestCase):
         self.assertEqual(result["accounting"]["observed_jobs"], 1)
         self.assertEqual(result["accounting"]["accounted_tokens"], 21)
         self.assertEqual((self.repo / "base.txt").read_text(), "initial\n")
+        clone = Path(result["workers"][0]["workspace"])
+        self.assertTrue((clone / ".git").is_dir())
+        self.assertEqual(smart.dual._git(clone, "remote"), "")
+        self.assertNotEqual(clone / ".git", self.repo / ".git")
+        self.assertFalse((clone / ".git/objects/info/alternates").exists())
+
+    def test_solo_git_config_injection_fails_closed_without_host_exec(self):
+        p = plan({"request": "Implement a channel module and validate tests",
+                  "target_repository": "martaxi-boss/pink-iptv",
+                  "work_items": [task("one", "docs/channels",
+                                      "FS-MONITOR-INJECT: implement channels and run tests")]})
+        original_refs = smart.dual._refs_snapshot(self.repo)
+        with mock.patch.dict(os.environ,
+                             {"HOST_SECRET_SENTINEL": "not-for-the-worker"}):
+            result = smart.execute(p, self.repo, self.runs, timeout=30)
+        first = result["workers"][0]
+        self.assertEqual(first["status"], "git_metadata_violation")
+        self.assertFalse((Path(first["workspace"]).parent / "host-secret-leak").exists())
+        self.assertEqual(smart.dual._git(self.repo, "status", "--porcelain"), "")
+        self.assertEqual(smart.dual._refs_snapshot(self.repo), original_refs)
 
     def test_parallel_codex_two_workers_observed_usage_and_private_ledger(self):
         p = plan({"request": "Implement channels and movies independently with integration and regression tests",
@@ -34,6 +57,56 @@ class SmartRunTests(unittest.TestCase):
         self.assertEqual(r["accounting"]["observed_jobs"], 2)
         self.assertEqual(r["accounting"]["accounted_tokens"], 42)
         self.assertEqual(len(list((self.runs / ".shared-budget").iterdir())), 2)
+
+    def test_serial_requires_independent_verifier_before_budget_or_launch(self):
+        p = plan({"request": "Implement dependent UI features and validate them",
+                  "target_repository": "martaxi-boss/pink-iptv",
+                  "work_items": [
+                      {"id": "build", "paths": ["docs/channels"],
+                       "task": "Implement channel navigation, integrate the player and run tests"},
+                      {"id": "finish", "paths": ["docs/movies"], "depends_on": ["build"],
+                       "task": "Implement movie navigation, integrate channel links and run tests"},
+                  ]})
+        self.assertEqual(p["mode"], "serial")
+        with self.assertRaisesRegex(RoutingError, "independent project validator"):
+            smart.execute(p, self.repo, self.runs, timeout=30)
+        self.assertEqual(list(self.runs.iterdir()), [])
+
+        verified = smart.execute(
+            p, self.repo, self.runs, timeout=30,
+            phase_one_validator=RunnerTests._validated_fake_phase,
+        )
+        self.assertEqual([w["status"] for w in verified["workers"]], ["completed", "completed"])
+        self.assertTrue(verified["workers"][0]["validation"]["passed"])
+        self.assertEqual(verified["accounting"]["observed_jobs"], 2)
+
+    def test_smart_cli_executes_serial_with_trusted_host_validator(self):
+        order_file = self.root / "smart-order.json"
+        order_file.write_text(json.dumps({
+            "request": "Implement dependent channel and film components with tests",
+            "target_repository": "martaxi-boss/pink-iptv",
+            "work_items": [
+                {"id": "build", "paths": ["docs/channels"],
+                 "task": "Implement channels, integrate player and run interface tests"},
+                {"id": "finish", "paths": ["docs/movies"], "depends_on": ["build"],
+                 "task": "Implement films, integrate channels and run interface tests"},
+            ],
+        }))
+        printed = io.StringIO()
+        with redirect_stdout(printed):
+            exit_code = smart.main([
+                "run", "--order", str(order_file),
+                "--repo-dir", str(self.repo), "--runs-dir", str(self.runs),
+                "--execute", "--timeout", "30",
+                "--phase-one-validator", str(self.validator),
+            ])
+        self.assertEqual(exit_code, 0)
+        result = json.loads(printed.getvalue())
+        self.assertEqual(result["mode"], "serial")
+        self.assertEqual([w["status"] for w in result["workers"]],
+                         ["completed", "completed"])
+        self.assertTrue(result["workers"][0]["validation"]["passed"])
+        self.assertEqual(result["accounting"]["observed_jobs"], 2)
 
     def test_missing_other_cloud_adapter_never_runs_codex_by_substitution(self):
         p = plan({"request": "Build new detailed cloud feature with tests",
