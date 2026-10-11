@@ -99,13 +99,16 @@ if 'CHECK-PRIOR' in prompt and not (workspace / 'docs/channels/created.txt').exi
     sys.exit(13)
 if 'FAIL-ONE' in prompt:
     sys.exit(12)
+if 'NO-CHANGE' in prompt:
+    print('{"type":"turn.completed"}')
+    sys.exit(0)
 if 'BREAK-SCOPE' in prompt:
     owned = 'unowned'
 time.sleep(0.15)
 target = workspace / owned / 'created.txt'
 target.parent.mkdir(parents=True, exist_ok=True)
-target.write_text('fake codex result')
-print('{"type":"turn.completed","usage":{"input_tokens":15,"output_tokens":6,"cached_input_tokens":2}}')
+target.write_text('fake codex result refined' if 'CHECK-PRIOR' in prompt else 'fake codex result')
+print('{"type":"something_else"}' if 'INVALID-EVENT' in prompt else '{"type":"turn.completed","usage":{"input_tokens":15,"output_tokens":6,"cached_input_tokens":2}}')
 """)
         executable.chmod(0o755)
         self.env_path = str(self.bin) + os.pathsep + os.environ["PATH"]
@@ -142,6 +145,21 @@ print('{"type":"turn.completed","usage":{"input_tokens":15,"output_tokens":6,"ca
         r = self._run(p)
         self.assertEqual(r["workers"][0]["status"], "failed")
         self.assertEqual(r["workers"][1]["status"], "not_started")
+
+    def test_no_changes_or_missing_codex_terminal_event_are_not_success(self):
+        p = order(); p["tasks"][0]["task"] = "NO-CHANGE: perform implementation without changing code"
+        r = self._run(p)
+        self.assertEqual(r["workers"][0]["status"], "no_change")
+        p = order(); p["tasks"][0]["task"] = "INVALID-EVENT: do not emit completed terminal event"
+        r = self._run(p)
+        self.assertEqual(r["workers"][0]["status"], "unverified_result")
+
+    def test_serial_second_can_revise_first_task_existing_file(self):
+        p = order("serial")
+        p["tasks"][1]["paths"] = ["docs/channels"]
+        p["tasks"][1]["task"] = "CHECK-PRIOR: refine the existing channels file after first task"
+        r = self._run(p)
+        self.assertEqual(r["workers"][1]["status"], "completed")
 
     def test_scope_violation_is_not_success(self):
         p = order(); p["tasks"][1]["task"] = "BREAK-SCOPE: attempt to edit something outside assigned paths"

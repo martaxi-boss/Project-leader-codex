@@ -6,6 +6,7 @@ signed-in Codex CLI; no credentials, merges or pushes are managed here.
 from __future__ import annotations
 
 import argparse
+import hashlib
 from concurrent.futures import ThreadPoolExecutor
 import json
 import os
@@ -146,6 +147,23 @@ def _changes(workspace: Path) -> set[str]:
     return paths
 
 
+def _fingerprint(workspace: Path) -> str:
+    """Fingerprint both changed path names and working-tree content."""
+    digest = hashlib.sha256()
+    for name in sorted(_changes(workspace)):
+        path = workspace / name
+        digest.update(name.encode("utf-8", errors="replace") + b"\0")
+        if path.is_symlink():
+            digest.update(b"link:" + os.readlink(path).encode("utf-8", errors="replace"))
+        elif path.is_file():
+            with path.open("rb") as stream:
+                for block in iter(lambda: stream.read(65536), b""):
+                    digest.update(block)
+        else:
+            digest.update(b"absent-or-directory")
+    return digest.hexdigest()
+
+
 def _scope(path: str, owned: list[str]) -> bool:
     return any(path == item or path.startswith(item + "/") for item in owned)
 
@@ -181,6 +199,7 @@ def _worker(task: dict, workspace: Path, logdir: Path, timeout: int, previous: s
            "--ask-for-approval", "never", "-c", "model_reasoning_effort=" + task["selected_effort"],
            "-C", str(workspace), "--json", "-"]
     started = time.monotonic()
+    previous_state = _fingerprint(workspace)
     try:
         result = subprocess.run(cmd, input=_prompt(task), text=True, capture_output=True, timeout=timeout, check=False)
         code, stdout, stderr = result.returncode, result.stdout, result.stderr
@@ -194,6 +213,7 @@ def _worker(task: dict, workspace: Path, logdir: Path, timeout: int, previous: s
     _private_file(logdir / (task["id"] + ".stderr"), stderr)
     changed = sorted(_changes(workspace))
     newly_changed = sorted(set(changed) - previous)
+    mutated = _fingerprint(workspace) != previous_state
     out_of_scope = [p for p in changed if not _scope(p, task["paths"])]
     completed_event = any(
         line.strip().startswith("{") and _completed_event(line)
@@ -201,7 +221,7 @@ def _worker(task: dict, workspace: Path, logdir: Path, timeout: int, previous: s
     )
     status = ("scope_violation" if out_of_scope else "timeout" if timed_out else
               "failed" if code else "unverified_result" if not completed_event else
-              "no_change" if not newly_changed and not previous else "completed")
+              "no_change" if not mutated else "completed")
     return {"id": task["id"], "status": status, "exit_code": code,
             "reasoning_effort": task["selected_effort"], "workspace": str(workspace),
             "changed_paths": changed, "new_paths": newly_changed,
