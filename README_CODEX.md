@@ -89,3 +89,18 @@ acesso real ao projeto. Não inventa caminhos, contas ou serviços.
 A escolha de modelos bloqueia quando nenhum perfil verificado satisfaz
 a capacidade mínima declarada. Desdobramentos e consumo são sempre
 testados e relatados, não presumidos.
+
+## Do chat ao executor autenticado
+
+Uma ordem ditada ou escrita no ChatGPT pode ser interpretada por um
+coordenador que inspecione o repositorio real, delimite `work_items` e
+passe o plano ao gestor `codex.smart`. Este ultimo decide
+automaticamente entre um trabalhador, dois em serie ou dois em paralelo
+quando recebe caminhos e dependencias verificadas.
+
+**Limite operacional:** a existencia desta configuracao no GitHub nao
+liga automaticamente uma mensagem deste chat a um processo Codex.
+E necessario um host/ponte autenticado que entregue a ordem ao executor,
+autorize `run --execute` e recolha IDs/resultados reais. A rota VPS,
+o ambiente Codex Cloud e esta especializacao sao caminhos distintos
+ate a integracao real ser comprovada de ponta a ponta.
