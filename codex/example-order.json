@@ -1,0 +1,22 @@
+{
+  "target_repository": "martaxi-boss/pink-iptv",
+  "mode": "parallel",
+  "tasks": [
+    {
+      "id": "channels",
+      "task": "Improve the live-channel menu within the channels module and run focused tests.",
+      "paths": [
+        "app/channels"
+      ],
+      "reasoning_effort": "auto"
+    },
+    {
+      "id": "movies",
+      "task": "Improve the movie browsing menu within the movies module and run focused tests.",
+      "paths": [
+        "app/movies"
+      ],
+      "reasoning_effort": "auto"
+    }
+  ]
+}

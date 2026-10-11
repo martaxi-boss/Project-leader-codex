@@ -1,0 +1,29 @@
+name: Codex specialization tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  specialized-policy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Two-agent offline tests (no credentials or model calls)
+        run: python -m unittest discover -s codex/tests -p 'test_*.py' -v
+      - name: Validate Codex config and provenance
+        run: |
+          python - <<'PY'
+          import json
+          import tomllib
+          from pathlib import Path
+          provenance = json.loads(Path('UPSTREAM_PROJECT_LEADER.json').read_text())
+          assert provenance['upstream_repository'] == 'martaxi-boss/Project-leader'
+          assert provenance['upstream_commit'] == 'b534629851dad20bcf6f9921f3c3a1dbc4ee7248'
+          config = tomllib.loads(Path('.codex/config.toml').read_text())
+          assert config['agents']['enabled'] is True
+          assert config['agents']['max_concurrent_threads_per_session'] == 2
+          skill = Path('plugins/project-leader/skills/project-leader/SKILL.md').read_text()
+          assert 'EXECUTION_FIRST_WITHIN_BOUNDS' in skill
+          PY

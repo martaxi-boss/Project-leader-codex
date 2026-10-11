@@ -1,0 +1,9 @@
+{
+  "upstream_repository": "martaxi-boss/Project-leader",
+  "upstream_branch": "main",
+  "upstream_commit": "b534629851dad20bcf6f9921f3c3a1dbc4ee7248",
+  "upstream_tree": "c9ed269409cad4e70645c6d07c2f64118e0bfc7b",
+  "universal_plugin_version": "0.7.0",
+  "copied_files": 503,
+  "policy": "Keep upstream files byte-for-byte; put Codex extensions in separate files. Future upstream updates require validated exact-tree comparison."
+}
