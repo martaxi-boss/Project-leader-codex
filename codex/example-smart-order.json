@@ -1,0 +1,22 @@
+{
+  "request": "Melhora o menu dos canais e o catálogo de filmes, verifica reprodução e mantém os testes existentes.",
+  "target_repository": "martaxi-boss/pink-iptv",
+  "preference": "auto",
+  "capability": "code_edit",
+  "work_items": [
+    {
+      "id": "channels",
+      "task": "Implementa a navegação de canais, integra o player e executa testes de regressão.",
+      "paths": [
+        "app/channels"
+      ]
+    },
+    {
+      "id": "movies",
+      "task": "Implementa o catálogo de filmes, integra a pesquisa e executa testes de regressão.",
+      "paths": [
+        "app/movies"
+      ]
+    }
+  ]
+}

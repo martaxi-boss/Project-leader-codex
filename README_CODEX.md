@@ -54,3 +54,25 @@ When universal Project Leader changes, compare the canonical pinned source,
 update unaffected universal files exactly, preserve the three documented
 fork-specific compatibility adaptations, run all tests, and keep the Codex
 extension separate. Never edit `martaxi-boss/Project-leader` for Codex requirements.
+
+## Autogestão para agentes na nuvem
+
+O novo gestor em `codex/agent_policy.py` recebe **uma única ordem**. No chat, o
+agente coordenador analisa o projeto e constrói internamente as tarefas e os
+âmbitos reais; o utilizador não tem de indicar quantos agentes, que modelo ou
+que nível de raciocínio usar. A decisão entre um agente, dois em paralelo ou
+em série é proporcional à tarefa.
+
+O gestor funciona com um registo extensível de fornecedores, seleção de modelos
+por capacidades declaradas e uma ponte para agentes na nuvem com verificação de
+resultados. **Apenas o executor local Codex CLI está implementado** neste
+momento; Gemini, Claude, Copilot, Antigravity e outros exigem adaptadores e
+ligações autenticadas antes de poderem executar tarefas reais.
+
+O consumo dos executores cobertos é contabilizado num registo local privado com
+reservas conservadoras quando a telemetria não está disponível. Isto não revela
+nem controla as quotas globais da conta. Não há garantia de menor custo para
+todas as tarefas.
+
+Consulta [o protocolo completo](codex/SMART_AGENT_ROUTING.md) e o exemplo
+[`codex/example-smart-order.json`](codex/example-smart-order.json).
