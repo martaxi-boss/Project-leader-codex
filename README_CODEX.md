@@ -76,3 +76,16 @@ todas as tarefas.
 
 Consulta [o protocolo completo](codex/SMART_AGENT_ROUTING.md) e o exemplo
 [`codex/example-smart-order.json`](codex/example-smart-order.json).
+
+## Planeamento sem escolher manualmente os agentes
+
+Em `codex.smart`, o utilizador pode fornecer uma única ordem com apenas
+`request` e `target_repository`. Com `--repo-dir` apontado a uma cópia
+Git limpa e autenticada, `codex.scope_discovery` pode identificar
+automaticamente áreas existentes do código e gerar as subtarefas.
+Se a ordem não permitir identificar áreas seguras, devolve
+`needs_scoping` e exige inspeção adicional por um coordenador com
+acesso real ao projeto. Não inventa caminhos, contas ou serviços.
+A escolha de modelos bloqueia quando nenhum perfil verificado satisfaz
+a capacidade mínima declarada. Desdobramentos e consumo são sempre
+testados e relatados, não presumidos.

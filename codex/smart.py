@@ -17,6 +17,7 @@ from uuid import uuid4
 
 from codex import dual
 from codex.agent_policy import RoutingError, plan
+from codex.scope_discovery import discover_work_items
 from codex import resource_budget as budget
 
 
@@ -114,6 +115,8 @@ def main(argv: list[str] | None = None) -> int:
         if not args.order.is_file() or args.order.stat().st_size > 16_000:
             raise RoutingError("Order JSON missing or too large")
         order = json.loads(args.order.read_text(encoding="utf-8"))
+        if "work_items" not in order and args.repo_dir is not None:
+            order = discover_work_items(order, args.repo_dir)
         planned = plan(order)
         if args.action == "plan":
             print(json.dumps(planned, indent=2, ensure_ascii=False))

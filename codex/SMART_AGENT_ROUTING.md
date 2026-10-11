@@ -77,3 +77,21 @@ CLI locally). The generic cloud bridge is a tested integration **interface**;
 it does not independently connect Gemini, Claude, Copilot, Antigravity, or
 other providers. Those services require explicit provider adapter support,
 host permissions, capability and billing validation, and a real end-to-end test.
+
+## A partir de uma única ordem (descoberta local conservadora)
+
+Agora `python -m codex.smart plan --order ORDER.json --repo-dir /checkout/do/projeto`
+também aceita apenas `request` e `target_repository` no ficheiro ORDER.json.
+O próprio sistema verifica o `origin` Git, inspeciona os caminhos realmente
+versionados e, quando os nomes das áreas são inequívocos, delimita internamente
+o trabalho, decide entre um ou dois agentes e determina o esforço do raciocínio.
+Uma pequena correção em duas áreas não é motivo suficiente para iniciar dois
+agentes. As áreas excluídas por expressões como "sem mexer" nunca são inferidas.
+
+Para ordens ambíguas, caminhos novos ainda não identificados ou projetos sem
+`checkout` local, mantém `needs_scoping`: o agente coordenador deve
+inspecionar o repositório por meios autenticados antes de prosseguir.
+Isto não é um modelo de linguagem oculto nem dá acesso automático a outros
+fornecedores; o acesso aos agentes na nuvem continua dependente de adaptadores
+reais e comprovados. O executor da linha de comandos continua a exigir
+`--execute` para lançar agentes reais.
