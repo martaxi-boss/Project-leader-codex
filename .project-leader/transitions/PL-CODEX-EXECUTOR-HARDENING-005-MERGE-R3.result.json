@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PL-CODEX-EXECUTOR-HARDENING-005-MERGE-R3",
+  "task_id": "PL-CODEX-EXECUTOR-HARDENING-005",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PL-CODEX-EXECUTOR-HARDENING-005-MERGE-R3.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "https://github.com/martaxi-boss/Project-leader-codex/pull/5",
+    "revision": "54e2702e3d8ec8912f0053a14a954c78d2383d5c",
+    "base_revision": "fea459cca89a40918fe59c0487c0c0312247e7ab",
+    "environment": null
+  },
+  "observed_at": "2026-10-11T19:46:12.910Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "364ade7ca0e5bca1e788d04cad8bbe071cd22f88"
+  },
+  "evidence": [
+    "Exact-bound standing-authority authorization at 1e58a0165df6b04e896b5073dbc1eb236a0a2138 preceded GitHub merge. PR #5 head 54e2702e3d8ec8912f0053a14a954c78d2383d5c, base fea459cca89a40918fe59c0487c0c0312247e7ab were checked live and both parents preserved by merge commit 364ade7ca0e5bca1e788d04cad8bbe071cd22f88.",
+    "Codex independent security review completed 2026-10-11T19:38:01Z on exact head 54e2702e3d with no findings; prior P2 findings were bound to earlier superseded revisions.",
+    "Pre-merge on exact head 54e2702: 106 offline Codex specialization tests passed, workflow 38166040913; Control contract 38166040960, Validate control 38166040896, Package 38166041009, Trusted gate 38166039151 all succeeded.",
+    "Post-merge on exact main commit 364ade7: Codex specialization 38169321869, Control contract 38169321894, Validate control 38169321838, Package 38169321831, Invalidate stale authorization 38169321901, Repository hygiene 38169321826 all succeeded.",
+    "Universal repository martaxi-boss/Project-leader stayed at b534629851dad20bcf6f9921f3c3a1dbc4ee7248; no production deployment or provider credential action was performed."
+  ],
+  "residual_blockers": [
+    "An authenticated real Codex CLI run and actual Linux bubblewrap isolation in the user's VPS remain unverified; offline fixture tests must not be represented as signed-in runtime proof."
+  ]
+}
