@@ -54,7 +54,7 @@ jobs:
               python control/validate_records.py transition-pair "$auth" "$result"
             fi
           done
-      - name: Enforce Task Authorization mutation scope
+      - name: Enforce FAST_E1 or durable Task Authorization mutation scope
         if: github.event_name == 'pull_request'
         shell: bash
         env:
@@ -62,11 +62,25 @@ jobs:
         run: |
           set -euo pipefail
           git diff --name-only "$BASE_SHA"...HEAD > /tmp/project-leader-changed.txt
-          mapfile -t task_files < <(grep -E '^\.project-leader/tasks/[^/]+\.json$' /tmp/project-leader-changed.txt || true)
-          if [ "${#task_files[@]}" -ne 1 ]; then
-            echo "Expected exactly one changed Task Authorization Record, found ${#task_files[@]}" >&2
-            cat /tmp/project-leader-changed.txt >&2
-            exit 1
-          fi
+          mapfile -t task_files < <(grep -E '^\.project-leader/tasks/[^/]+\.json /tmp/project-leader-changed.txt || true)
           mapfile -t changed_files < /tmp/project-leader-changed.txt
-          python control/validate_records.py scope "${task_files[0]}" "${changed_files[@]}"
+          case "${#task_files[@]}" in
+            0)
+              # Canonical FAST_E1: ordinary changes need no control-only record.
+              # Verify against the fork's exact policy; reject protected/out-of-scope files.
+              python control/trusted_gate.py \
+                --mode fast \
+                --policy projects/policies/project-leader.json \
+                --base-sha "$BASE_SHA" \
+                --changed-files /tmp/project-leader-changed.txt \
+                --expected-policy-path projects/policies/project-leader.json
+              ;;
+            1)
+              # Durable work retains the existing strict record/scope validator.
+              python control/validate_records.py scope "${task_files[0]}" "${changed_files[@]}"
+              ;;
+            *)
+              echo "Too many changed Task Authorization Records: ${#task_files[@]}" >&2
+              exit 1
+              ;;
+          esac
