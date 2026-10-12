@@ -28,6 +28,43 @@ class BudgetTests(unittest.TestCase):
         with self.assertRaises(ledger.BudgetError):
             ledger.settle_batch(self.root, "a" * 32, {"one": None, "two": None})
 
+    def test_unbounded_by_default_even_over_previous_300k_artificial_cap(self):
+        first = ledger.reserve_batch(self.root, "a" * 32, [{"id": "one", "effort": "high"}])
+        self.assertIsNone(first["soft_limit"])
+        self.assertIsNone(first["remaining_estimate"])
+        ledger.settle_batch(self.root, "a" * 32,
+                            {"one": {"input_tokens": 380000, "output_tokens": 20000,
+                                     "cached_input_tokens": 300000}})
+        second = ledger.reserve_batch(self.root, "b" * 32,
+                                      [{"id": "one", "effort": "low"}])
+        self.assertTrue(second["allowed"])
+        self.assertEqual(second["reserved_tokens"], 12000)
+        self.assertEqual(second["quota_source"], "provider_unknown_optional_local_soft_budget")
+
+    def test_never_started_stage_refunds_reservation_without_faking_usage(self):
+        ledger.reserve_batch(self.root, "c" * 32,
+                             [{"id": "one", "effort": "medium"},
+                              {"id": "two", "effort": "medium"}])
+        settled = ledger.settle_batch(
+            self.root, "c" * 32,
+            {"one": {"input_tokens": 100, "output_tokens": 25,
+                     "cached_input_tokens": 60},
+             "two": {"not_started": True}},
+        )
+        self.assertEqual(settled["accounted_tokens"], 125)
+        self.assertEqual(settled["not_started_jobs"], 1)
+        self.assertEqual(settled["conservative_jobs"], 0)
+        self.assertEqual(settled["observed_jobs"], 1)
+        records = json.loads((self.root / "usage.json").read_text())["records"]
+        self.assertTrue(records[1]["not_started"])
+        self.assertEqual(records[1]["actual"], 0)
+
+    def test_invalid_explicit_soft_limit_fails_closed(self):
+        for value in ("300000", True, 99999, 2000001):
+            with self.subTest(value=value), self.assertRaises(ledger.BudgetError):
+                ledger.reserve_batch(self.root, "e" * 32,
+                                     [{"id": "one", "effort": "low"}], value)
+
     def test_parallel_local_budget_limit_never_reserves_both_if_insufficient(self):
         barrier = threading.Barrier(2)
         passed, blocked = [], []
