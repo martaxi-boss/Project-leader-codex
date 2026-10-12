@@ -101,9 +101,16 @@ def execute(planned: dict, repo_dir: Path, runs_dir: Path | None = None, *, time
         usage = {}
         for entry in selected:
             if result is not None:
-                logdir = Path(result["run_directory"])
-                usage[entry["id"]] = budget.codex_usage_file(logdir / (entry["id"] + ".jsonl"))
+                worker = next((w for w in result["workers"] if w["id"] == entry["id"]), None)
+                if worker is not None and worker.get("status") == "not_started":
+                    # A prior serial stage stopped; this stage consumed nothing.
+                    usage[entry["id"]] = {"not_started": True}
+                else:
+                    logdir = Path(result["run_directory"])
+                    usage[entry["id"]] = budget.codex_usage_file(
+                        logdir / (entry["id"] + ".jsonl"))
             else:
+                # An interrupted/ambiguous runner is charged conservatively.
                 usage[entry["id"]] = None
         settled = budget.settle_batch(budget_root, run_id, usage)
     result["accounting"] = {**reservation, **settled,
