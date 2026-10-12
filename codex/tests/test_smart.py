@@ -80,6 +80,32 @@ class SmartRunTests(unittest.TestCase):
         self.assertTrue(verified["workers"][0]["validation"]["passed"])
         self.assertEqual(verified["accounting"]["observed_jobs"], 2)
 
+    def test_serial_validator_failure_does_not_charge_unstarted_codex(self):
+        planned = plan({
+            "request": "Build two dependent modules and validate them",
+            "target_repository": "martaxi-boss/pink-iptv",
+            "work_items": [
+                {"id": "first", "paths": ["docs/channels"],
+                 "task": "Implement channel integration and run tests"},
+                {"id": "second", "paths": ["docs/movies"], "depends_on": ["first"],
+                 "task": "Implement movie integration and run tests"},
+            ],
+        })
+        self.assertEqual(planned["mode"], "serial")
+        outcome = {
+            "run_directory": str(self.runs / "run-failed-synthetic"),
+            "workers": [
+                {"id": planned["tasks"][0]["id"], "status": "failed"},
+                {"id": planned["tasks"][1]["id"], "status": "not_started"},
+            ],
+        }
+        with mock.patch.object(smart.dual, "run", return_value=outcome):
+            result = smart.execute(planned, self.repo, self.runs, timeout=30,
+                                   phase_one_validator=lambda path: True)
+        self.assertEqual(result["accounting"]["not_started_jobs"], 1)
+        self.assertEqual(result["accounting"]["conservative_jobs"], 1)
+        self.assertEqual(result["accounting"]["observed_jobs"], 0)
+
     def test_smart_cli_executes_serial_with_trusted_host_validator(self):
         order_file = self.root / "smart-order.json"
         order_file.write_text(json.dumps({

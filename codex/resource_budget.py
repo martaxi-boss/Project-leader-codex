@@ -13,7 +13,7 @@ import re
 import stat
 import time
 
-SOFT_LIMIT_DEFAULT = 300_000
+SOFT_LIMIT_DEFAULT = None  # Provider quota, not a local token counter, governs normal use
 WINDOW = 24 * 3600
 RESERVATIONS = {"low": 12_000, "medium": 35_000, "high": 75_000}
 SAFE_RUN = re.compile(r"[a-f0-9]{32}\Z")
@@ -74,8 +74,8 @@ def _with_ledger(root: Path, fn):
         os.close(fd)
 
 
-def reserve_batch(root: Path, run_id: str, tasks: list[dict], limit: int = SOFT_LIMIT_DEFAULT) -> dict:
-    if type(limit) is not int or not 100_000 <= limit <= 2_000_000:
+def reserve_batch(root: Path, run_id: str, tasks: list[dict], limit: int | None = SOFT_LIMIT_DEFAULT) -> dict:
+    if limit is not None and (type(limit) is not int or not 100_000 <= limit <= 2_000_000):
         raise BudgetError("Soft budget must be between 100000 and 2000000")
     if type(run_id) is not str or not SAFE_RUN.fullmatch(run_id) or not isinstance(tasks, list) or not 1 <= len(tasks) <= 2:
         raise BudgetError("Invalid run identity or task count")
@@ -92,15 +92,18 @@ def reserve_batch(root: Path, run_id: str, tasks: list[dict], limit: int = SOFT_
         used = sum(r.get("actual") if r.get("actual") is not None else r["reserved"]
                    for r in data["records"])
         required = sum(RESERVATIONS[t["effort"]] for t in tasks)
-        if used + required > limit:
+        # An explicit Owner-selected soft budget may limit spending. The historical
+        # implicit 300k/day budget never overrides the actual ChatGPT subscription.
+        if limit is not None and used + required > limit:
             raise BudgetError("Local 24-hour soft token budget exceeded; no agent started")
         for t in tasks:
             data["records"].append({"run": run_id, "job": t["id"], "at": now,
                                     "reserved": RESERVATIONS[t["effort"]], "actual": None,
                                     "observed": False})
         return {"allowed": True, "reserved_tokens": required,
-                "soft_limit": limit, "remaining_estimate": limit - used - required,
-                "quota_source": "local_soft_budget_not_account_quota"}
+                "soft_limit": limit,
+                "remaining_estimate": None if limit is None else limit - used - required,
+                "quota_source": "provider_unknown_optional_local_soft_budget"}
     return _with_ledger(root, op)
 
 
@@ -117,8 +120,15 @@ def settle_batch(root: Path, run_id: str, usage: dict[str, dict | None]) -> dict
                 raise BudgetError("Already settled; ambiguous accounting replay")
             observed = usage[r["job"]]
             if observed is None:
+                # Unknown or failed launched worker: never pretend zero spend.
                 r["actual"] = r["reserved"]
                 r["observed"] = False
+            elif observed == {"not_started": True}:
+                # Only the trusted coordinator supplies this terminal marker
+                # for a worker it knows was never launched.
+                r["actual"] = 0
+                r["observed"] = False
+                r["not_started"] = True
             else:
                 if not isinstance(observed, dict) or any(type(observed.get(k)) is not int or observed[k] < 0 for k in
                                                         ("input_tokens", "output_tokens", "cached_input_tokens")):
@@ -128,7 +138,8 @@ def settle_batch(root: Path, run_id: str, usage: dict[str, dict | None]) -> dict
                 r["actual"] = observed["input_tokens"] + observed["output_tokens"]
                 r["observed"] = True
         return {"settled": True, "observed_jobs": sum(r["observed"] for r in records),
-                "conservative_jobs": sum(not r["observed"] for r in records),
+                "conservative_jobs": sum(not r["observed"] and not r.get("not_started") for r in records),
+                "not_started_jobs": sum(bool(r.get("not_started")) for r in records),
                 "accounted_tokens": sum(r["actual"] for r in records)}
     return _with_ledger(root, op)
 

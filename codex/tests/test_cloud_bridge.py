@@ -65,6 +65,46 @@ class CloudTransportTests(unittest.TestCase):
         self.assertEqual(host.calls, ["first"])
         self.assertEqual(result["workers"][1]["status"], "not_started")
 
+    def test_serial_quota_blocked_stops_and_preserves_accounting(self):
+        host = FakeCloud(status="quota_blocked")
+        result = execute_cloud(self._plan("serial"), host, self.ledger)
+        self.assertEqual(host.calls, ["first"])
+        self.assertEqual([w["status"] for w in result["workers"]],
+                         ["quota_blocked", "not_started"])
+        self.assertEqual(result["workers"][0]["provider"], "example-cloud")
+        self.assertEqual(result["accounting"]["accounted_tokens"], 125)
+        self.assertEqual(result["accounting"]["observed_jobs"], 1)
+        self.assertEqual(result["accounting"]["not_started_jobs"], 1)
+        self.assertEqual(result["accounting"]["conservative_jobs"], 0)
+        self.assertIsNone(result["accounting"]["soft_limit"])
+        self.assertIn("no automatic merge", result["integration"])
+
+    def test_unverified_quota_claim_is_never_accepted_as_provider_proof(self):
+        host = FakeCloud(status="quota_blocked", missing_proof=True)
+        result = execute_cloud(self._plan("serial"), host, self.ledger)
+        self.assertEqual(host.calls, ["first"])
+        self.assertEqual(result["workers"][0]["status"], "unverified_result")
+        self.assertEqual(result["workers"][1]["status"], "not_started")
+        self.assertEqual(result["accounting"]["accounted_tokens"], 125)
+
+    def test_exception_in_first_serial_cloud_call_does_not_charge_unstarted_second(self):
+        class CrashingCloud(FakeCloud):
+            def execute(self, task, *, target_repository):
+                self.calls.append(task["id"])
+                raise RuntimeError("ambiguous provider failure")
+
+        host = CrashingCloud()
+        with self.assertRaisesRegex(RuntimeError, "ambiguous"):
+            execute_cloud(self._plan("serial"), host, self.ledger)
+        self.assertEqual(host.calls, ["first"])
+        import json
+        data = json.loads((self.ledger / "usage.json").read_text())
+        first, second = data["records"]
+        self.assertEqual(first["actual"], first["reserved"])
+        self.assertFalse(first["observed"])
+        self.assertEqual(second["actual"], 0)
+        self.assertTrue(second["not_started"])
+
     def test_unverified_cloud_result_and_scope_violation_are_not_success(self):
         self.assertEqual(execute_cloud(self._plan("single"), FakeCloud(missing_proof=True), self.ledger)["workers"][0]["status"], "unverified_result")
         with tempfile.TemporaryDirectory() as tmp:
