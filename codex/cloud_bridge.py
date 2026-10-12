@@ -77,8 +77,12 @@ def execute_cloud(planned: dict, host: CloudHost, budget_directory: Path, *, sof
                                     [{"id": t["id"], "effort": t["selection"]["reasoning_effort"]} for t in tasks],
                                     soft_limit)
     results = []
+    attempted: set[str] = set()
     try:
         def launch(task: dict) -> dict:
+            # Mark before invoking an external provider. A raised call is
+            # ambiguous; only never-invoked stages can be refunded.
+            attempted.add(task["id"])
             response = host.execute(task, target_repository=planned["target_repository"])
             return _validate_evidence(task, planned["capability"], response)
         if planned["mode"] == "parallel":
@@ -98,9 +102,12 @@ def execute_cloud(planned: dict, host: CloudHost, budget_directory: Path, *, sof
         usage_by_id = {}
         for t in tasks:
             worker = next((w for w in results if w["id"] == t["id"]), None)
-            usage_by_id[t["id"]] = ({"not_started": True}
-                                     if worker is not None and worker["status"] == "not_started"
-                                     else worker.get("usage") if worker is not None else None)
+            usage_by_id[t["id"]] = (
+                {"not_started": True}
+                if t["id"] not in attempted or
+                   (worker is not None and worker["status"] == "not_started")
+                else worker.get("usage") if worker is not None else None
+            )
         accounted = budget.settle_batch(budget_directory, session, usage_by_id)
     return {"session": session, "target_repository": planned["target_repository"],
             "mode": planned["mode"], "workers": results, "accounting": {**reserved, **accounted},
