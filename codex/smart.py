@@ -58,7 +58,7 @@ def _execute_solo(planned: dict, repo: Path, root: Path, timeout: int, run_id: s
 
 
 def execute(planned: dict, repo_dir: Path, runs_dir: Path | None = None, *, timeout: int = 1200,
-            soft_limit: int = budget.SOFT_LIMIT_DEFAULT, phase_one_validator=None) -> dict:
+            soft_limit: int | None = budget.SOFT_LIMIT_DEFAULT, phase_one_validator=None) -> dict:
     if planned.get("status") != "planned" or planned.get("capability") != "code_edit":
         raise RoutingError("Plan is not executable for code edits; no agent started")
     if not 30 <= timeout <= 7200:
@@ -107,7 +107,7 @@ def execute(planned: dict, repo_dir: Path, runs_dir: Path | None = None, *, time
                 usage[entry["id"]] = None
         settled = budget.settle_batch(budget_root, run_id, usage)
     result["accounting"] = {**reservation, **settled,
-                            "note": "Private local soft budget, not live account/provider quota"}
+                            "note": "Private usage ledger; only an explicitly selected soft limit can deny a turn; provider quota remains unknown"}
     return result
 
 
