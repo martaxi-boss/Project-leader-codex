@@ -27,7 +27,7 @@ class CloudHost(Protocol):
 def _validate_evidence(task: dict, capability: str, payload: object) -> dict:
     if not isinstance(payload, dict) or payload.get("id") != task["id"]:
         raise RoutingError("Cloud provider returned mismatched or unstructured worker evidence")
-    if payload.get("status") not in ("completed", "failed", "blocked"):
+    if payload.get("status") not in ("completed", "failed", "blocked", "quota_blocked"):
         raise RoutingError("Cloud provider omitted terminal worker status")
     run_id = payload.get("run_id")
     if type(run_id) is not str or not RUN_ID.fullmatch(run_id):

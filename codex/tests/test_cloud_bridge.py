@@ -65,6 +65,21 @@ class CloudTransportTests(unittest.TestCase):
         self.assertEqual(host.calls, ["first"])
         self.assertEqual(result["workers"][1]["status"], "not_started")
 
+    def test_serial_quota_blocked_is_terminal_without_fallback_or_second_job(self):
+        host = FakeCloud(status="quota_blocked")
+        result = execute_cloud(self._plan("serial"), host, self.ledger)
+        self.assertEqual(host.calls, ["first"])
+        self.assertEqual(result["workers"][0]["status"], "quota_blocked")
+        self.assertEqual(result["workers"][0]["provider"], "example-cloud")
+        self.assertEqual(result["workers"][1]["status"], "not_started")
+        self.assertTrue(result["accounting"]["settled"])
+        self.assertEqual(result["accounting"]["observed_jobs"], 1)
+        self.assertEqual(result["accounting"]["accounted_tokens"], 35_125)
+        self.assertEqual(
+            result["integration"],
+            "REQUIRES_INDEPENDENT_REVIEW: no automatic merge, deployment or provider substitution",
+        )
+
     def test_unverified_cloud_result_and_scope_violation_are_not_success(self):
         self.assertEqual(execute_cloud(self._plan("single"), FakeCloud(missing_proof=True), self.ledger)["workers"][0]["status"], "unverified_result")
         with tempfile.TemporaryDirectory() as tmp:
