@@ -27,7 +27,7 @@ class CloudHost(Protocol):
 def _validate_evidence(task: dict, capability: str, payload: object) -> dict:
     if not isinstance(payload, dict) or payload.get("id") != task["id"]:
         raise RoutingError("Cloud provider returned mismatched or unstructured worker evidence")
-    if payload.get("status") not in ("completed", "failed", "blocked"):
+    if payload.get("status") not in ("completed", "failed", "blocked", "quota_blocked"):
         raise RoutingError("Cloud provider omitted terminal worker status")
     run_id = payload.get("run_id")
     if type(run_id) is not str or not RUN_ID.fullmatch(run_id):
@@ -40,7 +40,7 @@ def _validate_evidence(task: dict, capability: str, payload: object) -> dict:
     # For code-edit results, an empty diff cannot certify implementation done.
     if status == "completed" and capability == "code_edit" and not changed:
         status = "no_change"
-    if status == "completed" and payload.get("verified") is not True:
+    if status in ("completed", "quota_blocked") and payload.get("verified") is not True:
         status = "unverified_result"
     raw_usage = payload.get("usage")
     measured = None
@@ -55,7 +55,7 @@ def _validate_evidence(task: dict, capability: str, payload: object) -> dict:
             "usage": measured, "usage_status": "measured" if measured is not None else "unknown"}
 
 
-def execute_cloud(planned: dict, host: CloudHost, budget_directory: Path, *, soft_limit: int = budget.SOFT_LIMIT_DEFAULT) -> dict:
+def execute_cloud(planned: dict, host: CloudHost, budget_directory: Path, *, soft_limit: int | None = budget.SOFT_LIMIT_DEFAULT) -> dict:
     """Launch 1 or 2 attested provider jobs, with dependencies and private usage ledger.
 
     The adapter boundary is explicit. No credential is copied to the repo, no
@@ -93,7 +93,14 @@ def execute_cloud(planned: dict, host: CloudHost, budget_directory: Path, *, sof
                     break
                 results.append(launch(t))
     finally:
-        usage_by_id = {t["id"]: next((w.get("usage") for w in results if w["id"] == t["id"]), None) for t in tasks}
+        # Never charge the conservative reservation for a verified stage that
+        # was not even launched after a quota rejection in the prior stage.
+        usage_by_id = {}
+        for t in tasks:
+            worker = next((w for w in results if w["id"] == t["id"]), None)
+            usage_by_id[t["id"]] = ({"not_started": True}
+                                     if worker is not None and worker["status"] == "not_started"
+                                     else worker.get("usage") if worker is not None else None)
         accounted = budget.settle_batch(budget_directory, session, usage_by_id)
     return {"session": session, "target_repository": planned["target_repository"],
             "mode": planned["mode"], "workers": results, "accounting": {**reserved, **accounted},
