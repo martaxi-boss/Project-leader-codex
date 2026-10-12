@@ -21,3 +21,10 @@ build/
 Thumbs.db
 .vscode/
 .idea/
+
+# Per-machine runtime state; the shared Codex config remains versioned
+.env
+.env.*
+!.env.example
+.codex/auth.json
+.codex/models_cache.json
