@@ -114,6 +114,6 @@ foi implementada na VPS pela PR #183 e passou os testes automáticos.
 dependentes.** O Coordenador não carrega a skill Project Leader:
 essa skill é obrigatória nos Codex trabalhadores.
 
-Uma ordem por voz ou texto no ChatGPT ou Telegram ainda não entra
-automaticamente nessa rota GitHub Owner. As três entradas de ordens
+Uma ordem por voz ou texto no ChatGPT ou Telegram nao
+liga automaticamente a essa rota GitHub Owner. As três entradas de ordens
 não devem ser anunciadas como equivalentes até serem ligadas e testadas.
