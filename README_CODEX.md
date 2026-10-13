@@ -102,9 +102,9 @@ passe o plano ao gestor `codex.smart`. Este ultimo decide
 automaticamente entre um trabalhador, dois em serie ou dois em paralelo
 quando recebe caminhos e dependencias verificadas.
 
-**Limite operacional:** a existencia desta configuracao no GitHub nao
-liga automaticamente uma mensagem deste chat a um processo Codex.
-E necessario um host/ponte autenticado que entregue a ordem ao executor,
-autorize `run --execute` e recolha IDs/resultados reais. A rota VPS,
-o ambiente Codex Cloud e esta especializacao sao caminhos distintos
-ate a integracao real ser comprovada de ponta a ponta.
+**Limite operacional:** a rota autenticada Owner GitHub Issue → AI
+Coordinator → `agent_switch` → Codex real foi verificada pela execucao
+VPS 38404860793 e pela posterior fusao do PR #15. Uma mensagem ditada ou
+escrita no ChatGPT ou Telegram nao
+liga automaticamente a essa rota; a rececao automatica e a execucao
+multifase continuam por integrar.
