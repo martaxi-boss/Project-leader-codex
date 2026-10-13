@@ -28,10 +28,14 @@ planner and cloud bridge are **provider-neutral**.
    Git clones with no shared Git object store, refs or source remote. For other cloud agents the trusted host must implement
    \`CloudHost.supports/execute\` and substantiate worker IDs, results and usage.
    Provider names in \`providers.json\` DO NOT provision vendor accounts.
-7. Before starting, reserve the shared local soft budget; after running, settle
-   with observed usage where provided, or conservatively keep the reservation
-   when telemetry is unknown. This is **not** the provider's account-wide quota
-   and cannot stop tokens mid-generation.
+7. Treat the ChatGPT provider quota as authoritative. Default Codex execution has
+   no implicit 300000-token local daily cap. If the Owner explicitly opts into a
+   local soft budget, reserve against it before running and settle with observed
+   usage where provided, or conservatively keep the reservation when telemetry is
+   unknown. This optional ledger is **not** the provider's account-wide quota and
+   cannot stop tokens mid-generation. The separate VPS bridge can protect quota by
+   pausing and continuing later; that VPS behavior does not give the standalone
+   local smart CLI or a generic \`CloudHost\` automatic quota pause or resume.
 8. Keep independent diffs and Git metadata isolated. Side-ref mutations are audited even if HEAD is reset; the original checkout is checked again at the end. After model execution, reject worker changes to Git trust/configuration files **before running host Git**. Git audits use a minimal environment with fsmonitor, hooks and external diff disabled; they must not inherit orchestration credentials. On failure, use Project Leader recovery,
    not blind retries. Integrate only through authorized, tested PRs, never
    automatic merges or production deploys.
