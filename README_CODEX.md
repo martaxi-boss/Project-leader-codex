@@ -18,9 +18,11 @@ Select this new GitHub repository as the source of a *new* Codex Cloud
 environment (for example, `Project Leader + Codex`). Codex should read the
 root `AGENTS.md` and apply `CODEX_COORDINATION.md` together with the copied
 Project Leader Skill. `.codex/config.toml` allows up to two subagent threads
-in a trusted Codex project where multi-agent is supported. Test that the two
-workers actually ran. Two Codex Cloud environments cannot be selected at the
-same time merely by choosing this repository.
+in a trusted Codex project where multi-agent is supported. The automatic policy
+selects one or two workers; the two-thread setting is a ceiling, not a requirement
+to launch two. Verify the actual selected worker count and the resulting worker
+run IDs/evidence. Two Codex Cloud environments cannot be selected at the same
+time merely by choosing this repository.
 
 ## In a signed-in local or VPS Codex CLI
 
