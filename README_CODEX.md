@@ -102,9 +102,18 @@ passe o plano ao gestor `codex.smart`. Este ultimo decide
 automaticamente entre um trabalhador, dois em serie ou dois em paralelo
 quando recebe caminhos e dependencias verificadas.
 
-**Limite operacional:** a rota autenticada Owner GitHub Issue → AI
-Coordinator → `agent_switch` → Codex real foi verificada pela execucao
-VPS 38404860793 e pela posterior fusao do PR #15. Uma mensagem ditada ou
-escrita no ChatGPT ou Telegram nao
-liga automaticamente a essa rota; a rececao automatica e a execucao
-multifase continuam por integrar.
+**Limite operacional:** a rota autenticada Owner GitHub Issue → Coordenador
+com IA independente → `agent_switch` → Codex trabalhador com as regras
+canónicas do Project Leader → CI e Supervisor foi comprovada em serviço
+real na VPS (execuções 38404860793 e 38414318007, PRs #15 e #16).
+
+A continuação das fases 2 a 8, com nova auditoria no commit integrado,
+validação das tarefas originais e identificadores exclusivos por fase,
+foi implementada na VPS pela PR #183 e passou os testes automáticos.
+**Ainda não existe certificação com uma ordem real de várias fases
+dependentes.** O Coordenador não carrega a skill Project Leader:
+essa skill é obrigatória nos Codex trabalhadores.
+
+Uma ordem por voz ou texto no ChatGPT ou Telegram nao
+liga automaticamente a essa rota GitHub Owner. As três entradas de ordens
+não devem ser anunciadas como equivalentes até serem ligadas e testadas.
