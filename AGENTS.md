@@ -4,6 +4,33 @@ This repository is **not** the universal Project Leader. It is an independent co
 plus a specialized, provider-neutral agent router with the Codex CLI as the
 currently verified executor.
 
+## Direct Codex chat as an Owner entry point
+
+A **new Owner instruction typed or dictated into a Codex Cloud chat** is an
+**ingress request**, not a bounded VPS worker job. If the instruction has no
+existing authenticated Coordinator Issue/worker envelope, do not execute its
+implementation, choose workers, run the Project Leader Skill as coordinator,
+or create a second Coordinator. Instead, identify exactly one Owner repository
+from the request and verified context, and relay the unchanged objective through:
+
+`python -m codex.owner_coordinator_ingress --target martaxi-boss/<project> --task '<original Owner request>'`
+
+The authenticated GitHub CLI must identify as `martaxi-boss`. The relay creates an
+Owner-authored `[coordinator run]` Issue in VPS; that independent Coordinator
+then plans and dispatches to the existing Codex workers, where Project Leader
+is mandatory. The user's prompt does not need any technical rules or magic
+trigger word. The Codex Cloud relay neither stores tokens nor performs work.
+
+If the Codex Cloud environment lacks `gh`, the necessary Owner identity,
+repository access, or a verified Issue result, **stop and report the exact
+missing connection**. Never substitute local Codex execution, pretend an Issue
+was sent, retry an ambiguous write, or reveal secrets. A Codex worker already
+dispatched by the verified VPS Coordinator is NOT a new Owner chat: skip this
+relay, apply the Project Leader worker instructions below, and complete only
+the scoped assigned job.
+
+## Verified Codex workers and local signed-in CLI
+
 When this repository is the selected Codex environment:
 
 1. Load `plugins/project-leader/skills/project-leader/SKILL.md` and honor its
