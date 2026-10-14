@@ -97,7 +97,7 @@ class CloudOwnerIngressTests(unittest.TestCase):
         long_task = "Corrigir Live TV, Movies e Series sem estragar VPN. " + (
             "Preservar velocidade, login e testes Android. " * 110)
         self.assertGreater(len(long_task), 3700)
-        expected = "TARGET_REPOSITORY=" + REPO + "\n\n" + long_task
+        expected = "TARGET_REPOSITORY=" + REPO + "\n\n" + long_task.strip()
         self.assertLessEqual(len(expected.encode("utf-8")), 8000)
         self.assertEqual(ingress.validate_order(REPO, long_task), expected)
 
