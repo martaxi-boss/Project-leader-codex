@@ -31,7 +31,15 @@ class AgentCoordinationContractTests(unittest.TestCase):
         self.assertIn("Automatic mode by default", rules)
         self.assertIn("ChatGPT", agents)
         self.assertIn("ChatGPT", rules)
-        self.assertIn("nao\nliga automaticamente", guide)
+        # The Telegram gateway is implemented, but a green offline contract
+        # must never be presented as a real authenticated end-to-end run.
+        self.assertIn("**ChatGPT:**", guide)
+        self.assertIn("Não existe garantia de despacho", guide)
+        self.assertIn("**Codex direto:**", guide)
+        self.assertIn("não está certificada", guide)
+        self.assertIn("**Telegram:**", guide)
+        self.assertIn("ainda falta observar uma", guide)
+        self.assertIn("PHASE_STAGED_AWAITING_TARGET_CERTIFICATION", guide)
 
     def test_router_chooses_one_or_two_and_honors_safe_override(self):
         req = {
