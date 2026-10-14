@@ -98,7 +98,7 @@ testados e relatados, não presumidos.
 
 Uma ordem ditada ou escrita no ChatGPT pode ser interpretada por um
 coordenador que inspecione o repositório real, delimite `work_items` e
-passe o plano ao gestor `codex.smart`. Este ultimo decide
+passe o plano ao gestor `codex.smart`. Este último decide
 automaticamente entre um trabalhador, dois em serie ou dois em paralelo
 quando recebe caminhos e dependencias verificadas.
 
