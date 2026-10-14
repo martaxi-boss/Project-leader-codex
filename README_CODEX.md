@@ -143,10 +143,14 @@ As três entradas de ordens pretendidas continuam a ter estados distintos:
   autenticada que já ativa o Coordenador. Não existe garantia de despacho
   automático de qualquer mensagem do chat sem invocação efetiva da ferramenta
   e prova do workflow correspondente.
-- **Codex direto:** o circuito GitHub Issue → Coordenador → Codex trabalhador
-  está comprovado anteriormente, mas a equivalência entre uma mensagem livre
-  enviada diretamente na interface Codex e essa entrada autenticada ainda
-  **não está certificada**.
+- **Codex direto:** agora existe o relay `codex.owner_coordinator_ingress`,
+  definido no `AGENTS.md` para novas ordens recebidas no chat Codex Cloud.
+  Apenas com GitHub CLI autenticado como o Owner, cria uma Issue autorizada
+  `[coordinator run]` no VPS e deixa o Coordenador independente decidir os
+  trabalhadores. Não executa localmente como alternativa, não usa segredos
+  da VPS e não relança escritas ambíguas. Este transporte tem testes offline;
+  a passagem de **uma mensagem real do chat Codex** até à Issue e ao executor
+  ainda **não está certificada**.
 - **Telegram:** ponte e testes automatizados de autenticação, segurança,
   texto e transcrição de voz estão implementados, mas ainda falta observar uma
   ordem real atravessar mensagem → workflow assinado → Issue Owner →

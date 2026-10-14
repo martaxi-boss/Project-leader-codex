@@ -1,0 +1,72 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PL-CODEX-DIRECT-INGRESS-021",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PL-CODEX-DIRECT-INGRESS-021.json",
+  "authorization_commit_sha": "0e39c3508734f1c263374adfb96449b80ad4ebb4",
+  "authorization_sha256": "ceb8db6e511ec05d814b4f63ba9c2e9eecda5f3de5246ba17a00c3f309ee4686",
+  "implementation_head_sha": "4ed1d058116b3708419e681b39fcf3e594955f50",
+  "branch": "project-leader-codex/codex-cloud-owner-ingress-controlled-20261014",
+  "pr_number": 21,
+  "recorded_at": "2026-10-14T08:11:00Z",
+  "state_observed_at": "2026-10-14T08:11:00Z",
+  "superseded_by": null,
+  "post_transition_record": null,
+  "changes": [
+    "Codex Cloud direct Owner chat is now guided to relay natural-language orders through authenticated Owner GitHub Issue creation to the existing independent VPS Coordinator, not to execute workers locally.",
+    "Introduced fail-closed bounded codex.owner_coordinator_ingress transport with no secrets, second coordinator, VPS mutation, retry of ambiguous Issue writes or policy bypass.",
+    "Worker Codex sessions dispatched by the VPS remain distinct and alone load Project Leader Skill; canonical source remains byte-for-byte unchanged.",
+    "Added adversarial offline tests and truthful readiness documentation; a real owner instruction sent from Codex Cloud UI remains a separate pending E2E test, not asserted as certified."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #21 at implementation SHA 4ed1d058116b3708419e681b39fcf3e594955f50 changes only the 6 authorized paths AGENTS.md, CODEX_COORDINATION.md, README_CODEX.md, codex/owner_coordinator_ingress.py, codex/tests/test_owner_coordinator_ingress.py and immutable task authorization. Worker Result is an evidence-only descendant. Scope excludes VPS, secrets, canonical Project Leader, credentials and GitHub action permissions."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Four mandatory genuine GitHub pull_request workflows succeeded on the exact implementation SHA 4ed1d058116b3708419e681b39fcf3e594955f50: Control contract tests #38533129386, Validate control plane #38533129138, Package ChatGPT plugins #38533129393, Codex specialization tests #38533129392. The preliminary trusted admission #38533129197 failed only because this Worker Result had not yet been persisted; final protected-path admission must be checked independently after adding this record."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Authorization-only commit 0e39c3508734f1c263374adfb96449b80ad4ebb4 containing PL-CODEX-DIRECT-INGRESS-021 precedes any protected AGENTS.md/CODEX_COORDINATION.md edits. Immutable SHA256 ceb8db6e511ec05d814b4f63ba9c2e9eecda5f3de5246ba17a00c3f309ee4686 binds the task. Trusted policy projects/policies/project-leader.json at base fffff2919da315a191390019dd2cb4cf0ce25525 has unchanged SHA256 c612748e735c01b2774c326c5b4e16a5e83fadd9a142320d504f9ac2258c0c2d. This task is E3 with exact protected paths and all required controls. Gate admission remains to be proven from final PR run, not presumed."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 38533129386
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 38533129138
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 38533129393
+    },
+    {
+      "name": "Codex specialization tests",
+      "status": "SUCCESS",
+      "run_id": 38533129392
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader-codex/pull/21"
+  ],
+  "material_non_effects": [
+    "Did not load Project Leader Skill in independent Coordinator; only workers load it after routing.",
+    "No change to canonical martaxi-boss/Project-leader, VPS code, existing coordinator or workers, authorization policies, secrets, credentials, GitHub Actions workflows or production.",
+    "No direct live Codex Cloud session claimed; Owner-authenticated gh availability and E2E relay still require live verification.",
+    "No automatic merge, new agent, deploy, billing activation, background poller or Telegram notification requested."
+  ],
+  "residual_blockers": []
+}
