@@ -69,7 +69,7 @@ class CloudOwnerIngressTests(unittest.TestCase):
         self.assertEqual(number, 21501)
         self.assertEqual(api.posts, 1)
         self.assertEqual([x[0][3] for x in api.calls], ["GET", "GET", "GET", "POST"])
-        self.assertIn("TARGET_REPOSITORY=", api.calls[2][1])
+        self.assertIn("TARGET_REPOSITORY=", api.calls[3][1])
         self.assertFalse(any("codex exec" in repr(x) for x in api.calls))
 
     def test_rejects_other_owner_ambiguous_name_and_public_secrets(self):
