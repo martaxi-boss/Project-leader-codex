@@ -125,7 +125,7 @@ class CloudOwnerIngressTests(unittest.TestCase):
 
     def test_existing_open_owner_order_is_reused(self):
         prior = {"number": 445, "title": "[coordinator run] Codex Cloud " + NONCE,
-                 "body": "TARGET_REPOSITORY=" + REPO + "\\n\\n" + TASK,
+                 "body": "TARGET_REPOSITORY=" + REPO + "\n\n" + TASK,
                  "user": {"login": "martaxi-boss"}}
         api = FakeGitHub(existing=[prior])
         number = ingress.submit_owner_order(REPO, TASK, runner=api, unique_id=NONCE)
@@ -142,7 +142,7 @@ class CloudOwnerIngressTests(unittest.TestCase):
 
     def test_foreign_issue_collision_fails_closed(self):
         foreign = {"number": 445, "title": "[coordinator run] Codex Cloud " + NONCE,
-                   "body": "TARGET_REPOSITORY=" + REPO + "\\n\\n" + TASK,
+                   "body": "TARGET_REPOSITORY=" + REPO + "\n\n" + TASK,
                    "user": {"login": "someone-else"}}
         api = FakeGitHub(existing=[foreign])
         with self.assertRaisesRegex(ingress.IngressBlocked, "COLLISION"):
