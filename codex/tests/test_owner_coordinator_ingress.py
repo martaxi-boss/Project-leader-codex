@@ -15,7 +15,7 @@ NONCE = "abcdef0123456789"
 class FakeGitHub:
     def __init__(self, login="martaxi-boss", owner="martaxi-boss",
                  private=False, archived=False, branch="main", writer="martaxi-boss",
-                 fail_on=None):
+                 fail_on=None, existing=None, ambiguous_commit=False):
         self.login = login
         self.owner = owner
         self.private = private
@@ -23,6 +23,8 @@ class FakeGitHub:
         self.branch = branch
         self.writer = writer
         self.fail_on = fail_on
+        self.existing = list(existing or [])
+        self.ambiguous_commit = ambiguous_commit
         self.calls = []
         self.posts = 0
 
@@ -41,6 +43,9 @@ class FakeGitHub:
             payload = {"full_name": REPO, "owner": {"login": self.owner},
                        "private": self.private, "archived": self.archived,
                        "default_branch": self.branch}
+        elif method == "GET" and path.startswith("repos/martaxi-boss/VPS/issues?state=open&per_page=100&page="):
+            page = int(path.rsplit("=", 1)[1])
+            payload = self.existing[(page - 1) * 100:page * 100]
         elif (method, path) == ("POST", "repos/martaxi-boss/VPS/issues"):
             self.posts += 1
             assert argv[-2:] == ["--input", "-"]
@@ -49,6 +54,9 @@ class FakeGitHub:
             assert sent["title"].startswith("[coordinator run] Codex Cloud ")
             payload = {"number": 21501, "title": sent["title"],
                        "body": sent["body"], "user": {"login": self.writer}}
+            if self.ambiguous_commit:
+                self.existing.append(payload)
+                return SimpleNamespace(returncode=1, stdout="", stderr="REDACTED")
         else:
             raise AssertionError("Unexpected gh call " + repr(argv))
         return SimpleNamespace(returncode=0, stdout=json.dumps(payload), stderr="")
@@ -60,7 +68,7 @@ class CloudOwnerIngressTests(unittest.TestCase):
         number = ingress.submit_owner_order(REPO, TASK, runner=api, unique_id=NONCE)
         self.assertEqual(number, 21501)
         self.assertEqual(api.posts, 1)
-        self.assertEqual([x[0][3] for x in api.calls], ["GET", "GET", "POST"])
+        self.assertEqual([x[0][3] for x in api.calls], ["GET", "GET", "GET", "POST"])
         self.assertIn("TARGET_REPOSITORY=", api.calls[2][1])
         self.assertFalse(any("codex exec" in repr(x) for x in api.calls))
 
@@ -114,6 +122,41 @@ class CloudOwnerIngressTests(unittest.TestCase):
             raise FileNotFoundError("gh")
         with self.assertRaisesRegex(ingress.IngressBlocked, "GITHUB_CLI_UNAVAILABLE"):
             ingress.submit_owner_order(REPO, TASK, runner=no_gh, unique_id=NONCE)
+
+    def test_existing_open_owner_order_is_reused(self):
+        prior = {"number": 445, "title": "[coordinator run] Codex Cloud " + NONCE,
+                 "body": "TARGET_REPOSITORY=" + REPO + "\\n\\n" + TASK,
+                 "user": {"login": "martaxi-boss"}}
+        api = FakeGitHub(existing=[prior])
+        number = ingress.submit_owner_order(REPO, TASK, runner=api, unique_id=NONCE)
+        self.assertEqual(number, 445)
+        self.assertEqual(api.posts, 0)
+
+    def test_ambiguous_post_is_reconciled_not_replayed(self):
+        api = FakeGitHub(ambiguous_commit=True)
+        number = ingress.submit_owner_order(REPO, TASK, runner=api, unique_id=NONCE)
+        self.assertEqual(number, 21501)
+        self.assertEqual(api.posts, 1)
+        self.assertEqual([x[0][3] for x in api.calls],
+                         ["GET", "GET", "GET", "POST", "GET"])
+
+    def test_foreign_issue_collision_fails_closed(self):
+        foreign = {"number": 445, "title": "[coordinator run] Codex Cloud " + NONCE,
+                   "body": "TARGET_REPOSITORY=" + REPO + "\\n\\n" + TASK,
+                   "user": {"login": "someone-else"}}
+        api = FakeGitHub(existing=[foreign])
+        with self.assertRaisesRegex(ingress.IngressBlocked, "COLLISION"):
+            ingress.submit_owner_order(REPO, TASK, runner=api, unique_id=NONCE)
+        self.assertEqual(api.posts, 0)
+
+    def test_deterministic_nonce_for_same_owner_order(self):
+        import hashlib
+        nonce = hashlib.sha256((REPO + "\\\\0" + TASK).encode("utf-8")).hexdigest()[:16]
+        api = FakeGitHub()
+        number = ingress.submit_owner_order(REPO, TASK, runner=api)
+        self.assertEqual(number, 21501)
+        self.assertEqual(api.posts, 1)
+        self.assertIn(nonce, api.calls[-1][1])
 
     def test_worker_guidance_cannot_recursive_dispatch(self):
         root = Path(__file__).resolve().parents[2]
