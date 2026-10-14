@@ -52,9 +52,14 @@ specialized environment is selected. It does not modify universal rules.
 
 ## Supported execution routes
 
-1. **Codex Cloud**: `AGENTS.md` and `.codex/config.toml` express this
-   one-order preference and upper bound of two subagent threads. The actual
-   host must support delegation and provide proof of the launched workers.
+1. **Codex Cloud direct Owner chat**: `AGENTS.md` now selects the separate
+   `codex.owner_coordinator_ingress` authenticated relay *before* any worker
+   planning. With an Owner-authenticated GitHub CLI, it creates a bounded
+   `[coordinator run]` Issue in `martaxi-boss/VPS`; the existing independent
+   Coordinator alone audits, selects workers and dispatches them. Codex Cloud
+   must not execute the task directly if this identity or transport is missing.
+   A successful Issue creation proves only ingress submission, not execution.
+   `.codex/config.toml` still caps separate worker threads at two.
 2. **Signed-in Codex CLI**: `python -m codex.smart plan --order ORDER.json
    --repo-dir /real/target` may derive real scopes and chooses one/two workers.
    `python -m codex.smart run --order ORDER.json --repo-dir /real/target
@@ -62,9 +67,12 @@ specialized environment is selected. It does not modify universal rules.
    authorized. The legacy `python -m codex.dual` route is an explicit
    exactly-two-worker route, not the default auto selector. Neither runner
    automatically pushes, merges or deploys.
-3. **VPS**: `martaxi-boss/VPS` has a separate dual-Codex bridge. Selecting
-   this specialized repository does not automatically inherit its credentials,
-   triggers, token ledger, live processes, or connect this chat to the VPS.
+3. **VPS**: `martaxi-boss/VPS` is the one authenticated independent
+   Coordinator and worker gateway. Selecting this specialized repository alone
+   does not inherit VPS credentials, token ledger, or live processes; a direct
+   Codex Owner chat must successfully use the signed-in GitHub relay. A Codex
+   worker dispatched by the VPS must never relay its own task back as a new
+   Owner order.
 
 ## Audit requirements
 
