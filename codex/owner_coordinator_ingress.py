@@ -166,7 +166,7 @@ def verify_cloud_checkout_current(*,
     if ancestor.returncode != 0:
         raise IngressBlocked("CODEX_CLOUD_CHECKOUT_STALE_MAIN_NOT_CONTAINED")
 
-def submit_owner_order(target: str, task: str, *
+def submit_owner_order(target: str, task: str, *,
                        runner: Callable = subprocess.run,
                        unique_id: str | None = None) -> int:
     """Return verified Owner Issue number; no retry on ambiguous writes."""
