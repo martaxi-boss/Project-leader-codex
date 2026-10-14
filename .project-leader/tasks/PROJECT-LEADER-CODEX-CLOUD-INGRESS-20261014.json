@@ -1,0 +1,102 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-CODEX-CLOUD-INGRESS-20261014",
+  "project": "PROJECT LEADER + CODEX (SPECIALIZED)",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "created_at": "2026-10-14T18:23:49.726Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "O Owner pediu que o Project Leader + Codex receba uma única ordem da PINK IPTV, a entregue sem bloquear em leituras extensas ao Coordenador independente e prossiga autonomamente. Alterar somente a política AGENTS.md deste fork para clarificar precedência do ingresso Codex Cloud perante a regra de worker e testar a separação de papéis; manter Owner-auth, barreiras de segurança, Project Leader original, VPS, produtor PINK e Supervisor inalterados."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "36b5b6d634d07e4c178333e63593ab5cfe2ca471",
+    "task_branch": "fix/cloud-owner-ingress-policy-e3-20261014",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "AGENTS.md",
+    "codex/tests/test_owner_coordinator_ingress.py",
+    ".project-leader/tasks/PROJECT-LEADER-CODEX-CLOUD-INGRESS-20261014.json",
+    ".project-leader/results/PROJECT-LEADER-CODEX-CLOUD-INGRESS-20261014.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "cross_project_mutation",
+    "force_push",
+    "rewrite_git_history",
+    "weaken_ci_or_security_controls",
+    "license_selection"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Codex Cloud ingress is before worker bootstrap",
+    "No credential bypass and no duplicate Coordinator"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins",
+    "Codex specialization tests"
+  ],
+  "policy": {
+    "profile": "project-leader-codex-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "36b5b6d634d07e4c178333e63593ab5cfe2ca471",
+    "sha256": "c612748e735c01b2774c326c5b4e16a5e83fadd9a142320d504f9ac2258c0c2d",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Instruções protegidas AGENTS.md no ambiente Codex especializado distinguem inequivocamente nova ordem do Owner no Cloud de worker já despachado. Nova ordem tenta o relay autenticado uma vez antes de inspecionar Skill, código alvo, PRs e builds, devolvendo Issue verificada ou erro preciso e sem simular execução. As quatro CI e trusted gate passam no SHA certificado. Nenhuma credencial, VPS, PINK IPTV ou Project Leader universal é alterado.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}
