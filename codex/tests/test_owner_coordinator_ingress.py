@@ -123,7 +123,7 @@ class CloudOwnerIngressTests(unittest.TestCase):
         self.assertLess(first, worker)
         self.assertIn("Do not run the full Project Leader", guide)
         self.assertIn("stop local work", guide)
-        self.assertIn("do not create or dispatch workers", guide)
+        self.assertIn("Never substitute local Codex execution", guide)
         self.assertIn("GH", guide.upper())  # GitHub Owner identity remains mandatory
 
     def test_worker_guidance_cannot_recursive_dispatch(self):
