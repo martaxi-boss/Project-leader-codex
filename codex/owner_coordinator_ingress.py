@@ -19,7 +19,7 @@ from typing import Callable
 OWNER = "martaxi-boss"
 CONTROL = OWNER + "/VPS"
 CLOUD_SOURCE = OWNER + "/Project-leader-codex"
-COMMIT_SHA = re.compile(r"[0-9a-f]{40}\\Z", re.ASCII)
+COMMIT_SHA = re.compile(r"[0-9a-f]{40}\Z", re.ASCII)
 TARGET = re.compile(r"martaxi-boss/[A-Za-z0-9][A-Za-z0-9._-]{0,99}\Z", re.ASCII)
 SENSITIVE = re.compile(
     r"(?i)(?:gh[pousr]_[A-Za-z0-9_]{12,}|sk-[A-Za-z0-9_-]{12,}|"
