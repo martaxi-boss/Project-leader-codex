@@ -8,11 +8,11 @@ authenticated via GitHub CLI as the repository Owner.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import subprocess
 import sys
-import uuid
 from typing import Callable
 
 OWNER = "martaxi-boss"
@@ -68,6 +68,36 @@ def _gh(method: str, path: str, *, body: dict | None = None,
         raise IngressBlocked("GITHUB_RESPONSE_UNVERIFIED") from None
 
 
+def _existing_owner_issue(title: str, body: str, *,
+                          runner: Callable) -> int | None:
+    """Reconcile only a matching open, Owner-authored Issue.
+
+    Never turn an uncertain write into a second POST. The bounded listing is
+    authoritative only if all open Issue pages we checked were exhausted.
+    """
+    matches = []
+    for page in range(1, 5):
+        path = (f"repos/{CONTROL}/issues?state=open&per_page=100&page={page}")
+        rows = _gh("GET", path, runner=runner)
+        if not isinstance(rows, list):
+            raise IngressBlocked("OWNER_ISSUE_RECONCILIATION_UNVERIFIED")
+        for item in rows:
+            if not isinstance(item, dict) or item.get("title") != title:
+                continue
+            number = item.get("number")
+            if (item.get("body") != body or
+                    not isinstance(number, int) or number <= 0 or
+                    item.get("pull_request") or
+                    (item.get("user") or {}).get("login") != OWNER):
+                raise IngressBlocked("OWNER_ISSUE_COLLISION_UNVERIFIED")
+            matches.append(number)
+        if len(rows) < 100:
+            if len(matches) > 1:
+                raise IngressBlocked("DUPLICATE_OWNER_ISSUES_UNVERIFIED")
+            return matches[0] if matches else None
+    raise IngressBlocked("OWNER_ISSUE_RECONCILIATION_UNBOUNDED")
+
+
 def submit_owner_order(target: str, task: str, *,
                        runner: Callable = subprocess.run,
                        unique_id: str | None = None) -> int:
@@ -83,18 +113,34 @@ def submit_owner_order(target: str, task: str, *,
             repo.get("archived") is not False or
             repo.get("default_branch") != "main"):
         raise IngressBlocked("TARGET_PUBLIC_MAIN_NOT_VERIFIED")
-    nonce = unique_id if unique_id is not None else uuid.uuid4().hex[:16]
+    # Deterministic per unchanged Owner order while the original Issue is open.
+    # A closed, completed Issue does not prevent a newly authorized order.
+    nonce = (unique_id if unique_id is not None else
+             hashlib.sha256((target + "\\0" + task.strip()).encode("utf-8"))
+             .hexdigest()[:16])
     if type(nonce) is not str or re.fullmatch(r"[0-9a-f]{16}", nonce) is None:
         raise IngressBlocked("INVALID_IDEMPOTENCY_REFERENCE")
     title = "[coordinator run] Codex Cloud " + nonce
-    # One Owner-created Issue is the *only* trigger into the independent VPS
-    # Coordinator. If the write is ambiguous, do not replay it blindly.
-    created = _gh("POST", "repos/" + CONTROL + "/issues",
-                  body={"title": title, "body": body}, runner=runner)
+    prior = _existing_owner_issue(title, body, runner=runner)
+    if prior is not None:
+        return prior
+    # The single POST is the only write. On uncertain response, read-only
+    # reconciliation can confirm a completed write; never perform another POST.
+    try:
+        created = _gh("POST", "repos/" + CONTROL + "/issues",
+                      body={"title": title, "body": body}, runner=runner)
+    except IngressBlocked:
+        confirmed = _existing_owner_issue(title, body, runner=runner)
+        if confirmed is not None:
+            return confirmed
+        raise
     if (type(created) is not dict or type(created.get("number")) is not int or
             created["number"] <= 0 or created.get("title") != title or
             created.get("body") != body or
-            created.get("user", {}).get("login") != OWNER):
+            (created.get("user") or {}).get("login") != OWNER):
+        confirmed = _existing_owner_issue(title, body, runner=runner)
+        if confirmed is not None:
+            return confirmed
         raise IngressBlocked("OWNER_ISSUE_CREATION_UNVERIFIED")
     return created["number"]
 
