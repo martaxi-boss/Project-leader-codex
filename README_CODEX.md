@@ -114,6 +114,48 @@ foi implementada na VPS pela PR #183 e passou os testes automáticos.
 dependentes.** O Coordenador não carrega a skill Project Leader:
 essa skill é obrigatória nos Codex trabalhadores.
 
-Uma ordem por voz ou texto no ChatGPT ou Telegram nao
-liga automaticamente a essa rota GitHub Owner. As três entradas de ordens
-não devem ser anunciadas como equivalentes até serem ligadas e testadas.
+## Entradas universais e estado de certificação — 2026-10-14
+
+A infraestrutura central da VPS foi ampliada sem alterar a Skill Project
+Leader original nem a separação das responsabilidades:
+
+- **VPS PR #211**, integrada em `d9fdf130d8644294996e6099607eca45702c1cb8`:
+  o Coordenador, o encaminhador e os trabalhadores aceitam repositórios públicos
+  existentes e futuros de `martaxi-boss`, desde que a identidade Owner, a
+  permissão GitHub de escrita, o `main` exato e os limites sejam verificados.
+  Não existe autorização implícita para repositórios privados ou outros Owners.
+- **VPS PR #212**, integrada em `b0c26de8792bca3d4f714a519ce4083a48451feb`:
+  o bot Telegram existente pode interpretar ordens naturais de correção por
+  texto ou voz e encaminhá-las ao mesmo Coordenador por pedido HMAC assinado,
+  seguido de Issue criada com a identidade GitHub do Owner. O Supervisor
+  continua passivo, sem encaminhar ordens.
+- **VPS PR #213**, integrada em `1b33caae45d9baf1faa62b1e56f7d940f9a6764f`:
+  projetos com CI condicionado por ficheiros, incluindo PINK IPTV, podem receber
+  PRs `PR_STAGED` com estado verdadeiro dos checks. Ausência de checks, `skipped`
+  ou PR criada **não** são certificação. A integração automática continua
+  limitada ao âmbito documental especializado já aprovado. Noutras bases,
+  o integrador regista `PHASE_STAGED_AWAITING_TARGET_CERTIFICATION` sem
+  fazer merge, deploy ou arrancar fases dependentes.
+
+As três entradas de ordens pretendidas continuam a ter estados distintos:
+
+- **ChatGPT:** a ligação GitHub do Owner está acessível e pode criar a Issue
+  autenticada que já ativa o Coordenador. Não existe garantia de despacho
+  automático de qualquer mensagem do chat sem invocação efetiva da ferramenta
+  e prova do workflow correspondente.
+- **Codex direto:** o circuito GitHub Issue → Coordenador → Codex trabalhador
+  está comprovado anteriormente, mas a equivalência entre uma mensagem livre
+  enviada diretamente na interface Codex e essa entrada autenticada ainda
+  **não está certificada**.
+- **Telegram:** ponte e testes automatizados de autenticação, segurança,
+  texto e transcrição de voz estão implementados, mas ainda falta observar uma
+  ordem real atravessar mensagem → workflow assinado → Issue Owner →
+  Coordenador → trabalhador. A disponibilidade do token Owner e do poller
+  real deve ser comprovada, não presumida.
+
+**A continuação autónoma das fases dependentes em projetos com validação
+específica, como Android/VPN no PINK IPTV, ainda precisa de certificação real.**
+Nenhuma destas integrações substitui a revisão de segurança, o teste físico
+indispensável ou o controlo exato do projeto-alvo. O teste funcional do PINK
+IPTV deve usar uma ordem normal, sem ensinar as regras no pedido, e registar
+as evidências do caminho executado.
