@@ -140,6 +140,18 @@ class CloudOwnerIngressTests(unittest.TestCase):
         self.assertEqual([x[0][3] for x in api.calls],
                          ["GET", "GET", "GET", "POST", "GET"])
 
+    def test_open_owner_order_reconciliation_checks_next_page(self):
+        prior = {"number": 772, "title": "[coordinator run] Codex Cloud " + NONCE,
+                 "body": "TARGET_REPOSITORY=" + REPO + "\n\n" + TASK,
+                 "user": {"login": "martaxi-boss"}}
+        filler = [{"number": n + 1, "title": "Unrelated issue",
+                   "body": "", "user": {"login": "martaxi-boss"}}
+                  for n in range(100)]
+        api = FakeGitHub(existing=filler + [prior])
+        self.assertEqual(
+            ingress.submit_owner_order(REPO, TASK, runner=api, unique_id=NONCE), 772)
+        self.assertEqual(api.posts, 0)
+
     def test_foreign_issue_collision_fails_closed(self):
         foreign = {"number": 445, "title": "[coordinator run] Codex Cloud " + NONCE,
                    "body": "TARGET_REPOSITORY=" + REPO + "\n\n" + TASK,
