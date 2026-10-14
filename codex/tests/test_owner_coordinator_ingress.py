@@ -13,6 +13,7 @@ from codex import owner_coordinator_ingress as ingress
 REPO = "martaxi-boss/Project-leader-codex"
 TASK = "Corrige a palavra ultimo para último no README_CODEX.md do Project-leader-codex."
 NONCE = "abcdef0123456789"
+LATEST_SHA = "a" * 40
 
 
 class FakeGitHub:
@@ -46,6 +47,8 @@ class FakeGitHub:
             payload = {"full_name": REPO, "owner": {"login": self.owner},
                        "private": self.private, "archived": self.archived,
                        "default_branch": self.branch}
+        elif (method, path) == ("GET", "repos/martaxi-boss/Project-leader-codex/branches/main"):
+            payload = {"commit": {"sha": LATEST_SHA}}
         elif method == "GET" and path.startswith("repos/martaxi-boss/VPS/issues?state=open&per_page=100&page="):
             page = int(path.rsplit("=", 1)[1])
             payload = self.existing[(page - 1) * 100:page * 100]
@@ -120,13 +123,88 @@ class CloudOwnerIngressTests(unittest.TestCase):
 
     def test_cli_check_auth_is_diagnostic_not_a_dispatch(self):
         sink = StringIO()
-        with patch.object(ingress, "verify_owner_read_access") as verified:
+        with patch.object(ingress, "verify_owner_read_access") as verified, \
+                patch.object(ingress, "verify_cloud_checkout_current") as current:
             with redirect_stdout(sink):
                 status = ingress.main(["--target", REPO, "--check-auth"])
         self.assertEqual(status, 0)
         verified.assert_called_once_with(REPO)
         self.assertIn("ISSUES_WRITE_UNTESTED", sink.getvalue())
         self.assertNotIn("SUBMITTED_PENDING_WORKFLOW", sink.getvalue())
+
+    def test_cloud_checkout_accepts_exact_main_and_descendant_only(self):
+        api = FakeGitHub()
+        commands = []
+
+        def git_same(argv, **kwargs):
+            commands.append(argv[:])
+            self.assertEqual(argv[:3], ["git", "-C", "/safe-checkout"])
+            self.assertTrue(kwargs["capture_output"] and kwargs["text"])
+            self.assertFalse(kwargs["check"])
+            self.assertEqual(argv[3:], ["rev-parse", "HEAD"])
+            return SimpleNamespace(returncode=0, stdout=LATEST_SHA + "\n")
+        ingress.verify_cloud_checkout_current(
+            gh_runner=api, git_runner=git_same, checkout=Path("/safe-checkout"))
+        self.assertEqual(len(commands), 1)
+        self.assertEqual([x[0][3] for x in api.calls], ["GET"])
+        self.assertEqual(api.posts, 0)
+
+        calls = []
+        def git_descendant(argv, **kwargs):
+            calls.append(argv[3:])
+            if argv[3:] == ["rev-parse", "HEAD"]:
+                return SimpleNamespace(returncode=0, stdout="b" * 40 + "\n")
+            if argv[3:] == ["merge-base", "--is-ancestor", LATEST_SHA, "HEAD"]:
+                return SimpleNamespace(returncode=0, stdout="")
+            raise AssertionError("Unexpected Git action")
+        ingress.verify_cloud_checkout_current(
+            gh_runner=FakeGitHub(), git_runner=git_descendant,
+            checkout=Path("/safe-checkout"))
+        self.assertEqual(len(calls), 2)
+
+    def test_cloud_checkout_fails_closed_on_stale_local_snapshot(self):
+        api = FakeGitHub()
+        calls = []
+        def stale_git(argv, **kwargs):
+            calls.append(argv[3:])
+            if argv[3:] == ["rev-parse", "HEAD"]:
+                return SimpleNamespace(returncode=0, stdout="b" * 40 + "\n")
+            if argv[3:] == ["merge-base", "--is-ancestor", LATEST_SHA, "HEAD"]:
+                return SimpleNamespace(returncode=1, stdout="")
+            raise AssertionError("Unexpected Git action")
+        with self.assertRaisesRegex(
+                ingress.IngressBlocked, "CODEX_CLOUD_CHECKOUT_STALE_MAIN_NOT_CONTAINED"):
+            ingress.verify_cloud_checkout_current(
+                gh_runner=api, git_runner=stale_git,
+                checkout=Path("/safe-checkout"))
+        self.assertEqual(len(calls), 2)
+        self.assertEqual(api.posts, 0)
+
+    def test_cloud_checkout_rejects_unverifiable_git_without_fetch_or_reset(self):
+        api = FakeGitHub()
+        def no_git(*args, **kwargs):
+            raise FileNotFoundError("git")
+        with self.assertRaisesRegex(
+                ingress.IngressBlocked, "CODEX_CLOUD_CHECKOUT_UNVERIFIED"):
+            ingress.verify_cloud_checkout_current(
+                gh_runner=api, git_runner=no_git,
+                checkout=Path("/safe-checkout"))
+        self.assertEqual(api.posts, 0)
+
+    def test_cli_stale_snapshot_prevents_owner_issue_submission(self):
+        from contextlib import redirect_stderr
+        sink = StringIO()
+        with patch.object(ingress, "verify_cloud_checkout_current",
+                          side_effect=ingress.IngressBlocked(
+                              "CODEX_CLOUD_CHECKOUT_STALE_MAIN_NOT_CONTAINED"
+                          )) as fresh, \
+                patch.object(ingress, "submit_owner_order") as submit, \
+                redirect_stderr(sink):
+            code = ingress.main(["--target", REPO, "--task", TASK])
+        self.assertEqual(code, 2)
+        fresh.assert_called_once_with()
+        submit.assert_not_called()
+        self.assertIn("CHECKOUT_STALE", sink.getvalue())
 
     def test_cloud_identity_required_before_write(self):
         api = FakeGitHub(login="github-actions[bot]")
