@@ -21,29 +21,17 @@ then plans and dispatches to the existing Codex workers, where Project Leader
 is mandatory. The user's prompt does not need any technical rules or magic
 trigger word. The Codex Cloud relay neither stores tokens nor performs work.
 
-For a new Owner order in Codex Cloud, **the relay is the first substantive
-action** after reading this entry-point rule. Do not run the full Project Leader
-bootstrap, inspect repository files, enumerate PRs, perform network/environment
-audits, select models, or run builds before submitting the Owner instruction.
-Those are the independent Coordinator's and workers' responsibilities.
-Use the existing bounded relay exactly once; an independently verified Owner
-Issue number/URL is the only successful handoff. After successful submission,
-stop local work: the VPS Coordinator owns all further execution. A Cloud chat
-must never treat a "thinking" or pending tool call as a successful handoff.
-
 If the Codex Cloud environment lacks `gh`, the necessary Owner identity,
 repository access, or a verified Issue result, **stop and report the exact
-missing connection**. Do not silently wait, repeat identical read probes, or
-ask the Owner to say "continue". Never substitute local Codex execution,
-pretend an Issue was sent, blindly retry an ambiguous write, or reveal secrets.
-A Codex worker already dispatched by the verified VPS Coordinator is NOT
-a new Owner chat: skip this relay, apply the Project Leader worker instructions
-below, and complete only the scoped assigned job.
+missing connection**. Never substitute local Codex execution, pretend an Issue
+was sent, retry an ambiguous write, or reveal secrets. A Codex worker already
+dispatched by the verified VPS Coordinator is NOT a new Owner chat: skip this
+relay, apply the Project Leader worker instructions below, and complete only
+the scoped assigned job.
 
 ## Verified Codex workers and local signed-in CLI
 
-When a **verified VPS Coordinator-dispatched worker** runs in this Codex
-environment (not a new Owner instruction in Codex Cloud):
+When this repository is the selected Codex environment:
 
 1. Load `plugins/project-leader/skills/project-leader/SKILL.md` and honor its
    superior rule `EXECUTION_FIRST_WITHIN_BOUNDS`. If live GitHub access exists,
