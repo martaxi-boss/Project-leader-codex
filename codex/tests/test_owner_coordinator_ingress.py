@@ -2,6 +2,9 @@
 import json
 import subprocess
 import unittest
+from contextlib import redirect_stdout
+from io import StringIO
+from unittest.mock import patch
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -87,6 +90,43 @@ class CloudOwnerIngressTests(unittest.TestCase):
                 with self.assertRaises(ingress.IngressBlocked):
                     ingress.submit_owner_order(target, task, runner=FakeGitHub(),
                                                unique_id=NONCE)
+
+    def test_long_owner_order_keeps_full_text_under_existing_byte_bound(self):
+        # Full Owner acceptance criteria may exceed the historical 3700-char
+        # cap; preserving them is safer than silent truncation or hand editing.
+        long_task = "Corrigir Live TV, Movies e Series sem estragar VPN. " + (
+            "Preservar velocidade, login e testes Android. " * 110)
+        self.assertGreater(len(long_task), 3700)
+        expected = "TARGET_REPOSITORY=" + REPO + "\n\n" + long_task.strip()
+        self.assertLessEqual(len(expected.encode("utf-8")), 8000)
+        self.assertEqual(ingress.validate_order(REPO, long_task), expected)
+
+    def test_long_utf8_owner_order_still_obeys_byte_limit(self):
+        over_budget = "Corrigir categorias Movies e Series. " + ("ç" * 5000)
+        self.assertLess(len(over_budget), 8000)
+        with self.assertRaisesRegex(ingress.IngressBlocked,
+                                    "ORDER_ENVELOPE_UNVERIFIED"):
+            ingress.validate_order(REPO, over_budget)
+
+    def test_read_only_owner_identity_diagnostic_never_writes(self):
+        api = FakeGitHub()
+        ingress.verify_owner_read_access(REPO, runner=api)
+        self.assertEqual(api.posts, 0)
+        self.assertEqual([x[0][3] for x in api.calls], ["GET", "GET"])
+        wrong = FakeGitHub(login="github-actions[bot]")
+        with self.assertRaisesRegex(ingress.IngressBlocked, "AUTHENTICATED_AS_OWNER"):
+            ingress.verify_owner_read_access(REPO, runner=wrong)
+        self.assertEqual(wrong.posts, 0)
+
+    def test_cli_check_auth_is_diagnostic_not_a_dispatch(self):
+        sink = StringIO()
+        with patch.object(ingress, "verify_owner_read_access") as verified:
+            with redirect_stdout(sink):
+                status = ingress.main(["--target", REPO, "--check-auth"])
+        self.assertEqual(status, 0)
+        verified.assert_called_once_with(REPO)
+        self.assertIn("ISSUES_WRITE_UNTESTED", sink.getvalue())
+        self.assertNotIn("SUBMITTED_PENDING_WORKFLOW", sink.getvalue())
 
     def test_cloud_identity_required_before_write(self):
         api = FakeGitHub(login="github-actions[bot]")
