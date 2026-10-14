@@ -151,7 +151,7 @@ class CloudOwnerIngressTests(unittest.TestCase):
 
     def test_deterministic_nonce_for_same_owner_order(self):
         import hashlib
-        nonce = hashlib.sha256((REPO + "\\\\0" + TASK).encode("utf-8")).hexdigest()[:16]
+        nonce = hashlib.sha256((REPO + "\\0" + TASK).encode("utf-8")).hexdigest()[:16]
         api = FakeGitHub()
         number = ingress.submit_owner_order(REPO, TASK, runner=api)
         self.assertEqual(number, 21501)
