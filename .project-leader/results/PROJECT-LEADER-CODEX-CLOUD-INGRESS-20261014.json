@@ -1,0 +1,84 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PROJECT-LEADER-CODEX-CLOUD-INGRESS-20261014",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PROJECT-LEADER-CODEX-CLOUD-INGRESS-20261014.json",
+  "authorization_commit_sha": "b6c06fad03f522b1ba60b4a9c5a4eb4d12e23203",
+  "authorization_sha256": "e041158f37e5068452fadbe0f021d88e268c42156e7c8e33d04ff3c746859f9e",
+  "implementation_head_sha": "71e434f75a59da19f80208b0465e87c63dbf93f7",
+  "branch": "fix/cloud-owner-ingress-policy-e3-20261014",
+  "pr_number": 24,
+  "recorded_at": "2026-10-14T18:28:14.415Z",
+  "state_observed_at": "2026-10-14T18:28:14.415Z",
+  "superseded_by": null,
+  "post_transition_record": null,
+  "changes": [
+    "Clarified Cloud Owner ingress as first substantive action before any broad Skill or target preflight.",
+    "Preserved coordinator/worker role separation and added focused regression test."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub PR #24 touches only AGENTS.md, codex/tests/test_owner_coordinator_ingress.py, immutable E3 Task Authorization and this Worker Result. Original universal Project Leader, VPS, PINK and credentials remain untouched."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "CI on exact implementation SHA 71e434f75a59da19f80208b0465e87c63dbf93f7: Control contract tests 38614961998, Validate control plane 38614961943, Package ChatGPT plugins 38614962033, Codex specialization tests 38614962005 all completed SUCCESS."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "E3 authorization was a standalone first commit b6c06fad03f522b1ba60b4a9c5a4eb4d12e23203 before implementation. The exact authorized task UTF-8 SHA-256 is e041158f37e5068452fadbe0f021d88e268c42156e7c8e33d04ff3c746859f9e; source base policy SHA-256 c612748e735c01b2774c326c5b4e16a5e83fadd9a142320d504f9ac2258c0c2d. Independent trusted-gate workflow must run again after this result commit; it is not yet represented as a PASS here."
+    },
+    {
+      "name": "Codex Cloud ingress is before worker bootstrap",
+      "status": "PASS",
+      "evidence": "AGENTS.md explicitly makes the authenticated Owner ingress the first substantive Cloud action and reserves Project Leader Skill bootstrap for verified coordinator-dispatched workers. Added regression test passed in Codex specialization tests run 38614962005."
+    },
+    {
+      "name": "No credential bypass and no duplicate Coordinator",
+      "status": "PASS",
+      "evidence": "AGENTS.md retains exact Owner GitHub identity, no model work/duplicate coordinator on new Cloud order, and fail-closed when GitHub CLI absent. Source code ingress remains unchanged on this branch; no credentials are supplied or printed."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 38614961998
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 38614961943
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 38614962033
+    },
+    {
+      "name": "Codex specialization tests",
+      "status": "SUCCESS",
+      "run_id": 38614962005
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader-codex/pull/24",
+    "https://github.com/martaxi-boss/Project-leader-codex/actions/runs/38614961998",
+    "https://github.com/martaxi-boss/Project-leader-codex/actions/runs/38614962005"
+  ],
+  "material_non_effects": [
+    "No merge to main, production deployment, or release",
+    "No change to Project Leader universal, VPS, PINK IPTV or Supervisor",
+    "No changes to authentication secrets, repository permissions, GitHub rulesets or model quota settings"
+  ],
+  "residual_blockers": [
+    "The Cloud GitHub CLI Owner authentication and live end-to-end relay remain NOT_CERTIFIED; only real Codex Cloud run can prove them.",
+    "PR #24 requires a separate exact-head trusted gate check after the Worker Result and independent integration review; it is not yet merged."
+  ]
+}
