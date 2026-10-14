@@ -31,13 +31,21 @@ class IngressBlocked(ValueError):
     """Safe, non-secret reason for not dispatching a paid remote Coordinator."""
 
 
-def validate_order(target: object, task: object) -> str:
+def _validate_target(target: object) -> str:
     if type(target) is not str or TARGET.fullmatch(target) is None:
         raise IngressBlocked("TARGET_OWNER_OR_NAME_UNVERIFIED")
     name = target.split("/", 1)[1]
     if name.startswith("-") or ".." in name or name.endswith((".git", ".")):
         raise IngressBlocked("TARGET_OWNER_OR_NAME_UNVERIFIED")
-    if type(task) is not str or not 12 <= len(task) <= 3700:
+    return target
+
+
+def validate_order(target: object, task: object) -> str:
+    target = _validate_target(target)
+    # The byte-bound on the final envelope is the authority limit. Do not
+    # truncate detailed Owner requirements merely because they exceed 3700
+    # characters; UTF-8 must still fit within the original 8000-byte limit.
+    if type(task) is not str or not 12 <= len(task) <= 8000:
         raise IngressBlocked("ORDER_TEXT_UNVERIFIED")
     if CONTROL_CHARS.search(task) or SENSITIVE.search(task):
         raise IngressBlocked("PRIVATE_OR_INVALID_ORDER_REFUSED")
@@ -98,21 +106,32 @@ def _existing_owner_issue(title: str, body: str, *,
     raise IngressBlocked("OWNER_ISSUE_RECONCILIATION_UNBOUNDED")
 
 
-def submit_owner_order(target: str, task: str, *,
-                       runner: Callable = subprocess.run,
-                       unique_id: str | None = None) -> int:
-    """Return verified Owner Issue number; no retry on ambiguous writes."""
-    body = validate_order(target, task)
+def verify_owner_read_access(target: str, *,
+                             runner: Callable = subprocess.run) -> None:
+    """Bounded read-only GitHub identity/target check.
+
+    This cannot certify permission to CREATE a VPS Issue. Never print
+    credential material or treat this check as a successful dispatch.
+    """
+    target = _validate_target(target)
     principal = _gh("GET", "user", runner=runner)
     if type(principal) is not dict or principal.get("login") != OWNER:
         raise IngressBlocked("CODEX_CLOUD_IS_NOT_AUTHENTICATED_AS_OWNER")
     repo = _gh("GET", "repos/" + target, runner=runner)
     if (type(repo) is not dict or repo.get("full_name") != target or
-            repo.get("owner", {}).get("login") != OWNER or
+            (repo.get("owner") or {}).get("login") != OWNER or
             repo.get("private") is not False or
             repo.get("archived") is not False or
             repo.get("default_branch") != "main"):
         raise IngressBlocked("TARGET_PUBLIC_MAIN_NOT_VERIFIED")
+
+
+def submit_owner_order(target: str, task: str, *,
+                       runner: Callable = subprocess.run,
+                       unique_id: str | None = None) -> int:
+    """Return verified Owner Issue number; no retry on ambiguous writes."""
+    body = validate_order(target, task)
+    verify_owner_read_access(target, runner=runner)
     # Deterministic per unchanged Owner order while the original Issue is open.
     # A closed, completed Issue does not prevent a newly authorized order.
     nonce = (unique_id if unique_id is not None else
@@ -149,9 +168,19 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Relay one authenticated Owner instruction to the independent Coordinator")
     parser.add_argument("--target", required=True, help="Owner/project repository")
-    parser.add_argument("--task", required=True, help="Natural-language Owner instruction")
+    parser.add_argument("--task", help="Natural-language Owner instruction")
+    parser.add_argument("--check-auth", action="store_true",
+                        help="Check Owner/target GitHub access in read-only mode; does not prove Issues write permission")
     args = parser.parse_args(argv)
+    if args.check_auth and args.task is not None:
+        parser.error("--check-auth cannot be combined with --task")
+    if not args.check_auth and args.task is None:
+        parser.error("--task is required for a real Owner-order submission")
     try:
+        if args.check_auth:
+            verify_owner_read_access(args.target)
+            print("CODEX_CLOUD_OWNER_AND_TARGET_READ_VERIFIED_ISSUES_WRITE_UNTESTED")
+            return 0
         issue = submit_owner_order(args.target, args.task)
     except IngressBlocked as exc:
         print("CODEX_CLOUD_COORDINATOR_NOT_STARTED=" + str(exc), file=sys.stderr)
