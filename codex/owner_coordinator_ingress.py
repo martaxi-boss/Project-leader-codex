@@ -13,10 +13,13 @@ import json
 import re
 import subprocess
 import sys
+from pathlib import Path
 from typing import Callable
 
 OWNER = "martaxi-boss"
 CONTROL = OWNER + "/VPS"
+CLOUD_SOURCE = OWNER + "/Project-leader-codex"
+COMMIT_SHA = re.compile(r"[0-9a-f]{40}\\Z", re.ASCII)
 TARGET = re.compile(r"martaxi-boss/[A-Za-z0-9][A-Za-z0-9._-]{0,99}\Z", re.ASCII)
 SENSITIVE = re.compile(
     r"(?i)(?:gh[pousr]_[A-Za-z0-9_]{12,}|sk-[A-Za-z0-9_-]{12,}|"
@@ -126,7 +129,44 @@ def verify_owner_read_access(target: str, *,
         raise IngressBlocked("TARGET_PUBLIC_MAIN_NOT_VERIFIED")
 
 
-def submit_owner_order(target: str, task: str, *,
+
+def verify_cloud_checkout_current(*,
+                                  gh_runner: Callable = subprocess.run,
+                                  git_runner: Callable = subprocess.run,
+                                  checkout: Path | None = None) -> None:
+    """Refuse a stale Codex Cloud checkout before real Owner order transport.
+
+    GET GitHub's latest specialized main; read local Git metadata only.
+    Never fetch, checkout, reset, merge, delete refs or alter the workspace.
+    A Cloud work branch may contain commits beyond main, but must contain
+    the exact live main commit as an ancestor.
+    """
+    branch = _gh("GET", "repos/" + CLOUD_SOURCE + "/branches/main",
+                 runner=gh_runner)
+    latest = (branch.get("commit") or {}).get("sha") if isinstance(branch, dict) else None
+    if type(latest) is not str or COMMIT_SHA.fullmatch(latest) is None:
+        raise IngressBlocked("CODEX_CLOUD_MAIN_REVISION_UNVERIFIED")
+    root = checkout if checkout is not None else Path(__file__).resolve().parents[1]
+
+    def git_read(*args: str) -> object:
+        try:
+            return git_runner(["git", "-C", str(root), *args],
+                              capture_output=True, text=True, check=False,
+                              timeout=10)
+        except (OSError, subprocess.TimeoutExpired):
+            raise IngressBlocked("CODEX_CLOUD_CHECKOUT_UNVERIFIED") from None
+
+    current = git_read("rev-parse", "HEAD")
+    local = current.stdout.strip() if type(current.stdout) is str else ""
+    if current.returncode != 0 or COMMIT_SHA.fullmatch(local) is None:
+        raise IngressBlocked("CODEX_CLOUD_CHECKOUT_UNVERIFIED")
+    if local == latest:
+        return
+    ancestor = git_read("merge-base", "--is-ancestor", latest, "HEAD")
+    if ancestor.returncode != 0:
+        raise IngressBlocked("CODEX_CLOUD_CHECKOUT_STALE_MAIN_NOT_CONTAINED")
+
+def submit_owner_order(target: str, task: str, *
                        runner: Callable = subprocess.run,
                        unique_id: str | None = None) -> int:
     """Return verified Owner Issue number; no retry on ambiguous writes."""
@@ -179,8 +219,11 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.check_auth:
             verify_owner_read_access(args.target)
+            verify_cloud_checkout_current()
             print("CODEX_CLOUD_OWNER_AND_TARGET_READ_VERIFIED_ISSUES_WRITE_UNTESTED")
             return 0
+        # No Owner issue is created from stale Cloud task snapshots.
+        verify_cloud_checkout_current()
         issue = submit_owner_order(args.target, args.task)
     except IngressBlocked as exc:
         print("CODEX_CLOUD_COORDINATOR_NOT_STARTED=" + str(exc), file=sys.stderr)
