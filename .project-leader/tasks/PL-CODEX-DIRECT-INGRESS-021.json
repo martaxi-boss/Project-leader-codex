@@ -1,0 +1,107 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PL-CODEX-DIRECT-INGRESS-021",
+  "project": "PROJECT LEADER + CODEX (SPECIALIZED)",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "created_at": "2026-10-14T08:04:00Z",
+  "authority": {
+    "kind": "STANDING_DELEGATION",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Owner authorized completion and verification of the third direct Codex Cloud chat input to the same independent VPS Coordinator used by ChatGPT and Telegram. Direct Cloud input must forward the natural Owner order via authenticated GitHub Issue, not turn into a second coordinator or run the Project Leader Skill outside VPS workers. This bounded durable task only changes Codex specialization ingress transport, its protected worker instructions and tests; universal Project Leader, VPS, production, secrets and providers remain unchanged."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "fffff2919da315a191390019dd2cb4cf0ce25525",
+    "task_branch": "project-leader-codex/codex-cloud-owner-ingress-controlled-20261014",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "AGENTS.md",
+    "CODEX_COORDINATION.md",
+    "README_CODEX.md",
+    "codex/owner_coordinator_ingress.py",
+    "codex/tests/test_owner_coordinator_ingress.py",
+    ".project-leader/tasks/PL-CODEX-DIRECT-INGRESS-021.json",
+    ".project-leader/results/PL-CODEX-DIRECT-INGRESS-021.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "reconcile_control_contract_docs"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "force_push",
+    "rewrite_git_history",
+    "weaken_ci_or_security_controls",
+    "cross_project_mutation",
+    "new_provider_auth",
+    "new_paid_service",
+    "unverified_agent_launch"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins",
+    "Codex specialization tests"
+  ],
+  "policy": {
+    "profile": "project-leader-codex-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "fffff2919da315a191390019dd2cb4cf0ce25525",
+    "sha256": "c612748e735c01b2774c326c5b4e16a5e83fadd9a142320d504f9ac2258c0c2d",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "The direct Owner Codex chat receives a natural order and relays through an authenticated existing Owner GitHub Issue to the independent VPS Coordinator. Proven by safe offline tests and exact-head mandatory CI, with no change to canonical Skill, security gate, VPN, production, credentials or worker runtime. A live Codex UI Owner test remains separately pending and must not be falsely certified by CI.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}
