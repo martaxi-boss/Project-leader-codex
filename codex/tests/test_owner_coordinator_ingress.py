@@ -72,7 +72,7 @@ class CloudOwnerIngressTests(unittest.TestCase):
             (REPO, "Corrige password=ABCD1234EFGH5678 no README"),
             (REPO, "Corrige sk-testsecret012345678901234"),
             (REPO, "Corrige\nNova linha\u0000"),
-            (REPO, "Corrige isto"),
+            (REPO, "Faz"),
         ]
         for target, task in invalid:
             with self.subTest(target=target, task=task[:22]):
