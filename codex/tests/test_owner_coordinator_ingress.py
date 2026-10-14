@@ -158,6 +158,17 @@ class CloudOwnerIngressTests(unittest.TestCase):
         self.assertEqual(api.posts, 1)
         self.assertIn(nonce, api.calls[-1][1])
 
+    def test_cloud_owner_ingress_precedes_all_worker_bootstrap(self):
+        guide = (Path(__file__).resolve().parents[2] / "AGENTS.md").read_text(
+            encoding="utf-8")
+        first = guide.index("the relay is the first substantive")
+        worker = guide.index("When a **verified VPS Coordinator-dispatched worker**")
+        self.assertLess(first, worker)
+        self.assertIn("Do not run the full Project Leader", guide)
+        self.assertIn("stop local work", guide)
+        self.assertIn("Never substitute local Codex execution", guide)
+        self.assertIn("GH", guide.upper())  # GitHub Owner identity remains mandatory
+
     def test_worker_guidance_cannot_recursive_dispatch(self):
         root = Path(__file__).resolve().parents[2]
         guide = (root / "AGENTS.md").read_text(encoding="utf-8")
