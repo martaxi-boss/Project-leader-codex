@@ -295,7 +295,8 @@ class CloudOwnerIngressTests(unittest.TestCase):
         self.assertIn("direct Cloud execution request by default", guide)
         self.assertIn("**Codex Cloud direct Owner task (default for Cloud)**", policy)
         self.assertIn("screenshots, photographs, documents or examples", guide)
-        self.assertIn("do not automatically relay this instruction to the VPS",\n                      " ".join(guide.split()).lower())
+        self.assertIn("do not automatically relay this instruction to the VPS",
+                      " ".join(guide.split()).lower())
         self.assertIn("implement, test, correct", guide)
         self.assertIn("Owner-selected Codex Cloud task can execute there", guide)
         self.assertIn("VPS (unchanged and independent)", policy)
@@ -311,7 +312,8 @@ class CloudOwnerIngressTests(unittest.TestCase):
         self.assertIn("Owner orders issued to the VPS", guide)
         self.assertIn("explicitly request **VPS delegation**", guide)
         self.assertIn("codex.owner_coordinator_ingress", guide)
-        self.assertIn("must never relay its own task back",\n                      " ".join(policy.split()))
+        self.assertIn("must never relay its own task back",
+                      " ".join(policy.split()))
         self.assertIn("only Supervisor", guide)
         self.assertNotIn("the relay is the first substantive", guide)
         self.assertNotIn("stop local work: the VPS Coordinator owns", guide)
