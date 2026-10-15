@@ -288,28 +288,52 @@ class CloudOwnerIngressTests(unittest.TestCase):
         self.assertEqual(api.posts, 1)
         self.assertIn(nonce, api.calls[-1][1])
 
-    def test_cloud_owner_ingress_precedes_all_worker_bootstrap(self):
-        guide = (Path(__file__).resolve().parents[2] / "AGENTS.md").read_text(
-            encoding="utf-8")
-        first = guide.index("the relay is the first substantive")
-        worker = guide.index("When a **verified VPS Coordinator-dispatched worker**")
-        self.assertLess(first, worker)
-        self.assertIn("Do not run the full Project Leader", guide)
-        self.assertIn("stop local work", guide)
-        self.assertIn("Never substitute local Codex execution", guide)
-        self.assertIn("GH", guide.upper())  # GitHub Owner identity remains mandatory
-
-    def test_worker_guidance_cannot_recursive_dispatch(self):
+    def test_cloud_owner_direct_execution_is_independent_default(self):
         root = Path(__file__).resolve().parents[2]
         guide = (root / "AGENTS.md").read_text(encoding="utf-8")
         policy = (root / "CODEX_COORDINATION.md").read_text(encoding="utf-8")
-        self.assertIn("Codex Cloud chat", guide)
+        self.assertIn("direct Cloud execution request by default", guide)
+        self.assertIn("**Codex Cloud direct Owner task (default for Cloud)**", policy)
+        self.assertIn("screenshots, photographs, documents or examples", guide)
+        self.assertIn("not automatically relay this instruction to the VPS", guide)
+        self.assertIn("implement, test, correct", guide)
+        self.assertIn("Owner-selected Codex Cloud task can execute there", guide)
+        self.assertIn("VPS (unchanged and independent)", policy)
+        self.assertIn("The **only Supervisor**", policy)
+
+    def test_chatgpt_vps_and_cloud_direct_are_separate_authorized_routes(self):
+        root = Path(__file__).resolve().parents[2]
+        guide = (root / "AGENTS.md").read_text(encoding="utf-8")
+        policy = (root / "CODEX_COORDINATION.md").read_text(encoding="utf-8")
+        self.assertIn("The VPS entry point", guide)
+        self.assertIn("Owner orders issued to the VPS", guide)
+        self.assertIn("explicitly request **VPS delegation**", guide)
         self.assertIn("codex.owner_coordinator_ingress", guide)
-        self.assertIn("A Codex worker already", guide)
-        self.assertIn("skip this", guide)
         self.assertIn("must never relay its own task back", policy)
-        self.assertIn("Project Leader", guide)
-        self.assertIn("independent Coordinator", guide)
+        self.assertIn("only Supervisor", guide)
+        self.assertNotIn("the relay is the first substantive", guide)
+        self.assertNotIn("stop local work: the VPS Coordinator owns", guide)
+
+    def test_cloud_private_media_cannot_silently_become_text_only_order(self):
+        root = Path(__file__).resolve().parents[2]
+        guide = (root / "AGENTS.md").read_text(encoding="utf-8")
+        policy = (root / "CODEX_COORDINATION.md").read_text(encoding="utf-8")
+        self.assertIn("An attachment", guide)
+        self.assertIn("NOT automatically a file on the VPS", guide)
+        self.assertIn("must NOT silently become a text-only order", guide)
+        self.assertIn("verified private media path", guide)
+        self.assertIn("never transmit", policy)
+        self.assertIn("do not create a second Supervisor", policy.lower())
+        self.assertIn("Do not create a\n   Cloud Supervisor", guide)
+
+    def test_vps_relay_identity_and_stale_cloud_checks_remain_intact(self):
+        # This routing change must not weaken the existing optional text-only relay.
+        source = (Path(__file__).resolve().parents[1]
+                  / "owner_coordinator_ingress.py").read_text(encoding="utf-8")
+        self.assertIn("verify_owner_read_access(target", source)
+        self.assertIn("verify_cloud_checkout_current()", source)
+        self.assertIn("GITHUB_AUTH_OR_WRITE_NOT_VERIFIED", source)
+        self.assertIn("CODEX_CLOUD_CHECKOUT_STALE_MAIN_NOT_CONTAINED", source)
 
 
 if __name__ == "__main__":
