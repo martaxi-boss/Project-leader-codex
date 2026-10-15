@@ -117,6 +117,66 @@ def execute(planned: dict, repo_dir: Path, runs_dir: Path | None = None, *, time
                             "note": "Private usage ledger; only an explicitly selected soft limit can deny a turn; provider quota remains unknown"}
     return result
 
+def execute_coordinator_phases(
+    order: dict, repo_dir: Path, *,
+    trusted_certifier,
+    runs_dir: Path | None = None,
+    timeout: int = 1200,
+    soft_limit: int | None = budget.SOFT_LIMIT_DEFAULT,
+    phase_one_validator=None,
+    passive_notify=None,
+) -> dict:
+    """Execute every Coordinator-selected phase in the SAME authorized order.
+
+    The certifier must be an independent Project Leader host adapter that
+    integrates/verifies exact-SHA CI and any material gates. Codex alone can
+    only stage changes; it never grants itself acceptance/merge authority.
+    Without a callable certifier no phase or model is launched.
+    """
+    from codex import phase_cycle
+    if not callable(trusted_certifier):
+        raise RoutingError("Independent host certification required for phase continuation")
+    if (type(order) is not dict or
+            not {"request", "target_repository", "work_items", "phases"} <= set(order) or
+            set(order) - {"request", "target_repository", "work_items", "phases"}):
+        raise RoutingError("A bounded original Coordinator phase plan is required")
+    phases = phase_cycle.validated_phases(order["work_items"], order["phases"])
+    repo = repo_dir.expanduser().resolve(strict=True)
+    dual._preflight(repo, order["target_repository"])
+
+    def checked_head() -> str:
+        return dual._git(repo, "rev-parse", "HEAD")
+
+    def run_phase(phase, base):
+        # Keep the Coordinator's phases, worker choice and effort. The
+        # capability selector verifies the quality floor without new prompts.
+        scoped = []
+        for item in phase.work_items:
+            selected_effort = dict(phase.reasoning_by_task)[item["id"]]
+            scoped.append({**item, "reasoning_effort": selected_effort})
+        planned = plan({
+            "request": order["request"],
+            "target_repository": order["target_repository"],
+            "work_items": scoped,
+            "preference": phase.mode,
+        })
+        if (planned.get("status") != "planned" or
+                planned.get("mode") != phase.mode):
+            raise RoutingError("Coordinator's selected phase failed bounded planner")
+        result = execute(planned, repo, runs_dir, timeout=timeout,
+                         soft_limit=soft_limit,
+                         phase_one_validator=phase_one_validator)
+        workers = result.get("workers", [])
+        if (not workers or not all(w.get("status") == "completed" for w in workers)):
+            return {"status": phase_cycle.RECOVERY,
+                    "worker_ids": [w.get("id", "") for w in workers]}
+        return {"status": "WORKERS_COMPLETED",
+                "worker_ids": [w["id"] for w in workers],
+                "worker_evidence": result}
+
+    return phase_cycle.execute_until_terminal(
+        phases, checked_head=checked_head, run_phase=run_phase,
+        certify_phase=trusted_certifier, notify=passive_notify)
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Smart provider-neutral agent planner and guarded Codex CLI runner")
