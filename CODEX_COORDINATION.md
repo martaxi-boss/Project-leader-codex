@@ -52,14 +52,27 @@ specialized environment is selected. It does not modify universal rules.
 
 ## Supported execution routes
 
-1. **Codex Cloud direct Owner chat**: `AGENTS.md` now selects the separate
-   `codex.owner_coordinator_ingress` authenticated relay *before* any worker
-   planning. With an Owner-authenticated GitHub CLI, it creates a bounded
-   `[coordinator run]` Issue in `martaxi-boss/VPS`; the existing independent
-   Coordinator alone audits, selects workers and dispatches them. Codex Cloud
-   must not execute the task directly if this identity or transport is missing.
-   A successful Issue creation proves only ingress submission, not execution.
-   `.codex/config.toml` still caps separate worker threads at two.
+1. **Codex Cloud direct Owner task (default for Cloud)**: the selected
+   Cloud environment is an independent execution entry point. Accept Owner
+   instructions and authorized original photographs, screenshots and other
+   files that are really readable inside that task; apply the Project Leader
+   Skill, inspect the real target, scope the work, execute covered fixes and
+   produce independently validated GitHub commits/PRs when target access
+   permits. Do not automatically run `codex.owner_coordinator_ingress` and
+   never mistake a chat attachment for a VPS-side original. Use no public
+   GitHub media relay, extra MCP or new Coordinator for direct Cloud work.
+   If a selected file cannot be accessed, surface the real evidence gap.
+   `.codex/config.toml` caps separately supported threads at two; it does
+   not itself prove that agents ran.
+   **Optional Owner-explicit VPS delegation**: use the existing authenticated
+   `codex.owner_coordinator_ingress` for text-only orders after verifying
+   current Cloud checkout and Owner GitHub identity. This ingress continues
+   to create just one `[coordinator run]` VPS Issue and can never transmit
+   private originals by itself. For media-dependent delegation, use only an
+   authenticated private receipt verified before starting the Coordinator;
+   otherwise stop and report the missing attachment route instead of sending
+   a stripped text order. Explicit VPS delegation does not also start Cloud
+   workers.
 2. **Signed-in Codex CLI**: `python -m codex.smart plan --order ORDER.json
    --repo-dir /real/target` may derive real scopes and chooses one/two workers.
    `python -m codex.smart run --order ORDER.json --repo-dir /real/target
@@ -67,12 +80,19 @@ specialized environment is selected. It does not modify universal rules.
    authorized. The legacy `python -m codex.dual` route is an explicit
    exactly-two-worker route, not the default auto selector. Neither runner
    automatically pushes, merges or deploys.
-3. **VPS**: `martaxi-boss/VPS` is the one authenticated independent
-   Coordinator and worker gateway. Selecting this specialized repository alone
-   does not inherit VPS credentials, token ledger, or live processes; a direct
-   Codex Owner chat must successfully use the signed-in GitHub relay. A Codex
-   worker dispatched by the VPS must never relay its own task back as a new
-   Owner order.
+3. **VPS (unchanged and independent)**: `martaxi-boss/VPS` remains
+   the existing authenticated Coordinator/worker gateway with its existing
+   passive Telegram Supervisor. Owner instructions from an ordinary ChatGPT
+   chat go through the existing authenticated ChatGPT/GitHub path to the VPS;
+   successful Issue and worker-run evidence, not a chat message, prove dispatch.
+   Codex Cloud does not replace, reconfigure or
+   impersonate the VPS. A verified VPS worker must never relay its own task
+   back as a new Owner order. The **only Supervisor** is the existing VPS
+   Supervisor: Cloud tasks should leave privacy-safe PR/commit/CI evidence
+   for its existing authorized observation path, but Cloud private file and
+   chat visibility or automatic live Telegram reporting must not be presumed.
+   Do not create a second Supervisor or allow the Supervisor to dispatch
+   commands or workers.
 
 ## Audit requirements
 

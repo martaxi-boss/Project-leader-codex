@@ -1,0 +1,88 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PL-CODEX-CLOUD-DUAL-ROUTES-20261015",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PL-CODEX-CLOUD-DUAL-ROUTES-20261015.json",
+  "authorization_commit_sha": "5b69b7355661434fbba94d0cc8c41307707e834a",
+  "authorization_sha256": "f0a72dd42ea629b514afe099a09515fa1a7db538b323f5788fc0719afb948b2b",
+  "implementation_head_sha": "23b1921abdc49c01a40880721890d6cd90928263",
+  "branch": "fix/codex-cloud-direct-vps-independent-20261015",
+  "pr_number": 27,
+  "recorded_at": "2026-10-15T00:11:13.057Z",
+  "state_observed_at": "2026-10-15T00:11:13.057Z",
+  "superseded_by": null,
+  "post_transition_record": null,
+  "changes": [
+    "Codex Cloud Owner task is direct by default with private attachments and actual Cloud target access; no mandatory VPS relay.",
+    "ChatGPT Owner instruction routes through authenticated GitHub path to unchanged VPS Coordinator/Codex workers.",
+    "Cloud-to-VPS delegation stays optional, explicitly Owner-requested and text-only; indispensable photographs cannot silently be omitted.",
+    "Exactly one passive Supervisor remains on the VPS, with no unverified claims about Cloud-private Telegram reporting.",
+    "Focused regression tests enforce routing, privacy, owner auth, stale-checkout guard, no recursive dispatch, and unique Supervisor."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub PR #27 changes only AGENTS.md, CODEX_COORDINATION.md, codex/tests/test_owner_coordinator_ingress.py and immutable E3 task/result pair. VPS, PINK app, upstream Project Leader untouched."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "All required GitHub Actions completed SUCCESS on exact implementation SHA 23b1921abdc49c01a40880721890d6cd90928263: Control contract #38658416555, Validate control plane #38658416511, Package plugins #38658416481, Codex specialization #38658416644. New descendant Worker Result necessitates gate and final exact-head CI."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Protected E3 authorization committed before changes at 5b69b7355661434fbba94d0cc8c41307707e834a; SHA256 of immutable task f0a72dd42ea629b514afe099a09515fa1a7db538b323f5788fc0719afb948b2b; original unchanged base-policy SHA256 c612748e735c01b2774c326c5b4e16a5e83fadd9a142320d504f9ac2258c0c2d. Scope and control requirements included. Independent trusted gate after result remains pending."
+    },
+    {
+      "name": "Codex Cloud direct evidence handling and VPS routing independence",
+      "status": "PASS",
+      "evidence": "Codex specialization run #38658416644 verified Cloud direct default, attachment truth, ChatGPT VPS route, optional explicit owner-authenticated relay; policy tests do not certify a live Cloud task."
+    },
+    {
+      "name": "VPS worker never recursively dispatches",
+      "status": "PASS",
+      "evidence": "Existing relay module unchanged. Worker-specific no-recursion rule and owner identity/stale checkout safeguards retained, tests pass #38658416644."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 38658416555
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 38658416511
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 38658416481
+    },
+    {
+      "name": "Codex specialization tests",
+      "status": "SUCCESS",
+      "run_id": 38658416644
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader-codex/pull/27",
+    "https://github.com/martaxi-boss/Project-leader-codex/actions/runs/38658416644",
+    "https://github.com/martaxi-boss/Project-leader-codex/actions/runs/38658416555"
+  ],
+  "material_non_effects": [
+    "No changes to VPS, PINK IPTV, universal Project Leader, APK, VPN, credentials, quotas, permissions or GitHub workflows.",
+    "No new Cloud Supervisor, no impersonation, no media uploaded to public GitHub, no commercial deployment.",
+    "No merge-to-main performed in this implementation record."
+  ],
+  "residual_blockers": [
+    "Real Codex Cloud runtime and three private photographs have not been verified by a fresh Cloud task; rules cannot prove external environment is working.",
+    "Existing VPS Supervisor is the only one and stays passive; automatic reporting of private Cloud chats or attachments into its Telegram is not certified.",
+    "Independent trusted gate and exact final-head checks must complete after this Worker Result before integration."
+  ]
+}

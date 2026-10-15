@@ -1,0 +1,103 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PL-CODEX-CLOUD-DUAL-ROUTES-20261015",
+  "project": "PROJECT LEADER + CODEX (SPECIALIZED)",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "created_at": "2026-10-15T00:01:48.120Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "O Owner quer as DUAS formas de Codex ativas e independentes: VPS continua com Coordenador, trabalhadores e Supervisor sem alterações; Codex Cloud trabalha diretamente no ambiente com imagens/anexos e código, sem entrega obrigatória à VPS. Corrigir apenas a regra de entrada Cloud deste fork e respetivos testes. Manter encaminhamento autenticado da instrução de TEXTO à VPS unicamente quando o Owner o pedir expressamente, sem perder anexos, sem novas integrações ou MCP."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "2519e5bccdece50f4f393a25f57a70588653dbda",
+    "task_branch": "fix/codex-cloud-direct-vps-independent-20261015",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "AGENTS.md",
+    "CODEX_COORDINATION.md",
+    "codex/tests/test_owner_coordinator_ingress.py",
+    ".project-leader/tasks/PL-CODEX-CLOUD-DUAL-ROUTES-20261015.json",
+    ".project-leader/results/PL-CODEX-CLOUD-DUAL-ROUTES-20261015.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "cross_project_mutation",
+    "force_push",
+    "rewrite_git_history",
+    "weaken_ci_or_security_controls",
+    "license_selection"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Codex Cloud direct evidence handling and VPS routing independence",
+    "VPS worker never recursively dispatches"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins",
+    "Codex specialization tests"
+  ],
+  "policy": {
+    "profile": "project-leader-codex-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "2519e5bccdece50f4f393a25f57a70588653dbda",
+    "sha256": "c612748e735c01b2774c326c5b4e16a5e83fadd9a142320d504f9ac2258c0c2d",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Cloud Owner task runs directly in its selected authenticated Codex Cloud environment with Owner-selected images retained as private task evidence, not auto-forwarded through text-only GitHub issues. Explicit VPS text-only handoff remains available with verified Owner identity and no recursive relay from workers. Separate VPS execution remains unchanged. Exact-scope E3 protected policy change, all required CI/security checks and a recorded Worker Result pass. No assertion of Cloud runtime end-to-end access without a new Cloud task on an updated/published environment.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}
