@@ -94,6 +94,47 @@ def validated_phases(work_items: Any, phase_plan: Any) -> tuple[Phase, ...]:
     return tuple(phases)
 
 
+def phases_from_planner(planned: Mapping[str, Any]) -> list[dict]:
+    """Translate the scoped Coordinator plan to the existing host runtime.
+
+    Preserve each original task and its per-task reasoning. The existing
+    validated_phases() enforces scope, dependencies and disjointness before
+    any worker may start. Nothing here invokes a model or grants approval.
+    """
+    if (not isinstance(planned, Mapping) or
+            planned.get("status") != "planned" or
+            planned.get("continuation_policy") !=
+            "CONTINUE_ALL_AUTHORIZED_PHASES_AFTER_VALIDATION"):
+        raise PhaseCycleError("The original scoped Coordinator plan is required")
+    flat = planned.get("phase_plan")
+    mode = planned.get("mode")
+    if (type(flat) is not list or not 1 <= len(flat) <= MAX_PHASES
+            or mode not in ("single", "serial", "parallel")):
+        raise PhaseCycleError("Missing bounded phase/mode information")
+    if any(
+        type(item) is not dict or
+        set(item) != {"sequence", "id", "depends_on", "paths", "reasoning_effort"} or
+        item.get("sequence") != i + 1 or
+        type(item.get("id")) is not str or
+        item.get("reasoning_effort") not in ("low", "medium", "high")
+        for i, item in enumerate(flat)
+    ):
+        raise PhaseCycleError("Malformed or reordered Coordinator phases")
+    result: list[dict] = []
+    step = 2 if mode == "parallel" else 1
+    for start in range(0, len(flat), step):
+        batch = flat[start:start + step]
+        ids = [item["id"] for item in batch]
+        result.append({
+            "task_ids": ids,
+            "mode": "parallel" if len(ids) == 2 else "single",
+            "reasoning_by_task": {
+                item["id"]: item["reasoning_effort"] for item in batch
+            },
+        })
+    return result
+
+
 def execute_until_terminal(
     phases: tuple[Phase, ...], *,
     checked_head: Callable[[], str],
