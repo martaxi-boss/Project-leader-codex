@@ -6,7 +6,7 @@ import unittest
 from unittest import mock
 
 from codex.agent_policy import RoutingError, plan, load_registry
-from codex.cloud_bridge import execute_cloud
+from codex.cloud_bridge import execute_cloud, execute_cloud_coordinator_phases
 from codex.tests.test_agent_policy import request, item
 
 
@@ -114,6 +114,75 @@ class CloudTransportTests(unittest.TestCase):
         host = FakeCloud(supported=False)
         with self.assertRaisesRegex(RoutingError, "verified capability"):
             execute_cloud(self._plan(), host, self.ledger)
+        self.assertEqual(host.calls, [])
+        self.assertFalse(self.ledger.exists())
+
+
+    def _three_phase_order(self):
+        return {
+            "request": "Complete the three authorized dependent UI repairs and tests",
+            "target_repository": "martaxi-boss/pink-iptv",
+            "work_items": [
+                {"id": "first", "task": "Implement and test navigation in live channels",
+                 "paths": ["src/channels"]},
+                {"id": "second", "task": "Implement and test catalogue loading in movies",
+                 "paths": ["src/movies"], "depends_on": ["first"]},
+                {"id": "third", "task": "Implement and test season and episode lists",
+                 "paths": ["src/series"], "depends_on": ["second"]},
+            ],
+        }
+
+    def test_cloud_host_uses_one_original_order_through_all_certified_phases(self):
+        from codex.phase_cycle import TERMINAL, CERTIFIED
+        host = FakeCloud()
+        observed = {"sha": "0" * 40}
+        notices = []
+        certified = ["a" * 40, "b" * 40, "c" * 40]
+
+        def certify(phase, evidence, before):
+            self.assertEqual(evidence["target_base_sha"], before)
+            self.assertEqual(evidence["status"], "WORKERS_COMPLETED")
+            self.assertEqual(len(evidence["worker_evidence"]["workers"]), 1)
+            observed["sha"] = certified[phase.number - 1]
+            return {"status": "PHASE_CERTIFIED", "accepted_sha": observed["sha"],
+                    "exact_ci": True, "independent_review": True,
+                    "material_gate": False}
+
+        outcome = execute_cloud_coordinator_phases(
+            self._three_phase_order(), host, self.ledger,
+            checked_head=lambda: observed["sha"], trusted_certifier=certify,
+            registry=registry(), passive_notify=notices.append)
+        self.assertEqual(outcome["status"], TERMINAL)
+        self.assertEqual(outcome["target_sha"], certified[-1])
+        self.assertEqual(host.calls, ["first", "second", "third"])
+        self.assertEqual([n["status"] for n in notices],
+                         [CERTIFIED, CERTIFIED, TERMINAL])
+        self.assertEqual(outcome["observer_failures"], 0)
+
+    def test_cloud_pr_staged_never_starts_the_dependent_phase(self):
+        from codex.phase_cycle import PENDING
+        host = FakeCloud()
+        checks = []
+        def staged(phase, evidence, before):
+            checks.append(phase.number)
+            return {"status": PENDING}
+
+        outcome = execute_cloud_coordinator_phases(
+            self._three_phase_order(), host, self.ledger,
+            checked_head=lambda: "0" * 40, trusted_certifier=staged,
+            registry=registry())
+        self.assertEqual(outcome["status"], PENDING)
+        self.assertEqual(outcome["next_phase"], 1)
+        self.assertEqual(checks, [1])
+        self.assertEqual(host.calls, ["first"])
+
+    def test_missing_independent_cloud_certifier_never_launches_or_reserves(self):
+        host = FakeCloud()
+        with self.assertRaisesRegex(RoutingError, "independent certifier"):
+            execute_cloud_coordinator_phases(
+                self._three_phase_order(), host, self.ledger,
+                checked_head=lambda: "0" * 40, trusted_certifier=None,
+                registry=registry())
         self.assertEqual(host.calls, [])
         self.assertFalse(self.ledger.exists())
 
