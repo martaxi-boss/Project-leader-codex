@@ -94,6 +94,27 @@ specialized environment is selected. It does not modify universal rules.
    Do not create a second Supervisor or allow the Supervisor to dispatch
    commands or workers.
 
+## Automatic phase continuation is runtime behavior, never an Owner prompt
+
+Execute the Coordinator's complete bounded phase DAG as one authorized task.
+Only the Coordinator selects phase identities, dependencies, one/two agents,
+serial/parallel strategy and each worker's low/medium/high reasoning.
+`codex.phase_cycle.validated_phases` rejects altered or incomplete decisions
+before work begins; `codex.smart.execute_coordinator_phases` consumes them
+through a host-verified certifier and automatically begins the next phase
+after exact-SHA certification. The host must supply the real integration,
+mandatory CI/security proof and material gate classification. Never assert
+that an unconfigured host adapter is available. Preserve the VPS' own
+phase-cycle/Owner Issue workflow unchanged by this Cloud specialization.
+
+The operation must NOT stop simply because a phase finishes or a report was
+sent. An unresolved blocker, genuine Human Gate, quota suspension, missing
+certification, unauthorized merge or a failed worker pauses the entire
+operation, never just one worker while others continue dependently.
+Do not restart or repeat an uncertain write; first reconcile with durable
+GitHub/workspace evidence. The existing passive Supervisor reports progress
+and blocks but does not dispatch, approve or correct work.
+
 ## Audit requirements
 
 For every actual run report the target repository and base SHA, mode selected
