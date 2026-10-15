@@ -79,38 +79,6 @@ can already see private Cloud attachments, private model chats, or every
 Cloud task automatically: if live Cloud-to-Supervisor delivery is not
 verified, say so rather than inventing a notification.
 
-## Continuous execution of one Coordinator decision — both supported entrances
-
-A Coordinator decision consists of the Owner objective, the verified target and
-its entire bounded phase DAG. **One Owner order starts the whole authorized
-operation, not one chat turn per phase.** Do not hand the Owner a new prompt,
-request a new command, or stop merely to send a phase report. Publish factual
-progress evidence without relinquishing the current operation.
-
-For direct **Codex Cloud**, once the Coordinator has scoped real work and
-selected phases, preserve its exact phase identities, modes, reasoning and
-worker allocation. The host runtime has
-`codex.phase_cycle.validated_phases` and
-`codex.smart.execute_coordinator_phases` for this contract. The latter
-requires an **independent trusted Project Leader certification adapter**;
-a raw worker report, draft PR, or merely queued CI is not that adapter. When
-that adapter is present, execute and certify all phases within the SAME
-operation, with no new Owner prompt between them. Never fabricate an adapter,
-completion evidence, permissions, or an external Coordinator.
-
-The **VPS** remains its existing separate Coordinator and its own GitHub
-Actions phase-cycle implementation; do not replace or configure VPS routing
-from Cloud. In both paths, subsequent phases become eligible only after
-exact-head CI, independent integration/review and all mandatory target gates
-are satisfied. An E1 recoverable failure is Recovery Guardian work within
-the original operation; do not blindly replay ambiguous writes. A genuine
-material/Human Gate, unverified certification, unresolved error or quota pause
-blocks the ENTIRE dependent phase sequence. Preserve the validated original
-plan and resume only from verified reconciliation. The passive VPS Supervisor
-may observe and notify, but NEVER starts phases, corrects code or grants a
-gate. If the host lacks an independent certifier, state the precise missing
-capability rather than asking the Owner to re-prompt each phase.
-
 ## Project Leader + Codex execution for Cloud and verified VPS workers
 
 When the Owner requests direct Codex Cloud execution, or a **verified VPS
