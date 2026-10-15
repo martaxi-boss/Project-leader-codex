@@ -41,6 +41,12 @@ class AgentCoordinationContractTests(unittest.TestCase):
         self.assertIn("ainda falta observar uma", guide)
         self.assertIn("PHASE_STAGED_AWAITING_TARGET_CERTIFICATION", guide)
 
+    def test_phase_runtime_is_executable_without_mutating_protected_rules(self):
+        from codex import phase_cycle, smart
+        self.assertTrue(callable(phase_cycle.validated_phases))
+        self.assertTrue(callable(phase_cycle.execute_until_terminal))
+        self.assertTrue(callable(smart.execute_coordinator_phases))
+
     def test_router_chooses_one_or_two_and_honors_safe_override(self):
         req = {
             "request": "Implement channel and movie navigation safely with required integration tests",
