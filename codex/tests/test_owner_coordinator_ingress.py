@@ -323,8 +323,8 @@ class CloudOwnerIngressTests(unittest.TestCase):
         self.assertIn("must NOT silently become a text-only order", guide)
         self.assertIn("verified private media path", guide)
         self.assertIn("never transmit", policy)
-        self.assertIn("do not create a second Supervisor", policy.lower())
-        self.assertIn("Do not create a\n   Cloud Supervisor", guide)
+        self.assertIn("do not create a second supervisor", policy.lower())
+        self.assertIn("Do not create a\nCloud Supervisor", guide)
 
     def test_vps_relay_identity_and_stale_cloud_checks_remain_intact(self):
         # This routing change must not weaken the existing optional text-only relay.
