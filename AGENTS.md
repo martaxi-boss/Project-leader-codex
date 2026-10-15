@@ -79,6 +79,37 @@ can already see private Cloud attachments, private model chats, or every
 Cloud task automatically: if live Cloud-to-Supervisor delivery is not
 verified, say so rather than inventing a notification.
 
+## One Owner order must cover the complete phase cycle (Cloud and VPS)
+
+The Coordinator is responsible for a complete, dependency-ordered execution plan,
+not just the first batch. For every bounded phase it identifies the actual work
+scope, difficulty, intended Codex reasoning effort (low/medium/high), acceptance
+checks and dependencies. It must preserve the original Owner authority throughout
+the cycle: **audit -> execute -> focused tests -> independent required validation
+-> correct/recover -> continue to the next eligible phase -> final certification**.
+Successful intermediate phases do not require a fresh Owner prompt, a second
+Coordinator or permission from the Supervisor. Checkpoints and Telegram reports
+are observations, **never phase-stop commands**.
+
+For targets whose normal rules forbid automatic integration (including Android
+and VPN projects), prefer completing dependent, reversible code phases in the
+same isolated, authorized candidate/worktree, with appropriate validation at
+each boundary, **before staging a final PR**. Do not manufacture a mandatory
+merge between phases merely to advance the plan. If a successor genuinely
+depends on independently certified and integrated changes, wait for those
+real target gates and resume when verified; do not bypass CI, auto-merge a
+protected PR or pretend a staged PR is certified. A failed phase triggers
+bounded recovery, not a blind repeat or a false terminal SUCCESS. Only a real
+exclusive Human Gate may interrupt the Owner for action.
+
+The shared specialist planner exposes a per-work-item \`phase_plan\` and
+\`next_phase_action\` for host adapters. These are coordination contracts,
+**not** evidence that a deployed host has implemented automatic resumption.
+The Cloud task executes directly in Cloud; the existing VPS workflow is a
+separate adapter and must consume equivalent continuation logic before
+claiming that an old VPS run will resume automatically. Do not silently
+change or restart that workflow as a consequence of reading this rule.
+
 ## Project Leader + Codex execution for Cloud and verified VPS workers
 
 When the Owner requests direct Codex Cloud execution, or a **verified VPS
