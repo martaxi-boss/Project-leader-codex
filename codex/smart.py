@@ -125,6 +125,8 @@ def execute_coordinator_phases(
     soft_limit: int | None = budget.SOFT_LIMIT_DEFAULT,
     phase_one_validator=None,
     passive_notify=None,
+    resume_checkpoint=None,
+    verify_resume=None,
 ) -> dict:
     """Execute every Coordinator-selected phase in the SAME authorized order.
 
@@ -190,7 +192,8 @@ def execute_coordinator_phases(
 
     return phase_cycle.execute_until_terminal(
         phases, checked_head=checked_head, run_phase=run_phase,
-        certify_phase=trusted_certifier, notify=passive_notify)
+        certify_phase=trusted_certifier, notify=passive_notify,
+        resume_checkpoint=resume_checkpoint, verify_resume=verify_resume)
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Smart provider-neutral agent planner and guarded Codex CLI runner")

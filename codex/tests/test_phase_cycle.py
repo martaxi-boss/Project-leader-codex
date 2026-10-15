@@ -209,5 +209,88 @@ class PhaseCycleTests(unittest.TestCase):
                 executor.assert_not_called()
 
 
+    def test_verified_resume_starts_at_next_phase_without_replaying_workers(self):
+        from codex.phase_cycle import phase_plan_digest
+        self.head = SECOND
+        checkpoint = {
+            "completed_phase": 1, "accepted_sha": SECOND,
+            "plan_digest": phase_plan_digest(self.dependent),
+            "status": "PHASE_CERTIFIED", "exact_ci": True,
+            "independent_review": True, "material_gate": False,
+        }
+        observed = []
+        def independently_verify(phases, accepted, target_head):
+            observed.append((phases, accepted["accepted_sha"], target_head))
+            return phases == self.dependent and target_head == SECOND
+
+        result = execute_until_terminal(
+            self.dependent, checked_head=self.checked_head,
+            run_phase=self.execute, certify_phase=self.success,
+            notify=self.notices.append, resume_checkpoint=checkpoint,
+            verify_resume=independently_verify)
+        self.assertEqual(result["status"], TERMINAL)
+        self.assertEqual(result["target_sha"], FOURTH)
+        self.assertEqual([p[0] for p in self.executed], [2, 3])
+        self.assertEqual([p[2] for p in self.executed], [SECOND, THIRD])
+        self.assertEqual([p["status"] for p in self.notices], [CERTIFIED, TERMINAL])
+        self.assertEqual(len(observed), 1)
+
+    def test_resume_never_accepts_stale_plan_unverified_or_forged_ci(self):
+        from codex.phase_cycle import phase_plan_digest
+        self.head = SECOND
+        checkpoint = {
+            "completed_phase": 1, "accepted_sha": SECOND,
+            "plan_digest": phase_plan_digest(self.dependent),
+            "status": "PHASE_CERTIFIED", "exact_ci": True,
+            "independent_review": True, "material_gate": False,
+        }
+        variations = [
+            {**checkpoint, "plan_digest": "0" * 64},
+            {**checkpoint, "accepted_sha": BASE},
+            {**checkpoint, "exact_ci": False},
+            {**checkpoint, "independent_review": False},
+            {**checkpoint, "material_gate": True},
+            {**checkpoint, "completed_phase": 3},
+        ]
+        for invalid in variations:
+            with self.subTest(invalid=invalid):
+                with self.assertRaises(PhaseCycleError):
+                    execute_until_terminal(
+                        self.dependent, checked_head=self.checked_head,
+                        run_phase=self.execute, certify_phase=self.success,
+                        resume_checkpoint=invalid, verify_resume=lambda *_: True)
+        with self.assertRaises(PhaseCycleError):
+            execute_until_terminal(
+                self.dependent, checked_head=self.checked_head,
+                run_phase=self.execute, certify_phase=self.success,
+                resume_checkpoint=checkpoint)
+        with self.assertRaises(PhaseCycleError):
+            execute_until_terminal(
+                self.dependent, checked_head=self.checked_head,
+                run_phase=self.execute, certify_phase=self.success,
+                resume_checkpoint=checkpoint, verify_resume=lambda *_: False)
+        self.assertEqual(self.executed, [])
+
+    def test_resume_must_recheck_target_head_after_external_attestation(self):
+        from codex.phase_cycle import phase_plan_digest
+        self.head = SECOND
+        checkpoint = {
+            "completed_phase": 1, "accepted_sha": SECOND,
+            "plan_digest": phase_plan_digest(self.dependent),
+            "status": "PHASE_CERTIFIED", "exact_ci": True,
+            "independent_review": True, "material_gate": False,
+        }
+        def races_with_merge(*args):
+            self.head = THIRD
+            return True
+        with self.assertRaises(PhaseCycleError):
+            execute_until_terminal(
+                self.dependent, checked_head=self.checked_head,
+                run_phase=self.execute, certify_phase=self.success,
+                resume_checkpoint=checkpoint, verify_resume=races_with_merge)
+        self.assertEqual(self.executed, [])
+
+
+
 if __name__ == "__main__":
     unittest.main()
