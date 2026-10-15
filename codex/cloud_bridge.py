@@ -112,3 +112,87 @@ def execute_cloud(planned: dict, host: CloudHost, budget_directory: Path, *, sof
     return {"session": session, "target_repository": planned["target_repository"],
             "mode": planned["mode"], "workers": results, "accounting": {**reserved, **accounted},
             "integration": "REQUIRES_INDEPENDENT_REVIEW: no automatic merge, deployment or provider substitution"}
+
+
+def execute_cloud_coordinator_phases(
+    order: dict,
+    host: CloudHost,
+    budget_directory: Path,
+    *,
+    checked_head,
+    trusted_certifier,
+    registry: dict | None = None,
+    soft_limit: int | None = budget.SOFT_LIMIT_DEFAULT,
+    passive_notify=None,
+) -> dict:
+    """Bind a real CloudHost to the *existing* shared phase cycle.
+
+    The host must have independently authenticated access to the selected
+    target and its original private attachments (if any). Neither attachments
+    nor provider credentials are copied to GitHub or to the VPS. The host
+    owns exact-head observation and independent CI/review certification;
+    a cloud worker report or staged PR cannot certify itself.
+    """
+    from codex.agent_policy import plan
+    from codex import phase_cycle
+
+    if not callable(checked_head) or not callable(trusted_certifier):
+        raise RoutingError("Cloud phases need an exact-head observer and independent certifier")
+    if (type(order) is not dict or
+            not {"request", "target_repository", "work_items"} <= set(order) or
+            set(order) - {"request", "target_repository", "work_items",
+                          "phases", "preference"}):
+        raise RoutingError("Original bounded Cloud Coordinator order is required")
+
+    if "phases" in order:
+        phase_rows = order["phases"]
+    else:
+        original = plan({
+            "request": order["request"],
+            "target_repository": order["target_repository"],
+            "work_items": order["work_items"],
+            **({"preference": order["preference"]} if "preference" in order else {}),
+        }, registry)
+        if original.get("status") != "planned":
+            raise RoutingError("Cloud phase planning lacks an attested provider")
+        phase_rows = phase_cycle.phases_from_planner(original)
+
+    phases = phase_cycle.validated_phases(order["work_items"], phase_rows)
+
+    def run_phase(phase, base_sha):
+        # Preserve Coordinator-chosen scopes, mode and per-task effort. A
+        # selected provider must still independently pass host capability
+        # attestation before any external model call or budget reservation.
+        effort = dict(phase.reasoning_by_task)
+        planned = plan({
+            "request": order["request"],
+            "target_repository": order["target_repository"],
+            "work_items": [
+                {**item, "reasoning_effort": effort[item["id"]]}
+                for item in phase.work_items
+            ],
+            "preference": phase.mode,
+        }, registry)
+        if planned.get("status") != "planned" or planned.get("mode") != phase.mode:
+            raise RoutingError("Cloud phase mode or capability changed after coordination")
+
+        execution = execute_cloud(planned, host, budget_directory,
+                                  soft_limit=soft_limit)
+        workers = execution.get("workers", [])
+        if (len(workers) != planned["agent_count"] or
+                any(worker.get("status") != "completed" for worker in workers)):
+            status = (phase_cycle.QUOTA
+                      if any(worker.get("status") == "quota_blocked"
+                             for worker in workers)
+                      else phase_cycle.RECOVERY)
+            return {"status": status}
+        return {
+            "status": "WORKERS_COMPLETED",
+            "worker_ids": [worker["run_id"] for worker in workers],
+            "worker_evidence": execution,
+            "target_base_sha": base_sha,
+        }
+
+    return phase_cycle.execute_until_terminal(
+        phases, checked_head=checked_head, run_phase=run_phase,
+        certify_phase=trusted_certifier, notify=passive_notify)
