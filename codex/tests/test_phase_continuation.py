@@ -145,9 +145,9 @@ class PhaseContinuationTests(unittest.TestCase):
     def test_parallel_phase_retains_two_independent_workers(self):
         from codex.phase_cycle import phases_from_planner, validated_phases
         tasks = [
-            {"id": "one", "task": "Implement security integration tests for channels",
+            {"id": "one", "task": "Implement integration tests for channels and build independent playback validation with extensive UI behavior checks",
              "paths": ["app/channels"]},
-            {"id": "two", "task": "Implement security integration tests for movies",
+            {"id": "two", "task": "Implement integration tests for movies and build independent catalog validation with extensive UI behavior checks",
              "paths": ["app/movies"]},
         ]
         planned = plan({
@@ -162,7 +162,7 @@ class PhaseContinuationTests(unittest.TestCase):
         self.assertEqual(len(phases), 1)
         self.assertEqual(phases[0].mode, "parallel")
         self.assertEqual(dict(phases[0].reasoning_by_task),
-                         {"one": "high", "two": "high"})
+                         {"one": "medium", "two": "medium"})
 
 
 if __name__ == "__main__":
