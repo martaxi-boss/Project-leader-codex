@@ -64,6 +64,16 @@ specialized environment is selected. It does not modify universal rules.
    If a selected file cannot be accessed, surface the real evidence gap.
    `.codex/config.toml` caps separately supported threads at two; it does
    not itself prove that agents ran.
+   For an authenticated Cloud host that exposes worker capability attestation,
+   an exact target-HEAD observer and an independent certifier, bind the **same**
+   authorized full phase plan through `codex.cloud_bridge.execute_cloud_coordinator_phases`.
+   It calls the existing `codex.phase_cycle` and verified `CloudHost` transport;
+   it is not another Coordinator, a VPS relay, an MCP or a Supervisor. A staged
+   PR or pending CI stops dependent work until the independent host can validate
+   and resume from the **original** authorized plan; never replay a worker on
+   ambiguous publication or replan merely because a workflow finished.
+   This binding is a tested interface, **not proof** that any particular Codex
+   Cloud task has loaded rules, read its private photographs or executed.
    **Optional Owner-explicit VPS delegation**: use the existing authenticated
    `codex.owner_coordinator_ingress` for text-only orders after verifying
    current Cloud checkout and Owner GitHub identity. This ingress continues
