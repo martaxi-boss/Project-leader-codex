@@ -1,0 +1,104 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PL-CODEX-CONTINUOUS-PHASES-20261015",
+  "project": "PROJECT LEADER + CODEX (SPECIALIZED)",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "created_at": "2026-10-15T00:41:10.000Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "O Owner exige que uma ordem de Project Leader + Codex execute TODAS as fases autorizadas automaticamente, no Codex Cloud e no Codex da VPS, com dificuldades/raciocinios por fase e sem pausa administrativa para relatorios do Supervisor. ALTERAR o projeto especializado Project-leader-codex como origem comum das regras; NAO alterar a VPS nesta tarefa; nao duplicar coordenador, Supervisor ou instrucoes. Preservar testes, CI independente e protecao de merges/producoes. Continuacao real num adaptador VPS separado ainda depende de suporte e validacao, nao pode ser fingida."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "9d6010e64c455af997ec75d8625e5f7138a6debb",
+    "task_branch": "fix/shared-continuous-phases-governed-20261015",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "AGENTS.md",
+    "CODEX_COORDINATION.md",
+    "codex/agent_policy.py",
+    "codex/tests/test_phase_continuation.py",
+    ".project-leader/tasks/PL-CODEX-CONTINUOUS-PHASES-20261015.json",
+    ".project-leader/results/PL-CODEX-CONTINUOUS-PHASES-20261015.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "cross_project_mutation",
+    "force_push",
+    "rewrite_git_history",
+    "weaken_ci_or_security_controls",
+    "license_selection"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Automatic multi-phase contract with independent validation",
+    "Cloud and VPS routes preserved without unverified runtime claims"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins",
+    "Codex specialization tests"
+  ],
+  "policy": {
+    "profile": "project-leader-codex-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "9d6010e64c455af997ec75d8625e5f7138a6debb",
+    "sha256": "c612748e735c01b2774c326c5b4e16a5e83fadd9a142320d504f9ac2258c0c2d",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Shared specialized Codex rules require Coordinator to plan full sequence, classify effort per phase and continue after real independent exact-candidate verification, with passive Supervisor reporting not blocking. Test shared pure planner/next-phase selector for cloud and VPS adapters. No weakening gate, no auto-merge/deploy or premature PINK stage 2 claim. GitHub exact-head required CI and immutable Task+Result verifiable; codex Cloud and VPS runtime end-to-end proof is a separate live certification.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}
