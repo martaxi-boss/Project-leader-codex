@@ -39,6 +39,10 @@ based on selecting an environment, or keep repeating a stalled operation.
 
 The VPS entry point, its independent Codex Coordinator, one/two workers,
 Project Leader enforcement and passive Telegram Supervisor are **unchanged**.
+An Owner order issued in an ordinary **ChatGPT chat** (outside Codex Cloud)
+goes to the **existing VPS Codex Coordinator** through the authenticated
+ChatGPT/GitHub route; a message alone is not proof of delivery or dispatch.
+Do not attempt direct Codex Cloud execution on behalf of this ChatGPT route.
 Owner orders issued to the VPS continue using their existing authenticated
 path. A Codex Cloud Owner task may explicitly request **VPS delegation**,
 but delegation is optional, not the default.
