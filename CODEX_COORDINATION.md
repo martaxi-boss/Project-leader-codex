@@ -82,7 +82,10 @@ specialized environment is selected. It does not modify universal rules.
    automatically pushes, merges or deploys.
 3. **VPS (unchanged and independent)**: `martaxi-boss/VPS` remains
    the existing authenticated Coordinator/worker gateway with its existing
-   passive Telegram Supervisor. Codex Cloud does not replace, reconfigure or
+   passive Telegram Supervisor. Owner instructions from an ordinary ChatGPT
+   chat go through the existing authenticated ChatGPT/GitHub path to the VPS;
+   successful Issue and worker-run evidence, not a chat message, prove dispatch.
+   Codex Cloud does not replace, reconfigure or
    impersonate the VPS. A verified VPS worker must never relay its own task
    back as a new Owner order. The **only Supervisor** is the existing VPS
    Supervisor: Cloud tasks should leave privacy-safe PR/commit/CI evidence
