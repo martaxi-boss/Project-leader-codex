@@ -9,7 +9,9 @@ create another coordinator or request Owner prompts between phases.
 from __future__ import annotations
 
 from collections.abc import Callable, Mapping
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
+import hashlib
+import json
 import re
 from typing import Any
 
@@ -135,19 +137,30 @@ def phases_from_planner(planned: Mapping[str, Any]) -> list[dict]:
     return result
 
 
+def phase_plan_digest(phases: tuple[Phase, ...]) -> str:
+    """Bind a resumed checkpoint to exact original phase identities and scopes."""
+    raw = json.dumps([asdict(phase) for phase in phases], sort_keys=True,
+                     separators=(",", ":"), ensure_ascii=True)
+    return hashlib.sha256(raw.encode("ascii")).hexdigest()
+
+
 def execute_until_terminal(
     phases: tuple[Phase, ...], *,
     checked_head: Callable[[], str],
     run_phase: Callable[[Phase, str], Mapping[str, Any]],
     certify_phase: Callable[[Phase, Mapping[str, Any], str], Mapping[str, Any]],
     notify: Callable[[Mapping[str, Any]], None] | None = None,
+    resume_checkpoint: Mapping[str, Any] | None = None,
+    verify_resume: Callable[[tuple[Phase, ...], Mapping[str, Any], str], bool] | None = None,
 ) -> dict:
     """Continue without another Owner prompt only after independent certification.
 
     Any error, partial result, material gate, skipped/pending CI, quota pause or
     unverifiable outcome stops the ENTIRE operation, never just one worker.
     The host may later resume from a separately validated durable checkpoint;
-    replaying a phase on an ambiguous write is not allowed here.
+    replaying a phase on an ambiguous write is not allowed here. A resume
+    requires the original plan digest, current certified target HEAD and a
+    trusted host verifier that independently checks ALL preceding phases.
     """
     if (type(phases) is not tuple or not 1 <= len(phases) <= MAX_PHASES or
             not all(isinstance(p, Phase) and p.number == index + 1
@@ -159,6 +172,36 @@ def execute_until_terminal(
     before = checked_head()
     if type(before) is not str or not SHA.fullmatch(before):
         raise PhaseCycleError("Unverified initial target revision")
+    # A former CI wait never authorizes rerunning an already-published phase.
+    # The host must derive this checkpoint from its original authenticated
+    # order and externally certified integration record, not a worker report.
+    start_index = 0
+    if resume_checkpoint is not None:
+        checkpoint = resume_checkpoint
+        if (not isinstance(checkpoint, Mapping) or
+                set(checkpoint) != {"completed_phase", "accepted_sha",
+                                    "plan_digest", "status", "exact_ci",
+                                    "independent_review", "material_gate"} or
+                type(checkpoint["completed_phase"]) is not int or
+                not 1 <= checkpoint["completed_phase"] < len(phases) or
+                checkpoint["status"] != "PHASE_CERTIFIED" or
+                checkpoint["accepted_sha"] != before or
+                checkpoint["plan_digest"] != phase_plan_digest(phases) or
+                checkpoint["exact_ci"] is not True or
+                checkpoint["independent_review"] is not True or
+                checkpoint["material_gate"] is not False or
+                not callable(verify_resume)):
+            raise PhaseCycleError("Resume lacks exact independently certified checkpoint")
+        try:
+            externally_verified = verify_resume(phases, checkpoint, before)
+        except Exception as exc:
+            raise PhaseCycleError("External checkpoint verification failed") from exc
+        if externally_verified is not True or checked_head() != before:
+            raise PhaseCycleError("External checkpoint not certified at current HEAD")
+        start_index = checkpoint["completed_phase"]
+    elif verify_resume is not None:
+        raise PhaseCycleError("Unused resume verifier without original checkpoint")
+
     records: list[dict] = []
     observer_failures = 0
 
@@ -175,7 +218,7 @@ def execute_until_terminal(
                 # cannot issue commands or grant/withdraw execution authority.
                 observer_failures += 1
 
-    for phase in phases:
+    for phase in phases[start_index:]:
         if checked_head() != before:
             emit({"phase": phase.number, "task_ids": phase.task_ids,
                   "status": RECOVERY, "reason": "BASE_REVISION_DRIFT"})
