@@ -306,6 +306,8 @@ class CloudOwnerIngressTests(unittest.TestCase):
         guide = (root / "AGENTS.md").read_text(encoding="utf-8")
         policy = (root / "CODEX_COORDINATION.md").read_text(encoding="utf-8")
         self.assertIn("The VPS entry point", guide)
+        self.assertIn("An Owner order issued in an ordinary **ChatGPT chat**", guide)
+        self.assertIn("goes to the **existing VPS Codex Coordinator**", guide)
         self.assertIn("Owner orders issued to the VPS", guide)
         self.assertIn("explicitly request **VPS delegation**", guide)
         self.assertIn("codex.owner_coordinator_ingress", guide)
