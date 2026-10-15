@@ -53,22 +53,22 @@ specialized environment is selected. It does not modify universal rules.
 ## Continuous phases under a single standing Owner instruction
 
 The coordinator **plans the whole requested job first**, with 1–8 verifiable
-work items and explicit dependency edges. \`codex.agent_policy.plan\` returns
-\`phase_plan\` in topological order, retaining an individually classified
-\`reasoning_effort\` for every phase even if the one/two-worker planner groups
+work items and explicit dependency edges. `codex.agent_policy.plan` returns
+`phase_plan` in topological order, retaining an individually classified
+`reasoning_effort` for every phase even if the one/two-worker planner groups
 several small items into one Codex invocation. Actual model effort is fixed
 for that bounded invocation; to adjust effort across phases, start a new
 bounded worker invocation at the next phase boundary. Do not claim a
 mid-invocation model effort change.
 
-The host can use \`codex.agent_policy.next_phase_action\` after each independently
-observed result. Missing eligible work -> \`DISPATCH_NEXT\` without new Owner
-authorization; a running worker -> \`WAIT_RUNNING\`; worker-produced or staged
+The host can use `codex.agent_policy.next_phase_action` after each independently
+observed result. Missing eligible work -> `DISPATCH_NEXT` without new Owner
+authorization; a running worker -> `WAIT_RUNNING`; worker-produced or staged
 work with missing, stale, or untrusted certification ->
-\`WAIT_INDEPENDENT_VALIDATION\`; a recoverable error -> \`RECOVER_PHASE\`;
-a genuine exclusive human decision -> \`HUMAN_GATE\`. Once every phase has
+`WAIT_INDEPENDENT_VALIDATION`; a recoverable error -> `RECOVER_PHASE`;
+a genuine exclusive human decision -> `HUMAN_GATE`. Once every phase has
 verified evidence bound to its exact candidate ->
-\`FINAL_ACCEPTANCE_AND_PR\`, **not** automatic merge or production release.
+`FINAL_ACCEPTANCE_AND_PR`, **not** automatic merge or production release.
 The host, not a worker's self-report, must supply validation evidence.
 No terminal "finished" result is valid while requested phases remain.
 
@@ -78,7 +78,7 @@ candidate before opening the final PR**. Run focused checks between changes
 and full/security/Android checks where required. This avoids turning a
 stage-one PR into an artificial pause. If dependent work really needs a
 merged predecessor or target-required CI/review, this is a genuine
-\`PHASE_STAGED_AWAITING_TARGET_CERTIFICATION\` external wait, never an excuse
+`PHASE_STAGED_AWAITING_TARGET_CERTIFICATION` external wait, never an excuse
 to disable tests or merge without authority. Resume only when the exact
 CI/integration evidence actually passes. Independent non-conflicting work
 can proceed in parallel under the normal two-worker ceiling.
