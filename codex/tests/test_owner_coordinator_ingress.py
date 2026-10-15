@@ -295,7 +295,7 @@ class CloudOwnerIngressTests(unittest.TestCase):
         self.assertIn("direct Cloud execution request by default", guide)
         self.assertIn("**Codex Cloud direct Owner task (default for Cloud)**", policy)
         self.assertIn("screenshots, photographs, documents or examples", guide)
-        self.assertIn("do not automatically relay this instruction to the VPS",
+        self.assertIn("do not automatically relay this instruction to the vps",
                       " ".join(guide.split()).lower())
         self.assertIn("implement, test, correct", guide)
         self.assertIn("Owner-selected Codex Cloud task can execute there", guide)
