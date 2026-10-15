@@ -187,5 +187,37 @@ class CloudTransportTests(unittest.TestCase):
         self.assertFalse(self.ledger.exists())
 
 
+    def test_cloud_resume_uses_original_plan_and_skips_certified_first_phase(self):
+        from codex.phase_cycle import phase_plan_digest, phases_from_planner, validated_phases, TERMINAL
+        order = self._three_phase_order()
+        original = plan(order, registry())
+        phases = validated_phases(order["work_items"], phases_from_planner(original))
+        observed = {"sha": "a" * 40}
+        checkpoint = {
+            "completed_phase": 1, "accepted_sha": observed["sha"],
+            "plan_digest": phase_plan_digest(phases),
+            "status": "PHASE_CERTIFIED", "exact_ci": True,
+            "independent_review": True, "material_gate": False,
+        }
+        host = FakeCloud()
+        passed = []
+        def certifier(phase, evidence, before):
+            passed.append(phase.number)
+            observed["sha"] = ("b" if phase.number == 2 else "c") * 40
+            return {"status": "PHASE_CERTIFIED", "accepted_sha": observed["sha"],
+                    "exact_ci": True, "independent_review": True,
+                    "material_gate": False}
+        result = execute_cloud_coordinator_phases(
+            order, host, self.ledger, checked_head=lambda: observed["sha"],
+            trusted_certifier=certifier, registry=registry(),
+            resume_checkpoint=checkpoint,
+            verify_resume=lambda planned, proof, head:
+                planned == phases and proof == checkpoint and head == "a" * 40)
+        self.assertEqual(result["status"], TERMINAL)
+        self.assertEqual(host.calls, ["second", "third"])
+        self.assertEqual(passed, [2, 3])
+
+
+
 if __name__ == "__main__":
     unittest.main()
