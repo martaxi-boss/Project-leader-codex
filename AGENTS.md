@@ -102,8 +102,8 @@ protected PR or pretend a staged PR is certified. A failed phase triggers
 bounded recovery, not a blind repeat or a false terminal SUCCESS. Only a real
 exclusive Human Gate may interrupt the Owner for action.
 
-The shared specialist planner exposes a per-work-item \`phase_plan\` and
-\`next_phase_action\` for host adapters. These are coordination contracts,
+The shared specialist planner exposes a per-work-item `phase_plan` and
+`next_phase_action` for host adapters. These are coordination contracts,
 **not** evidence that a deployed host has implemented automatic resumption.
 The Cloud task executes directly in Cloud; the existing VPS workflow is a
 separate adapter and must consume equivalent continuation logic before
