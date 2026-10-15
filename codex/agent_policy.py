@@ -273,13 +273,79 @@ def plan(order: dict, registry: dict | None = None) -> dict:
         selected = _select_model(profiles, capability, effort, allowed)
         assigned.append({"id": t["id"], "task": t["task"], "paths": t["paths"],
                          "depends_on": t["depends_on"], "selection": selected})
+    # Retain each independently scoped phase and its own difficulty, even if
+    # several items share one bounded Codex worker invocation.
+    phase_plan = [
+        {"sequence": number, "id": item["id"], "depends_on": list(item["depends_on"]),
+         "paths": list(item["paths"]), "reasoning_effort": _classify_effort(item)}
+        for number, item in enumerate(items, 1)
+    ]
     ready = all(x["selection"]["status"] == "selected" for x in assigned)
     # A second agent is never justified merely because a task has many sequential phases.
     return {"version": 1, "status": "planned" if ready else "blocked_no_provider", "request": request,
             "target_repository": repo, "capability": capability,
             "mode": mode, "agent_count": len(assigned), "tasks": assigned,
+            "phase_plan": phase_plan,
+            "continuation_policy": "CONTINUE_ALL_AUTHORIZED_PHASES_AFTER_VALIDATION",
             "warnings": _safety(request + "\n" + "\n".join(t["task"] for t in tasks)),
             "rationale": "parallel only for separate costly scopes" if mode == "parallel" else
                          "sequential dependency" if mode == "serial" else "one capable agent avoids coordination overhead",
             "integration": "manual validated PR; never merge/deploy automatically",
             "execution": "local CLI requires --execute and verified adapter; cloud delegation needs live host integration"}
+
+def next_phase_action(planned: dict, observed: dict[str, dict]) -> dict:
+    """Select the next action from *host-observed* phase evidence.
+
+    This pure policy does not poll CI, invoke models, authorize a merge or
+    deliver Supervisor messages. A host adapter owns those side effects and
+    must not treat a worker's self-report as independent validation.
+    """
+    if (not isinstance(planned, dict) or planned.get("status") != "planned" or
+            not isinstance(planned.get("phase_plan"), list) or
+            not planned["phase_plan"] or
+            not isinstance(observed, dict)):
+        raise RoutingError("A ready, scoped plan and host observations are required")
+    phases = planned["phase_plan"]
+    known = {item["id"] for item in phases}
+    if set(observed) - known:
+        raise RoutingError("Unknown phase observation: possible stale or mixed project")
+
+    validated: set[str] = set()
+    for phase in phases:
+        identifier = phase["id"]
+        report = observed.get(identifier)
+        if report is None:
+            if not set(phase["depends_on"]) <= validated:
+                return {"action": "WAIT_PREREQUISITE", "phase_id": identifier}
+            return {"action": "DISPATCH_NEXT", "phase_id": identifier,
+                    "sequence": phase["sequence"],
+                    "reasoning_effort": phase["reasoning_effort"]}
+        if not isinstance(report, dict):
+            raise RoutingError("Invalid phase evidence")
+        status = report.get("status")
+        if status == "validated":
+            head = report.get("candidate")
+            checked = report.get("certified_candidate")
+            proof = report.get("evidence")
+            if (type(head) is str and
+                    re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", head) and
+                    head == checked and
+                    report.get("validator") == "independent_host" and
+                    type(proof) is str and proof.strip()):
+                validated.add(identifier)
+                continue
+            return {"action": "WAIT_INDEPENDENT_VALIDATION",
+                    "phase_id": identifier}
+        if status in {"queued", "in_progress"}:
+            return {"action": "WAIT_RUNNING", "phase_id": identifier}
+        if status in {"completed", "pr_staged", "awaiting_ci", "awaiting_review"}:
+            return {"action": "WAIT_INDEPENDENT_VALIDATION",
+                    "phase_id": identifier}
+        if status in {"failed", "recoverable_error"}:
+            return {"action": "RECOVER_PHASE", "phase_id": identifier}
+        if status == "human_gate":
+            return {"action": "HUMAN_GATE", "phase_id": identifier}
+        raise RoutingError("Unrecognized phase status; fail closed")
+    return {"action": "FINAL_ACCEPTANCE_AND_PR",
+            "phase_count": len(phases)}
+
