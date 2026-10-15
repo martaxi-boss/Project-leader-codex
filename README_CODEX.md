@@ -187,3 +187,58 @@ independentes para projetos distintos. A integração desta biblioteca não
 atualiza automaticamente sessões Cloud antigas nem o workflow que já está
 instalado na VPS. Cada host tem de chamar o executor com autenticação e
 validador externo reais antes de se declarar continuidade operacional.
+
+## Higiene de contexto e estado comprovado — 15/10/2026
+
+Esta secção **data evidências**; não substitui `AGENTS.md`,
+`CODEX_COORDINATION.md`, a Skill canónica, o estado vivo do GitHub nem
+autoriza a repetição de uma ordem antiga. As referências operacionais acima,
+com data de 14/10/2026, são históricas quando divergem destas verificações.
+
+- **Fonte universal:** `martaxi-boss/Project-leader` `main`
+  `b534629851dad20bcf6f9921f3c3a1dbc4ee7248` (Skill 0.7.0).
+  Comparação exata das árvores: os 503 ficheiros partilhados com o
+  `Project-leader-codex` têm 500 blobs idênticos; só diferem
+  `.github/workflows/contract-tests.yml`,
+  `projects/policies/project-leader.json` e
+  `tests/test_trusted_gate.py` — as três adaptações aprovadas da cópia.
+  Nunca propagar regras Codex de volta ao Project Leader universal.
+- **Coordenação especializada:** o `main` em
+  `0f1aa08ad5b7b5c63323fd20c23243116de49f1c` inclui a
+  [PR #32](https://github.com/martaxi-boss/Project-leader-codex/pull/32).
+  O motor **único de fases** é `codex.phase_cycle`; o executor local
+  `codex.smart.execute_coordinator_phases` e o adaptador de host Cloud
+  `codex.cloud_bridge.execute_cloud_coordinator_phases` utilizam esse motor.
+  A retomada só pode usar o plano original e um checkpoint
+  **independentemente certificado** no SHA atual; não voltar a executar fases
+  anteriores por simples perda de contexto.
+- **VPS autónoma:** a [PR VPS #234](https://github.com/martaxi-boss/VPS/pull/234)
+  foi integrada em `43303b695c68bb79d555a3ea1ec8c0422de7a4e2`.
+  O trabalhador VPS já lançado pelo Coordenador existente passa a carregar
+  as instruções especializadas **fixadas a um SHA** além da Skill canónica.
+  Não foi criado um novo Coordenador, segundo Supervisor ou MCP.
+  Testes da PR passaram; não confundir isso com prova de uma nova execução real.
+- **Codex Cloud direto:** continua independente da VPS e usa os anexos apenas
+  quando estão realmente disponíveis na tarefa privada do Cloud. A interface
+  de execução e recuperação tem testes offline; ainda **não há prova de tarefa
+  Cloud real com fotografias nem de visibilidade automática desses anexos
+  no Supervisor passivo**.
+- **PINK #233:** a [PR PINK #69](https://github.com/martaxi-boss/pink-iptv/pull/69)
+  teve CI Android terminal `success` sobre o seu HEAD real
+  `531044389d43c1541d5b38fbe60f12c9ec8a5a88`
+  ([run 38702311695](https://github.com/martaxi-boss/pink-iptv/actions/runs/38702311695))
+  e foi integrada como `bd5a5350c2168d1728c812e56b429c5584ca8a39`.
+  A fase 2 **não foi executada nem certificada**: a execução inicial
+  [VPS #233](https://github.com/martaxi-boss/VPS/issues/233) terminou após
+  uma PR preparada e não guardou uma retoma autónoma comprovada do DAG.
+  Não repetir a fase 1, recriar a Issue, falsificar checkpoint ou assumir
+  aceite o teste físico Android.
+- **Branches e evidência:** a [higiene automática 38704064711](https://github.com/martaxi-boss/Project-leader-codex/actions/runs/38704064711)
+  terminou com sucesso. Na observação de 15/10 havia 15 branches não-`main`
+  ainda divergentes e sem PRs abertas. Preservá-las: não há demonstração de
+  que os seus commits únicos tenham sido integrados. Não apagar por idade,
+  não reescrever histórico, não remover evidência de auditoria.
+
+Ao iniciar qualquer trabalho futuro, consultar os HEADs, PRs e checks **atuais**.
+Um registo `PR_STAGED`, um run de workflow `success` ou a cópia de regras
+não certificam automaticamente todas as fases nem o funcionamento num host.
