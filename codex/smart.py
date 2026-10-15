@@ -137,10 +137,24 @@ def execute_coordinator_phases(
     if not callable(trusted_certifier):
         raise RoutingError("Independent host certification required for phase continuation")
     if (type(order) is not dict or
-            not {"request", "target_repository", "work_items", "phases"} <= set(order) or
-            set(order) - {"request", "target_repository", "work_items", "phases"}):
-        raise RoutingError("A bounded original Coordinator phase plan is required")
-    phases = phase_cycle.validated_phases(order["work_items"], order["phases"])
+            not {"request", "target_repository", "work_items"} <= set(order) or
+            set(order) - {"request", "target_repository", "work_items",
+                          "phases", "preference"}):
+        raise RoutingError("A bounded original Coordinator plan is required")
+    if "phases" in order:
+        phase_rows = order["phases"]
+    else:
+        # The host has already verified/scoped every Owner work item.
+        # Select one/two workers and preserve an effort choice per phase.
+        original = plan({
+            "request": order["request"],
+            "target_repository": order["target_repository"],
+            "work_items": order["work_items"],
+            **({"preference": order["preference"]}
+               if "preference" in order else {}),
+        })
+        phase_rows = phase_cycle.phases_from_planner(original)
+    phases = phase_cycle.validated_phases(order["work_items"], phase_rows)
     repo = repo_dir.expanduser().resolve(strict=True)
     dual._preflight(repo, order["target_repository"])
 
