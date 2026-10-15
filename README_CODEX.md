@@ -147,7 +147,7 @@ As três entradas de ordens pretendidas continuam a ter estados distintos:
   **diretamente no Cloud por defeito**, com acesso apenas às fotografias,
   ficheiros e exemplos realmente anexados e disponíveis nessa tarefa. Usa
   as mesmas regras do Project Leader + Codex, sem passagem obrigatória pela
-  VPS. A execução Cloud com anexos ainda precisa de certificação real.
+  VPS. A execução Cloud com anexos ainda não está certificada em teste real.
   A delegação para a VPS é opcional e apenas a pedido expresso do Owner:
   o relay de texto `codex.owner_coordinator_ingress` nunca transporta
   fotografias em silêncio nem cria outro Supervisor.
