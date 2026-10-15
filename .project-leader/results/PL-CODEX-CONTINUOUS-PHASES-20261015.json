@@ -1,0 +1,89 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PL-CODEX-CONTINUOUS-PHASES-20261015",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PL-CODEX-CONTINUOUS-PHASES-20261015.json",
+  "authorization_commit_sha": "6c927bd1e3b850bce98b130bf2efd207b1833415",
+  "authorization_sha256": "1dada459249f52c70fb43d28fdb3ab5c23ad55916ef36af57b16798752c1c511",
+  "implementation_head_sha": "fdb45de71cf7fec5c16f29b36828a4bd9ac535e3",
+  "branch": "fix/shared-continuous-phases-governed-20261015",
+  "pr_number": 29,
+  "recorded_at": "2026-10-15T00:43:59.000Z",
+  "state_observed_at": "2026-10-15T00:43:59.000Z",
+  "superseded_by": null,
+  "post_transition_record": null,
+  "changes": [
+    "Shared Project-leader-codex rules require one Owner instruction to cover the full dependency-ordered phase cycle in Cloud and VPS, without administrative Supervisor pauses.",
+    "Each original scoped work item retains its own effort classification in phase_plan; low/medium/high chosen independently at real task boundaries.",
+    "Pure next_phase_action admits next eligible phase after independent host validation of exact candidate, otherwise WAIT_RUNNING, WAIT_INDEPENDENT_VALIDATION, RECOVER_PHASE, HUMAN_GATE, or final acceptance.",
+    "Seven offline regression tests confirm phase continuation, stale/self-attested evidence rejection, unstarted work separation and one passive Supervisor.",
+    "Actual VPS GitHub Action adapter not altered: policy does not automatically resume PINK IPTV Issue #233 or certify Android/VPN PR #69."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub PR #29 compares only AGENTS.md, CODEX_COORDINATION.md, codex/agent_policy.py, codex/tests/test_phase_continuation.py and the immutable Task Authorization. The only additional final descendant is this Worker Result."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Exact implementation SHA fdb45de71cf7fec5c16f29b36828a4bd9ac535e3 passed Control contract #38661687335, Validate control plane #38661687330, Package plugins #38661687275 and Codex specialization #38661687279; independent trusted-authorization on final evidence-only descendant remains required."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Task Authorization introduced alone at commit 6c927bd1e3b850bce98b130bf2efd207b1833415 before protected AGENTS.md and CODEX_COORDINATION.md changes; raw immutable task SHA-256 1dada459249f52c70fb43d28fdb3ab5c23ad55916ef36af57b16798752c1c511; no rules or policy files weakened."
+    },
+    {
+      "name": "Automatic multi-phase contract with independent validation",
+      "status": "PASS",
+      "evidence": "Codex specialization #38661687279 passed seven dedicated tests in codex/tests/test_phase_continuation.py. No tests substitute a staged PR for CI or exact-candidate independent validation."
+    },
+    {
+      "name": "Cloud and VPS routes preserved without unverified runtime claims",
+      "status": "PASS",
+      "evidence": "No changes to VPS workflows, PINK, upstream universal Project Leader, provider credentials or Supervisor; Cloud Owner task remains direct by default, ChatGPT Owner VPS route remains independent; a deployed host consuming the new shared phase_plan is not yet live-certified."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 38661687335
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 38661687330
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 38661687275
+    },
+    {
+      "name": "Codex specialization tests",
+      "status": "SUCCESS",
+      "run_id": 38661687279
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader-codex/pull/29",
+    "https://github.com/martaxi-boss/Project-leader-codex/actions/runs/38661687335",
+    "https://github.com/martaxi-boss/Project-leader-codex/actions/runs/38661687279",
+    "https://github.com/martaxi-boss/VPS/issues/233"
+  ],
+  "material_non_effects": [
+    "No changes to VPS, PINK IPTV, universal Project Leader, APK, VPN, credentials, budgets, permissions or GitHub workflows.",
+    "No production, Android build, release, auto-merge, parallel competing PINK workers, duplicate coordinator or second Supervisor.",
+    "No claim of validated PINK PR #69 or completed phase 2; no claim that a running/old Cloud or VPS task dynamically loaded this new policy."
+  ],
+  "residual_blockers": [
+    "VPS execution adapter for dependent Android/VPN PR-only projects remains to be integrated with equivalent shared phase progression and independently validated in a separately authorized work cycle.",
+    "Codex Cloud direct runtime with attached photographs has not been newly exercised in this task; old Cloud snapshots may still hold older rules.",
+    "PINK IPTV Issue #233 stage 2 is awaiting target-specific independent Android/VPN certification of PR #69, not permission or a Supervisor message."
+  ]
+}
