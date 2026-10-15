@@ -124,6 +124,8 @@ def execute_cloud_coordinator_phases(
     registry: dict | None = None,
     soft_limit: int | None = budget.SOFT_LIMIT_DEFAULT,
     passive_notify=None,
+    resume_checkpoint=None,
+    verify_resume=None,
 ) -> dict:
     """Bind a real CloudHost to the *existing* shared phase cycle.
 
@@ -195,4 +197,5 @@ def execute_cloud_coordinator_phases(
 
     return phase_cycle.execute_until_terminal(
         phases, checked_head=checked_head, run_phase=run_phase,
-        certify_phase=trusted_certifier, notify=passive_notify)
+        certify_phase=trusted_certifier, notify=passive_notify,
+        resume_checkpoint=resume_checkpoint, verify_resume=verify_resume)
