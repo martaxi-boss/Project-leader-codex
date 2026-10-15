@@ -143,14 +143,14 @@ As três entradas de ordens pretendidas continuam a ter estados distintos:
   autenticada que já ativa o Coordenador. Não existe garantia de despacho
   automático de qualquer mensagem do chat sem invocação efetiva da ferramenta
   e prova do workflow correspondente.
-- **Codex direto:** agora existe o relay `codex.owner_coordinator_ingress`,
-  definido no `AGENTS.md` para novas ordens recebidas no chat Codex Cloud.
-  Apenas com GitHub CLI autenticado como o Owner, cria uma Issue autorizada
-  `[coordinator run]` no VPS e deixa o Coordenador independente decidir os
-  trabalhadores. Não executa localmente como alternativa, não usa segredos
-  da VPS e não relança escritas ambíguas. Este transporte tem testes offline;
-  a passagem de **uma mensagem real do chat Codex** até à Issue e ao executor
-  ainda **não está certificada**.
+- **Codex direto:** uma nova tarefa no ambiente Codex Cloud executa
+  **diretamente no Cloud por defeito**, com acesso apenas às fotografias,
+  ficheiros e exemplos realmente anexados e disponíveis nessa tarefa. Usa
+  as mesmas regras do Project Leader + Codex, sem passagem obrigatória pela
+  VPS. A execução Cloud com anexos ainda não está certificada em teste real.
+  A delegação para a VPS é opcional e apenas a pedido expresso do Owner:
+  o relay de texto `codex.owner_coordinator_ingress` nunca transporta
+  fotografias em silêncio nem cria outro Supervisor.
 - **Telegram:** ponte e testes automatizados de autenticação, segurança,
   texto e transcrição de voz estão implementados, mas ainda falta observar uma
   ordem real atravessar mensagem → workflow assinado → Issue Owner →
@@ -163,3 +163,27 @@ Nenhuma destas integrações substitui a revisão de segurança, o teste físico
 indispensável ou o controlo exato do projeto-alvo. O teste funcional do PINK
 IPTV deve usar uma ordem normal, sem ensinar as regras no pedido, e registar
 as evidências do caminho executado.
+
+## Ciclo completo das fases — política comum Cloud e VPS
+
+Uma ordem do Owner cobre **todas as fases** autorizadas. O Coordenador analisa
+o projeto, determina tarefas e dependências, seleciona trabalho individual,
+serial ou até dois Codex independentes em paralelo, e classifica o raciocínio
+de **cada fase** como `low`, `medium` ou `high`. O planeador
+`codex.agent_policy.plan` conserva todos os itens em `phase_plan`, mesmo
+quando agrupa trabalhadores.
+
+O executor `codex.smart.execute_coordinator_phases` aceita as fases
+verificadas do Coordenador ou deriva-as de um plano já delimitado, preservando
+os níveis de raciocínio. Continua **sem nova ordem** apenas após validação
+independente do SHA exato, CI obrigatória e autorização material aplicável.
+Uma PR apenas criada (`PR_STAGED`) não é uma integração ou certificação.
+Erros recuperáveis exigem correção; não se pede autorização administrativa
+para começar a fase seguinte. Não se desativam testes ou proteções de merge.
+
+O **único Supervisor** fica na VPS e acompanha/relata ao Telegram sem aprovar,
+despachar, corrigir ou parar fases. Codex Cloud e VPS são duas entradas
+independentes para projetos distintos. A integração desta biblioteca não
+atualiza automaticamente sessões Cloud antigas nem o workflow que já está
+instalado na VPS. Cada host tem de chamar o executor com autenticação e
+validador externo reais antes de se declarar continuidade operacional.
