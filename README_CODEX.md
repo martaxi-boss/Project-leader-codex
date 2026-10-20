@@ -147,8 +147,9 @@ Isto não equivale a afirmar que todos os tipos possíveis de avaria já foram
 testados. Só uma ordem materialmente nova ou um verdadeiro Human Gate
 justificam outro ciclo de autoridade, nunca uma supervisão de IA permanente.
 
-A regra operacional detalhada e normativa encontra-se em
-[CODEX_COORDINATION.md](CODEX_COORDINATION.md#canonical-owner-decision-coordinator-responsibilities-and-token-economy-2026-10-20).
+Esta decisão canónica fica documentada aqui e é consistente com o contrato
+existente em [CODEX_COORDINATION.md](CODEX_COORDINATION.md), que permanece
+inalterado por ser um ficheiro protegido do projeto.
 A prova de duas fases e a recuperação específica do publicador estão
 documentadas na [Issue VPS #288](https://github.com/martaxi-boss/VPS/issues/288);
 o Project Leader universal mantém-se intacto.
