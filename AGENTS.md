@@ -8,7 +8,7 @@ currently verified executor.
 
 **The sole Coordinator belongs to this repository**, `martaxi-boss/Project-leader-codex`: the existing `codex.smart`, `codex.agent_policy`, host scoping and Codex workers. Its policies and execution engine must travel with this repository. GitHub Actions or a VPS may supply compute/transport, but neither owns another planning AI. Do not create a second Coordinator, another Supervisor or an MCP just to route work.
 
-### Codex Cloud: execute directly with the project Coordinator
+### Codex Cloud: work directly with the project Coordinator
 
 A new Owner instruction in an explicitly selected **Codex Cloud task** is a **direct Cloud execution request by default**, whether dictated, typed, or accompanied by screenshots, photographs, documents or examples. Load the Project Leader Skill and `CODEX_COORDINATION.md`, inspect the actual authorized target and implement, test, correct and prepare scoped commits/PRs there. Use the existing portable coordinator planner/worker capabilities for scoped work; do not automatically relay this instruction to the VPS or start a redundant VPS planning AI.
 
@@ -79,7 +79,7 @@ already verified delegated scope:
    Never silently merge, deploy, relax tests/security or mutate production.
 8. Receiving an order in an ordinary ChatGPT chat is **not itself** a Codex
    execution trigger. An Owner-selected Codex Cloud task can execute there;
-   a VPS job must be dispatched by the already authenticated VPS gateway.
+   an external Codex job requires an authenticated host executor. Historical\n   VPS jobs remain valid evidence but are not the default planning route.
    Selecting a Cloud environment alone is not proof that a worker ran.
    Report real job/PR IDs, scope, reasoning, validation, usage observations
    and blockers without fabricating execution.
