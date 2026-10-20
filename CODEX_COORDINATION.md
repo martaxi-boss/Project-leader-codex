@@ -52,6 +52,8 @@ specialized environment is selected. It does not modify universal rules.
 
 ## Supported execution routes — one Coordinator, multiple hosts
 
+The legacy documentation label "VPS (unchanged and independent)" describes the historical entry path only, **not** an active second Coordinator or default routing instruction.
+
 The project Coordinator is the existing `codex.smart` + `codex.agent_policy` in `martaxi-boss/Project-leader-codex`. **Execution location is a host choice, not a second Coordinator.** No permanent VPS, remote desktop, new MCP or additional planning model is required.
 
 1. **Codex Cloud direct Owner task (default for Cloud)**: the selected authenticated Cloud task loads this policy, inspects its real target, scopes work, chooses one or two appropriately isolated workers, implements and tests with actual evidence and proposes reviewed PRs. It may use screenshots, photographs and original private files actually available within that Cloud task. Never silently hand off to VPS, expose private originals on GitHub or claim a worker ran solely because a prompt was entered. Cloud environment permissions still apply.
