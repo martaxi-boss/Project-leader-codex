@@ -299,24 +299,23 @@ class CloudOwnerIngressTests(unittest.TestCase):
                       " ".join(guide.split()).lower())
         self.assertIn("implement, test, correct", guide)
         self.assertIn("Owner-selected Codex Cloud task can execute there", guide)
-        self.assertIn("VPS (unchanged and independent)", policy)
+        self.assertIn("VPS legacy observation only by default", policy)
         self.assertIn("The **only Supervisor**", policy)
 
-    def test_chatgpt_vps_and_cloud_direct_are_separate_authorized_routes(self):
+    def test_chatgpt_and_cloud_use_one_portable_coordinator_not_vps_ai(self):
         root = Path(__file__).resolve().parents[2]
         guide = (root / "AGENTS.md").read_text(encoding="utf-8")
         policy = (root / "CODEX_COORDINATION.md").read_text(encoding="utf-8")
-        self.assertIn("The VPS entry point", guide)
-        self.assertIn("An Owner order issued in an ordinary **ChatGPT chat**", guide)
-        self.assertIn("goes to the **existing VPS Codex Coordinator**", guide)
-        self.assertIn("Owner orders issued to the VPS", guide)
-        self.assertIn("explicitly request **VPS delegation**", guide)
-        self.assertIn("codex.owner_coordinator_ingress", guide)
-        self.assertIn("must never relay its own task back",
-                      " ".join(policy.split()))
+        self.assertIn("One portable, project-owned Coordinator", guide)
+        self.assertIn("ChatGPT: invoke the same project-owned Coordinator", guide)
+        self.assertIn("Never route an ordinary ChatGPT instruction through the VPS AI Coordinator by default", guide)
+        self.assertIn("Codex Cloud direct Owner task", policy)
+        self.assertIn("codex.smart", policy)
+        self.assertIn("ChatGPT Skill using available host tools", policy)
         self.assertIn("only Supervisor", guide)
-        self.assertNotIn("the relay is the first substantive", guide)
-        self.assertNotIn("stop local work: the VPS Coordinator owns", guide)
+        self.assertNotIn("goes to the **existing VPS Codex Coordinator**", guide)
+        self.assertNotIn("do automatically run `codex.owner_coordinator_ingress`", policy)
+        self.assertIn("CODEX_EXECUTOR_UNAVAILABLE", guide)
 
     def test_cloud_private_media_cannot_silently_become_text_only_order(self):
         root = Path(__file__).resolve().parents[2]
@@ -326,7 +325,7 @@ class CloudOwnerIngressTests(unittest.TestCase):
         self.assertIn("NOT automatically a file on the VPS", guide)
         self.assertIn("must NOT silently become a text-only order", guide)
         self.assertIn("verified private media path", guide)
-        self.assertIn("never transmit", policy)
+        self.assertIn("Never silently hand off", policy)
         self.assertIn("do not create a second supervisor", policy.lower())
         self.assertIn("Do not create a\nCloud Supervisor", guide)
 
