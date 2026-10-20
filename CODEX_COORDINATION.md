@@ -50,49 +50,16 @@ specialized environment is selected. It does not modify universal rules.
   is connected. An authenticated host coordinator/runner must explicitly
   deliver a validated task and prove the resulting worker run IDs.
 
-## Supported execution routes
+## Supported execution routes — one Coordinator, multiple hosts
 
-1. **Codex Cloud direct Owner task (default for Cloud)**: the selected
-   Cloud environment is an independent execution entry point. Accept Owner
-   instructions and authorized original photographs, screenshots and other
-   files that are really readable inside that task; apply the Project Leader
-   Skill, inspect the real target, scope the work, execute covered fixes and
-   produce independently validated GitHub commits/PRs when target access
-   permits. Do not automatically run `codex.owner_coordinator_ingress` and
-   never mistake a chat attachment for a VPS-side original. Use no public
-   GitHub media relay, extra MCP or new Coordinator for direct Cloud work.
-   If a selected file cannot be accessed, surface the real evidence gap.
-   `.codex/config.toml` caps separately supported threads at two; it does
-   not itself prove that agents ran.
-   **Optional Owner-explicit VPS delegation**: use the existing authenticated
-   `codex.owner_coordinator_ingress` for text-only orders after verifying
-   current Cloud checkout and Owner GitHub identity. This ingress continues
-   to create just one `[coordinator run]` VPS Issue and can never transmit
-   private originals by itself. For media-dependent delegation, use only an
-   authenticated private receipt verified before starting the Coordinator;
-   otherwise stop and report the missing attachment route instead of sending
-   a stripped text order. Explicit VPS delegation does not also start Cloud
-   workers.
-2. **Signed-in Codex CLI**: `python -m codex.smart plan --order ORDER.json
-   --repo-dir /real/target` may derive real scopes and chooses one/two workers.
-   `python -m codex.smart run --order ORDER.json --repo-dir /real/target
-   --execute` launches covered jobs only when authenticated, validated and
-   authorized. The legacy `python -m codex.dual` route is an explicit
-   exactly-two-worker route, not the default auto selector. Neither runner
-   automatically pushes, merges or deploys.
-3. **VPS (unchanged and independent)**: `martaxi-boss/VPS` remains
-   the existing authenticated Coordinator/worker gateway with its existing
-   passive Telegram Supervisor. Owner instructions from an ordinary ChatGPT
-   chat go through the existing authenticated ChatGPT/GitHub path to the VPS;
-   successful Issue and worker-run evidence, not a chat message, prove dispatch.
-   Codex Cloud does not replace, reconfigure or
-   impersonate the VPS. A verified VPS worker must never relay its own task
-   back as a new Owner order. The **only Supervisor** is the existing VPS
-   Supervisor: Cloud tasks should leave privacy-safe PR/commit/CI evidence
-   for its existing authorized observation path, but Cloud private file and
-   chat visibility or automatic live Telegram reporting must not be presumed.
-   Do not create a second Supervisor or allow the Supervisor to dispatch
-   commands or workers.
+The project Coordinator is the existing `codex.smart` + `codex.agent_policy` in `martaxi-boss/Project-leader-codex`. **Execution location is a host choice, not a second Coordinator.** No permanent VPS, remote desktop, new MCP or additional planning model is required.
+
+1. **Codex Cloud direct Owner task (default for Cloud)**: the selected authenticated Cloud task loads this policy, inspects its real target, scopes work, chooses one or two appropriately isolated workers, implements and tests with actual evidence and proposes reviewed PRs. It may use screenshots, photographs and original private files actually available within that Cloud task. Never silently hand off to VPS, expose private originals on GitHub or claim a worker ran solely because a prompt was entered. Cloud environment permissions still apply.
+2. **Signed-in Codex CLI on any supported host**: the same project engine supports `python -m codex.smart plan --task 'Owner request' --repo-dir /real/target` and, when permitted and authenticated, `python -m codex.smart run --task 'Owner request' --repo-dir /real/target --execute`. An existing `--order ORDER.json` remains supported for independently verified complex scopes. The CLI verifies the selected checkout and can discover grounded paths. Ambiguous scopes remain `needs_scoping` for host inspection, never invented. Serial phases still need an independent validator. The engine does not silently publish, merge or deploy.
+3. **ChatGPT Skill using available host tools**: an instruction to the specialized `@Project Leader + Codex` Skill activates this project's coordinator policy. Use the GitHub connector for authenticated target reads/allowed writes, and a verified Codex executor action only if the active host really exposes one. A Skill cannot invent a Cloud-run API or turn an Issue into a running Codex worker. If a live executor is unavailable, return the exact limitation and enable continuation directly in Codex Cloud; never silently substitute the old VPS Coordinator.
+4. **VPS legacy observation only by default**: existing historic Coordinator assets under `martaxi-boss/VPS` are outside this project's runtime and remain untouched until a separately verified retirement. The **only Supervisor** is the passive existing VPS Supervisor, which observes published GitHub evidence and sends Telegram notifications when available. It never plans, dispatches, approves or blocks integration. If the VPS is absent, the Coordinator and workers remain usable in Codex Cloud or an authenticated CLI host, while Telegram observation may be unavailable.
+
+Original ChatGPT orders no longer default to `codex.owner_coordinator_ingress` or any VPS Issue. That legacy ingress remains historical code, not the portable execution route. No route may silently create a second planning engine.
 
 ## Audit requirements
 
