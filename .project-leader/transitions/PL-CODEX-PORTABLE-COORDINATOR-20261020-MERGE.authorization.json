@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PL-CODEX-PORTABLE-COORDINATOR-20261020-MERGE",
+  "task_id": "PL-CODEX-PORTABLE-COORDINATOR-20261020",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "created_at": "2026-10-20T22:36:28.519Z",
+  "action": "merge_to_main",
+  "effect_class": "E2_CONSEQUENTIAL_TRANSITION",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "Owner ordered correction and explicitly requested to continue ('Sim, avança, avança'). Authorize only the exact history-preserving merge of portable single-Coordinator PR #42 after verifying exact head/base, successful trusted gate, contract, packaging, validation and 168 Codex specialist tests. Do not remove or disable historical VPS workflows, mutate other repositories, create an additional Coordinator/agent, change secrets, deploy or broaden permissions. Preserve Supervisor as passive. This transition is separate from protected-code E3 implementation and records the integration decision.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "pull_request",
+    "identifier": "https://github.com/martaxi-boss/Project-leader-codex/pull/42",
+    "revision": "c2f057a8d4134d3e0c91e6adeada44e896a701c2",
+    "base_revision": "527ea502721ac7024c868d7c520cf9d8f0fe283b",
+    "environment": null
+  }
+}
