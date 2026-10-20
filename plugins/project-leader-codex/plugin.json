@@ -1,0 +1,38 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "author": {
+    "name": "martaxi-boss"
+  },
+  "description": "Independent portable Project Leader + Codex coordinator in ChatGPT and Codex Cloud. Reuses the project-owned Codex planner and workers, without depending on a VPS planning service; optional passive Telegram Supervisor.",
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "capabilities": [
+          "GitHub project inspection",
+          "Codex worker coordination",
+          "Read-only CI and PR audit",
+          "Passive Telegram status"
+        ],
+        "category": "Productivity",
+        "defaultPrompt": [
+          "@Project Leader + Codex Verifica o estado do projeto e identifica apenas as correções pendentes.",
+          "@Project Leader + Codex Continua a tarefa existente usando o Coordenador deste projeto; não uses a VPS como Coordenador."
+        ],
+        "developerName": "martaxi-boss",
+        "displayName": "Project Leader + Codex",
+        "longDescription": "Ativa a Skill Project Leader + Codex para coordenar trabalho no repositório do projeto via ferramentas autenticadas do ChatGPT ou diretamente no Codex Cloud. A lógica do Coordenador e os trabalhadores pertencem ao projeto e podem executar num host Codex autenticado, sem necessidade da VPS. O Supervisor existente na VPS apenas observa e notifica.",
+        "shortDescription": "Um Coordenador portátil para Codex"
+      }
+    }
+  },
+  "keywords": [
+    "codex",
+    "github",
+    "project-leader-codex",
+    "cloud",
+    "orchestration"
+  ],
+  "name": "project-leader-codex",
+  "repository": "https://github.com/martaxi-boss/Project-leader-codex",
+  "version": "0.1.1"
+}
