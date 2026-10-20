@@ -114,9 +114,17 @@ o resultado certificado da fase concluída, e reutiliza o DAG autorizado da
 ordem original, sem criar uma nova ordem nem voltar a invocar o Coordenador IA.
 Este mecanismo foi implementado na VPS pela PR #183 e passou os testes
 automáticos.
-**Ainda não existe certificação com uma ordem real de várias fases
-dependentes.** O Coordenador não carrega a skill Project Leader:
-essa skill é obrigatória nos Codex trabalhadores.
+**Certificação real das duas fases documentais — 2026-10-20:** a única ordem
+[Owner VPS #288](https://github.com/martaxi-boss/VPS/issues/288) executou
+fase 1 (PR #34, quatro checks de CI `success`, merge `dbad4e6`) e arrancou
+a fase 2 automaticamente após validação da primeira, sem nova ordem. A fase
+2 foi recuperada no mesmo run `39450295755` após correção verificada do
+publicador na VPS (PR #289), sem repetir a fase 1: PR #35 com quatro checks
+`success` e integração terminal `7f5deef`. Esta evidência **certifica apenas
+o circuito real de duas fases documentais e a recuperação específica E1**;
+não certifica, por si, operações Android/VPN, execução Codex Cloud com anexos
+nem todas as formas de interrupção. O Coordenador não carrega a skill Project
+Leader: essa skill é obrigatória nos Codex trabalhadores.
 
 ## Entradas universais e estado de certificação — 2026-10-14
 
