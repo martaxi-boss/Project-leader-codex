@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PL-CODEX-PORTABLE-COORDINATOR-20261020-MERGE",
+  "task_id": "PL-CODEX-PORTABLE-COORDINATOR-20261020",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PL-CODEX-PORTABLE-COORDINATOR-20261020-MERGE.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "https://github.com/martaxi-boss/Project-leader-codex/pull/42",
+    "revision": "c2f057a8d4134d3e0c91e6adeada44e896a701c2",
+    "base_revision": "527ea502721ac7024c868d7c520cf9d8f0fe283b",
+    "environment": null
+  },
+  "observed_at": "2026-10-20T22:37:44.901Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "4a5c5ba5876bad079ec4edf401416804c18bc521"
+  },
+  "evidence": [
+    "Owner correction and advance instruction was scope-bound by immutable transition authorization commit dbdb1b22b6bb75391adf50292d1fb68002926794 on dedicated control branch BEFORE merging PR #42; exact PR head c2f057a8d4134d3e0c91e6adeada44e896a701c2 and base 527ea502721ac7024c868d7c520cf9d8f0fe283b revalidated.",
+    "All five final PR-head checks completed SUCCESS before the history-preserving merge: trusted-authorization #39503551396, contract #39503554981, validate #39503554997, package #39503555098, specialized-policy #39503554987.",
+    "GitHub merger returned merged=true SHA 4a5c5ba5876bad079ec4edf401416804c18bc521; independently fetched PR #42 merged=true and main exactly the same revision.",
+    "Post-main exact SHA checks succeeded: contract #39509391926, specialized-policy #39509391884, validate #39509391924, package #39509392020; GitHub stale-base invalidation #39509391998 succeeded. Optional branch hygiene run #39509391900 was still processing at observation and is not asserted completed.",
+    "Workspace plugin Project Leader + Codex version 0.1.1 was updated in-place; independently fetched current release metadata confirms new portable Skill. Old VBA/VPS Coordinator code not altered or falsely certified retired. Separate Project Leader and FADEGO unchanged."
+  ],
+  "residual_blockers": []
+}
