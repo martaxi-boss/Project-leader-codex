@@ -61,11 +61,13 @@ extension separate. Never edit `martaxi-boss/Project-leader` for Codex requireme
 
 ## Autogestão para agentes na nuvem
 
-O novo gestor em `codex/agent_policy.py` recebe **uma única ordem**. No chat, o
-agente coordenador analisa o projeto e constrói internamente as tarefas e os
-âmbitos reais; o utilizador não tem de indicar quantos agentes, que modelo ou
-que nível de raciocínio usar. A decisão entre um agente, dois em paralelo ou
-em série é proporcional à tarefa.
+Antes da seleção de agentes, o Coordenador inspeciona o projeto e delimita os
+`work_items`, ou o descobridor determinístico `codex.scope_discovery` fá-lo
+quando os caminhos são inequívocos. Só depois `codex.agent_policy.plan` recebe
+essa ordem delimitada e decide proporcionalmente entre um agente, dois em
+paralelo ou em série, incluindo o modelo e o nível de raciocínio. O utilizador
+não tem de indicar essas escolhas; ordens sem `work_items` verificáveis
+permanecem em `needs_scoping`.
 
 O gestor funciona com um registo extensível de fornecedores, seleção de modelos
 por capacidades declaradas e uma ponte para agentes na nuvem com verificação de
