@@ -198,7 +198,9 @@ def execute_coordinator_phases(
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Smart provider-neutral agent planner and guarded Codex CLI runner")
     parser.add_argument("action", choices=("plan", "run"))
-    parser.add_argument("--order", type=Path, required=True, help="One Owner request with optional internally scoped work items")
+    source = parser.add_mutually_exclusive_group(required=True)
+    source.add_argument("--order", type=Path, help="Existing validated order JSON")
+    source.add_argument("--task", help="Natural-language Owner request for this checkout")
     parser.add_argument("--repo-dir", type=Path)
     parser.add_argument("--runs-dir", type=Path)
     parser.add_argument("--timeout", type=int, default=1200)
@@ -208,9 +210,21 @@ def main(argv: list[str] | None = None) -> int:
                         help="Trusted host acceptance verifier needed for serial CLI mode")
     args = parser.parse_args(argv)
     try:
-        if not args.order.is_file() or args.order.stat().st_size > 16_000:
-            raise RoutingError("Order JSON missing or too large")
-        order = json.loads(args.order.read_text(encoding="utf-8"))
+        if args.order is not None:
+            if not args.order.is_file() or args.order.stat().st_size > 16_000:
+                raise RoutingError("Order JSON missing or too large")
+            order = json.loads(args.order.read_text(encoding="utf-8"))
+        else:
+            if args.repo_dir is None:
+                raise RoutingError("Natural-language orders require a real checkout; no agent started")
+            # Discover only the actual authenticated target from its Git origin.
+            # A malformed or foreign origin is never a grant to another repo.
+            repo = args.repo_dir.expanduser().resolve(strict=True)
+            target = dual._remote_repo(dual._git(repo, "remote", "get-url", "origin"))
+            if not target.startswith("martaxi-boss/"):
+                raise RoutingError("Selected checkout is outside the authorized Owner")
+            dual._preflight(repo, target)
+            order = {"request": args.task, "target_repository": target}
         if "work_items" not in order and args.repo_dir is not None:
             order = discover_work_items(order, args.repo_dir)
         planned = plan(order)
