@@ -4,69 +4,27 @@ This repository is **not** the universal Project Leader. It is an independent co
 plus a specialized, provider-neutral agent router with the Codex CLI as the
 currently verified executor.
 
-## Two independent Owner entry points — do not disable either
+## One portable, project-owned Coordinator — no VPS dependency
 
-### Codex Cloud: work directly, including private photographs and files
+**The sole Coordinator belongs to this repository**, `martaxi-boss/Project-leader-codex`: the existing `codex.smart`, `codex.agent_policy`, host scoping and Codex workers. Its policies and execution engine must travel with this repository. GitHub Actions or a VPS may supply compute/transport, but neither owns another planning AI. Do not create a second Coordinator, another Supervisor or an MCP just to route work.
 
-A new Owner instruction in an explicitly selected **Codex Cloud task** is a
-**direct Cloud execution request by default**, whether it is dictated, typed,
-or accompanied by screenshots, photographs, documents or examples. The Cloud
-executor must load the Project Leader Skill and this repository's
-`CODEX_COORDINATION.md`, inspect the actual selected target and execute the
-covered task **in the Cloud environment**: implement, test, correct and prepare
-isolated commits/PRs subject to the target's normal protections. Do not
-automatically relay this instruction to the VPS and do not stop at a plan.
+### Codex Cloud: execute directly with the project Coordinator
 
-The Cloud task must use only attachments actually provided and readable in its
-own authorized runtime; inspect the real originals when needed. An attachment
-visible in a chat is NOT automatically a file on the VPS, in a GitHub Issue, or
-in another Cloud task. Do not claim to have used unseen photographs. If the
-files are inaccessible, report the exact dependency rather than fabricate a
-visual diagnosis. Never upload private photographs, media, provider links or
-credentials to a public repository or Issue. The Owner may choose to stay in
-Cloud for the whole job; no MCP, VPS relay or second Coordinator is required
-for direct Cloud work.
+A new Owner instruction in an explicitly selected **Codex Cloud task** is a **direct Cloud execution request by default**, whether dictated, typed, or accompanied by screenshots, photographs, documents or examples. Load the Project Leader Skill and `CODEX_COORDINATION.md`, inspect the actual authorized target and implement, test, correct and prepare scoped commits/PRs there. Use the existing portable coordinator planner/worker capabilities for scoped work; do not automatically relay this instruction to the VPS or start a redundant VPS planning AI.
 
-A new Cloud task may target a repository other than this specialized
-`Project-leader-codex` repository only when its actual GitHub checkout and
-authorized target access are verified. Preserve existing branches, PRs and
-running jobs; check the current target state before work to prevent duplicate
-or conflicting edits. If the selected Cloud runtime cannot execute or
-publish, report the specific blocking capability; do not claim completion
-based on selecting an environment, or keep repeating a stalled operation.
+The Cloud task may use only attachments actually provided and readable in its own authorized environment. **An attachment** in ChatGPT is **NOT automatically a file on the VPS** or another Cloud task. An explicit transfer must NOT silently become a text-only order. A verified private media path would be needed if delegation actually required remote originals; never put private media, credentials or signed links into a public Issue. Report a real blocker rather than invent missing evidence.
 
-### VPS: the existing independent Coordinator remains available
+An Owner task may target another authorized repository only when its real checkout and rights are verified. Reconcile existing commits/PRs and avoid duplicate implementation, force pushes, or hidden merges. A selected Cloud task is not evidence of worker execution without actual run IDs and results. Cloud can operate with no VPS and no desktop-remote tools.
 
-The VPS entry point, its independent Codex Coordinator, one/two workers,
-Project Leader enforcement and passive Telegram Supervisor are **unchanged**.
-An Owner order issued in an ordinary **ChatGPT chat** (outside Codex Cloud)
-goes to the **existing VPS Codex Coordinator** through the authenticated
-ChatGPT/GitHub route; a message alone is not proof of delivery or dispatch.
-Do not attempt direct Codex Cloud execution on behalf of this ChatGPT route.
-Owner orders issued to the VPS continue using their existing authenticated
-path. A Codex Cloud Owner task may explicitly request **VPS delegation**,
-but delegation is optional, not the default.
+### ChatGPT: invoke the same project-owned Coordinator through the Skill
 
-Only when the Owner explicitly requests the VPS route, relay the bounded
-**text-only** Owner objective through the existing authenticated ingress:
+A substantive `@Project Leader + Codex` instruction is handled by this project's Skill/Coordinator policy using authenticated, available ChatGPT/GitHub tools. Inspect and scope the exact owner-selected repository, plan via the project policy, and perform only actions the active host really supports. **Never route an ordinary ChatGPT instruction through the VPS AI Coordinator by default.** Do not open `[coordinator run]` Issues in `martaxi-boss/VPS` as an automatic substitute for project execution.
 
-`python -m codex.owner_coordinator_ingress --target martaxi-boss/<project> --task '<original Owner request>'`
+A ChatGPT Skill activation cannot by itself start a separate private Codex Cloud session or a signed-in Codex CLI worker. When a verified host action can dispatch the portable Codex executor, use that established authenticated action; if no such host action exists, explicitly report `CODEX_EXECUTOR_UNAVAILABLE` and supply a concise direct Codex Cloud continuation using the same project policy. Do not pretend GitHub Issue creation is an executable run or claim unattended execution without a persistent authenticated runner.
 
-The authenticated GitHub CLI must identify as `martaxi-boss`. Verify the
-current Cloud checkout and successful Owner Issue creation as the existing
-ingress code requires. The resulting Owner Issue proves handoff, not worker
-execution. Never retry an ambiguous write or create another Coordinator.
-An explicit VPS delegation containing indispensable private attachments
-must NOT silently become a text-only order: use only an already authenticated,
-verified private media path and confirm private receipt first; if it is
-unavailable, report the limitation and preserve the attachments in Cloud.
-Do not publish photographs or image links as a substitute. Do not quietly
-switch an expressly delegated job into direct execution after a failed
-handoff.
+### VPS: optional execution infrastructure; Supervisor only as a retained service
 
-A Codex worker already dispatched by the verified VPS Coordinator is NOT
-a fresh Cloud Owner instruction: **skip this** Owner-entry routing, execute
-only its verified bounded worker job, and never relay its own task back.
+Historical `martaxi-boss/VPS` Coordinator workflows may still exist until separately retired with a safe, verified cutover. They are **not** the source of truth, are **not** this project's default entry, and must not be invoked just because ChatGPT or Cloud received an instruction. Preserve legacy evidence but do not add another planning agent, perform speculative migrations or silently disable a functioning route. The existing VPS remains optional; code and decisions must not depend on it.
 
 ### Exactly one passive Supervisor
 
