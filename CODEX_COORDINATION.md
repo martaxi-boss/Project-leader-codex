@@ -50,64 +50,6 @@ specialized environment is selected. It does not modify universal rules.
   is connected. An authenticated host coordinator/runner must explicitly
   deliver a validated task and prove the resulting worker run IDs.
 
-## Canonical Owner decision: Coordinator responsibilities and token economy (2026-10-20)
-
-This is the **closed, approved coordination contract** for Project Leader + Codex,
-not a new implementation request. Preserve the universal Project Leader Skill
-unchanged; do not create a second intelligent manager or Supervisor.
-
-- **Coordinator plans once**: in the authenticated VPS Coordinator route, the
-  existing read-only Codex planning call inspects the actual pinned target and
-  produces a bounded, validated DAG of findings, work items, dependencies and
-  scopes for the **original Owner order**. This is not a continuous AI watcher.
-  A separately selected direct Codex Cloud Owner task retains its independent
-  entry route and is not forced through the VPS Coordinator.
-- **Router minimizes worker cost**: use one worker when sufficient; use at most
-  two only when independence, scope and risk justify them. Select
-  `low`/`medium`/`high` per bounded task using evidence and existing rules.
-  Avoid speculative workers, repeated audits and blind token-consuming retries.
-- **Worker owns execution and recovery**: each verified Codex worker loads
-  canonical Project Leader and autonomously diagnoses, repairs, validates,
-  replans *within its authorized task* and continues. Normal recoverable errors
-  and CI regressions are not reasons to invoke the Coordinator again.
-- **Later phases are deterministic**: reuse the original authorized DAG and
-  exact-state checkpoints. Do not call Coordinator AI again on every phase;
-  advance only after the previous phase's required CI, integration and
-  authorization checks. Never repeat a completed phase because context was lost.
-- **Infrastructure recovery remains technical**: host, publisher, runner or
-  transport faults are handled by their existing recovery/control mechanisms,
-  or repaired narrowly when diagnosed. A justified job retry is not a new
-  Coordinator planning cycle. Do **not** claim universal automatic recovery of
-  every possible infrastructure failure has been certified.
-- **One passive Supervisor**: observe status, errors, quota events and genuine
-  Human Gates and report through the existing private Telegram path. It never
-  directs workers, repairs code, replans or starts a new model.
-
-**Explicitly closed, not pending features:**
-
-1. `GENERAL_AUTONOMOUS_FAILURE_RECOVERY_MANAGER`: **NOT REQUIRED**.
-   Project Leader already owns worker-side technical recovery; real external
-   defects are fixed in the relevant infrastructure, without a new AI manager.
-2. `CONTINUOUS_AI_REPLANNING`: **NOT REQUIRED / PROHIBITED AS DEFAULT**.
-   It duplicates worker responsibility, burns model quota, and contradicts
-   the one-order/one-audit, deterministic-phase architecture.
-
-A genuinely new Owner objective or uncovered material authority decision may
-require a new bounded order or a real Human Gate; this is not routine,
-per-phase AI supervision. Existing safety, exact-SHA proof and mandatory tests
-remain unchanged.
-
-**Verified scope:** the real two-dependent-documentary-phase execution
-([VPS Owner Issue #288](https://github.com/martaxi-boss/VPS/issues/288),
-[workflow 39450295755](https://github.com/martaxi-boss/VPS/actions/runs/39450295755),
-specialized [PR #34](https://github.com/martaxi-boss/Project-leader-codex/pull/34)
-and [PR #35](https://github.com/martaxi-boss/Project-leader-codex/pull/35))
-proved phase continuation without another Coordinator AI invocation.
-The publisher `p2-1` infrastructure defect was fixed separately
-([VPS PR #289](https://github.com/martaxi-boss/VPS/pull/289)).
-This does not certify every failure class, Cloud attachment route, or physical
-Android/VPN flow.
-
 ## Supported execution routes
 
 1. **Codex Cloud direct Owner task (default for Cloud)**: the selected
