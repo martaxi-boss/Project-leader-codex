@@ -107,9 +107,11 @@ com IA independente → `agent_switch` → Codex trabalhador com as regras
 canónicas do Project Leader → CI e Supervisor foi comprovada em serviço
 real na VPS (execuções 38404860793 e 38414318007, PRs #15 e #16).
 
-A continuação das fases 2 a 8, com nova auditoria no commit integrado,
-validação das tarefas originais e identificadores exclusivos por fase,
-foi implementada na VPS pela PR #183 e passou os testes automáticos.
+A continuação ou retoma das fases 2 a 8 verifica externamente o `HEAD` atual e
+o resultado certificado da fase concluída, e reutiliza o DAG autorizado da
+ordem original, sem criar uma nova ordem nem voltar a invocar o Coordenador IA.
+Este mecanismo foi implementado na VPS pela PR #183 e passou os testes
+automáticos.
 **Ainda não existe certificação com uma ordem real de várias fases
 dependentes.** O Coordenador não carrega a skill Project Leader:
 essa skill é obrigatória nos Codex trabalhadores.
