@@ -1,0 +1,114 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PL-CODEX-PORTABLE-COORDINATOR-20261020",
+  "project": "PROJECT LEADER + CODEX (SPECIALIZED)",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "created_at": "2026-10-20T21:42:29.174Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "O Owner ordenou eliminar a dependência de um segundo Coordenador IA na VPS. Consolidar a entrada ChatGPT/Skill e Codex Cloud em torno do único motor de coordenação portátil existente no repositório Project-leader-codex. Manter a VPS como infraestrutura opcional e Supervisor passivo, sem criar outro planeador, agentes, MCP, servidor, permissões totais ou ativar produção. Preservar os testes paralelos #38-#40, o projeto universal e todo o trabalho do FADEGO."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "527ea502721ac7024c868d7c520cf9d8f0fe283b",
+    "task_branch": "fix/portable-single-coordinator-20261020",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "AGENTS.md",
+    "CODEX_COORDINATION.md",
+    "codex/smart.py",
+    "codex/tests/test_smart.py",
+    "codex/tests/test_owner_coordinator_ingress.py",
+    "plugins/project-leader-codex/plugin.json",
+    "plugins/project-leader-codex/skills/project-leader-codex/SKILL.md",
+    "plugins/project-leader-codex/skills/project-leader-codex/agents/openai.yaml",
+    "plugins/project-leader-codex/skills/project-leader-codex/references/operational-routes.md",
+    ".project-leader/tasks/PL-CODEX-PORTABLE-COORDINATOR-20261020.json",
+    ".project-leader/results/PL-CODEX-PORTABLE-COORDINATOR-20261020.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "cross_project_mutation",
+    "force_push",
+    "rewrite_git_history",
+    "weaken_ci_or_security_controls",
+    "license_selection",
+    "new_coordinator",
+    "new_mcp",
+    "deploy_or_disable_vps",
+    "alter_universal_project_leader"
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path",
+    "Single portable Coordinator with Cloud direct and ChatGPT host-tool ingress",
+    "No hidden VPS route or unsupported Cloud launch claims",
+    "Codex specialization regression tests"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins",
+    "Codex specialization tests"
+  ],
+  "policy": {
+    "profile": "project-leader-codex-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "527ea502721ac7024c868d7c520cf9d8f0fe283b",
+    "sha256": "c612748e735c01b2774c326c5b4e16a5e83fadd9a142320d504f9ac2258c0c2d",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "There is one project-owned portable coordinator and its ChatGPT Skill and direct Codex Cloud entry use it without requiring a VPS-hosted AI planner. Existing codex.smart CLI accepts a bounded natural-language order, discovers real repository target and scope when provable, and executes only with authenticated available Codex CLI. Ordinary ChatGPT neither silently dispatches to VPS nor falsely claims it has launched private Codex Cloud; unavailable execution remains explicit. VPS retains its passive Supervisor until a separately certified routing retirement. GitHub protected changes pass correct durable E3 authorization, independent CI and review. No merges, deployment or provider credentials changes in this PR.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  },
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ]
+}

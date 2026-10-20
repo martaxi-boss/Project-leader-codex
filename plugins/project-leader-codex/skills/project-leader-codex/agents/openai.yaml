@@ -1,0 +1,6 @@
+interface:
+  display_name: Project Leader + Codex
+  short_description: Um Coordenador Codex portátil; VPS opcional
+  default_prompt: "@Project Leader + Codex Verifica o estado do projeto e continua a tarefa autorizada com o Coordenador do próprio repositório, sem usar um Coordenador na VPS."
+policy:
+  allow_implicit_invocation: true
