@@ -1,0 +1,94 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PL-CODEX-PORTABLE-COORDINATOR-20261020",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PL-CODEX-PORTABLE-COORDINATOR-20261020.json",
+  "authorization_commit_sha": "c25e32568ffb1b19a52dd7f15c6957b88ee63b31",
+  "authorization_sha256": "2edea496dcc9e11ebb260772620a8f0e92b88622b9e4b01e25c4463d89552cae",
+  "implementation_head_sha": "2dfac1932d57192915b144d29140540924a242dc",
+  "branch": "fix/portable-single-coordinator-20261020",
+  "pr_number": 42,
+  "recorded_at": "2026-10-20T21:50:06.009Z",
+  "state_observed_at": "2026-10-20T21:50:06.009Z",
+  "superseded_by": null,
+  "post_transition_record": null,
+  "changes": [
+    "Retained the sole project-owned codex.smart and codex.agent_policy coordinator; added --task interface accepting a natural-language Owner instruction on a verified actual checkout without any VPS dependency.",
+    "Changed specialized AGENTS.md and CODEX_COORDINATION.md to direct ChatGPT/Skill and Codex Cloud into the same portable project engine; no automatic VPS planner issue submission.",
+    "Prepared independent specialized Skill v0.1.1 and source metadata under plugins/project-leader-codex, leaving universal Project Leader unchanged.",
+    "Added regression tests proving a fake authenticated local Codex worker can execute from a natural-language task and that foreign/no-checkout targets fail closed; all 168 Codex tests passed.",
+    "Preserved historic VPS entries as read-only legacy evidence until an independently proven migration; no VPS or FADEGO files touched."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "GitHub PR #42 has exactly the authorized coordinator docs, smart CLI, two Codex test files, four new plugin source files and E3 immutable task; Worker Result is the final evidence-only descendant. No change to VPS, FADEGO or universal Project Leader."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Four mandatory GitHub Actions succeeded for implementation SHA 2dfac1932d57192915b144d29140540924a242dc: Control contract #39503372917, Validate control plane #39503372921, Package ChatGPT plugins #39503372923, Codex specialization #39503372984. Final trusted gate remains required for the result descendant."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "E3 authorization committed first at c25e32568ffb1b19a52dd7f15c6957b88ee63b31; exact immutable authorization sha256 2edea496dcc9e11ebb260772620a8f0e92b88622b9e4b01e25c4463d89552cae; unchanged base policy digest c612748e735c01b2774c326c5b4e16a5e83fadd9a142320d504f9ac2258c0c2d and explicit trust-root transition controls retained."
+    },
+    {
+      "name": "Single portable Coordinator with Cloud direct and ChatGPT host-tool ingress",
+      "status": "PASS",
+      "evidence": "AGENTS.md and CODEX_COORDINATION.md use the existing codex.smart project-owned engine; codex.smart supports --task and verified selected checkout. CI #39503372984 passed 168 tests including one local fake Codex worker launched using --task; no VPS process was needed for the test."
+    },
+    {
+      "name": "No hidden VPS route or unsupported Cloud launch claims",
+      "status": "PASS",
+      "evidence": "New specialized Skill no longer sends ordinary ChatGPT instructions to a VPS planning gateway; when no Cloud-run or Codex CLI host action exists it returns CODEX_EXECUTOR_UNAVAILABLE instead of fabricating an unattended job. Historical optional code remains uninvoked."
+    },
+    {
+      "name": "Codex specialization regression tests",
+      "status": "PASS",
+      "evidence": "Codex specialization tests #39503372984 SUCCESS on implementation SHA; cloud phase, legacy safety, parallel, serial, budget, single worker and portable --task tests all passed."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 39503372917
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 39503372921
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 39503372923
+    },
+    {
+      "name": "Codex specialization tests",
+      "status": "SUCCESS",
+      "run_id": 39503372984
+    }
+  ],
+  "artifacts": [
+    "https://github.com/martaxi-boss/Project-leader-codex/pull/42",
+    "https://github.com/martaxi-boss/Project-leader-codex/actions/runs/39503372917",
+    "https://github.com/martaxi-boss/Project-leader-codex/actions/runs/39503372921",
+    "https://github.com/martaxi-boss/Project-leader-codex/actions/runs/39503372923",
+    "https://github.com/martaxi-boss/Project-leader-codex/actions/runs/39503372984"
+  ],
+  "material_non_effects": [
+    "No merge to main, VPS workflow retirement, prod deploy, token grant, Desktop Commander, new Supervisor, new planning service or external paid model activation.",
+    "PRs #38/#39/#40/#41 unchanged; no changes to FADEGO or universal Project Leader."
+  ],
+  "residual_blockers": [
+    "Live ChatGPT to Codex Cloud private session launch is unavailable in this ChatGPT host; a persistent authenticated Cloud or Codex CLI host is still required for unattended worker execution.",
+    "VPS's old Coordinator workflow remains in its own repo until the portable route is independently proven and a separate retirement PR receives authority.",
+    "Plugin Workspace runtime release may remain at v0.1.0 until its own guarded update; PR #42 source is unmerged pending the trusted gate and integration review."
+  ]
+}
