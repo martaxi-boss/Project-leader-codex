@@ -126,6 +126,33 @@ não certifica, por si, operações Android/VPN, execução Codex Cloud com anex
 nem todas as formas de interrupção. O Coordenador não carrega a skill Project
 Leader: essa skill é obrigatória nos Codex trabalhadores.
 
+## Fecho canónico: cérebro do Coordenador e poupança de tokens — 2026-10-20
+
+**Decisão expressa do Owner, fechada:** o Coordenador com IA da VPS
+**planeia uma vez por ordem original**, após verificar o projeto. O motor de
+encaminhamento seleciona o mínimo necessário (um ou, quando justificados,
+dois trabalhadores, com raciocínio Low/Medium/High). Cada trabalhador segue
+a Skill universal Project Leader e **é responsável por executar, corrigir,
+validar e continuar autonomamente no seu âmbito**. A execução das fases
+dependentes reutiliza o plano original e verificações externas, **sem
+nova análise de IA do Coordenador por fase**. O Supervisor continua
+estritamente passivo, com notificações pelo Telegram.
+
+Os rótulos anteriormente sugeridos **"recuperação autónoma geral de falhas"
+e "replaneamento contínuo com IA" não constituem funcionalidades
+pendentes**: a primeira já está atribuída ao Project Leader no trabalhador,
+com falhas externas corrigidas nos respetivos mecanismos; a segunda seria
+uma duplicação dispendiosa, por isso **não faz parte da arquitetura**.
+Isto não equivale a afirmar que todos os tipos possíveis de avaria já foram
+testados. Só uma ordem materialmente nova ou um verdadeiro Human Gate
+justificam outro ciclo de autoridade, nunca uma supervisão de IA permanente.
+
+A regra operacional detalhada e normativa encontra-se em
+[CODEX_COORDINATION.md](CODEX_COORDINATION.md#canonical-owner-decision-coordinator-responsibilities-and-token-economy-2026-10-20).
+A prova de duas fases e a recuperação específica do publicador estão
+documentadas na [Issue VPS #288](https://github.com/martaxi-boss/VPS/issues/288);
+o Project Leader universal mantém-se intacto.
+
 ## Entradas universais e estado de certificação — 2026-10-14
 
 A infraestrutura central da VPS foi ampliada sem alterar a Skill Project
