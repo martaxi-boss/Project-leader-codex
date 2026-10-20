@@ -157,6 +157,50 @@ class SmartRunTests(unittest.TestCase):
             smart.execute(p, self.repo, self.runs, timeout=30, soft_limit=100000)
         self.assertEqual(worktrees, len([x for x in self.runs.iterdir() if x.name.startswith("run-")]))
 
+    def test_portable_natural_language_cli_runs_existing_one_worker_without_vps(self):
+        request = "Implement a safe channel navigation fix and validate tests"
+        def scoped(order, repo):
+            self.assertEqual(order["target_repository"], "martaxi-boss/pink-iptv")
+            self.assertEqual(order["request"], request)
+            self.assertEqual(repo, self.repo)
+            return {**order, "work_items": [
+                {"id": "channels", "paths": ["docs/channels"],
+                 "task": "Implement channel navigation and validate tests safely"}]}
+        printed = io.StringIO()
+        with mock.patch.object(smart, "discover_work_items", side_effect=scoped):
+            with redirect_stdout(printed):
+                code = smart.main([
+                    "run", "--task", request, "--repo-dir", str(self.repo),
+                    "--runs-dir", str(self.runs), "--execute", "--timeout", "30"])
+        self.assertEqual(code, 0)
+        result = json.loads(printed.getvalue())
+        self.assertEqual(result["mode"], "single")
+        self.assertEqual(result["target_repository"], "martaxi-boss/pink-iptv")
+        self.assertEqual([w["status"] for w in result["workers"]], ["completed"])
+        self.assertEqual(result["accounting"]["observed_jobs"], 1)
+
+    def test_portable_cli_refuses_unverified_or_foreign_checkout_before_dispatch(self):
+        from contextlib import redirect_stderr
+        blocked = io.StringIO()
+        with mock.patch.object(smart.dual, "_remote_repo", return_value="other-owner/unrelated"):
+            with redirect_stderr(blocked):
+                code = smart.main([
+                    "run", "--task", "Implement channel navigation and test",
+                    "--repo-dir", str(self.repo), "--runs-dir", str(self.runs),
+                    "--execute"])
+        self.assertEqual(code, 3)
+        self.assertIn("outside the authorized Owner", blocked.getvalue())
+        self.assertFalse(any(x.name.startswith("run-") for x in self.runs.iterdir()))
+
+    def test_portable_cli_requires_selected_checkout_and_never_assumes_vps(self):
+        from contextlib import redirect_stderr
+        blocked = io.StringIO()
+        with redirect_stderr(blocked):
+            code = smart.main(["run", "--task", "Implement safe channel navigation",
+                               "--execute"])
+        self.assertEqual(code, 3)
+        self.assertIn("real checkout", blocked.getvalue())
+
     def test_material_boundaries_require_project_leader_gate(self):
         p = plan({"request": "Deploy to production after tests",
                   "target_repository": "martaxi-boss/pink-iptv",
