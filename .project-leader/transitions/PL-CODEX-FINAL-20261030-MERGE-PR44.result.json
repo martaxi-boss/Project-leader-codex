@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PL-CODEX-FINAL-20261030-MERGE-PR44",
+  "task_id": "PL-CODEX-PORTABLE-COORDINATOR-20261020",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "terminal_status": "SUCCESS",
+  "authorization_record": ".project-leader/transitions/PL-CODEX-FINAL-20261030-MERGE-PR44.authorization.json",
+  "action": "merge_to_main",
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#44",
+    "revision": "d6c213bdbbfa893ea203573b7c11cd927ec559a0",
+    "base_revision": "63b6da2f85ce9e4bfc11c71629c3997f44890c2b",
+    "environment": null
+  },
+  "observed_at": "2026-10-30T21:25:23Z",
+  "final_state": {
+    "status": "MERGED",
+    "revision": "2187dd2d3e3e195250b9eacd88767c2fab4f1a06"
+  },
+  "evidence": [
+    "Owner exact merge transition authorization was recorded on control/merge-authorization-plcodex-final-20261030 at be8f3cdf81621830408a012678e3b86e3aa524c3 BEFORE the PR #44 merge.",
+    "PR #44 was integrated by authenticated GitHub merge with expected_head_sha=d6c213bdbbfa893ea203573b7c11cd927ec559a0; main is 2187dd2d3e3e195250b9eacd88767c2fab4f1a06 with exact parents 63b6da2f85ce9e4bfc11c71629c3997f44890c2b and d6c213bdbbfa893ea203573b7c11cd927ec559a0.",
+    "Pre-merge exact-head checks succeeded: Control contract tests #41130238240; Validate control plane #41130238326; Package ChatGPT plugins #41130238331; Codex specialization tests #41130238207; Trusted authorization gate #41130234187.",
+    "REA verified after merging into main: 294 control tests PASS, 172 Codex tests PASS, three integrity-checked packaged plugins, authenticated existing Codex CLI and project-owned Coordinator planning.",
+    "Real two-worker Codex CLI parallel test independently passed with >=17.45 s overlap in REA run #41127169856.",
+    "Remote main push checks succeeded: Control contract tests #41130557412; Validate control plane #41130557354; Package ChatGPT plugins #41130557456; Codex specialization tests #41130557386; Repository hygiene #41130557436.",
+    "No extra Coordinator, extra Supervisor, other repository, production deployment, paid provider or change to REA/SSH transport."
+  ],
+  "residual_blockers": []
+}
