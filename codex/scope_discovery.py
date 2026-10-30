@@ -26,6 +26,11 @@ CONCEPTS = {
 }
 DENY_PARTS = {"node_modules", "vendor", "dist", "build", "target", "__pycache__", "venv", "generated"}
 MAX_TRACKED = 6_000
+# Explicit path-like references must be grounded in the tracked checkout.
+# A missing filename cannot silently become permission to edit a test tree.
+EXPLICIT_PATH_TOKEN = re.compile(
+    r"(?<![\w./:-])[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)+\.[A-Za-z0-9]{1,10}(?![\w./-])"
+)
 
 
 def _norm(value: str) -> str:
@@ -84,10 +89,22 @@ def discover_work_items(order: dict, repo_dir: Path) -> dict:
     primary = [name for name in concepts if name not in {"menus", "tests", "docs"}]
     if primary:
         concepts = primary  # words like 'test' and 'menu' are often work instructions
-    if not concepts:
-        return order
     tracked = _list_paths(repo_dir, target)
     if not tracked:
+        return order
+    # Prefer one exact, tracked filename over generic instructions like
+    # "run the tests". Never resolve multiple paths without host inspection.
+    mentioned = [
+        name for name in tracked
+        if re.search(r"(?<![\w./-])" + re.escape(name) + r"(?![\w./-])", request)
+    ]
+    if mentioned:
+        if len(mentioned) != 1:
+            return order
+        return {**order, "work_items": [{
+            "id": "explicit-file", "task": request, "paths": mentioned,
+        }]}
+    if EXPLICIT_PATH_TOKEN.search(request) or not concepts:
         return order
     candidates: dict[str, list[str]] = {}
     for concept in concepts:
