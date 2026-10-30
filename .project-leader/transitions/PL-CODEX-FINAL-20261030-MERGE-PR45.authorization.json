@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "transition_id": "PL-CODEX-FINAL-20261030-MERGE-PR45",
+  "task_id": "PL-CODEX-PLUGIN-DISTRIBUTION-20261030",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "created_at": "2026-10-30T21:16:27Z",
+  "action": "merge_to_main",
+  "effect_class": "E2_CONSEQUENTIAL_TRANSITION",
+  "authority": {
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "summary": "On 2026-10-30 the Owner explicitly directed completion, hygiene and usability of the Project Leader + Codex system. This NEW consequential transition grants the independently certified exact PR #45 integration, distinct from its earlier Builder Task Authorization. It does not permit unrelated projects, releasing, deployment, credentials or policy bypass; keep the same sole project-owned Coordinator and passive VPS Supervisor.",
+    "binding_mode": "EXACT_REVISION_BOUND"
+  },
+  "target": {
+    "kind": "pull_request",
+    "identifier": "#45",
+    "revision": "b9e523c2af213c61ee78e5634f17c13832980b38",
+    "base_revision": "4a5c5ba5876bad079ec4edf401416804c18bc521",
+    "environment": null
+  }
+}
