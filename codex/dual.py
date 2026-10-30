@@ -369,6 +369,28 @@ def _stop_process_group(process: subprocess.Popen) -> tuple[str, str]:
             raise PlanError("Worker process group did not stop; inspect retained workspace") from exc
 
 
+_CODEX_ENV_NAMES = frozenset({
+    "PATH", "HOME", "USER", "LOGNAME", "SHELL", "LANG",
+    "LC_ALL", "LC_CTYPE", "TERM", "COLORTERM", "TMPDIR", "TZ",
+    "XDG_CONFIG_HOME", "XDG_CACHE_HOME", "XDG_DATA_HOME",
+    "XDG_STATE_HOME", "XDG_RUNTIME_DIR",
+    "CODEX_HOME", "CODEX_API_KEY", "OPENAI_API_KEY", "OPENAI_BASE_URL",
+    "OPENAI_ORG_ID", "OPENAI_PROJECT_ID",
+    "HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "NO_PROXY",
+    "http_proxy", "https_proxy", "all_proxy", "no_proxy",
+    "SSL_CERT_FILE", "SSL_CERT_DIR", "REQUESTS_CA_BUNDLE",
+})
+
+
+def _child_environment(explicit: dict[str, str] | None) -> dict[str, str]:
+    # Avoid forwarding unrelated inherited project and CI variables to Codex.
+    # A host-supplied explicit environment remains caller-controlled.
+    if explicit is not None:
+        return dict(explicit)
+    return {name: value for name, value in os.environ.items()
+            if name in _CODEX_ENV_NAMES}
+
+
 def _invoke_codex(cmd: list[str], prompt: str, timeout: int,
                   cancel_event: threading.Event | None = None,
                   *, cwd: Path | None = None,
@@ -378,7 +400,7 @@ def _invoke_codex(cmd: list[str], prompt: str, timeout: int,
     process = subprocess.Popen(
         cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
         text=True, start_new_session=(os.name == "posix"),
-        cwd=str(cwd) if cwd is not None else None, env=env,
+        cwd=str(cwd) if cwd is not None else None, env=_child_environment(env),
     )
     started = time.monotonic()
     first_input = True
