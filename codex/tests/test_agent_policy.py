@@ -117,6 +117,34 @@ class RoutingTests(unittest.TestCase):
         with self.assertRaises(RoutingError):
             plan({**request([item("first", "src/a")]), "target_repository": "martaxi-boss/Project-leader"})
 
+    def test_explicit_non_deploy_prohibitions_do_not_block_safe_worker_tasks(self):
+        safe_orders = (
+            "Do not deploy this isolated smoke-test artifact.",
+            "Never deploy these local test files.",
+            "Não fazer deploy das alterações de teste.",
+            "Sem executar deploy dos ficheiros locais.",
+        )
+        for prompt in safe_orders:
+            with self.subTest(prompt=prompt):
+                p = plan(request([item("test", "codex/tests/smoke.txt", prompt)]))
+                self.assertEqual(p["status"], "planned")
+                self.assertNotIn("material_boundary_requires_project_leader_controls",
+                                 p["warnings"])
+
+    def test_material_actions_still_require_authority_even_with_negation(self):
+        material_orders = (
+            "Deploy this new version now.",
+            "Do not deploy yet, then deploy after verification.",
+            "Do not deploy to production.",
+            "Não fazer deploy primeiro; depois fazer deploy.",
+            "Never deploy; release the production version.",
+        )
+        for prompt in material_orders:
+            with self.subTest(prompt=prompt):
+                p = plan(request([item("test", "src/core", prompt)]))
+                self.assertIn("material_boundary_requires_project_leader_controls",
+                              p["warnings"])
+
     def test_planned_material_boundaries_carry_unchanged_human_authority(self):
         p = plan({**request([item("deploy", "app/core", "Deploy to production after validating regression tests")]),
                   "request": "Deploy new version to production after tests"})

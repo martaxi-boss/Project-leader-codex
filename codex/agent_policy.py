@@ -164,6 +164,13 @@ def _select_model(profiles: list[dict], capability: str, reasoning: str, allowed
 
 def _safety(request: str) -> list[str]:
     text = request.casefold()
+    # An explicit prohibition is not a request to perform a sensitive action.
+    # Only suppress the negated "deploy" mention; any positive or production
+    # mention elsewhere must still invoke the Project Leader authorization gate.
+    text = re.sub(
+        r"\b(?:do\s+not|don't|never|n[aã]o|sem)\s+(?:(?:fazer|realizar|executar)\s+)?deploy\b",
+        " ", text,
+    )
     flags = []
     if any(t in text for t in ("produção", "production", "deploy", "release", "credencial", "credential",
                                "apagar base de dados", "delete database", "delete users", "permissões", "permissions")):
