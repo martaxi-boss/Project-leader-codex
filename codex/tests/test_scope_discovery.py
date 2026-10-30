@@ -67,6 +67,13 @@ class ScopeDiscoveryTests(unittest.TestCase):
         self.assertNotIn("work_items", discover_work_items(order, self.repo))
         self.assertEqual(plan(order)["status"], "needs_scoping")
 
+    def test_existing_and_missing_explicit_paths_need_scoping(self):
+        self._add_tracked_codex_files()
+        order = dict(self.order,
+                     request="Corrige codex/smart.py e codex/missing.py e executa os testes")
+        self.assertNotIn("work_items", discover_work_items(order, self.repo))
+        self.assertEqual(plan(order)["status"], "needs_scoping")
+
     def test_untracked_explicit_filename_cannot_fall_back_to_tests(self):
         self._add_tracked_codex_files()
         order = dict(self.order,
