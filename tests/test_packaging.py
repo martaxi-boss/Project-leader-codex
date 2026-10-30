@@ -17,16 +17,16 @@ class ReproduciblePackagingTests(unittest.TestCase):
             build(ROOT, first)
             build(ROOT, second)
 
-            for name in ("project-leader.zip", "recovery-guardian.zip", "plugin-manifest.json", "SHA256SUMS"):
+            for name in ("project-leader.zip", "recovery-guardian.zip", "project-leader-codex.zip", "plugin-manifest.json", "SHA256SUMS"):
                 self.assertEqual((first / name).read_bytes(), (second / name).read_bytes(), name)
 
             manifest = json.loads((first / "plugin-manifest.json").read_text())
             self.assertEqual(manifest["schema_version"], "2.0")
-            self.assertEqual(manifest["provenance"]["repository"], "martaxi-boss/Project-leader")
+            self.assertEqual(manifest["provenance"]["repository"], "martaxi-boss/Project-leader-codex")
             self.assertEqual(manifest["provenance"]["source_revision"], "UNBOUND_LOCAL_BUILD")
             self.assertEqual(manifest["provenance"]["build_revision"], "UNBOUND_LOCAL_BUILD")
             self.assertEqual(manifest["provenance"]["build_run_id"], "LOCAL")
-            self.assertEqual({item["name"] for item in manifest["plugins"]}, {"project-leader", "recovery-guardian"})
+            self.assertEqual({item["name"] for item in manifest["plugins"]}, {"project-leader", "recovery-guardian", "project-leader-codex"})
             for item in manifest["plugins"]:
                 self.assertEqual(item["sha256"], sha256_file(first / item["file"]))
                 self.assertEqual(item["size"], (first / item["file"]).stat().st_size)
@@ -35,7 +35,7 @@ class ReproduciblePackagingTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as output_dir:
             output = Path(output_dir)
             build(ROOT, output)
-            for name in ("project-leader", "recovery-guardian"):
+            for name in ("project-leader", "recovery-guardian", "project-leader-codex"):
                 with zipfile.ZipFile(output / f"{name}.zip") as archive:
                     names = set(archive.namelist())
                     self.assertIn("plugin.json", names)
