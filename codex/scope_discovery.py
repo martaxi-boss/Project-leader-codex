@@ -98,6 +98,14 @@ def discover_work_items(order: dict, repo_dir: Path) -> dict:
         name for name in tracked
         if re.search(r"(?<![\w./-])" + re.escape(name) + r"(?![\w./-])", request)
     ]
+    # Reject mixed existing and missing explicit paths; never silently drop
+    # an explicit file from a multi-file Owner instruction.
+    explicit_paths = {m.group(0) for m in EXPLICIT_PATH_TOKEN.finditer(request)}
+    if explicit_paths and (
+        len(explicit_paths) != 1 or len(mentioned) != 1
+        or next(iter(explicit_paths)) != mentioned[0]
+    ):
+        return order
     if mentioned:
         if len(mentioned) != 1:
             return order
