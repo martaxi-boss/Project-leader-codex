@@ -8,8 +8,8 @@ import zipfile
 from pathlib import Path
 
 FIXED_ZIP_TIME = (1980, 1, 1, 0, 0, 0)
-PLUGINS = ("project-leader", "recovery-guardian")
-SOURCE_REPOSITORY = "martaxi-boss/Project-leader"
+PLUGINS = ("project-leader", "recovery-guardian", "project-leader-codex")
+SOURCE_REPOSITORY = "martaxi-boss/Project-leader-codex"
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 SEMVER_RE = re.compile(
     r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)"
@@ -33,12 +33,13 @@ def sha256_file(path):
 
 def expected_plugin_files(name):
     skill = name
+    reference = "operational-routes.md" if name == "project-leader-codex" else "recovery-protocol.md"
     return {
         ".app.json",
         "plugin.json",
         f"skills/{skill}/SKILL.md",
         f"skills/{skill}/agents/openai.yaml",
-        f"skills/{skill}/references/recovery-protocol.md",
+        f"skills/{skill}/references/{reference}",
     }
 
 
@@ -174,7 +175,7 @@ def build(
         )
 
     if len(connector_ids) != 1:
-        raise ValueError("Project Leader and Recovery Guardian must use one GitHub connector")
+        raise ValueError("All packaged Project Leader plugins must use one GitHub connector")
 
     manifest = {
         "schema_version": "2.0",
