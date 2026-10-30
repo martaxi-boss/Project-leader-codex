@@ -32,6 +32,60 @@ class ScopeDiscoveryTests(unittest.TestCase):
         self.order = {"request": "Implementar o menu dos canais e filmes com testes e integração segura",
                       "target_repository": "martaxi-boss/pink-iptv"}
 
+    def _add_tracked_codex_files(self):
+        for name in ("codex/smart.py", "codex/tests/test_smart.py"):
+            path = self.repo / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("sample\n")
+        subprocess.run(["git", "-C", str(self.repo), "add", "."], check=True)
+        subprocess.run(["git", "-C", str(self.repo), "commit", "-qm", "add-codex-code"], check=True)
+
+    def test_explicit_existing_file_takes_priority_over_generic_tests(self):
+        self._add_tracked_codex_files()
+        order = dict(self.order,
+                     request="Corrige a falha em codex/smart.py e verifica os testes relacionados")
+        scoped = discover_work_items(order, self.repo)
+        self.assertEqual(scoped["work_items"][0]["paths"], ["codex/smart.py"])
+        self.assertEqual(len(scoped["work_items"]), 1)
+        self.assertEqual(plan(scoped)["mode"], "single")
+
+    def test_natural_language_cli_preserves_explicit_target(self):
+        self._add_tracked_codex_files()
+        request = "Corrige o problema em codex/smart.py e executa os testes de regressao"
+        output = io.StringIO()
+        with redirect_stdout(output):
+            code = main(["plan", "--task", request, "--repo-dir", str(self.repo)])
+        self.assertEqual(code, 0)
+        result = json.loads(output.getvalue())
+        self.assertEqual(result["tasks"][0]["paths"], ["codex/smart.py"])
+        self.assertEqual(result["agent_count"], 1)
+
+    def test_ambiguous_two_exact_files_need_host_scoping(self):
+        self._add_tracked_codex_files()
+        order = dict(self.order,
+                     request="Corrige codex/smart.py e codex/tests/test_smart.py e testa ambos")
+        self.assertNotIn("work_items", discover_work_items(order, self.repo))
+        self.assertEqual(plan(order)["status"], "needs_scoping")
+
+    def test_untracked_explicit_filename_cannot_fall_back_to_tests(self):
+        self._add_tracked_codex_files()
+        order = dict(self.order,
+                     request="Corrige codex/untracked_module.py e verifica os testes")
+        self.assertNotIn("work_items", discover_work_items(order, self.repo))
+        self.assertEqual(plan(order)["status"], "needs_scoping")
+
+    def test_partial_filename_does_not_authorize_tracked_file(self):
+        self._add_tracked_codex_files()
+        order = dict(self.order,
+                     request="Corrige codex/smart.py.backup e confirma os testes")
+        self.assertNotIn("work_items", discover_work_items(order, self.repo))
+
+    def test_negation_never_grants_explicit_file_scope(self):
+        self._add_tracked_codex_files()
+        order = dict(self.order,
+                     request="Melhora o canal sem mexer no codex/smart.py")
+        self.assertNotIn("work_items", discover_work_items(order, self.repo))
+
     def test_one_voice_order_generates_only_existing_paths_and_selects_parallel(self):
         scoped = discover_work_items(self.order, self.repo)
         self.assertEqual({x["id"] for x in scoped["work_items"]}, {"channels", "movies"})
