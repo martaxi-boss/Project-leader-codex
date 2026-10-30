@@ -38,7 +38,8 @@ class AgentCoordinationContractTests(unittest.TestCase):
         self.assertIn("**Codex direto:**", guide)
         self.assertIn("não está certificada", guide)
         self.assertIn("**Telegram:**", guide)
-        self.assertIn("ainda falta observar uma", guide)
+        self.assertIn("apenas notificações", guide)
+        self.assertIn("entrada de ordens está desativada", guide)
         self.assertIn("PHASE_STAGED_AWAITING_TARGET_CERTIFICATION", guide)
 
     def test_phase_runtime_is_executable_without_mutating_protected_rules(self):
@@ -46,6 +47,30 @@ class AgentCoordinationContractTests(unittest.TestCase):
         self.assertTrue(callable(phase_cycle.validated_phases))
         self.assertTrue(callable(phase_cycle.execute_until_terminal))
         self.assertTrue(callable(smart.execute_coordinator_phases))
+
+    def test_portable_coordinator_and_retired_vps_relay(self):
+        agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        policy = (ROOT / "CODEX_COORDINATION.md").read_text(encoding="utf-8")
+        guide = (ROOT / "README_CODEX.md").read_text(encoding="utf-8")
+        self.assertIn("One portable, project-owned Coordinator", agents)
+        self.assertIn("ChatGPT: invoke the same project-owned Coordinator", agents)
+        self.assertIn("codex.smart", policy)
+        self.assertIn("No route may silently create a second planning engine", policy)
+        self.assertIn("foi retirado do código ativo", guide)
+        self.assertFalse((ROOT / "codex/owner_coordinator_ingress.py").exists())
+        self.assertFalse((ROOT / "codex/tests/test_owner_coordinator_ingress.py").exists())
+        for wf in (ROOT / ".github/workflows").glob("*.yml"):
+            self.assertNotIn("owner_coordinator_ingress", wf.read_text(encoding="utf-8"))
+
+    def test_cloud_media_and_supervisor_bounded_by_real_host(self):
+        agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        policy = (ROOT / "CODEX_COORDINATION.md").read_text(encoding="utf-8")
+        self.assertIn("NOT automatically a file on the VPS", agents)
+        self.assertIn("must NOT silently become a text-only order", agents)
+        self.assertIn("CODEX_EXECUTOR_UNAVAILABLE", agents)
+        self.assertIn("The only Supervisor is the **existing VPS Supervisor**", agents)
+        self.assertIn("VPS legacy observation only by default", policy)
+        self.assertIn("Never silently hand off", policy)
 
     def test_router_chooses_one_or_two_and_honors_safe_override(self):
         req = {

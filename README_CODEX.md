@@ -1,5 +1,7 @@
 # Project Leader + Codex
 
+> **Estado operativo atual (2026-10-30):** existe um único Coordenador em `codex.smart` e `codex.agent_policy`, pertencente a este repositório. O Codex Cloud executa diretamente quando autenticado; a Skill ChatGPT não inicia um trabalhador sem executor real. A VPS conserva apenas o Supervisor passivo para este projeto e o Telegram é apenas de saída (notificações). As secções datadas sobre o Coordenador da VPS abaixo são histórico, não instruções de ativação.
+
 This specialized repository is independent from
 [the universal Project Leader](https://github.com/martaxi-boss/Project-leader).
 Its Git history contains an exact 503-file Project Leader snapshot described
@@ -177,25 +179,12 @@ Leader original nem a separação das responsabilidades:
   o integrador regista `PHASE_STAGED_AWAITING_TARGET_CERTIFICATION` sem
   fazer merge, deploy ou arrancar fases dependentes.
 
-As três entradas de ordens pretendidas continuam a ter estados distintos:
+As entradas atualmente suportadas têm responsabilidades distintas:
 
-- **ChatGPT:** a ligação GitHub do Owner está acessível e pode criar a Issue
-  autenticada que já ativa o Coordenador. Não existe garantia de despacho
-  automático de qualquer mensagem do chat sem invocação efetiva da ferramenta
-  e prova do workflow correspondente.
-- **Codex direto:** uma nova tarefa no ambiente Codex Cloud executa
-  **diretamente no Cloud por defeito**, com acesso apenas às fotografias,
-  ficheiros e exemplos realmente anexados e disponíveis nessa tarefa. Usa
-  as mesmas regras do Project Leader + Codex, sem passagem obrigatória pela
-  VPS. A execução Cloud com anexos ainda não está certificada em teste real.
-  A delegação para a VPS é opcional e apenas a pedido expresso do Owner:
-  o relay de texto `codex.owner_coordinator_ingress` nunca transporta
-  fotografias em silêncio nem cria outro Supervisor.
-- **Telegram:** ponte e testes automatizados de autenticação, segurança,
-  texto e transcrição de voz estão implementados, mas ainda falta observar uma
-  ordem real atravessar mensagem → workflow assinado → Issue Owner →
-  Coordenador → trabalhador. A disponibilidade do token Owner e do poller
-  real deve ser comprovada, não presumida.
+- **ChatGPT:** a Skill especializada utiliza o Coordenador deste projeto e ferramentas autenticadas disponíveis. Não existe garantia de despacho real de um trabalhador Codex sem um executor autenticado; não se cria uma Issue na VPS como substituto.
+- **Codex direto:** uma tarefa selecionada no Codex Cloud trabalha diretamente no projeto, respeitando o âmbito e os anexos efetivamente disponíveis. A execução autenticada de ponta a ponta com anexos ainda não está certificada. O antigo relay de texto `codex.owner_coordinator_ingress` foi retirado do código ativo; permanece apenas no histórico Git.
+- **Telegram:** apenas notificações do Supervisor passivo. A entrada de ordens está desativada por decisão do Owner; as antigas provas de comandos por Telegram são históricas, não uma funcionalidade ativa. O workflow de observação já registou encaminhamento, mas a entrega efetiva no telefone precisa de confirmação.
+
 
 **A continuação autónoma das fases dependentes em projetos com validação
 específica, como Android/VPN no PINK IPTV, ainda precisa de certificação real.**
