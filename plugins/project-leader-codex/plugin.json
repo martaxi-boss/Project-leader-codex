@@ -22,7 +22,8 @@
         "displayName": "Project Leader + Codex",
         "longDescription": "Ativa a Skill Project Leader + Codex para coordenar trabalho no repositório do projeto via ferramentas autenticadas do ChatGPT ou diretamente no Codex Cloud. A lógica do Coordenador e os trabalhadores pertencem ao projeto e podem executar num host Codex autenticado, sem necessidade da VPS. O Supervisor existente na VPS apenas observa e notifica.",
         "shortDescription": "Um Coordenador portátil para Codex"
-      }
+      },
+      "apps": "./.app.json"
     }
   },
   "keywords": [
@@ -34,5 +35,6 @@
   ],
   "name": "project-leader-codex",
   "repository": "https://github.com/martaxi-boss/Project-leader-codex",
-  "version": "0.1.1"
+  "version": "0.1.1",
+  "skills": "./skills/"
 }

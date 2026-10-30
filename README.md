@@ -1,15 +1,18 @@
-# Project Leader
+# Project Leader + Codex
 
-GitHub-backed software-project coordination, packaged as two ChatGPT plugins:
+This repository is the **specialized Project Leader + Codex fork**, not the universal `martaxi-boss/Project-leader`. It has **one project-owned Coordinator**, supports authenticated Codex Cloud or CLI execution, and treats the existing VPS Supervisor as a passive observer only. See [README_CODEX.md](README_CODEX.md), [AGENTS.md](AGENTS.md), and [CODEX_COORDINATION.md](CODEX_COORDINATION.md). The universal components described below are retained for compatibility, not a second Coordinator.
+
+GitHub-backed software-project coordination, packaged as three ChatGPT plugins in this specialized fork:
 
 - **Project Leader** — the single entry point for project work.
 - **Recovery Guardian** — recovery after interrupted or failing execution.
+- **Project Leader + Codex** — the specialized portable Coordinator entry, separate from the universal plugin.
 
 Project Leader is an independent control project. External projects keep their architecture, implementation, credentials, CI and durable state in their own repositories. Every mutable task targets one repository.
 
 ## Use
 
-`Open the relevant ChatGPT Project -> New chat -> @Project Leader`
+`Open the relevant ChatGPT Project -> New chat -> @Project Leader + Codex`
 
 Invocation activates the controller. The Owner then gives the concrete instruction to audit, build, fix, recover or continue.
 
@@ -53,10 +56,11 @@ See `PLUGIN_SETUP.md` for installation. `.github/workflows/package-plugins.yml` 
 
 - Project Leader: **0.7.0**.
 - Recovery Guardian: **0.6.0**.
+- Project Leader + Codex: **0.1.1**.
 - Marketplace: `.agents/plugins/marketplace.json`.
-- Plugin source: `plugins/project-leader/` and `plugins/recovery-guardian/`.
+- Plugin source: `plugins/project-leader/`, `plugins/recovery-guardian/`, and `plugins/project-leader-codex/`.
 
-Both plugins use the OpenAI GitHub connector, limited to the repositories and actions authorized for the signed-in account.
+All three plugins use the OpenAI GitHub connector, limited to the repositories and actions authorized for the signed-in account.
 
 ## Continuity and repository hygiene
 

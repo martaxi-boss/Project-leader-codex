@@ -88,7 +88,7 @@ def write_plugin(root, name):
     )
     (skill / "SKILL.md").write_text("# Skill\n", encoding="utf-8")
     (skill / "agents" / "openai.yaml").write_text("name: test\n", encoding="utf-8")
-    (skill / "references" / "recovery-protocol.md").write_text(
+    (skill / "references" / ("operational-routes.md" if name == "project-leader-codex" else "recovery-protocol.md")).write_text(
         "# Recovery\n", encoding="utf-8"
     )
     return plugin
@@ -336,6 +336,7 @@ class AuditP1RegressionTests(unittest.TestCase):
             root = Path(tmp)
             write_plugin(root, "project-leader")
             write_plugin(root, "recovery-guardian")
+            write_plugin(root, "project-leader-codex")
             manifest = build(
                 root,
                 root / "dist",
