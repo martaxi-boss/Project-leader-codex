@@ -1,5 +1,6 @@
 """Guarded executor tests using fake local Codex, never live model calls."""
 import json
+import errno
 import io
 import os
 from contextlib import redirect_stdout
@@ -15,6 +16,58 @@ from codex.tests.test_dual import RunnerTests, order, task
 
 class SmartRunTests(unittest.TestCase):
     setUp = RunnerTests.setUp
+    def test_cloud_readonly_home_uses_private_xdg_state_for_real_fake_cli(self):
+        p = plan({"request": "Implement channel navigation and validate tests",
+                  "target_repository": "martaxi-boss/pink-iptv",
+                  "work_items": [task("one", "docs/channels",
+                                      "Implement channels and validate tests")]})
+        state = self.root / "xdg-state"
+        with mock.patch.dict(os.environ, {
+                "HOME": str(self.root / "readonly-home"),
+                "XDG_STATE_HOME": str(state), "XDG_RUNTIME_DIR": ""}):
+            result = smart.execute(p, self.repo, timeout=30)
+        self.assertEqual([x["status"] for x in result["workers"]], ["completed"])
+        self.assertEqual(Path(result["run_directory"]).parent,
+                         state / "project-leader-codex" / "runs")
+        self.assertEqual(smart.dual._git(self.repo, "status", "--porcelain"), "")
+
+    def test_default_readonly_home_falls_back_to_private_runtime_directory(self):
+        locked = self.root / "locked-home"
+        runtime = self.root / "xdg-runtime"
+        real_open = os.open
+
+        def readonly_home_probe(path, *args, **kwargs):
+            if str(path).startswith(str(locked)):
+                raise OSError(errno.EROFS, "Read-only file system")
+            return real_open(path, *args, **kwargs)
+
+        with mock.patch.dict(os.environ, {
+                "HOME": str(locked), "XDG_STATE_HOME": "",
+                "XDG_RUNTIME_DIR": str(runtime)}):
+            with mock.patch("codex.dual.os.open", side_effect=readonly_home_probe):
+                root = smart.dual._private_runs_root(self.repo, None)
+        self.assertEqual(root, runtime / "project-leader-codex" / "runs")
+        self.assertEqual(root.stat().st_mode & 0o077, 0)
+
+    def test_explicit_readonly_runs_dir_fails_closed_before_worker_and_budget(self):
+        p = plan({"request": "Implement channel navigation and validate tests",
+                  "target_repository": "martaxi-boss/pink-iptv",
+                  "work_items": [task("one", "docs/channels",
+                                      "Implement channels and validate tests")]})
+        readonly = self.root / "readonly-explicit"
+        with mock.patch("codex.dual.os.open",
+                        side_effect=OSError(errno.EROFS, "Read-only file system")):
+            with self.assertRaisesRegex(RoutingError, "--runs-dir"):
+                smart.execute(p, self.repo, readonly, timeout=30)
+        self.assertFalse(any(x.name.startswith("run-") for x in readonly.iterdir()))
+        self.assertEqual(smart.dual._git(self.repo, "status", "--porcelain"), "")
+
+    def test_runs_directory_symlink_does_not_bypass_private_root_checks(self):
+        link = self.root / "symlink-runs"
+        link.symlink_to(self.runs, target_is_directory=True)
+        with self.assertRaisesRegex(smart.dual.PlanError, "symlink"):
+            smart.dual._private_runs_root(self.repo, link)
+
     def test_single_codex_is_actually_one_worker_with_bounded_scope_and_budget(self):
         p = plan({"request": "Implement a small channel detail view and verify the tests",
                   "target_repository": "martaxi-boss/pink-iptv",

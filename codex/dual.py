@@ -6,6 +6,7 @@ signed-in Codex CLI; no credentials, merges or pushes are managed here.
 from __future__ import annotations
 
 import argparse
+import errno
 import hashlib
 from concurrent.futures import ThreadPoolExecutor
 import signal
@@ -612,6 +613,57 @@ def _worker(task: dict, workspace: Path, logdir: Path, timeout: int,
             "ref_changes": ref_changes,
             "out_of_scope": out_of_scope, "duration_seconds": round(time.monotonic() - started, 2)}
 
+def _private_runs_root(repo: Path, requested: Path | None) -> Path:
+    """Choose private writable state without assuming Cloud HOME is writable.
+
+    Explicit paths are authoritative. Automatic selection tries XDG state,
+    the normal user state directory, then a configured private runtime dir.
+    Never put worker Git clones, usage ledgers or logs inside the source repo.
+    """
+    target = repo.resolve(strict=True)
+    candidates = []
+    if requested is not None:
+        candidates.append(requested.expanduser())
+    else:
+        state = os.environ.get("XDG_STATE_HOME", "")
+        if state and Path(state).is_absolute():
+            candidates.append(Path(state) / "project-leader-codex" / "runs")
+        candidates.append(Path.home() / ".local/share/project-leader-codex/runs")
+        runtime = os.environ.get("XDG_RUNTIME_DIR", "")
+        if runtime and Path(runtime).is_absolute():
+            candidates.append(Path(runtime) / "project-leader-codex" / "runs")
+    for candidate in candidates:
+        if candidate.is_symlink():
+            raise PlanError("Runs directory must not be a symlink")
+        root = candidate.resolve()
+        if root == target or root.is_relative_to(target):
+            if requested is not None:
+                raise PlanError("Runs directory must be outside the target repository")
+            continue
+        try:
+            root.mkdir(parents=True, exist_ok=True, mode=0o700)
+            details = root.stat()
+            if details.st_uid != os.getuid() or details.st_mode & 0o077:
+                raise PlanError("Runs directory must be owned by this user and private (0700)")
+            probe = root / (".write-probe-" + uuid4().hex)
+            fd = os.open(probe, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+            os.close(fd)
+            probe.unlink()
+            return root
+        except OSError as exc:
+            if requested is None and exc.errno in {errno.EACCES, errno.EPERM, errno.EROFS}:
+                continue
+            raise PlanError(
+                "Runs directory is not writable; use --runs-dir with a private "
+                "writable directory outside the checkout"
+            ) from exc
+    raise PlanError(
+        "No private writable runs directory in this host; use --runs-dir "
+        "with a writable private directory outside the checkout, or use "
+        "native Codex Cloud workers if nested Codex CLI is restricted"
+    )
+
+
 def run(order: dict, repo: Path, runs_dir: Path | None = None, timeout: int = 1200,
         phase_one_validator: Callable[[Path, dict, dict], dict] | None = None) -> dict:
     if shutil.which("codex") is None:
@@ -625,12 +677,7 @@ def run(order: dict, repo: Path, runs_dir: Path | None = None, timeout: int = 12
     repo = repo.resolve(strict=True)
     head = _preflight(repo, order["target_repository"])
     original_refs = _refs_snapshot(repo)
-    root = (runs_dir or Path.home() / ".local/share/project-leader-codex/runs").expanduser().resolve()
-    if root == repo or root.is_relative_to(repo):
-        raise PlanError("Runs directory must be outside target repository")
-    root.mkdir(mode=0o700, parents=True, exist_ok=True)
-    if root.is_symlink() or root.stat().st_mode & 0o077:
-        raise PlanError("Runs directory permissions must be private (0700)")
+    root = _private_runs_root(repo, runs_dir)
     work_root = root / ("run-" + uuid4().hex)
     work_root.mkdir(mode=0o700)
     workspaces = []
