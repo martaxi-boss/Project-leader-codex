@@ -7,6 +7,7 @@ effort, installed ChatGPT plugin release or phone delivery.
 from __future__ import annotations
 
 import argparse
+import configparser
 import hashlib
 import json
 import os
@@ -14,7 +15,6 @@ from pathlib import Path
 import re
 import subprocess
 import sys
-import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_FILES = (
@@ -72,9 +72,10 @@ def check(repo: Path, *, require_origin_identity: bool = True) -> dict:
         if _git(repo, "status", "--porcelain", "--untracked-files=no", "--", relative):
             raise PreflightError("NOT_VERIFIED", "Uncommitted runtime instructions: " + relative)
         fingerprints[relative] = hashlib.sha256(path.read_bytes()).hexdigest()
-    config = tomllib.loads((repo / ".codex/config.toml").read_text(encoding="utf-8"))
-    if config.get("agents", {}).get("enabled") is not True or (
-            config["agents"].get("max_concurrent_threads_per_session") != 2):
+    config = configparser.ConfigParser(interpolation=None)
+    config.read_string((repo / ".codex/config.toml").read_text(encoding="utf-8"))
+    if (not config.getboolean("agents", "enabled", fallback=False)
+            or config.getint("agents", "max_concurrent_threads_per_session", fallback=0) != 2):
         raise PreflightError("NOT_VERIFIED", "Unexpected Codex agent configuration")
     remote = _git(repo, "ls-remote", "--refs", "origin", "refs/heads/main").split()
     if len(remote) != 2 or not _SHA.fullmatch(remote[0]) or remote[1] != "refs/heads/main":
@@ -112,7 +113,7 @@ def main(argv: list[str] | None = None) -> int:
     args = p.parse_args(argv)
     try:
         result = check(args.repo)
-    except (PreflightError, OSError, ValueError, tomllib.TOMLDecodeError) as exc:
+    except (PreflightError, OSError, ValueError, configparser.Error) as exc:
         state = exc.status if isinstance(exc, PreflightError) else "NOT_VERIFIED"
         print(json.dumps({"status": state, "reason": str(exc)}, sort_keys=True))
         return 3 if state == "STALE" else 2
