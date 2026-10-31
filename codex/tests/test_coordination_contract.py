@@ -42,6 +42,20 @@ class AgentCoordinationContractTests(unittest.TestCase):
         self.assertIn("entrada de ordens está desativada", guide)
         self.assertIn("PHASE_STAGED_AWAITING_TARGET_CERTIFICATION", guide)
 
+    def test_source_skill_and_cloud_preflight_are_in_sync(self):
+        skill = (ROOT / "plugins/project-leader-codex/skills/project-leader-codex/SKILL.md").read_text(encoding="utf-8")
+        agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        guide = (ROOT / "README_CODEX.md").read_text(encoding="utf-8")
+        config = (ROOT / ".codex/config.toml").read_text(encoding="utf-8")
+        reference = (ROOT / "plugins/project-leader-codex/skills/project-leader-codex/references/operational-routes.md").read_text(encoding="utf-8")
+        for source in (agents, guide, skill, config, reference):
+            self.assertIn("python -m codex.runtime_sync", source)
+        self.assertIn("STALE", agents)
+        self.assertIn("NOT_VERIFIED", skill)
+        self.assertIn("HOST_SKILL_UNVERIFIED", skill)
+        self.assertIn("HOST_SKILL_UNVERIFIED", guide)
+        self.assertIn("NOT_VERIFIED", reference)
+
     def test_phase_runtime_is_executable_without_mutating_protected_rules(self):
         from codex import phase_cycle, smart
         self.assertTrue(callable(phase_cycle.validated_phases))
