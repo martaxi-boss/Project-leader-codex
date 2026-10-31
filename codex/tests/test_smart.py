@@ -68,6 +68,24 @@ class SmartRunTests(unittest.TestCase):
         with self.assertRaisesRegex(smart.dual.PlanError, "symlink"):
             smart.dual._private_runs_root(self.repo, link)
 
+    def test_codex_cli_child_starts_inside_independent_writable_clone(self):
+        planned = plan({
+            "request": "Implement channel navigation and run tests",
+            "target_repository": "martaxi-boss/pink-iptv",
+            "work_items": [task("one", "docs/channels",
+                                "Implement channel navigation and run tests")],
+        })
+        with mock.patch.object(smart.dual, "_invoke_codex",
+                               wraps=smart.dual._invoke_codex) as invoked:
+            result = smart.execute(planned, self.repo, self.runs, timeout=30)
+        self.assertEqual([x["status"] for x in result["workers"]], ["completed"])
+        self.assertEqual(invoked.call_count, 1)
+        child_cwd = invoked.call_args.kwargs["cwd"]
+        self.assertEqual(child_cwd, Path(result["workers"][0]["workspace"]))
+        self.assertTrue(child_cwd.is_dir())
+        self.assertNotEqual(child_cwd.resolve(), self.repo.resolve())
+        self.assertEqual(smart.dual._git(self.repo, "status", "--porcelain"), "")
+
     def test_single_codex_is_actually_one_worker_with_bounded_scope_and_budget(self):
         p = plan({"request": "Implement a small channel detail view and verify the tests",
                   "target_repository": "martaxi-boss/pink-iptv",
