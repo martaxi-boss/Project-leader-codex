@@ -153,12 +153,12 @@ def _git(repo: Path, *args: str) -> str:
 
 
 def _metadata_config_snapshot(workspace: Path) -> dict[str, str]:
-    """Inspect code-bearing .git control surfaces without invoking Git."""
+    """Inspect code-bearing and ignore-control .git files without invoking Git."""
     root = workspace / ".git"
     if root.is_symlink() or not root.is_dir():
         raise PlanError("Worker replaced or removed its private Git directory")
     probes = [root / "config", root / "config.worktree",
-              root / "info/attributes"]
+              root / "info/attributes", root / "info/exclude"]
     hooks = root / "hooks"
     if hooks.is_symlink():
         raise PlanError("Worker Git hooks directory is a symlink")
@@ -200,8 +200,13 @@ def _preflight(repo: Path, expected: str) -> str:
     return _git(repo, "rev-parse", "HEAD")
 
 
-def _changes(workspace: Path) -> set[str]:
-    result = _safe_git(workspace, "status", "--porcelain=1", "--untracked-files=all", "-z")
+def _changes(workspace: Path, *, include_ignored: bool = False) -> set[str]:
+    # Traditional mode enumerates ignored files even under an ignored directory;
+    # matching mode can collapse it to a directory and hide inherited file edits.
+    # Source post-checks retain ordinary status semantics for existing caches.
+    ignored = ("--ignored=traditional",) if include_ignored else ()
+    result = _safe_git(workspace, "status", "--porcelain=1", "--untracked-files=all",
+                       *ignored, "-z")
     if result.returncode:
         raise PlanError("Cannot read worker Git status")
     pieces = result.stdout.decode("utf-8", errors="replace").split("\x00")
@@ -222,7 +227,7 @@ def _changes(workspace: Path) -> set[str]:
 def _snapshot(workspace: Path) -> dict[str, str]:
     """Record each changed path separately, so serial workers cannot alter inherited files."""
     states = {}
-    for name in sorted(_changes(workspace)):
+    for name in sorted(_changes(workspace, include_ignored=True)):
         path = workspace / name
         digest = hashlib.sha256()
         if path.is_symlink():
