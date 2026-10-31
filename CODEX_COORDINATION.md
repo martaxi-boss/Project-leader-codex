@@ -70,3 +70,19 @@ and reason, **one or two** actual worker IDs, provider/model and reasoning
 effort, changed-path/worktree evidence, tests/CI, token observations versus
 reservations, integration status and remaining blockers. Mark simulations as
 simulations; mark unavailable executors as not started.
+
+## Bounded worker audit and accounting
+
+- Planning, provider selection and execution use `codex.dual.effort` as the
+  shared difficulty floor. Complex regressions, root-cause investigations,
+  concurrency, security and credential work require `high`; explicit lower
+  overrides are blocked before launch.
+- Every worker owns at most **20 unique paths**, including automatic groups.
+  Oversized groups fail closed for internal re-scoping; never widen ownership,
+  discard dependencies or add workers to evade the two-worker ceiling.
+- Worker audits hash actual tracked files from HEAD and the index, plus ignored
+  and untracked files. `assume-unchanged`, `skip-worktree` and Git stat-cache
+  hints cannot hide out-of-scope edits from the before/after comparison.
+- The host records launch attempts at the process boundary. Setup failures and
+  prelaunch cancellation settle unstarted reservations at zero; ambiguous
+  attempted execution retains conservative accounting. This is not live quota.

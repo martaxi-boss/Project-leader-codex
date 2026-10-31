@@ -28,7 +28,8 @@ def _private_runs(path: Path | None, repo: Path) -> Path:
         raise RoutingError(str(exc)) from exc
 
 
-def _execute_solo(planned: dict, repo: Path, root: Path, timeout: int, run_id: str) -> dict:
+def _execute_solo(planned: dict, repo: Path, root: Path, timeout: int, run_id: str,
+                  worker_starting=None) -> dict:
     task = planned["tasks"][0]
     head = dual._preflight(repo, planned["target_repository"])
     original_refs = dual._refs_snapshot(repo)
@@ -39,7 +40,8 @@ def _execute_solo(planned: dict, repo: Path, root: Path, timeout: int, run_id: s
         dual._private_clone(repo, workspace, head)
         item = {"id": task["id"], "task": task["task"], "paths": task["paths"],
                 "selected_effort": task["selection"]["reasoning_effort"]}
-        result = dual._worker(item, workspace, work_root, timeout)
+        result = dual._worker(item, workspace, work_root, timeout,
+                              worker_starting=worker_starting)
         if (dual._git(repo, "rev-parse", "HEAD") != head
                 or dual._refs_snapshot(repo) != original_refs
                 or dual._changes(repo)):
@@ -82,9 +84,11 @@ def execute(planned: dict, repo_dir: Path, runs_dir: Path | None = None, *, time
     budget_root = root / ".shared-budget"
     reservation = budget.reserve_batch(budget_root, run_id, selected, limit=soft_limit)
     result = None
+    attempted = set()
     try:
         if planned["mode"] == "single":
-            result = _execute_solo(planned, repo, root, timeout, run_id)
+            result = _execute_solo(planned, repo, root, timeout, run_id,
+                                   worker_starting=attempted.add)
         else:
             order = {"target_repository": planned["target_repository"], "mode": planned["mode"],
                      "tasks": [{"id": x["id"], "task": x["task"], "paths": x["paths"],
@@ -92,22 +96,27 @@ def execute(planned: dict, repo_dir: Path, runs_dir: Path | None = None, *, time
                                for x in planned["tasks"]]}
             parsed = dual.parse_order(order)
             result = dual.run(parsed, repo, root, timeout,
-                              phase_one_validator=phase_one_validator)
+                              phase_one_validator=phase_one_validator,
+                              worker_starting=attempted.add)
     finally:
         usage = {}
         for entry in selected:
             if result is not None:
                 worker = next((w for w in result["workers"] if w["id"] == entry["id"]), None)
-                if worker is not None and worker.get("status") == "not_started":
-                    # A prior serial stage stopped; this stage consumed nothing.
+                if worker is not None and (worker.get("status") == "not_started" or
+                        (worker.get("status") == "cancelled" and entry["id"] not in attempted)):
+                    # A stopped serial stage or prelaunch cancellation consumed nothing.
                     usage[entry["id"]] = {"not_started": True}
                 else:
                     logdir = Path(result["run_directory"])
                     usage[entry["id"]] = budget.codex_usage_file(
                         logdir / (entry["id"] + ".jsonl"))
             else:
-                # An interrupted/ambiguous runner is charged conservatively.
-                usage[entry["id"]] = None
+                # Trusted host launch-attempt tracking distinguishes setup
+                # failures from ambiguous/failed workers. Never infer launch
+                # from missing logs or a worker-authored marker.
+                usage[entry["id"]] = (None if entry["id"] in attempted
+                                      else {"not_started": True})
         settled = budget.settle_batch(budget_root, run_id, usage)
     result["accounting"] = {**reservation, **settled,
                             "note": "Private usage ledger; only an explicitly selected soft limit can deny a turn; provider quota remains unknown"}
