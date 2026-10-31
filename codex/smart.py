@@ -21,15 +21,11 @@ from codex.scope_discovery import discover_work_items
 from codex import resource_budget as budget
 
 
-def _private_runs(path: Path, repo: Path) -> Path:
-    root = path.expanduser().resolve()
-    target = repo.resolve(strict=True)
-    if root == target or root.is_relative_to(target):
-        raise RoutingError("Private run directory must be outside the target checkout")
-    root.mkdir(parents=True, exist_ok=True, mode=0o700)
-    if root.is_symlink() or root.stat().st_mode & 0o077:
-        raise RoutingError("Unsafe run directory permissions")
-    return root
+def _private_runs(path: Path | None, repo: Path) -> Path:
+    try:
+        return dual._private_runs_root(repo, path)
+    except dual.PlanError as exc:
+        raise RoutingError(str(exc)) from exc
 
 
 def _execute_solo(planned: dict, repo: Path, root: Path, timeout: int, run_id: str) -> dict:
@@ -80,7 +76,7 @@ def execute(planned: dict, repo_dir: Path, runs_dir: Path | None = None, *, time
         raise RoutingError("Codex CLI absent; no agent started")
     repo = repo_dir.expanduser().resolve(strict=True)
     dual._preflight(repo, planned["target_repository"])
-    root = _private_runs(runs_dir or Path.home() / ".local/share/project-leader-codex/runs", repo)
+    root = _private_runs(runs_dir, repo)
     run_id = uuid4().hex
     selected = [{"id": t["id"], "effort": t["selection"]["reasoning_effort"]} for t in planned["tasks"]]
     budget_root = root / ".shared-budget"

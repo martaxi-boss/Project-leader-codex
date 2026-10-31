@@ -47,6 +47,19 @@ are audited, including concealed side refs. Inspect `result.json`, review
 changes and validate before opening a PR. Serial mode runs two jobs in
 sequence against one private clone so the second sees the first's edits.
 
+**Writable CLI state in restricted hosts:** the independent codex.smart
+and codex.dual CLI runners prefer an explicit --runs-dir when supplied;
+otherwise they use a private XDG_STATE_HOME directory, the usual home state
+directory, or a configured private XDG_RUNTIME_DIR if home is read-only.
+The selected directory must be writable, owned by the current user, and
+private (0700), outside the source checkout. Runtime directories may be
+ephemeral; keep durable evidence in a persistent authorized location.
+A Codex Cloud native worker is a separate authenticated execution path:
+if the host prohibits nested codex exec or has read-only Codex credential/
+session storage, selecting a writable runs directory alone does **not**
+prove that nested CLI can start. Do not copy credentials, weaken sandbox
+rules or claim CLI certification from native worker tests.
+
 **Reasoning effort is chosen once per task** (`low`, `medium` or `high`, or
 `auto`), not retroactively changed mid-run. This tool does not know the
 account's live quota and does not manage the separate VPS soft token ledger.
