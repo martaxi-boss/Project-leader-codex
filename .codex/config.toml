@@ -1,5 +1,7 @@
 # Specialization for this repository only. Trust requirements are host-managed.
 # One coordinating Codex plus up to two independent subagents when supported.
+# Before certifying a changed Cloud task, run: python -m codex.runtime_sync
+# This configuration is repository source, not proof of the host-loaded runtime.
 [agents]
 enabled = true
 max_concurrent_threads_per_session = 2

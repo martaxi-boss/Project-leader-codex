@@ -8,6 +8,26 @@ currently verified executor.
 
 **The sole Coordinator belongs to this repository**, `martaxi-boss/Project-leader-codex`: the existing `codex.smart`, `codex.agent_policy`, host scoping and Codex workers. Its policies and execution engine must travel with this repository. GitHub Actions or a VPS may supply compute/transport, but neither owns another planning AI. Do not create a second Coordinator, another Supervisor or an MCP just to route work.
 
+### Mandatory revision-coherence check before testing or certifying Codex
+
+Before a new or repeated Cloud/CLI certification, execute `python -m codex.runtime_sync`
+from the **Project-leader-codex repository root**. It is read-only: it checks
+the actual source checkout, the live GitHub `origin/main` ancestry, clean
+`AGENTS.md`, `CODEX_COORDINATION.md`, `.codex/config.toml` and the specialized
+Skill source, and prints exact SHAs and source fingerprints. Save its output
+with the worker and CI evidence. Only `status=PASS` permits claiming that
+the repository instructions match the current main revision.
+
+A `STALE` or `NOT_VERIFIED` preflight is **not** a successful test of the
+new code. Reconcile a new authorized Cloud checkout/task with current main,
+re-read these instructions and the Skill, then rerun affected tests; do not
+overwrite an existing dirty worktree or silently weaken this check. A Cloud
+runtime's installed ChatGPT plugin release, selected model and effective
+reasoning effort are **separate host facts**: Git source fingerprints cannot
+prove them. Require actual host evidence or mark each `NOT_VERIFIED`.
+Publishing GitHub source or a plugin ZIP does not automatically refresh the
+installed ChatGPT Skill or a previously created Codex Cloud environment.
+
 ### Codex Cloud: work directly with the project Coordinator
 
 A new Owner instruction in an explicitly selected **Codex Cloud task** is a **direct Cloud execution request by default**, whether dictated, typed, or accompanied by screenshots, photographs, documents or examples. Load the Project Leader Skill and `CODEX_COORDINATION.md`, inspect the actual authorized target and implement, test, correct and prepare scoped commits/PRs there. Use the existing portable coordinator planner/worker capabilities for scoped work; do not automatically relay this instruction to the VPS or start a redundant VPS planning AI.

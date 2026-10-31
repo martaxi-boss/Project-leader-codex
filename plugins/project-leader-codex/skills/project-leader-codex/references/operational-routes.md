@@ -2,6 +2,21 @@
 
 Source of truth: `martaxi-boss/Project-leader-codex` (`AGENTS.md`, `CODEX_COORDINATION.md`, `codex/smart.py`, `codex/agent_policy.py`). Universal `martaxi-boss/Project-leader` remains unchanged.
 
+## Revision and loaded-environment proof
+
+Start every post-change certification with `python -m codex.runtime_sync`
+in the actual Project-leader-codex checkout. A PASS binds the current
+`origin/main` to the code and fingerprints of `AGENTS.md`,
+`CODEX_COORDINATION.md`, `.codex/config.toml` and this specialized Skill
+source. If it returns STALE or NOT_VERIFIED, do not certify the new revision
+from that checkout; use a fresh authorized environment and repeat the affected
+tests. This is a read-only check, not a new process manager.
+
+The **installed** ChatGPT Skill release and effective Codex Cloud model,
+effort and worker sessions need independent host evidence; repository source
+alone is not proof of those loaded runtime facts. No automatic remote Cloud
+refresh or plugin publishing is implied by a merge or a new ZIP.
+
 ## One engine, different entries
 
 **Codex Cloud**: owner selects this project's Cloud environment; direct task uses project instructions, real target checkout and available private attachments. It executes there. No VPS required; no Remote Desktop Commander.

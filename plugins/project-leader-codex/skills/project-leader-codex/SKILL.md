@@ -14,6 +14,29 @@ This Skill is the ChatGPT entry for the **single Coordinator belonging to** `mar
 3. For substantive work, load the specialized internal Project Leader Skill only as a universal control-policy dependency when needed. Do not invoke or change the independent universal Project Leader plugin, invent an extra agent registry, coordinator, remote desktop connection or MCP.
 4. Bare `@Project Leader + Codex` only activates the Skill and waits for an objective; do not start Issues, model runs, branches or tests without an actual order.
 
+## Mandatory source, Skill and host revision preflight
+
+- Before testing any new correction, pin the exact implementation/head SHA and
+  inspect the current `main`. In a real Codex Cloud or signed-in CLI checkout
+  of this same repository, run `python -m codex.runtime_sync` and retain its
+  `status`, `head_sha`, `origin_main_sha` and four source SHA-256 values.
+  `STALE` or `NOT_VERIFIED` cannot certify the corrected version; use a
+  fresh/current authorized checkout, then rerun only the necessary tests.
+- Compare this **actually loaded** ChatGPT Skill release and its instructions
+  with the specialized Skill source at the pinned SHA, when the host exposes
+  the release. A GitHub merge, new plugin ZIP or CodeX `.codex/config.toml`
+  commit does **not** itself update the installed ChatGPT plugin or an existing
+  Cloud environment. If host-loaded release cannot be inspected, report
+  `HOST_SKILL_UNVERIFIED`, not `PASS`.
+- A valid source preflight does not prove effective model, reasoning effort,
+  token usage, live Cloud worker execution or Telegram receipt. Record each
+  separately from host evidence. Keep current protections and never create
+  a VPS Coordinator, extra MCP or bridge merely to obtain a green result.
+- After changing runtime code, update only affected Skill/Cloud instructions
+  and packaging metadata; check source/release consistency **before** testing.
+  Do not repeat a certification on stale instructions or attribute a pass to
+  source that was not actually loaded.
+
 ## ChatGPT entry: coordinate using available host capabilities
 
 - Accept one natural-language Owner order. Use the **project-owned Coordinator policy** to inspect, scope, choose one/two workers if supported, select adequate `low`/`medium`/`high` and advance normal tasks without questions about paths, worker count, branches or routine technical choices.
