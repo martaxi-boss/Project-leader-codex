@@ -80,8 +80,12 @@ def check(repo: Path, *, require_origin_identity: bool = True) -> dict:
     if len(remote) != 2 or not _SHA.fullmatch(remote[0]) or remote[1] != "refs/heads/main":
         raise PreflightError("NOT_VERIFIED", "Cannot verify current origin/main")
     main_sha = remote[0]
-    # Remote refs are not fetched automatically; the exact commit must already
-    # be present in the test checkout for an ancestry proof.
+    # Never fetch or modify the checkout during a certification preflight.
+    # If the current main commit is absent, this checkout is stale for testing.
+    try:
+        _git(repo, "cat-file", "-e", main_sha + "^{commit}")
+    except PreflightError as exc:
+        raise PreflightError("STALE", "Current origin/main commit is absent from this checkout") from exc
     ancestry = subprocess.run(
         ["git", "-C", str(repo), "merge-base", "--is-ancestor", main_sha, head],
         env=dict(os.environ, GIT_TERMINAL_PROMPT="0", GIT_PAGER="cat"),
