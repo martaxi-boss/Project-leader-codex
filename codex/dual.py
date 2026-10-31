@@ -30,8 +30,8 @@ HARD = ("race condition", "deadlock", "security", "seguranca", "segurança",
         "seguranca critica", "segurança crítica", "irreversible migration",
         "migração irreversível", "migracao irreversivel", "complex regression",
         "regressão complexa", "regressao complexa", "root cause", "causa raiz",
-        "concurrency", "concorrencia", "concorrência", "credential")
-EASY = ("typo", "ortografia", "readme", "formatting", "formatar", "renomear")
+        "concurrency", "concorrencia", "concorrência", "credential", "irreversible")
+EASY = ("typo", "ortografia", "readme", "formatting", "formatar", "renomear", "fix spelling")
 ROOT = Path(__file__).resolve().parents[1]
 # Never resolve the validator sandbox executable from a worker-controlled PATH.
 BWRAP_CANDIDATES = (Path("/usr/bin/bwrap"), Path("/bin/bwrap"))
@@ -62,7 +62,9 @@ def effort(task: dict) -> str:
     prompt = task["task"].casefold()
     if task.get("verified_hard_failure") is True or any(signal in prompt for signal in HARD):
         minimum = "high"
-    elif len(prompt) < 240 and any(signal in prompt for signal in EASY):
+    elif (len(prompt) <= 160 and any(signal in prompt for signal in EASY)
+          and not any(signal in prompt for signal in
+                      ("production", "produção", "migration", "migração"))):
         minimum = "low"
     else:
         minimum = "medium"
@@ -225,11 +227,25 @@ def _changes(workspace: Path, *, include_ignored: bool = False) -> set[str]:
 
 
 def _snapshot(workspace: Path) -> dict[str, str]:
-    """Record each changed path separately, so serial workers cannot alter inherited files."""
+    """Hash actual files, including tracked paths Git status can be told to hide.
+
+    HEAD plus index enumeration survives assume-unchanged, skip-worktree,
+    stat-cache tricks and index removal. The baseline also retains paths that
+    disappear later, including inherited ignored files in serial execution.
+    """
+    names = _changes(workspace, include_ignored=True)
+    for args in (("ls-files", "--cached", "-z"),
+                 ("ls-tree", "-r", "--name-only", "-z", "HEAD")):
+        result = _safe_git(workspace, *args)
+        if result.returncode:
+            raise PlanError("Cannot enumerate tracked worker paths")
+        names.update(os.fsdecode(name) for name in result.stdout.split(b"\x00") if name)
     states = {}
-    for name in sorted(_changes(workspace, include_ignored=True)):
+    for name in sorted(names):
         path = workspace / name
         digest = hashlib.sha256()
+        if path.exists() or path.is_symlink():
+            digest.update(str(stat.S_IMODE(path.lstat().st_mode)).encode() + b"\x00")
         if path.is_symlink():
             digest.update(b"symlink:" + os.readlink(path).encode("utf-8", errors="replace"))
         elif path.is_file():
@@ -400,9 +416,12 @@ def _child_environment(explicit: dict[str, str] | None) -> dict[str, str]:
 def _invoke_codex(cmd: list[str], prompt: str, timeout: int,
                   cancel_event: threading.Event | None = None,
                   *, cwd: Path | None = None,
-                  env: dict[str, str] | None = None) -> tuple[int, str, str, str]:
+                  env: dict[str, str] | None = None,
+                  on_start: Callable[[], None] | None = None) -> tuple[int, str, str, str]:
     if cancel_event is not None and cancel_event.is_set():
         return 125, "", "Cancelled before model launch", "cancelled"
+    if on_start is not None:
+        on_start()  # Trusted accounting: launch is now attempted, usage may be unknown.
     process = subprocess.Popen(
         cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
         text=True, start_new_session=(os.name == "posix"),
@@ -544,7 +563,10 @@ def trusted_phase_one_validator(script: Path, repo: Path, timeout: int):
 
 
 def _worker(task: dict, workspace: Path, logdir: Path, timeout: int,
-            cancel_event: threading.Event | None = None) -> dict:
+            cancel_event: threading.Event | None = None,
+            worker_starting: Callable[[str], None] | None = None) -> dict:
+    # Recheck the shared floor at the launch boundary, including solo plans.
+    effort({**task, "reasoning_effort": task["selected_effort"]})
     # --ask-for-approval is a ROOT option on Codex 0.159.x, not an exec option.
     # Retain workspace-write sandbox and explicit never-approval policy.
     cmd = [shutil.which("codex") or "codex", "--ask-for-approval", "never", "exec",
@@ -558,6 +580,7 @@ def _worker(task: dict, workspace: Path, logdir: Path, timeout: int,
     previous_metadata = _metadata_config_snapshot(workspace)
     code, stdout, stderr, termination = _invoke_codex(
         cmd, _prompt(task), timeout, cancel_event, cwd=workspace,
+        on_start=(lambda: worker_starting(task["id"])) if worker_starting else None,
     )
     _private_file(logdir / (task["id"] + ".jsonl"), stdout)
     _private_file(logdir / (task["id"] + ".stderr"), stderr)
@@ -586,11 +609,11 @@ def _worker(task: dict, workspace: Path, logdir: Path, timeout: int,
     side_ref_paths = _ref_committed_paths(workspace, previous_head,
                                           ref_changes, current_refs)
     committed.update(side_ref_paths)
-    changed = sorted(set(current_state) | committed)
     newly_changed = sorted(
         {p for p in (set(previous_state) | set(current_state))
          if previous_state.get(p) != current_state.get(p)} | committed
     )
+    changed = sorted(_changes(workspace, include_ignored=True) | set(newly_changed))
     mutated = bool(newly_changed)
     out_of_scope = [p for p in newly_changed if not _scope(p, task["paths"])]
     completed_event = any(
@@ -670,7 +693,8 @@ def _private_runs_root(repo: Path, requested: Path | None) -> Path:
 
 
 def run(order: dict, repo: Path, runs_dir: Path | None = None, timeout: int = 1200,
-        phase_one_validator: Callable[[Path, dict, dict], dict] | None = None) -> dict:
+        phase_one_validator: Callable[[Path, dict, dict], dict] | None = None,
+        worker_starting: Callable[[str], None] | None = None) -> dict:
     if shutil.which("codex") is None:
         raise PlanError("Codex CLI is not installed or accessible; no model started")
     if not 30 <= timeout <= 7200:
@@ -700,7 +724,7 @@ def run(order: dict, repo: Path, runs_dir: Path | None = None, timeout: int = 12
 
             def guarded_worker(task: dict, workspace: Path) -> dict:
                 try:
-                    return _worker(task, workspace, work_root, timeout, cancel_event)
+                    return _worker(task, workspace, work_root, timeout, cancel_event, worker_starting)
                 except Exception:
                     # A runner/setup error must not leave its sibling running unattended.
                     cancel_event.set()
@@ -711,7 +735,7 @@ def run(order: dict, repo: Path, runs_dir: Path | None = None, timeout: int = 12
                            for i, t in enumerate(tasks)]
                 results = [f.result() for f in futures]
         else:
-            first = _worker(tasks[0], workspaces[0], work_root, timeout)
+            first = _worker(tasks[0], workspaces[0], work_root, timeout, worker_starting=worker_starting)
             results = [first]
             if first["status"] == "completed":
                 # A completed Codex turn is not independent project validation.
@@ -726,7 +750,7 @@ def run(order: dict, repo: Path, runs_dir: Path | None = None, timeout: int = 12
                 first["validation"] = {"passed": review["passed"],
                                        "evidence": review["evidence"]}
                 if review["passed"]:
-                    second = _worker(tasks[1], workspaces[0], work_root, timeout)
+                    second = _worker(tasks[1], workspaces[0], work_root, timeout, worker_starting=worker_starting)
                     results.append(second)
                 else:
                     results.append({"id": tasks[1]["id"], "status": "not_started",

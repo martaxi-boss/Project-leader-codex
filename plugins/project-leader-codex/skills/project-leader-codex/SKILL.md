@@ -63,3 +63,19 @@ Never silently merge, deploy, publish, relax security, alter production credenti
 Report the actual route (ChatGPT host tools, direct Cloud or signed-in Codex CLI), source/target SHA, real workers/mode/effort when available, changed files, PR, CI, Supervisor notification status and precise blockers. Mark unverified items `NOT_VERIFIED`, distinguish staged PR from merged/deployed, and never call a prompt or GitHub Issue a completed execution.
 
 Detailed routes and portability checks: `references/operational-routes.md`.
+
+## Bounded worker audit and accounting
+
+- Planning, provider selection and execution use `codex.dual.effort` as the
+  shared difficulty floor. Complex regressions, root-cause investigations,
+  concurrency, security and credential work require `high`; explicit lower
+  overrides are blocked before launch.
+- Every worker owns at most **20 unique paths**, including automatic groups.
+  Oversized groups fail closed for internal re-scoping; never widen ownership,
+  discard dependencies or add workers to evade the two-worker ceiling.
+- Worker audits hash actual tracked files from HEAD and the index, plus ignored
+  and untracked files. `assume-unchanged`, `skip-worktree` and Git stat-cache
+  hints cannot hide out-of-scope edits from the before/after comparison.
+- The host records launch attempts at the process boundary. Setup failures and
+  prelaunch cancellation settle unstarted reservations at zero; ambiguous
+  attempted execution retains conservative accounting. This is not live quota.

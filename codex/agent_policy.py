@@ -20,11 +20,6 @@ BLOCKED_SECRETS = re.compile(
     r"(?i)(?:-----BEGIN [A-Z ]*PRIVATE KEY|gh[pousr]_[a-z0-9]{12,}|"
     r"(?:api[_-]?key|password|senha|secret|access[_-]?token)\s*[:=]\s*\S+)"
 )
-HIGH_SIGNALS = ("deadlock", "race condition", "regressao complexa", "regressão complexa",
-                "root cause", "segurança crítica", "segurança", "seguranca", "concorrência",
-                "concorrencia", "security", "concurrency", "critical security",
-                "migração irreversível", "irreversible")
-LOW_SIGNALS = ("corrige um typo", "typo", "ortografia", "formatar", "ajusta o readme", "fix spelling")
 MULTISTEP_SIGNALS = ("implementar", "implement", "integrar", "integration", "testar", "test",
                      "desenvolver", "develop", "criar", "build", "refactor", "refator")
 ITEM_ID = re.compile(r"[a-z][a-z0-9-]{0,39}\Z")
@@ -74,23 +69,12 @@ def _has_overlap(left: dict, right: dict) -> bool:
 
 
 def _classify_effort(task: dict) -> str:
-    """Apply a safety floor before accepting any manually requested effort."""
-    prompt = task["task"].casefold()
-    if any(signal in prompt for signal in HIGH_SIGNALS):
-        minimum = "high"
-    elif len(prompt) <= 160 and any(signal in prompt for signal in LOW_SIGNALS) and not any(
-        signal in prompt for signal in ("security", "segurança", "production", "produção", "migration", "migração")
-    ):
-        minimum = "low"
-    else:
-        minimum = "medium"
-    requested = task["reasoning_effort"]
-    if requested == "auto":
-        return minimum
-    rank = {"low": 0, "medium": 1, "high": 2}
-    if rank[requested] < rank[minimum]:
-        raise RoutingError("Unsafe reasoning-effort override: task requires at least " + minimum)
-    return requested
+    """Use the same difficulty floor for planning, selection and execution."""
+    try:
+        return dual.effort(task)
+    except dual.PlanError as exc:
+        raise RoutingError(str(exc)) from exc
+
 
 def _load_profiles(registry: Any) -> list[dict]:
     if not isinstance(registry, dict) or registry.get("version") != 1 or not isinstance(registry.get("providers"), list):
@@ -249,10 +233,13 @@ def plan(order: dict, registry: dict | None = None) -> dict:
         instruction = "Complete the following bounded tasks in sequence. Do not exceed assigned paths:\n" +                       "\n".join(f"{i+1}. {x['task']}" for i, x in enumerate(group_items))
         if len(instruction) > 3000:
             raise RoutingError("Aggregated instruction is too large; narrow internal work batches")
+        paths = list(dict.fromkeys(p for x in group_items for p in x["paths"]))
+        if len(paths) > 20:
+            raise RoutingError("Aggregated worker exceeds 20 unique paths; narrow internal work batches")
         levels = [_classify_effort(x) for x in group_items]
         effort_choice = "high" if "high" in levels else "medium" if "medium" in levels or len(group_items) > 1 else "low"
         return {"id": identifier, "task": instruction,
-                "paths": list(dict.fromkeys(p for x in group_items for p in x["paths"])),
+                "paths": paths,
                 "depends_on": [], "reasoning_effort": effort_choice}
 
     if mode == "single":

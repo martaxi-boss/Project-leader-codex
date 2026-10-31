@@ -1,0 +1,110 @@
+{
+  "schema_version": "2.0",
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "task_id": "PL-CODEX-FINAL-COHERENCE-20261031",
+  "project": "PROJECT LEADER + CODEX (SPECIALIZED)",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "created_at": "2026-10-31T13:20:20.751442+00:00",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Owner requests final scope, effort, grouping and prelaunch token corrections with regression tests and one unmerged PR. Update specialized runtime instructions and packaging metadata to match corrections; preserve single coordinator, all three modes, passive VPS Supervisor, Telegram/GitHub and independent universal Project Leader."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "dfccac1613b6217e94236b008a5a42f15d8dca83",
+    "task_branch": "fix/codex-final-coherence-20261031",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "codex/agent_policy.py",
+    "codex/dual.py",
+    "codex/smart.py",
+    "codex/tests/test_final_coherence.py",
+    "codex/tests/test_prelaunch_accounting.py",
+    "CODEX_COORDINATION.md",
+    "plugins/project-leader-codex/plugin.json",
+    "plugins/project-leader-codex/skills/project-leader-codex/SKILL.md",
+    ".project-leader/tasks/PL-CODEX-FINAL-COHERENCE-20261031.json",
+    ".project-leader/results/PL-CODEX-FINAL-COHERENCE-20261031.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "cross_project_mutation",
+    "force_push",
+    "rewrite_git_history",
+    "weaken_ci_or_security_controls",
+    "create_new_coordinator",
+    "create_new_supervisor",
+    "modify_rea_or_ssh_transport"
+  ],
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins",
+    "Codex specialization tests"
+  ],
+  "policy": {
+    "profile": "project-leader-codex-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "dfccac1613b6217e94236b008a5a42f15d8dca83",
+    "sha256": "c612748e735c01b2774c326c5b4e16a5e83fadd9a142320d504f9ac2258c0c2d",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "Three reproduced defects and prelaunch accounting corrected with regression proof, full Codex/control tests and required GitHub CI; one PR staged without merge. runtime_sync remote failure must remain NOT_VERIFIED and must never be represented as PASS. No live model, Telegram delivery or installed host Skill certification is implied.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  }
+}
