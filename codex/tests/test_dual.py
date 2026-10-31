@@ -149,6 +149,13 @@ time.sleep(0.15)
 target = workspace / owned / 'created.txt'
 target.parent.mkdir(parents=True, exist_ok=True)
 target.write_text('fake codex result refined' if 'CHECK-PRIOR' in prompt else 'fake codex result')
+if 'VISIBLE-COMPANION' in prompt:
+    (target.parent / 'visible.dat').write_text('visible in-scope edit')
+if 'EXCLUDE-OUTSIDE' in prompt:
+    rogue = workspace / 'unowned/rogue.txt'
+    rogue.parent.mkdir(parents=True, exist_ok=True)
+    rogue.write_text('hidden outside approved scope')
+    (workspace / '.git/info/exclude').write_text('unowned/\\n')
 if 'COMMIT-OUTSIDE' in prompt or 'COMMIT-OWNED' in prompt:
     import subprocess
     if 'COMMIT-OUTSIDE' in prompt:
@@ -267,6 +274,12 @@ sys.exit(child.returncode)
             validator = self._validated_fake_phase
         return dual.run(dual.parse_order(plan), self.repo, self.runs,
                         timeout=30, phase_one_validator=validator)
+
+    def _ignore(self, pattern):
+        (self.repo / '.gitignore').write_text(pattern + '\n')
+        subprocess.run(['git', '-C', str(self.repo), 'add', '.gitignore'], check=True)
+        subprocess.run(['git', '-C', str(self.repo), 'commit', '-qm', 'ignore fixture'],
+                       check=True)
 
     def test_parallel_real_processes_isolated_no_integration(self):
         result = self._run(order())
@@ -419,6 +432,52 @@ sys.exit(child.returncode)
         self.assertEqual(r["workers"][0]["status"], "completed")
         self.assertEqual(r["workers"][1]["status"], "scope_violation")
         self.assertIn("docs/channels/created.txt", r["workers"][1]["out_of_scope"])
+
+    def test_worker_exclude_injection_blocks_dependent_worker(self):
+        p = order("serial")
+        p["tasks"][0]["task"] = "EXCLUDE-OUTSIDE: hide an unauthorized file in Git excludes"
+        r = self._run(p)
+        self.assertEqual(r["workers"][0]["status"], "git_metadata_violation")
+        self.assertIn(".git/info/exclude", r["workers"][0]["out_of_scope"])
+        self.assertEqual(r["workers"][1]["status"], "not_started")
+        self.assertFalse((Path(r["run_directory"]) / "second.jsonl").exists())
+
+    def test_preexisting_ignore_cannot_hide_out_of_scope_file(self):
+        self._ignore("unowned/")
+        p = order("serial")
+        p["tasks"][0]["task"] = "BREAK-SCOPE: write outside scope into an ignored directory"
+        r = self._run(p)
+        self.assertEqual(r["workers"][0]["status"], "scope_violation")
+        self.assertIn("unowned/created.txt", r["workers"][0]["out_of_scope"])
+        self.assertEqual(r["workers"][1]["status"], "not_started")
+
+    def test_serial_worker_cannot_modify_inherited_ignored_file(self):
+        self._ignore("docs/channels/created.txt")
+        p = order("serial")
+        p["tasks"][0]["task"] = "VISIBLE-COMPANION: create visible and ignored channel files"
+        p["tasks"][1]["task"] = "BREAK-INHERITED: alter the prior ignored channel file"
+        r = self._run(p)
+        self.assertEqual(r["workers"][0]["status"], "completed")
+        self.assertEqual(r["workers"][1]["status"], "scope_violation")
+        self.assertIn("docs/channels/created.txt", r["workers"][1]["out_of_scope"])
+
+    def test_ignored_in_scope_file_is_a_valid_change(self):
+        self._ignore("docs/channels/")
+        r = self._run(order("serial"))
+        self.assertEqual([w["status"] for w in r["workers"]], ["completed", "completed"])
+        self.assertEqual(r["workers"][0]["new_paths"], ["docs/channels/created.txt"])
+        self.assertEqual(r["workers"][1]["new_paths"], ["docs/movies/created.txt"])
+
+    def test_preexisting_source_ignored_file_does_not_block_safe_workers(self):
+        self._ignore("cache/")
+        cache = self.repo / "cache/local.txt"
+        cache.parent.mkdir()
+        cache.write_text("existing local cache")
+        head = dual._git(self.repo, "rev-parse", "HEAD")
+        r = self._run(order())
+        self.assertEqual([w["status"] for w in r["workers"]], ["completed", "completed"])
+        self.assertEqual(cache.read_text(), "existing local cache")
+        self.assertEqual(dual._git(self.repo, "rev-parse", "HEAD"), head)
 
     def test_scope_violation_is_not_success(self):
         p = order(); p["tasks"][1]["task"] = "BREAK-SCOPE: attempt to edit something outside assigned paths"
