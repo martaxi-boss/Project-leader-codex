@@ -552,7 +552,7 @@ def _worker(task: dict, workspace: Path, logdir: Path, timeout: int,
     previous_state = _snapshot(workspace)
     previous_metadata = _metadata_config_snapshot(workspace)
     code, stdout, stderr, termination = _invoke_codex(
-        cmd, _prompt(task), timeout, cancel_event,
+        cmd, _prompt(task), timeout, cancel_event, cwd=workspace,
     )
     _private_file(logdir / (task["id"] + ".jsonl"), stdout)
     _private_file(logdir / (task["id"] + ".stderr"), stderr)
