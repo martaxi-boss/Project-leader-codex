@@ -1,0 +1,74 @@
+{
+  "schema_version": "2.0",
+  "task_id": "PL-CODEX-RUNTIME-SKILL-SYNC-20261031",
+  "terminal_status": "TERMINAL_SUCCESS",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "authorization_record": ".project-leader/tasks/PL-CODEX-RUNTIME-SKILL-SYNC-20261031.json",
+  "authorization_commit_sha": "76fbb972053d680941a10e50b742cec4ad68c075",
+  "authorization_sha256": "fe78767b1c1735669ece80491a44e5de2267b2fd282bfc7958ee37193738a65a",
+  "implementation_head_sha": "ac8d4f634a05eef3223fd152f56cb2896f9c5676",
+  "branch": "fix/codex-skill-runtime-sync-20261031",
+  "pr_number": 51,
+  "recorded_at": "2026-10-31T01:57:47.606Z",
+  "state_observed_at": "2026-10-31T01:57:47.606Z",
+  "changes": [
+    "Made project-owned AGENTS.md and specialized ChatGPT Skill require exact revision preflight before new Codex Cloud/CLI certification.",
+    "Added a read-only check of origin/main, tracked instruction fingerprints and Codex config; stale and unverified checkouts no longer produce source PASS.",
+    "Added regression tests for latest-main PASS, stale Cloud checkout, uncommitted configuration and unverified remote origin.",
+    "Kept two-worker Codex configuration effective settings unchanged and incremented specialized plugin source version to 0.1.2; no universal Project Leader, VPS or REA changes.",
+    "Kept compatibility with the project's supported Python 3.10 host by using the standard-library config parser instead of Python 3.11-only tomllib; fresh exact-head CI passed."
+  ],
+  "validation": [
+    {
+      "name": "Mutation scope audit",
+      "status": "PASS",
+      "evidence": "PR #51 changed only 10 implementation/authorization files in the task's exact E3 mutation scope. GitHub CI Control contract tests #41157725919 SUCCESS and specialized tests #41157725916 SUCCESS on head ac8d4f634a05eef3223fd152f56cb2896f9c5676."
+    },
+    {
+      "name": "GitHub evidence verification",
+      "status": "PASS",
+      "evidence": "Four mandatory GitHub Actions succeeded on the exact implementation SHA ac8d4f634a05eef3223fd152f56cb2896f9c5676: Control contract tests #41157725919, Validate control plane #41157725942, Package ChatGPT plugins #41157725915 and Codex specialization tests #41157725916."
+    },
+    {
+      "name": "Trust-root governance path",
+      "status": "PASS",
+      "evidence": "Immutable E3 authorization was committed separately before implementation at 76fbb972053d680941a10e50b742cec4ad68c075, SHA-256 fe78767b1c1735669ece80491a44e5de2267b2fd282bfc7958ee37193738a65a, matching unchanged base policy digest c612748e735c01b2774c326c5b4e16a5e83fadd9a142320d504f9ac2258c0c2d. This evidence-only result is subject to the independent trusted gate on the PR head. No protected merge, plugin publication or permission change authorized."
+    },
+    {
+      "name": "Specialized source/Cloud revision coherence",
+      "status": "PASS",
+      "evidence": "New read-only codex.runtime_sync runs local Git tests of current version, stale checkout, dirty instruction and non-project origin. Instructions are present in specialized Skill, AGENTS.md, README and .codex config. CI specialized tests #41157725916 SUCCESS."
+    }
+  ],
+  "ci": [
+    {
+      "name": "Control contract tests",
+      "status": "SUCCESS",
+      "run_id": 41157725919
+    },
+    {
+      "name": "Validate control plane",
+      "status": "SUCCESS",
+      "run_id": 41157725942
+    },
+    {
+      "name": "Package ChatGPT plugins",
+      "status": "SUCCESS",
+      "run_id": 41157725915
+    },
+    {
+      "name": "Codex specialization tests",
+      "status": "SUCCESS",
+      "run_id": 41157725916
+    }
+  ],
+  "material_non_effects": [
+    "No merge to main or installation/publication of ChatGPT plugin; PR remains protected and draft until separate authorization.",
+    "No VPS Coordinator, no Supervisor/VPS/SSH/REA changes, no changes to universal Project Leader or account credentials, no model call."
+  ],
+  "residual_blockers": [
+    "Current ChatGPT plugin release and existing Codex Cloud environment cannot be force-refreshed by a repository commit; host-loaded source/release must be checked independently before 10/10.",
+    "Real Codex Cloud model/effort, end-to-end Coordinator recovery and VPS-resident Supervisor observations remain separate certification criteria."
+  ]
+}

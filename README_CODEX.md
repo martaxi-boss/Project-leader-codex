@@ -14,6 +14,29 @@ and trusted-gate test fixtures, plus `AGENTS.md`, `CODEX_COORDINATION.md`,
 compatible agent.** The new repository selects a Codex-specific extension;
 it is not a replacement for the universal plugin.
 
+## Verificação obrigatória da versão antes de testar
+
+Depois de qualquer correção, a Skill instalada, o repositório e um ambiente
+Codex Cloud **não são automaticamente a mesma versão**. A primeira operação
+de uma certificação real, dentro do checkout deste projeto, passa a ser:
+
+```bash
+python -m codex.runtime_sync
+```
+
+O comando não modifica ficheiros, não requer Codex CLI e devolve os hashes
+das instruções, da configuração Codex e da Skill incluída no repositório,
+além dos SHAs do checkout e da main atual. Só `status: PASS` confirma
+a coerência do **código de origem**. `STALE` ou `NOT_VERIFIED` exige
+reconciliar ou abrir um checkout/task Codex atualizado e voltar a testar.
+
+**Importante:** este teste não consegue inspecionar a release da Skill já
+instalada no ChatGPT nem o esforço/modelo efetivo do Cloud. Confirmar essas
+duas coisas separadamente com prova do host; caso contrário reportar
+`HOST_SKILL_UNVERIFIED` e não atribuir 10/10. Empacotar ou integrar código
+no GitHub não atualiza automaticamente esses ambientes. Não criar novo
+coordenador nem usar a VPS para contornar uma versão antiga.
+
 ## In Codex Cloud
 
 Select this new GitHub repository as the source of a *new* Codex Cloud

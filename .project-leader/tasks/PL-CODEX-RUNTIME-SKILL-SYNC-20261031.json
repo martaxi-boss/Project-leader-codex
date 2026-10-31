@@ -1,0 +1,111 @@
+{
+  "schema_version": "2.0",
+  "integrity_mode": "IMMUTABLE_AUTHORIZATION_V1",
+  "task_id": "PL-CODEX-RUNTIME-SKILL-SYNC-20261031",
+  "project": "PROJECT LEADER + CODEX (SPECIALIZED)",
+  "repository": "martaxi-boss/Project-leader-codex",
+  "created_at": "2026-10-31T01:51:26.563Z",
+  "authority": {
+    "kind": "TRANSACTIONAL_GRANT",
+    "source": "CURRENT_OWNER_INSTRUCTION",
+    "binding_mode": "OBJECTIVE_SCOPE_BOUND",
+    "summary": "Owner identified unverified revision coherence between the specialized ChatGPT Skill, project-owned Codex Cloud instructions/config and tested implementation after PRs #48-#50. Align only this project's specialized skill and Cloud instructions, add a read-only exact-revision preflight and regression proof before any 10/10 claim. No VPS coordinator, no new service, no weakening of existing governance or changes to universal Project Leader."
+  },
+  "starting_state": {
+    "default_branch": "main",
+    "base_sha": "3ecdcd79573104c39ed644dbfd1bd57596e51d06",
+    "task_branch": "fix/codex-skill-runtime-sync-20261031",
+    "pr_number": null
+  },
+  "effect_class": "E3_DESTRUCTIVE_EXTERNAL_PRIVILEGED",
+  "mutation_scope": [
+    "AGENTS.md",
+    ".codex/config.toml",
+    "README_CODEX.md",
+    "plugins/project-leader-codex/plugin.json",
+    "plugins/project-leader-codex/skills/project-leader-codex/SKILL.md",
+    "plugins/project-leader-codex/skills/project-leader-codex/references/operational-routes.md",
+    "codex/runtime_sync.py",
+    "codex/tests/test_runtime_sync.py",
+    "codex/tests/test_coordination_contract.py",
+    ".project-leader/tasks/PL-CODEX-RUNTIME-SKILL-SYNC-20261031.json",
+    ".project-leader/results/PL-CODEX-RUNTIME-SKILL-SYNC-20261031.json"
+  ],
+  "allowed_actions": [
+    "create_branch",
+    "edit_project_files",
+    "create_commits",
+    "run_ci",
+    "open_or_update_pull_request",
+    "harden_trust_root"
+  ],
+  "prohibited_actions": [
+    "merge_to_main",
+    "branch_protection_or_ruleset_change",
+    "release_or_publish",
+    "license_selection",
+    "managed_project_mutation",
+    "production_deploy",
+    "production_secret_change",
+    "paid_service_activation",
+    "cross_project_mutation",
+    "force_push",
+    "rewrite_git_history",
+    "weaken_ci_or_security_controls",
+    "create_new_coordinator",
+    "create_new_supervisor",
+    "modify_rea_or_ssh_transport"
+  ],
+  "transition_controls": [
+    {
+      "action": "merge_to_main",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "branch_protection_or_ruleset_change",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "release_or_publish",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "license_selection",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "managed_project_mutation",
+      "requires_authority_resolution": true
+    },
+    {
+      "action": "trust_root_mutation",
+      "requires_authority_resolution": true
+    }
+  ],
+  "required_validation": [
+    "Mutation scope audit",
+    "GitHub evidence verification",
+    "Trust-root governance path"
+  ],
+  "required_ci": [
+    "Control contract tests",
+    "Validate control plane",
+    "Package ChatGPT plugins",
+    "Codex specialization tests"
+  ],
+  "policy": {
+    "profile": "project-leader-codex-v1",
+    "path": "projects/policies/project-leader.json",
+    "base_sha": "3ecdcd79573104c39ed644dbfd1bd57596e51d06",
+    "sha256": "c612748e735c01b2774c326c5b4e16a5e83fadd9a142320d504f9ac2258c0c2d",
+    "binding_mode": "LOCAL_BASE_V1"
+  },
+  "recovery": {
+    "mode": "APPEND_ONLY_V1"
+  },
+  "terminal_condition": "The specialized skill source, the Codex Cloud AGENTS instructions and configuration all require a verified exact-version preflight before any fresh real Codex certification; a practical read-only runtime_sync check detects stale and unverifiable Cloud checkouts without credentials or another coordinator. Specialized policy regressions and all required exact-head CI pass. Changes are staged in a protected PR with E3 records and no merge/publish or VPS/SSH/REA changes.",
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_conversation_text": false
+  }
+}
